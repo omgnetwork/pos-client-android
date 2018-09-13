@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorBlue">#1A56F0</color>
+    <color name="colorBlueWeak">#2176FF</color>
+
+    <color name="colorBlack">#000000</color>
+    <color name="colorBlackWeak">#04070D</color>
+    <color name="colorBlackWeakTransparent">#9904070D</color>
+
+    <color name="colorWhite">#F0F2F5</color>
+    <color name="colorWhiteWeak">#E4E7ED</color>
+    <color name="colorWhiteWeak2">#ABB2C2</color>
+
+    <color name="colorGray">#3c414d</color>
+    <color name="colorGrayWeak">#858B9A</color>
+
+    <color name="colorGreen">#0EBF9A</color>
+
+    <color name="colorRed">#EF3526</color>
+    <color name="colorRedWeak">#f44336</color>
+    <color name="colorRedWeak2">#FC7166</color>
+
+    <color name="transparent">#00ffffff</color>
+</resources>

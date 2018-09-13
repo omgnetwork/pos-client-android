@@ -1,0 +1,99 @@
+<resources>
+    <string name="app_name">POS Wallet</string>
+
+    <!-- Sign In -->
+    <string name="sign_in_hint_email">Email</string>
+    <string name="sign_in_hint_password">Password</string>
+    <string name="sign_in_forget_password">Forgot Your Password?</string>
+    <string name="sign_in_dont_have_account">Don\'t have an account yet? Sign up</string>
+    <string name="sign_in_sign_up">Sign up</string>
+    <string name="sign_in_button">Sign In</string>
+    <string name="sign_in_button_loading">Loading…</string>
+    <string name="sign_in_success">Sign in as %s successfully.</string>
+    <string name="sign_in_fingerprint">Fingerprint</string>
+
+    <!-- Sign Up -->
+    <string name="sign_up_full_name">Full name</string>
+    <string name="sign_up_email">Email</string>
+    <string name="sign_up_password">Password</string>
+    <string name="sign_up_re_type_password">Re-type password</string>
+    <string name="sign_up_password_description">Password should included lower case letter [a–z], upper case letter [A–Z], numeric character [0-9] and special character [~`!@].</string>
+    <string name="sign_up_description">* By signing up, you agree to our term of use and privacy policy.</string>
+    <string name="sign_up_button">Signup</string>
+
+    <!-- Confirm Email -->
+    <string name="confirm_email_title">Please confirm your email</string>
+    <string name="confirm_email_description">We\'ve sent you an email. Please check and click the link in the email to verify identity.</string>
+    <string name="confirm_email_button">Got it</string>
+
+    <!-- Balance -->
+    <string name="balance_full_currency">%s</string>
+    <string name="balance_abbr_currency">%s</string>
+    <string name="balance_amount">%,.2f</string>
+    <string name="balance_last_updated">Last updated\n%1$tb %1$te, %1$tI:%1$tM %1$Tp</string>
+
+    <!-- More -->
+    <string name="more_title">More</string>
+    <string name="more_account">Account</string>
+    <string name="more_transaction">Transaction</string>
+    <string name="more_setting_and_help">Settings &amp; Help</string>
+    <string name="more_sign_out">Sign out</string>
+
+    <!-- Transaction List -->
+    <string name="transaction_list_title">Transaction</string>
+    <!-- e.g. Jenny K. [3856...092] -->
+    <string name="transaction_list_info_name_id">%s</string>
+    <string name="transaction_list_info_amount">%,.2f %s</string>
+    <string name="transaction_list_info_date_time">%1$tb %1$te, %1$tI:%1$tM %1$Tp</string>
+    <string name="transaction_list_info_success">Success</string>
+    <string name="transaction_list_info_failure">Failure</string>
+    <string name="transaction_list_topup_info">Top-up %,.2f %s to %s</string>
+    <string name="transaction_list_receive_info">Receive %,.2f %s from %s</string>
+    <string name="transaction_list_empty_transaction">EMPTY TRANSACTION</string>
+
+    <!-- Show QR -->
+    <string name="show_qr_title">Your QR</string>
+    <string name="show_qr_description">Show this QR to scan for paying or topup.</string>
+
+    <!-- Profile -->
+    <string name="profile_title">Profile</string>
+    <string name="profile_transaction">Transaction</string>
+    <string name="profile_account">Account</string>
+    <string name="profile_email">Email</string>
+    <string name="profile_password">Password</string>
+    <string name="profile_sign_out">Signout</string>
+
+    <!-- Permission -->
+    <string name="camera_permission_explain">Camera access is needed to scan the QR code.</string>
+    <string name="permission_setting">Settings</string>
+
+    <!-- setting_help -->
+    <string name="setting_help_title">Settings &amp; Help</string>
+    <string name="setting_help_faq">FAQ</string>
+    <string name="setting_help_term_of_use">Term of use</string>
+    <string name="setting_help_privacy">Privacy</string>
+    <string name="setting_help_fingerprint">Fingerprint</string>
+    <string name="setting_help_fingerprint_not_supported">Your device does not support the fingerprint authentication.</string>
+    <string name="setting_help_coming_soon">Coming soon…</string>
+    <string name="setting_help_enter_password">Enter your password to confirm</string>
+    <string name="setting_help_enable_finger_print_successfully">Enable fingerprint successfully.</string>
+    <string name="setting_help_confirm">Confirm</string>
+
+    <!-- Fingerprint -->
+    <string name="dialog_fingerprint_title">Sign-in</string>
+    <string name="dialog_fingerprint_subtitle">Sign-in to your merchant account</string>
+    <string name="dialog_fingerprint_description">In order to use the Fingerprint sensor we need your authorization first.</string>
+    <string name="dialog_fingerprint_status_normal">Touch the fingerprint sensor</string>
+    <string name="dialog_fingerprint_error_try_again">Try again</string>
+    <string name="dialog_fingerprint_error_too_many_attempt">Too many attempt. Try again later.</string>
+    <string name="dialog_fingerprint_error_too_fast">Finger moving too fast. Please try again.</string>
+    <string name="dialog_fingerprint_error_too_slow">Finger moving too slow. Please try again.</string>
+    <string name="dialog_fingerprint_error_unable_to_process">Unable to process</string>
+    <string name="dialog_fingerprint_btn_cancel">Cancel</string>
+    <string name="dialog_fingerprint_option_not_enabled">Please enable fingerprint option before use.</string>
+    <string name="dialog_fingerprint_unsupported">Your device does not support the fingerprint authentication.</string>
+    <string name="dialog_fingerprint_not_enrolled">You haven\'t enrolled the fingerprint on your device yet.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

@@ -1,0 +1,85 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'org.jlleitschuh.gradle.ktlint'
+apply plugin: 'androidx.navigation.safeargs'
+apply plugin: 'kotlin-kapt'
+apply from: 'gradleScript/dependencies.gradle'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "omisego.network.omgwallet"
+        minSdkVersion 21
+        targetSdkVersion 28
+        versionCode 1
+        versionName appVersion
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets {
+        test.java.srcDirs += 'src/test/kotlin'
+    }
+    buildToolsVersion '28.0.2'
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    dataBinding {
+        enabled = true
+    }
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
+    lintOptions {
+        disable 'ParcelCreator'
+    }
+}
+
+androidExtensions {
+    experimental = true
+}
+
+dependencies {
+    /* OmiseGO */
+    implementation omisego.sdk
+
+    /* Kotlin */
+    implementation kotlinDependencies.stdlib
+    /* Navigation Component */
+    implementation navigation.navFragment
+    implementation navigation.navUI
+    /* Architecture Component */
+    implementation arch.viewmodel
+    implementation arch.extensions
+    /* Databinding */
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0-alpha1'
+    kapt databinding.compiler
+    /* Support library */
+    implementation supportDependencies.appCompat
+    implementation supportDependencies.design
+    implementation supportDependencies.cardView
+    /* Networking */
+    implementation retrofitDependencies.retrofit
+    implementation retrofitDependencies.converterGson
+    implementation retrofitDependencies.adapterRxJava2
+    /* Reactive */
+    implementation rxJava2.rxandroid
+    /* Load image */
+    implementation glide.glide
+
+    implementation custom.constraintLayout
+    implementation custom.shimmer
+    implementation custom.stetho
+    implementation custom.dexter
+    implementation custom.biometric
+    implementation okHttp3.loggingIntercepter
+
+    testImplementation test
+}

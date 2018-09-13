@@ -1,0 +1,27 @@
+*.iml
+
+# macOS
+.DS_Store
+
+# Local configuration file (sdk path, etc)
+local.properties
+settings.gradle
+app/google-services.json
+
+# Android Studio
+.externalNativeBuild
+.gradle
+gradlew.bat
+build/
+captures/
+projectFilesBackup/
+
+# .idea files
+/.idea/caches/**
+/.idea/workspace.xml
+/.idea/gradle.xml
+/.idea/modules.xml
+/.idea/misc.xml
+/.idea/libraries
+/.idea/dictionaries
+/.idea/vcs.xml
