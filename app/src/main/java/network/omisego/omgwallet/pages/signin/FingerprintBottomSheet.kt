@@ -16,12 +16,12 @@ import androidx.databinding.DataBindingUtil
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.bottomsheet_fingerprint_scan.*
 import network.omisego.omgwallet.R
-import network.omisego.omgwallet.databinding.BottomSheetFingerprintScanBinding
+import network.omisego.omgwallet.databinding.BottomsheetFingerprintScanBinding
 import network.omisego.omgwallet.extension.provideAndroidViewModel
 
 class FingerprintBottomSheet : BottomSheetDialogFragment() {
 
-    private lateinit var binding: BottomSheetFingerprintScanBinding
+    private lateinit var binding: BottomsheetFingerprintScanBinding
     private var viewModel: FingerprintBottomSheetViewModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

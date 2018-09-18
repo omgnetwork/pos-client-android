@@ -94,7 +94,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="@string/sign_in_dont_have_account"
+            android:text="@{viewmodel.signUpText}"
             app:layout_constraintBottom_toTopOf="@+id/btnSignIn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

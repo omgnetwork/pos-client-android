@@ -11,6 +11,7 @@ import android.graphics.drawable.AnimatedVectorDrawable
 import android.hardware.fingerprint.FingerprintManager
 import android.os.Build
 import android.os.Bundle
+import android.text.method.LinkMovementMethod
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -69,7 +70,6 @@ class SignInFragment : Fragment() {
         btnSignIn.setOnClickListener { _ ->
             signIn()
         }
-
         etPassword.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEND) {
                 signIn()
@@ -77,6 +77,11 @@ class SignInFragment : Fragment() {
             }
             false
         }
+
+        tvSignUp.movementMethod = LinkMovementMethod.getInstance()
+        viewModel.liveSignupClick.observe(this, Observer {
+            context?.toast("Sign up")
+        })
 
         viewModel.liveToast.observe(this, Observer { it ->
             it?.let {

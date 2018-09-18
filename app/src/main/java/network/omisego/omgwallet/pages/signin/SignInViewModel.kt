@@ -10,6 +10,10 @@ package network.omisego.omgwallet.pages.signin
 import android.app.Application
 import android.content.DialogInterface
 import android.hardware.biometrics.BiometricPrompt
+import android.text.SpannableString
+import android.text.TextUtils
+import android.text.style.ClickableSpan
+import android.view.View
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -23,10 +27,12 @@ import network.omisego.omgwallet.extension.mutableLiveDataOf
 import network.omisego.omgwallet.extension.runBelowM
 import network.omisego.omgwallet.extension.runOnMToP
 import network.omisego.omgwallet.extension.runOnP
-import network.omisego.omgwallet.util.ContextUtil.context
 import network.omisego.omgwallet.model.APIResult
 import network.omisego.omgwallet.model.Credential
 import network.omisego.omgwallet.util.BiometricUtil
+import network.omisego.omgwallet.util.ContextUtil.context
+import network.omisego.omgwallet.util.click
+import network.omisego.omgwallet.util.spannable
 import network.omisego.omgwallet.validator.EmailValidator
 import network.omisego.omgwallet.validator.PasswordValidator
 import network.omisego.omgwallet.validator.Validator
@@ -44,6 +50,15 @@ class SignInViewModel(
     val liveBtnText: LiveData<String> by lazy { liveState.mapPropChanged { it.btnText } }
     val liveLoading: LiveData<Boolean> by lazy { liveState.mapPropChanged { it.loading } }
     val liveToast: MutableLiveData<String> by lazy { MutableLiveData<String>() }
+    val liveSignupClick: MutableLiveData<View> by lazy { MutableLiveData<View>() }
+
+    val signupClickableSpan: ClickableSpan by lazy {
+        object : ClickableSpan() {
+            override fun onClick(view: View) {
+                liveSignupClick.value = view
+            }
+        }
+    }
 
     val emailValidator: Validator by lazy { EmailValidator(liveByPassValidation) }
     val passwordValidator: Validator by lazy { PasswordValidator(liveByPassValidation) }
@@ -57,11 +72,17 @@ class SignInViewModel(
     /* OnClick LiveData */
     val liveShowPre28FingerprintDialog: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>() }
 
+    /* Text */
+    val signUpText: SpannableString by lazy {
+        val spannableString = spannable {
+            click(app.getString(R.string.sign_in_sign_up), signupClickableSpan)
+        }
+        SpannableString(TextUtils.concat(app.getString(R.string.sign_in_dont_have_account), " ", spannableString))
+    }
+
     private lateinit var biometricCallback: BiometricCallback
 
     private var prompt: BiometricPrompt? = null
-
-    private var isSignIn: Boolean = false
 
     fun handleFingerprintClick() {
         /*
@@ -114,7 +135,6 @@ class SignInViewModel(
         val (email, password) = liveState.value ?: return null
         liveByPassValidation.value = false
         arrayOf(emailValidator, passwordValidator).find { !it.validation.pass }?.let { return null }
-        isSignIn = true
         return signInRepository.signIn(LoginParams(email, password), liveAPIResult)
     }
 
@@ -122,7 +142,6 @@ class SignInViewModel(
         signInRepository.saveUser(data.user)
         return signInRepository.saveCredential(
             Credential(
-                data.userId,
                 data.authenticationToken
             )
         )
