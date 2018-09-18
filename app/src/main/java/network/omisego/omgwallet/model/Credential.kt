@@ -8,6 +8,5 @@ package network.omisego.omgwallet.model
  */
 
 data class Credential(
-    val apiKey: String,
-    val authenticationToken: String
+    val authenticationToken: String? = null
 )

@@ -4,6 +4,7 @@ import co.omisego.omisego.OMGAPIClient
 import co.omisego.omisego.model.ClientConfiguration
 import co.omisego.omisego.network.ewallet.EWalletClient
 import com.facebook.stetho.okhttp3.StethoInterceptor
+import network.omisego.omgwallet.BuildConfig
 import network.omisego.omgwallet.model.Credential
 import network.omisego.omgwallet.storage.Storage
 import okhttp3.logging.HttpLoggingInterceptor
@@ -24,9 +25,9 @@ object ClientProvider {
 
     fun init() {
         clientConfiguration = ClientConfiguration(
-            "http://192.168.1.123:4000/api/client/",
-            "m2pVNTqFN8VI5AwbAUHQxfcE6DYQsKVW3liaXhvtYus",
-            null
+            BuildConfig.CLIENT_API_BASE_URL,
+            BuildConfig.CLIENT_API_KEY,
+            credential.authenticationToken
         )
 
         client = create()

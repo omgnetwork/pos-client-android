@@ -6,6 +6,14 @@ apply plugin: 'androidx.navigation.safeargs'
 apply plugin: 'kotlin-kapt'
 apply from: 'gradleScript/dependencies.gradle'
 
+// Setup EWallet client data
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+def clientAPIKey = properties.getProperty('ewallet.apikey')
+def clientAPIBaseURL = properties.getProperty('ewallet.baseurl')
+def clientEncryptKeyAlias = properties.getProperty('omg.encrypt.keyAlias')
+def clientEncryptIV = properties.getProperty('omg.encrypt.iv')
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -18,9 +26,19 @@ android {
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
+        debug {
+            buildConfigField 'String', "CLIENT_API_KEY", clientAPIKey
+            buildConfigField 'String', "CLIENT_API_BASE_URL", clientAPIBaseURL
+            buildConfigField 'String', "CLIENT_ENCRYPT_KEY_ALIAS", clientEncryptKeyAlias
+            buildConfigField 'String', "CLIENT_ENCRYPT_IV", clientEncryptIV
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', "CLIENT_API_KEY", clientAPIKey
+            buildConfigField 'String', "CLIENT_API_BASE_URL", clientAPIBaseURL
+            buildConfigField 'String', "CLIENT_ENCRYPT_KEY_ALIAS", clientEncryptKeyAlias
+            buildConfigField 'String', "CLIENT_ENCRYPT_IV", clientEncryptIV
         }
     }
     sourceSets {

@@ -10,4 +10,5 @@ package network.omisego.omgwallet.extension
 import co.omisego.omisego.security.OMGKeyManager
 
 infix fun String.encryptWith(keyManager: OMGKeyManager) = keyManager.encrypt(this)
+
 infix fun String.decryptWith(keyManager: OMGKeyManager) = keyManager.decrypt(this)
