@@ -10,13 +10,13 @@ package network.omisego.omgwallet
 import android.app.Application
 import com.facebook.stetho.Stetho
 import network.omisego.omgwallet.network.ClientProvider
-import network.omisego.omgwallet.util.Contextor
+import network.omisego.omgwallet.util.ContextUtil
 
 class OMGWalletApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        Contextor.context = applicationContext
+        ContextUtil.context = applicationContext
         ClientProvider.init()
         Stetho.initializeWithDefaults(this)
     }

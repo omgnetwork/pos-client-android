@@ -12,7 +12,7 @@ import androidx.databinding.BindingAdapter
  * Copyright © 2017-2018 OmiseGO. All rights reserved.
  */
 
-object ResourceUtil {
+object ResourceBinding {
     @JvmStatic
     @BindingAdapter("backgroundDrawable")
     fun setBackgroundDrawable(

@@ -1,13 +1,13 @@
 package network.omisego.omgwallet.model
 
-import co.omisego.omisego.model.APIError
-
 /*
  * OmiseGO
  *
  * Created by Phuchit Sirimongkolsathien on 13/8/2018 AD.
  * Copyright © 2017-2018 OmiseGO. All rights reserved.
  */
+
+import co.omisego.omisego.model.APIError
 
 sealed class APIResult {
     class Success<T>(val data: T) : APIResult()

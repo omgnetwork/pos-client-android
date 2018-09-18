@@ -3,8 +3,8 @@ package network.omisego.omgwallet.databinding
 import androidx.databinding.BindingAdapter
 import com.google.android.material.textfield.TextInputLayout
 import network.omisego.omgwallet.model.ValidateResult
-import network.omisego.omgwallet.util.MinimalTextChangeListener
-import network.omisego.omgwallet.util.Validator
+import network.omisego.omgwallet.listener.MinimalTextChangeListener
+import network.omisego.omgwallet.validator.Validator
 
 /*
  * OmiseGO
@@ -13,7 +13,7 @@ import network.omisego.omgwallet.util.Validator
  * Copyright © 2017-2018 OmiseGO. All rights reserved.
  */
 
-object TextInputLayoutUtil {
+object TextInputLayoutBinding {
     @JvmStatic
     @BindingAdapter("validator")
     fun validate(view: TextInputLayout, validator: Validator) {

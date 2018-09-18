@@ -28,12 +28,12 @@ import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.databinding.FragmentSigninBinding
-import network.omisego.omgwallet.extensions.provideAndroidViewModel
-import network.omisego.omgwallet.extensions.runOnM
-import network.omisego.omgwallet.extensions.runOnMToP
-import network.omisego.omgwallet.extensions.runOnP
-import network.omisego.omgwallet.extensions.scrollBottom
-import network.omisego.omgwallet.extensions.toast
+import network.omisego.omgwallet.extension.provideAndroidViewModel
+import network.omisego.omgwallet.extension.runOnM
+import network.omisego.omgwallet.extension.runOnMToP
+import network.omisego.omgwallet.extension.runOnP
+import network.omisego.omgwallet.extension.scrollBottom
+import network.omisego.omgwallet.extension.toast
 
 class SignInFragment : Fragment() {
     private lateinit var binding: FragmentSigninBinding
@@ -80,7 +80,7 @@ class SignInFragment : Fragment() {
 
         viewModel.liveToast.observe(this, Observer { it ->
             it?.let {
-                toast(it)
+                context?.toast(it)
             }
         })
 
@@ -106,13 +106,13 @@ class SignInFragment : Fragment() {
                 etPassword.setText(viewModel.loadUserPassword())
                 signIn()
             } else {
-                toast(getString(R.string.dialog_fingerprint_option_not_enabled))
+                context?.toast(getString(R.string.dialog_fingerprint_option_not_enabled))
             }
         })
 
         viewModel.liveAuthenticationError.observe(this, Observer {
             if (it?.first == FingerprintManager.FINGERPRINT_ERROR_LOCKOUT || it?.first == FingerprintManager.FINGERPRINT_ERROR_LOCKOUT_PERMANENT) {
-                toast(getString(R.string.dialog_fingerprint_error_too_many_attempt))
+                context?.toast(getString(R.string.dialog_fingerprint_error_too_many_attempt))
             }
         })
     }
@@ -128,7 +128,7 @@ class SignInFragment : Fragment() {
 
             fingerprintViewModel.liveAuthPass.observe(this, Observer {
                 if (!viewModel.isFingerprintAvailable()) {
-                    toast(getString(R.string.dialog_fingerprint_option_not_enabled))
+                    context?.toast(getString(R.string.dialog_fingerprint_option_not_enabled))
                 } else if (it == true) {
                     scanFingerprintDialog?.dismiss()
                     etEmail.setText(viewModel.loadUserEmail())
@@ -148,12 +148,12 @@ class SignInFragment : Fragment() {
     }
 
     private fun handleSignInSuccess(data: ClientAuthenticationToken) {
-        toast(getString(R.string.sign_in_success, data.user.username))
+        context?.toast(getString(R.string.sign_in_success, data.user.username))
         proceed(data)
     }
 
     private fun handleSignInError(error: APIError) {
-        toast(error.description)
+        context?.toast(error.description)
     }
 
     private fun setupDataBinding() {

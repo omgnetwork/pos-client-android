@@ -16,12 +16,12 @@ import co.omisego.omisego.utils.GsonProvider
 import kotlinx.coroutines.experimental.Deferred
 import kotlinx.coroutines.experimental.async
 import network.omisego.omgwallet.R
-import network.omisego.omgwallet.extensions.decryptWith
-import network.omisego.omgwallet.extensions.encryptWith
-import network.omisego.omgwallet.extensions.get
-import network.omisego.omgwallet.extensions.set
+import network.omisego.omgwallet.extension.decryptWith
+import network.omisego.omgwallet.extension.encryptWith
+import network.omisego.omgwallet.extension.get
+import network.omisego.omgwallet.extension.set
 import network.omisego.omgwallet.model.Credential
-import network.omisego.omgwallet.util.Contextor.context
+import network.omisego.omgwallet.util.ContextUtil.context
 
 object Storage {
     private val gson by lazy { GsonProvider.create() }

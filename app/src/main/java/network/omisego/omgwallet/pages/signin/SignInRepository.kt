@@ -11,7 +11,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import co.omisego.omisego.model.User
 import co.omisego.omisego.model.params.LoginParams
-import network.omisego.omgwallet.extensions.subscribe
+import network.omisego.omgwallet.extension.subscribe
 import network.omisego.omgwallet.model.APIResult
 import network.omisego.omgwallet.model.Credential
 import network.omisego.omgwallet.network.ClientProvider

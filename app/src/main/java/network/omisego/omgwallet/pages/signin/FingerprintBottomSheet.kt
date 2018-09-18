@@ -17,7 +17,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.bottom_sheet_fingerprint_scan.*
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.databinding.BottomSheetFingerprintScanBinding
-import network.omisego.omgwallet.extensions.provideAndroidViewModel
+import network.omisego.omgwallet.extension.provideAndroidViewModel
 
 class FingerprintBottomSheet : BottomSheetDialogFragment() {
 

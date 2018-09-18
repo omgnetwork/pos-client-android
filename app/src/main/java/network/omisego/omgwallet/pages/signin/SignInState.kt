@@ -1,4 +1,4 @@
-package network.omisego.omgmerchant.pages.signin
+package network.omisego.omgwallet.pages.signin
 
 /*
  * OmiseGO

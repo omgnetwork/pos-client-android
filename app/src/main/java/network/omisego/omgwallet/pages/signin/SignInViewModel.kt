@@ -16,27 +16,25 @@ import androidx.lifecycle.MutableLiveData
 import co.omisego.omisego.model.ClientAuthenticationToken
 import co.omisego.omisego.model.params.LoginParams
 import kotlinx.coroutines.experimental.Deferred
-import network.omisego.omgmerchant.pages.signin.BiometricCallback
-import network.omisego.omgmerchant.pages.signin.SignInState
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.base.LiveState
-import network.omisego.omgwallet.extensions.mutableLiveDataOf
-import network.omisego.omgwallet.extensions.runBelowM
-import network.omisego.omgwallet.extensions.runOnMToP
-import network.omisego.omgwallet.extensions.runOnP
+import network.omisego.omgwallet.extension.mapPropChanged
+import network.omisego.omgwallet.extension.mutableLiveDataOf
+import network.omisego.omgwallet.extension.runBelowM
+import network.omisego.omgwallet.extension.runOnMToP
+import network.omisego.omgwallet.extension.runOnP
+import network.omisego.omgwallet.util.ContextUtil.context
 import network.omisego.omgwallet.model.APIResult
 import network.omisego.omgwallet.model.Credential
-import network.omisego.omgwallet.util.BiometricHelper
-import network.omisego.omgwallet.util.Contextor.context
-import network.omisego.omgwallet.util.EmailValidator
-import network.omisego.omgwallet.util.PasswordValidator
-import network.omisego.omgwallet.util.Validator
-import network.omisego.omgwallet.util.mapPropChanged
+import network.omisego.omgwallet.util.BiometricUtil
+import network.omisego.omgwallet.validator.EmailValidator
+import network.omisego.omgwallet.validator.PasswordValidator
+import network.omisego.omgwallet.validator.Validator
 
 class SignInViewModel(
     private val app: Application,
     private val signInRepository: SignInRepository,
-    private val biometricHelper: BiometricHelper
+    private val biometricUtil: BiometricUtil
 ) : AndroidViewModel(app) {
     private val liveState: LiveState<SignInState> by lazy {
         LiveState(SignInState("", "", context.getString(R.string.sign_in_button), false))
@@ -91,7 +89,7 @@ class SignInViewModel(
                 .build()
 
             prompt?.authenticate(
-                biometricHelper.createCancellationSignal(),
+                biometricUtil.createCancellationSignal(),
                 app.mainExecutor,
                 biometricCallback
             )

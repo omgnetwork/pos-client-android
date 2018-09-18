@@ -16,7 +16,6 @@ import androidx.lifecycle.MutableLiveData
 import co.infinum.goldfinger.Error
 import co.infinum.goldfinger.Goldfinger
 import network.omisego.omgwallet.R
-import network.omisego.omgwallet.util.Contextor
 
 class FingerprintBottomSheetViewModel(
     val app: Application
@@ -28,10 +27,6 @@ class FingerprintBottomSheetViewModel(
 
     fun init(context: Context) {
         goldFinger = Goldfinger.Builder(context).build()
-    }
-
-    fun init() {
-        goldFinger = Goldfinger.Builder(Contextor.context).build()
     }
 
     fun hasEnrolledFingerprint() = goldFinger?.hasEnrolledFingerprint()

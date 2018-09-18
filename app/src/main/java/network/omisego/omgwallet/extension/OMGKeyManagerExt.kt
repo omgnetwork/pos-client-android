@@ -1,4 +1,4 @@
-package network.omisego.omgwallet.extensions
+package network.omisego.omgwallet.extension
 
 import co.omisego.omisego.security.OMGKeyManager
 

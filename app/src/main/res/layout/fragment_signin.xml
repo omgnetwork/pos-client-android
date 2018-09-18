@@ -7,11 +7,11 @@
 
         <variable
             name="emailValidator"
-            type="network.omisego.omgwallet.util.Validator" />
+            type="network.omisego.omgwallet.validator.Validator" />
 
         <variable
             name="passwordValidator"
-            type="network.omisego.omgwallet.util.Validator" />
+            type="network.omisego.omgwallet.validator.Validator" />
 
         <variable
             name="viewmodel"

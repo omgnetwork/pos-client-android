@@ -9,7 +9,7 @@ package network.omisego.omgwallet.util
 
 import android.os.CancellationSignal
 
-class BiometricHelper {
+class BiometricUtil {
     fun createCancellationSignal(): CancellationSignal {
         return CancellationSignal()
     }

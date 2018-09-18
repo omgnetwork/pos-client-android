@@ -13,14 +13,14 @@ import androidx.lifecycle.ViewModelProvider
 import network.omisego.omgwallet.pages.signin.FingerprintBottomSheetViewModel
 import network.omisego.omgwallet.pages.signin.SignInRepository
 import network.omisego.omgwallet.pages.signin.SignInViewModel
-import network.omisego.omgwallet.util.BiometricHelper
+import network.omisego.omgwallet.util.BiometricUtil
 
 @Suppress("UNCHECKED_CAST")
 class AndroidViewModelFactory(private val application: Application) : ViewModelProvider.AndroidViewModelFactory(application) {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return when {
             modelClass.isAssignableFrom(SignInViewModel::class.java) -> {
-                return SignInViewModel(application, SignInRepository(), BiometricHelper()) as T
+                return SignInViewModel(application, SignInRepository(), BiometricUtil()) as T
             }
             modelClass.isAssignableFrom(FingerprintBottomSheetViewModel::class.java) -> {
                 FingerprintBottomSheetViewModel(application) as T

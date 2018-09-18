@@ -1,4 +1,4 @@
-package network.omisego.omgwallet.util
+package network.omisego.omgwallet.listener
 
 /*
  * OmiseGO

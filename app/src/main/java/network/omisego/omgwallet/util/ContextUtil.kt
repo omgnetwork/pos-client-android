@@ -1,8 +1,5 @@
 package network.omisego.omgwallet.util
 
-import android.annotation.SuppressLint
-import android.content.Context
-
 /*
  * OmiseGO
  *
@@ -10,7 +7,10 @@ import android.content.Context
  * Copyright © 2017-2018 OmiseGO. All rights reserved.
  */
 
+import android.annotation.SuppressLint
+import android.content.Context
+
 @SuppressLint("StaticFieldLeak")
-object Contextor {
+object ContextUtil {
     lateinit var context: Context
 }
