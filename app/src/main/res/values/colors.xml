@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorBlue">#1A56F0</color>
+    <color name="colorBlueDisabled">#631A56F0</color>
     <color name="colorBlueWeak">#2176FF</color>
+    <color name="colorBlueWeakDisabled">#632176FF</color>
 
     <color name="colorBlack">#000000</color>
     <color name="colorBlackWeak">#04070D</color>
     <color name="colorBlackWeakTransparent">#9904070D</color>
 
     <color name="colorWhite">#F0F2F5</color>
+    <color name="colorWhiteDisabled">#CCF0F2F5</color>
     <color name="colorWhiteWeak">#E4E7ED</color>
     <color name="colorWhiteWeak2">#ABB2C2</color>
 

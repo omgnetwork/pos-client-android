@@ -9,7 +9,7 @@ allprojects {
 ext {
     /* Version */
     appVersion = '0.1'
-    omisego = '1.1.0'
+    omisego = '1.1.1-alpha5'
     supportLibrary = '1.0.0-rc02'
     kotlin = '1.2.61'
     retrofit = '2.4.0'

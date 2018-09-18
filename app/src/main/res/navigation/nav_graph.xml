@@ -11,6 +11,14 @@
         android:label="fragment_main"
         tools:layout="@layout/fragment_main">
 
+        <action
+            android:id="@+id/action_main_to_signInFragment"
+            app:destination="@id/signInFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="network.omisego.omgwallet.pages.signin.SignInFragment"
+        android:label="SignInFragment" />
 
 </navigation>

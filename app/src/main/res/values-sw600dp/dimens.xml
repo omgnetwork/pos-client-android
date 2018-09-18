@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="btn_fingerprint_padding_start">144dp</dimen>
+    <dimen name="btn_fingerprint_padding_end">152dp</dimen>
+    <dimen name="fragment_sign_in_padding_horizontal">80dp</dimen>
+    <dimen name="fragment_sign_in_margin_vertical">16dp</dimen>
+</resources>

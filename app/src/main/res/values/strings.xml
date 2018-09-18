@@ -5,7 +5,7 @@
     <string name="sign_in_hint_email">Email</string>
     <string name="sign_in_hint_password">Password</string>
     <string name="sign_in_forget_password">Forgot Your Password?</string>
-    <string name="sign_in_dont_have_account">Don\'t have an account yet? Sign up</string>
+    <string name="sign_in_dont_have_account">Don\'t have an account? Signup</string>
     <string name="sign_in_sign_up">Sign up</string>
     <string name="sign_in_button">Sign In</string>
     <string name="sign_in_button_loading">Loading…</string>

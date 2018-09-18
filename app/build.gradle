@@ -11,7 +11,7 @@ android {
     defaultConfig {
         applicationId "omisego.network.omgwallet"
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion 27
         versionCode 1
         versionName appVersion
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -59,8 +59,7 @@ dependencies {
     implementation arch.viewmodel
     implementation arch.extensions
     /* Databinding */
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0-alpha1'
-    kapt databinding.compiler
+
     /* Support library */
     implementation supportDependencies.appCompat
     implementation supportDependencies.design
@@ -82,4 +81,10 @@ dependencies {
     implementation okHttp3.loggingIntercepter
 
     testImplementation test
+}
+
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
 }
