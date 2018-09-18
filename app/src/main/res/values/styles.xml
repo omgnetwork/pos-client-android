@@ -1,38 +1,29 @@
 <resources>
+    <!-- Global app theme -->
+    <!-- More info: https://github.com/material-components/material-components-android/blob/master/docs/theming/Color.md -->
+    <style name="OMGTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <!-- Customize your theme here. -->
+        <!-- Displayed most frequently across the app. -->
         <item name="colorPrimary">@color/colorGray</item>
-        <item name="android:textColorPrimary">@color/colorGray</item>
-        <item name="android:textColorSecondary">@color/colorWhiteWeak2</item>
+        <!-- For buttons, bottom nav tabs,  -->
+        <item name="colorSecondary">@color/color_omg_btn_selector</item>
+        <!-- For status bar scrim color -->
         <item name="colorPrimaryDark">@color/colorGray</item>
-        <item name="colorAccent">@color/colorGrayWeak</item>
-        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
-    </style>
 
-    <style name="AppBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
-        <item name="bottomSheetStyle">@style/RoundCornerBottomSheet</item>
-    </style>
+        <!-- The color used for indicate error status. -->
+        <item name="colorError">@color/colorRed</item>
 
-    <style name="RoundCornerBottomSheet" parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@drawable/shape_dialog_round_corner</item>
-    </style>
-
-    <style name="AppTheme.OMGEditText">
-        <item name="colorControlNormal">@color/colorWhiteWeak2</item>
-        <item name="colorControlActivated">@color/colorBlue</item>
+        <!-- The color for stated UI e.g. checkbox, switch, button -->
         <item name="colorControlHighlight">@color/colorBlue</item>
-    </style>
+        <item name="colorControlActivated">@color/colorBlue</item>
+        <item name="colorControlNormal">?attr/colorPrimary</item>
 
-    <style name="OMGHintText" parent="TextAppearance.AppCompat">
-        <item name="android:textColor">@color/colorBlue</item>
-    </style>
+        <!-- Text color -->
+        <item name="android:textColorPrimary">@color/color_omg_text_selector</item>
 
-    <style name="OMGBoldText">
-        <item name="android:fontFamily">Roboto</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:lineSpacingMultiplier">1.5</item>
+        <!-- Components -->
+        <item name="bottomSheetDialogTheme">@style/OMGBottomSheet</item>
+        <item name="materialButtonStyle">@style/OMGButton</item>
+        <item name="textInputStyle">@style/OMGTextInputLayout</item>
     </style>
 </resources>

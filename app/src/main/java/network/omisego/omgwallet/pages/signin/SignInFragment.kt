@@ -148,7 +148,7 @@ class SignInFragment : Fragment() {
     }
 
     private fun handleSignInSuccess(data: ClientAuthenticationToken) {
-        context?.toast(getString(R.string.sign_in_success, data.user.username))
+        context?.toast(getString(R.string.sign_in_success, data.user.email))
         proceed(data)
     }
 

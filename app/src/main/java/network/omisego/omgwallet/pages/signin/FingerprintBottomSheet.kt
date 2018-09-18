@@ -14,7 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.android.synthetic.main.bottom_sheet_fingerprint_scan.*
+import kotlinx.android.synthetic.main.bottomsheet_fingerprint_scan.*
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.databinding.BottomSheetFingerprintScanBinding
 import network.omisego.omgwallet.extension.provideAndroidViewModel
@@ -34,7 +34,7 @@ class FingerprintBottomSheet : BottomSheetDialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(
             inflater,
-            R.layout.bottom_sheet_fingerprint_scan,
+            R.layout.bottomsheet_fingerprint_scan,
             container,
             false
         )

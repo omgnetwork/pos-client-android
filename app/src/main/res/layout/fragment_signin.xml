@@ -31,7 +31,7 @@
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/omisego_logo" />
+            app:srcCompat="@drawable/omisego_logo_no_animated" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilEmail"
@@ -55,7 +55,8 @@
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:onTextChanged="@{(text, start, before, count) -> viewmodel.updateEmail(text) }"
-                app:backgroundTint="@color/colorWhiteWeak" />
+                app:backgroundTint="@color/colorWhiteWeak"
+                tools:hint="@string/sign_in_hint_email" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -83,8 +84,8 @@
                 android:inputType="textPassword"
                 android:maxLines="1"
                 android:onTextChanged="@{(text, start, before, count) -> viewmodel.updatePassword(text) }"
-                android:theme="@style/AppTheme.OMGEditText"
-                app:backgroundTint="@color/colorWhiteWeak" />
+                app:backgroundTint="@color/colorWhiteWeak"
+                tools:hint="@string/sign_in_hint_password" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -102,7 +103,6 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSignIn"
-            style="@style/Widget.MaterialComponents.Button"
             android:layout_width="0dp"
             android:layout_height="56dp"
             android:layout_marginStart="@dimen/fragment_sign_in_padding_horizontal"
@@ -110,8 +110,6 @@
             android:layout_marginBottom="@dimen/fragment_sign_in_margin_vertical"
             android:enabled="@{!viewmodel.liveLoading}"
             android:text="@{viewmodel.liveBtnText}"
-            android:textColor="@color/color_omg_text_selector"
-            app:backgroundTint="@color/color_omg_btn_selector"
             app:layout_constraintBottom_toTopOf="@+id/btnFingerprint"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
@@ -121,25 +119,17 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnFingerprint"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
-            android:layout_width="0dp"
-            android:layout_height="56dp"
+            style="@style/OMGButtonOutlineIcon"
             android:layout_marginStart="@dimen/fragment_sign_in_padding_horizontal"
             android:layout_marginEnd="@dimen/fragment_sign_in_padding_horizontal"
             android:layout_marginBottom="@dimen/fragment_sign_in_margin_vertical"
             android:enabled="@{!viewmodel.liveLoading}"
-            android:gravity="center"
             android:onClick="@{() -> viewmodel.handleFingerprintClick()}"
             android:text="@string/sign_in_fingerprint"
-            android:textColor="@color/color_omg_btn_selector"
             app:icon="@drawable/ic_fingerprint"
-            app:iconGravity="textStart"
-            app:iconPadding="16dp"
-            app:iconTint="@color/color_omg_btn_selector"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:strokeColor="@color/color_omg_btn_selector"
             tools:enabled="true" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
