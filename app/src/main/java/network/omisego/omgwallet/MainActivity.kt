@@ -11,7 +11,5 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
     }
 
-    override fun onSupportNavigateUp(): Boolean {
-        return findNavController(R.id.nav_host).navigateUp()
-    }
+    override fun onSupportNavigateUp() = findNavController(R.id.nav_host).navigateUp()
 }

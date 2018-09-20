@@ -3,9 +3,14 @@
 
     <style name="OMGTextInputLayout" parent="Widget.Design.TextInputLayout">
         <item name="hintTextAppearance">@style/OMGHintText</item>
+        <item name="helperTextTextAppearance">@style/OMGHelperText</item>
     </style>
 
     <style name="OMGHintText" parent="TextAppearance.AppCompat">
-        <item name="android:textColor">@color/color_edit_text_selector</item>
+        <item name="android:textColor">?android:attr/textColorHint</item>
+    </style>
+
+    <style name="OMGHelperText" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">?android:attr/textColorHint</item>
     </style>
 </resources>

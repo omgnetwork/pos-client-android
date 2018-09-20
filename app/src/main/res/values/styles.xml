@@ -19,7 +19,10 @@
         <item name="colorControlNormal">?attr/colorPrimary</item>
 
         <!-- Text color -->
-        <item name="android:textColorPrimary">@color/color_omg_text_selector</item>
+        <item name="android:textColorPrimary">@color/colorGray</item>
+        <item name="android:textColorSecondary">@color/color_omg_text_selector</item>
+        <item name="android:textColorTertiary">@color/colorBlackWeak</item>
+        <item name="android:textColorHint">@color/color_edit_text_selector</item>
 
         <!-- Components -->
         <item name="bottomSheetDialogTheme">@style/OMGBottomSheet</item>

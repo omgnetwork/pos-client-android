@@ -4,7 +4,7 @@
     <style name="OMGButton" parent="Widget.MaterialComponents.Button">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">56dp</item>
-        <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="android:textColor">?android:attr/textColorSecondary</item>
         <item name="backgroundTint">?attr/colorSecondary</item>
     </style>
 
