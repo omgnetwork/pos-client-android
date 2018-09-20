@@ -13,7 +13,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import network.omisego.omgwallet.pages.confirm.databinding.FragmentConfirmBinding
+import androidx.navigation.fragment.findNavController
+import kotlinx.android.synthetic.main.fragment_confirm.*
+import network.omisego.omgwallet.R
+import network.omisego.omgwallet.databinding.FragmentConfirmBinding
 
 class ConfirmFragment : Fragment() {
     private lateinit var binding: FragmentConfirmBinding
@@ -21,5 +24,10 @@ class ConfirmFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_confirm, container, false)
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        btnGotIt.setOnClickListener { findNavController().navigateUp() }
     }
 }
