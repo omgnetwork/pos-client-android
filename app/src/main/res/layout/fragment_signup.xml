@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="network.omisego.omgwallet.pages.signup.SignupViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
+            app:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar" />
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/nestedScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintVertical_bias="0.0">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilFullname"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/fragment_sign_in_padding_horizontal"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="@dimen/fragment_sign_in_padding_horizontal"
+                    android:hint="@string/sign_up_full_name"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:validator="@{viewModel.fullNameValidator}">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etFullname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:afterTextChanged="@{(editable) -> viewModel.checkValidationResult()}"
+                        tools:hint="@string/sign_up_full_name" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilEmail"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/fragment_sign_in_padding_horizontal"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="@dimen/fragment_sign_in_padding_horizontal"
+                    android:layout_marginBottom="@dimen/fragment_sign_in_margin_vertical"
+                    android:hint="@string/sign_up_email"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tilFullname"
+                    app:validator="@{viewModel.emailValidator}">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etEmail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:afterTextChanged="@{(editable) -> viewModel.checkValidationResult()}"
+                        android:inputType="textEmailAddress"
+                        tools:hint="@string/sign_up_email" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilPassword"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/fragment_sign_in_padding_horizontal"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="@dimen/fragment_sign_in_padding_horizontal"
+                    android:layout_marginBottom="@dimen/fragment_sign_in_margin_vertical"
+                    android:hint="@string/sign_in_hint_password"
+                    app:helperText="@string/sign_up_password_description"
+                    app:helperTextEnabled="true"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tilEmail"
+                    app:validator="@{viewModel.passwordValidator}">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:afterTextChanged="@{(editable) -> viewModel.checkValidationResult()}"
+                        android:inputType="textPassword"
+                        tools:hint="@string/sign_up_password" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tilRetypePassword"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/fragment_sign_in_padding_horizontal"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="@dimen/fragment_sign_in_padding_horizontal"
+                    android:hint="@string/sign_up_re_type_password"
+                    app:layout_constraintBottom_toBottomOf="@+id/inputGroup"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tilPassword"
+                    app:layout_constraintVertical_bias="0.0"
+                    app:validator="@{viewModel.confirmPasswordValidator}">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etReTypePassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:afterTextChanged="@{(editable) -> viewModel.checkValidationResult()}"
+                        android:inputType="textPassword"
+                        tools:hint="@string/sign_up_re_type_password" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/fragment_sign_in_padding_horizontal"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="@dimen/fragment_sign_in_padding_horizontal"
+                    android:layout_marginBottom="16dp"
+                    android:gravity="start"
+                    android:text="@string/sign_up_description"
+                    android:textColor="?android:attr/textColorPrimary"
+                    app:layout_constraintBottom_toTopOf="@+id/btnSignUp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tilRetypePassword"
+                    app:layout_constraintVertical_bias="1.0" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnSignUp"
+                    android:layout_width="0dp"
+                    android:layout_height="56dp"
+                    android:layout_marginStart="@dimen/fragment_sign_in_padding_horizontal"
+                    android:layout_marginEnd="@dimen/fragment_sign_in_padding_horizontal"
+                    android:layout_marginBottom="8dp"
+                    android:enabled="@{viewModel.shouldEnableBtnSignup}"
+                    android:onClick="@{(v) -> viewModel.handleSignupClick()}"
+                    android:text="@string/sign_up_button"
+                    app:layout_constraintBottom_toBottomOf="@+id/btnGroup"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:enabled="true"
+                    tools:text="@string/sign_up_button" />
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/inputGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:constraint_referenced_ids="tilRetypePassword,tilFullname,tilPassword,tilEmail"
+                    app:layout_constraintBottom_toTopOf="@+id/btnGroup"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_chainStyle="spread_inside" />
+
+                <androidx.constraintlayout.widget.Group
+                    android:id="@+id/btnGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:constraint_referenced_ids="btnSignUp,textView2"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/inputGroup"
+                    app:layout_constraintVertical_chainStyle="spread" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

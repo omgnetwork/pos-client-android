@@ -21,6 +21,7 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import co.omisego.omisego.model.APIError
 import co.omisego.omisego.model.ClientAuthenticationToken
@@ -79,8 +80,9 @@ class SignInFragment : Fragment() {
         }
 
         tvSignUp.movementMethod = LinkMovementMethod.getInstance()
+
         viewModel.liveSignupClick.observe(this, Observer {
-            context?.toast("Sign up")
+            NavHostFragment.findNavController(this).navigate(R.id.action_signInFragment_to_signupFragment)
         })
 
         viewModel.liveToast.observe(this, Observer { it ->
