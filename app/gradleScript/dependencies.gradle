@@ -16,7 +16,7 @@ ext {
     rxandroid = '2.0.1'
     glide = '4.5.0'
     okhttp3 = '3.9.1'
-    nav = '1.0.0-alpha05'
+    nav = '1.0.0-alpha06'
     architecture = "2.0.0-alpha1"
 
     omisego = [
