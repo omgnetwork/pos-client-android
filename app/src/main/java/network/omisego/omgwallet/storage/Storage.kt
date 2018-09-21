@@ -39,7 +39,7 @@ object Storage {
 
     fun saveCredential(credential: Credential): Deferred<Unit> {
         return async {
-            sharePref[StorageKey.KEY_AUTHENTICATION_TOKEN] = credential.authenticationToken ?: "" encryptWith keyManager
+            sharePref[StorageKey.KEY_AUTHENTICATION_TOKEN] = (credential.authenticationToken ?: "") encryptWith keyManager
         }
     }
 

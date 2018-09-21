@@ -6,4 +6,8 @@
         <item name="android:textSize">24sp</item>
         <item name="android:textColor">?android:attr/textColorTertiary</item>
     </style>
+
+    <style name="OMGBottomBarText">
+        <item name="android:textColor">@color/color_bottom_bar_text_selector</item>
+    </style>
 </resources>
