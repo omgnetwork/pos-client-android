@@ -118,6 +118,7 @@
                 android:layout_marginBottom="@dimen/fragment_sign_in_margin_vertical"
                 android:enabled="@{!viewmodel.liveLoading}"
                 android:text="@{viewmodel.liveBtnText}"
+                android:onClick="@{(v) -> viewmodel.signIn()}"
                 app:layout_constraintBottom_toTopOf="@+id/btnFingerprint"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"

@@ -24,6 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             app:backgroundTint="@color/colorWhiteWeak3"
+            app:fabAlignmentMode="center"
             app:contentInsetStart="0dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
