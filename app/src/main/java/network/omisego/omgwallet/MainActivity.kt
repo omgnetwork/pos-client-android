@@ -12,4 +12,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp() = findNavController(R.id.nav_host).navigateUp()
+
+    override fun onBackPressed() {
+        if (!findNavController(R.id.nav_host).popBackStack()) {
+            super.onBackPressed()
+        }
+    }
 }

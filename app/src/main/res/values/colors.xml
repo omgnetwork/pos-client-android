@@ -17,6 +17,9 @@
 
     <color name="colorGray">#3c414d</color>
     <color name="colorGrayWeak">#858B9A</color>
+    <color name="colorGrayWeakDisabled">#63858B9A</color>
+    <color name="colorGrayWeak2">#D0D6E2</color>
+    <color name="colorGrayWeak2Disabled">#63D0D6E2</color>
 
     <color name="colorGreen">#0EBF9A</color>
 

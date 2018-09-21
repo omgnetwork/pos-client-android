@@ -42,13 +42,10 @@ class SignupFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        etEmail.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) scrollToBottom()
-        }
-
         setupToolbar()
         setupDataBinding()
         viewModel.liveResult.observe(this, Observer {
+            viewModel.liveLoading.value = false
             it.handle(this::handleSignupSuccess, this::handleSignupFail)
         })
     }

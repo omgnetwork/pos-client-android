@@ -50,6 +50,7 @@
                     android:layout_marginTop="24dp"
                     android:layout_marginEnd="@dimen/fragment_sign_in_padding_horizontal"
                     android:hint="@string/sign_up_full_name"
+                    android:importantForAutofill="no"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -60,6 +61,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:afterTextChanged="@{(editable) -> viewModel.checkValidationResult()}"
+                        android:enabled="@{!viewModel.liveLoading}"
                         tools:hint="@string/sign_up_full_name" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -83,6 +85,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:afterTextChanged="@{(editable) -> viewModel.checkValidationResult()}"
+                        android:enabled="@{!viewModel.liveLoading}"
+                        android:importantForAutofill="no"
                         android:inputType="textEmailAddress"
                         tools:hint="@string/sign_up_email" />
 
@@ -109,6 +113,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:afterTextChanged="@{(editable) -> viewModel.checkValidationResult()}"
+                        android:enabled="@{!viewModel.liveLoading}"
                         android:inputType="textPassword"
                         tools:hint="@string/sign_up_password" />
 
@@ -134,7 +139,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:afterTextChanged="@{(editable) -> viewModel.checkValidationResult()}"
+                        android:enabled="@{!viewModel.liveLoading}"
                         android:inputType="textPassword"
+                        tools:enabled="false"
                         tools:hint="@string/sign_up_re_type_password" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -164,7 +171,7 @@
                     android:layout_marginStart="@dimen/fragment_sign_in_padding_horizontal"
                     android:layout_marginEnd="@dimen/fragment_sign_in_padding_horizontal"
                     android:layout_marginBottom="8dp"
-                    android:enabled="@{viewModel.shouldEnableBtnSignup}"
+                    android:enabled="@{viewModel.livePassValidation &amp;&amp; !viewModel.liveLoading}"
                     android:onClick="@{(v) -> viewModel.handleSignupClick()}"
                     android:text="@string/sign_up_button"
                     app:layout_constraintBottom_toBottomOf="@+id/btnGroup"

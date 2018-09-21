@@ -61,7 +61,8 @@
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:onTextChanged="@{(text, start, before, count) -> viewmodel.updateEmail(text) }"
-                    tools:hint="@string/sign_in_hint_email" />
+                    tools:hint="@string/sign_in_hint_email"
+                    tools:text="test" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -78,7 +79,8 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tilEmail"
                 app:passwordToggleEnabled="true"
-                app:validator="@{passwordValidator}">
+                app:validator="@{passwordValidator}"
+                tools:enabled="false">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/etPassword"
@@ -89,6 +91,7 @@
                     android:inputType="textPassword"
                     android:maxLines="1"
                     android:onTextChanged="@{(text, start, before, count) -> viewmodel.updatePassword(text) }"
+                    tools:enabled="false"
                     tools:hint="@string/sign_in_hint_password" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -98,6 +101,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:enabled="@{!viewmodel.liveLoading}"
                 android:text="@{viewmodel.signUpText}"
                 app:layout_constraintBottom_toTopOf="@+id/btnSignIn"
                 app:layout_constraintEnd_toEndOf="parent"

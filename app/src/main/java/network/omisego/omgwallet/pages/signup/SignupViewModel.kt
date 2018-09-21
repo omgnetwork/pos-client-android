@@ -28,6 +28,7 @@ class SignupViewModel(
         get() = !this.any { !it.validation.pass }
 
     val liveByPass: MutableLiveData<Boolean> by lazy { mutableLiveDataOf(true) }
+    val liveLoading: MutableLiveData<Boolean> by lazy { mutableLiveDataOf(false) }
 
     /* Validator */
     val fullNameValidator: Validator by lazy { NotEmptyValidator(liveByPass) }
@@ -36,20 +37,20 @@ class SignupViewModel(
     val confirmPasswordValidator: ConfirmPasswordValidator by lazy { ConfirmPasswordValidator(liveByPass) }
 
     /* Control button signup enable */
-    val shouldEnableBtnSignup: MutableLiveData<Boolean> by lazy { mutableLiveDataOf(true) }
+    val livePassValidation: MutableLiveData<Boolean> by lazy { mutableLiveDataOf(true) }
 
     val liveResult: MutableLiveData<APIResult> by lazy { MutableLiveData<APIResult>() }
 
     fun checkValidationResult() {
         /* Check if pass all validation */
-        shouldEnableBtnSignup.value = arrayOf(
+        livePassValidation.value = arrayOf(
             fullNameValidator,
             emailValidator,
             passwordValidator,
             confirmPasswordValidator
         ).valid
 
-        logi(shouldEnableBtnSignup.value)
+        logi(livePassValidation.value)
     }
 
     fun handleSignupClick() {
@@ -64,6 +65,7 @@ class SignupViewModel(
             BuildConfig.CLIENT_VERIFICATION_SIGNUP_PREFIX
         )
 
+        liveLoading.value = true
         repository.signup(signupParams, liveResult)
     }
 }
