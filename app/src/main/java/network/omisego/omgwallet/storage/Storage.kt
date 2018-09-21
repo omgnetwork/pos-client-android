@@ -43,14 +43,11 @@ object Storage {
         }
     }
 
-    fun hasCredential() = sharePref.contains(StorageKey.KEY_AUTHENTICATION_TOKEN)
-
     fun loadCredential(): Credential {
-        if (!hasCredential()) {
+        val authenticationToken = sharePref[StorageKey.KEY_AUTHENTICATION_TOKEN]!!
+        if (authenticationToken.isEmpty()) {
             return Credential()
         }
-
-        val authenticationToken = sharePref[StorageKey.KEY_AUTHENTICATION_TOKEN]!!
         return Credential(
             authenticationToken decryptWith keyManager
         )
