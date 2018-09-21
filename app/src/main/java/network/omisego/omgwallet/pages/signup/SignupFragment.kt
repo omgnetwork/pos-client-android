@@ -67,15 +67,11 @@ class SignupFragment : Fragment() {
     }
 
     private fun handleSignupSuccess(data: Empty) {
-        context?.toast("Register successfully. Please confirm your email.")
+        context?.toast(context?.getString(R.string.sign_up_success)!!)
         findNavController().navigate(R.id.action_signupFragment_to_confirmFragment)
     }
 
     private fun handleSignupFail(error: APIError) {
         context?.toast(error.description)
-    }
-
-    private fun scrollToBottom() {
-        nestedScrollView.scrollTo(0, nestedScrollView.bottom)
     }
 }

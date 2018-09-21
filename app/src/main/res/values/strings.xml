@@ -21,6 +21,7 @@
     <string name="sign_up_password_description">Password should included lower case letter [a–z], upper case letter [A–Z], numeric character [0-9] and special character [~`!@#+-].</string>
     <string name="sign_up_description">* By signing up, you agree to our term of use and privacy policy.</string>
     <string name="sign_up_button">Signup</string>
+    <string name="sign_up_success">Register successfully. Please confirm your email.</string>
 
     <!-- Confirm Email -->
     <string name="confirm_email_title">Please confirm your email</string>
