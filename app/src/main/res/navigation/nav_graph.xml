@@ -19,6 +19,9 @@
         <action
             android:id="@+id/action_main_to_splashFragment"
             app:destination="@id/splashFragment" />
+        <action
+            android:id="@+id/action_main_to_showQRFragment"
+            app:destination="@id/showQRFragment" />
     </fragment>
 
     <fragment
@@ -54,5 +57,11 @@
     <fragment
         android:id="@+id/splashFragment"
         android:name="network.omisego.omgwallet.pages.splash.SplashFragment"
-        android:label="SplashFragment" />
+        android:label="SplashFragment"
+        tools:layout="@layout/fragment_splash" />
+    <fragment
+        android:id="@+id/showQRFragment"
+        android:name="network.omisego.omgwallet.pages.showqr.ShowQRFragment"
+        android:label="ShowQRFragment"
+        tools:layout="@layout/fragment_show_qr" />
 </navigation>

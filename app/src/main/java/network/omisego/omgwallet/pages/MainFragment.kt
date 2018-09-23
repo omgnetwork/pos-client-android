@@ -59,5 +59,6 @@ class MainFragment : Fragment() {
             bottomBarProfile.isSelected = true
             bottomBarBalance.isSelected = false
         }
+        fabQR.setOnClickListener { findNavController().navigate(R.id.action_main_to_showQRFragment) }
     }
 }
