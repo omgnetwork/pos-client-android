@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -60,5 +62,9 @@ class MainFragment : Fragment() {
             bottomBarBalance.isSelected = false
         }
         fabQR.setOnClickListener { findNavController().navigate(R.id.action_main_to_showQRFragment) }
+
+        val window = activity?.window
+        window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window?.statusBarColor = ContextCompat.getColor(context!!, R.color.colorGray)
     }
 }

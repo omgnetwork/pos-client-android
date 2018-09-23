@@ -12,7 +12,9 @@ import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -47,5 +49,9 @@ class ShowQRFragment : Fragment() {
         toolbar.navigationIcon = context?.getDrawableCompat(R.drawable.ic_close)
         toolbar.setNavigationOnClickListener { findNavController().navigateUp() }
         hostActivity.supportActionBar?.title = getString(R.string.show_qr_title)
+
+        val window = activity?.window
+        window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window?.statusBarColor = ContextCompat.getColor(context!!, R.color.colorBlue)
     }
 }
