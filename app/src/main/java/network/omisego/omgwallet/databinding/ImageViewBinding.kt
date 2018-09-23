@@ -1,4 +1,4 @@
-package network.omisego.omgmerchant.databinding
+package network.omisego.omgwallet.databinding
 
 import android.widget.ImageView
 import androidx.annotation.RawRes

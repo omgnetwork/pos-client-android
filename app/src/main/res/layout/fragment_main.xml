@@ -8,8 +8,7 @@
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/colorWhiteWeak4">
+        android:layout_height="match_parent">
 
         <FrameLayout
             android:id="@+id/pageContainer"
@@ -24,8 +23,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             app:backgroundTint="@color/colorWhiteWeak3"
-            app:fabAlignmentMode="center"
-            app:contentInsetStart="0dp">
+            app:contentInsetStart="0dp"
+            app:fabAlignmentMode="center">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

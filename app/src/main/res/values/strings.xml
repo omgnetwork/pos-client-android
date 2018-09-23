@@ -29,6 +29,7 @@
     <string name="confirm_email_button">Got it</string>
 
     <!-- Balance -->
+    <string name="balance_title">Balance</string>
     <string name="balance_full_currency">%s</string>
     <string name="balance_abbr_currency">%s</string>
     <string name="balance_amount">%,.2f</string>

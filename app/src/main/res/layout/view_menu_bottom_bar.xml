@@ -4,8 +4,8 @@
     android:id="@+id/container"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:foreground="?attr/selectableItemBackgroundBorderless"
-    android:clickable="true">
+    android:clickable="true"
+    android:foreground="?attr/selectableItemBackgroundBorderless">
 
     <TextView
         android:id="@+id/tvIcon"
