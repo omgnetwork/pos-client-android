@@ -19,7 +19,8 @@ import java.util.UUID
 class LoadingRecyclerAdapter<T : Any, V : ViewDataBinding>(
     @LayoutRes private val loadingRes: Int,
     @LayoutRes private val contentRes: Int,
-    private val stateViewHolderBinding: StateViewHolderBinding<T, V>
+    private val stateViewHolderBinding: StateViewHolderBinding<T, V>,
+    private val updateDispatcher: UpdateAdapterDispatcher<T>? = null
 ) : RecyclerView.Adapter<StateViewHolder>() {
     private val contentLoadingList: MutableList<Any> = mutableListOf()
     private val contentList: MutableList<T> = mutableListOf()
@@ -34,7 +35,8 @@ class LoadingRecyclerAdapter<T : Any, V : ViewDataBinding>(
     fun reloadItems(newContentItems: List<T>) {
         contentList.clear()
         contentList.addAll(newContentItems)
-        dispatchUpdate(contentLoadingList, contentList)
+        updateDispatcher?.dispatchUpdate(contentLoadingList as List<T>, contentList, this)
+            ?: dispatchUpdate(contentLoadingList, contentList)
         contentLoadingList.clear()
         contentLoadingList.addAll(contentList)
     }
@@ -97,4 +99,8 @@ class LoadingRecyclerAdapter<T : Any, V : ViewDataBinding>(
             }
         }
     }
+}
+
+interface UpdateAdapterDispatcher<T> {
+    fun dispatchUpdate(oldList: List<T>, newList: List<T>, adapter: RecyclerView.Adapter<StateViewHolder>)
 }

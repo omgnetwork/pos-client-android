@@ -16,19 +16,24 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import co.omisego.omisego.model.APIError
 import co.omisego.omisego.model.Balance
 import co.omisego.omisego.model.WalletList
 import kotlinx.android.synthetic.main.fragment_balance.*
 import network.omisego.omgwallet.R
+import network.omisego.omgwallet.base.BalanceDiffCallback
 import network.omisego.omgwallet.base.LoadingRecyclerAdapter
+import network.omisego.omgwallet.base.StateViewHolder
+import network.omisego.omgwallet.base.UpdateAdapterDispatcher
 import network.omisego.omgwallet.databinding.FragmentBalanceBinding
 import network.omisego.omgwallet.databinding.ViewholderBalanceBinding
 import network.omisego.omgwallet.extension.provideViewModel
 import network.omisego.omgwallet.extension.toast
 
-class BalanceFragment : Fragment() {
+class BalanceFragment : Fragment(), UpdateAdapterDispatcher<Balance> {
     private lateinit var binding: FragmentBalanceBinding
     private lateinit var viewModel: BalanceViewModel
     private lateinit var adapter: LoadingRecyclerAdapter<Balance, ViewholderBalanceBinding>
@@ -65,13 +70,19 @@ class BalanceFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        adapter = LoadingRecyclerAdapter(R.layout.viewholder_balance_loading, R.layout.viewholder_balance, viewModel)
+        adapter = LoadingRecyclerAdapter(R.layout.viewholder_balance_loading, R.layout.viewholder_balance, viewModel, this)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
 
         swipeRefresh.setOnRefreshListener {
             viewModel.loadWallet(networkOnly = true)
         }
+    }
+
+    override fun dispatchUpdate(oldList: List<Balance>, newList: List<Balance>, adapter: RecyclerView.Adapter<StateViewHolder>) {
+        val diff = BalanceDiffCallback(oldList, newList)
+        val result = DiffUtil.calculateDiff(diff)
+        result.dispatchUpdatesTo(adapter)
     }
 
     private fun handleLoadWalletSuccess(walletList: WalletList) {
