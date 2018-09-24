@@ -50,7 +50,6 @@
                     android:layout_marginTop="24dp"
                     android:layout_marginEnd="@dimen/fragment_sign_in_padding_horizontal"
                     android:hint="@string/sign_up_full_name"
-                    android:importantForAutofill="no"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -60,6 +59,7 @@
                         android:id="@+id/etFullname"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:importantForAutofill="no"
                         android:afterTextChanged="@{(editable) -> viewModel.checkValidationResult()}"
                         android:enabled="@{!viewModel.liveLoading}"
                         tools:hint="@string/sign_up_full_name" />
