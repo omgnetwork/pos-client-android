@@ -8,10 +8,11 @@ package network.omisego.omgwallet.pages
  */
 
 import androidx.lifecycle.ViewModel
+import network.omisego.omgwallet.data.LocalRepository
 
 class MainViewModel(
-    val repository: MainRepository
+    val localRepository: LocalRepository
 ) : ViewModel() {
-    fun loadWallets() = repository.loadWallets()
-    fun loadUserEmail() = repository.loadUserEmail()
+    fun loadWallets() = localRepository.loadWallet()
+    fun hasAuthenticationToken() = localRepository.hasAuthenticationToken()
 }

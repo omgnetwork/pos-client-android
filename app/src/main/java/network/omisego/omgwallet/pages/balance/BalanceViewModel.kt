@@ -12,12 +12,14 @@ import androidx.lifecycle.ViewModel
 import co.omisego.omisego.model.Balance
 import co.omisego.omisego.model.WalletList
 import network.omisego.omgwallet.base.StateViewHolderBinding
+import network.omisego.omgwallet.data.contract.BalanceDataRepository
 import network.omisego.omgwallet.databinding.ViewholderBalanceBinding
 import network.omisego.omgwallet.model.APIResult
 import network.omisego.omgwallet.storage.Storage
 
 class BalanceViewModel(
-    private val repository: BalanceDataRepository
+    private val localRepository: BalanceDataRepository,
+    private val remoteRepository: BalanceDataRepository
 ) : ViewModel(), StateViewHolderBinding<Balance, ViewholderBalanceBinding> {
 
     override fun bind(binding: ViewholderBalanceBinding, data: Balance) {
@@ -28,7 +30,8 @@ class BalanceViewModel(
     val liveResult: MutableLiveData<APIResult> by lazy { MutableLiveData<APIResult>() }
 
     fun loadWallet(networkOnly: Boolean = false) {
-        repository.loadWallet(liveResult, networkOnly)
+        localRepository.loadWallet(liveResult, networkOnly)
+        remoteRepository.loadWallet(liveResult, networkOnly)
     }
 
     fun updateWallet(walletList: WalletList) {
