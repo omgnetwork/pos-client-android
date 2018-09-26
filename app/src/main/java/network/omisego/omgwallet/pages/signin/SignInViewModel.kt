@@ -153,6 +153,10 @@ class SignInViewModel(
     }
 
     fun saveUserEmail(email: String) {
+        if (email != localRepository.loadUserEmail()) {
+            localRepository.deleteFingerprintCredential()
+            localRepository.saveFingerprintOption(false)
+        }
         localRepository.saveUserEmail(email)
     }
 

@@ -37,9 +37,12 @@ object Storage {
         }.build(context)
     }
 
+    fun hasAuthenticationToken() = sharePref.contains(StorageKey.KEY_AUTHENTICATION_TOKEN)
+
     fun saveCredential(credential: Credential): Deferred<Unit> {
         return async {
-            sharePref[StorageKey.KEY_AUTHENTICATION_TOKEN] = (credential.authenticationToken ?: "") encryptWith keyManager
+            sharePref[StorageKey.KEY_AUTHENTICATION_TOKEN] = (credential.authenticationToken
+                ?: "") encryptWith keyManager
         }
     }
 
@@ -101,7 +104,7 @@ object Storage {
         return gson.fromJson<User>(sharePref[StorageKey.KEY_USER], User::class.java)
     }
 
-    fun clearEverything() {
+    fun clearSession() {
         sharePref.edit()
             .remove(StorageKey.KEY_API_KEY)
             .remove(StorageKey.KEY_AUTHENTICATION_TOKEN)
