@@ -35,13 +35,6 @@
     <string name="balance_amount">%,.2f</string>
     <string name="balance_last_updated">Last updated\n%1$tb %1$te, %1$tI:%1$tM %1$Tp</string>
 
-    <!-- More -->
-    <string name="more_title">More</string>
-    <string name="more_account">Account</string>
-    <string name="more_transaction">Transaction</string>
-    <string name="more_setting_and_help">Settings &amp; Help</string>
-    <string name="more_sign_out">Sign out</string>
-
     <!-- Transaction List -->
     <string name="transaction_list_title">Transaction</string>
     <!-- e.g. Jenny K. [3856...092] -->
@@ -84,7 +77,7 @@
 
     <!-- Fingerprint -->
     <string name="dialog_fingerprint_title">Sign-in</string>
-    <string name="dialog_fingerprint_subtitle">Sign-in to your merchant account</string>
+    <string name="dialog_fingerprint_subtitle">Sign-in to your account</string>
     <string name="dialog_fingerprint_description">In order to use the Fingerprint sensor we need your authorization first.</string>
     <string name="dialog_fingerprint_status_normal">Touch the fingerprint sensor</string>
     <string name="dialog_fingerprint_error_try_again">Try again</string>
