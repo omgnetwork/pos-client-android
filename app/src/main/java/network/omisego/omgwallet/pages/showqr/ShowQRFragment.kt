@@ -15,13 +15,13 @@ import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import co.omisego.omisego.qrcode.generator.QRGenerator
 import kotlinx.android.synthetic.main.fragment_show_qr.*
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.databinding.FragmentShowQrBinding
+import network.omisego.omgwallet.extension.bindingInflate
 import network.omisego.omgwallet.extension.getDrawableCompat
 import network.omisego.omgwallet.storage.Storage
 
@@ -29,7 +29,7 @@ class ShowQRFragment : Fragment() {
     private lateinit var binding: FragmentShowQrBinding
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_show_qr, container, false)
+        binding = bindingInflate(R.layout.fragment_show_qr, container)
         return binding.root
     }
 

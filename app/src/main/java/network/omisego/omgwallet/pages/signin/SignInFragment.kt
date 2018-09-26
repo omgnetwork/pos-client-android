@@ -18,7 +18,6 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
@@ -30,6 +29,7 @@ import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.launch
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.databinding.FragmentSigninBinding
+import network.omisego.omgwallet.extension.bindingInflate
 import network.omisego.omgwallet.extension.provideAndroidViewModel
 import network.omisego.omgwallet.extension.runOnM
 import network.omisego.omgwallet.extension.runOnMToP
@@ -44,12 +44,7 @@ class SignInFragment : Fragment() {
     private var scanFingerprintDialog: FingerprintBottomSheet? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.fragment_signin,
-            container,
-            false
-        )
+        binding = bindingInflate(R.layout.fragment_signin, container)
         binding.root.viewTreeObserver.addOnGlobalLayoutListener {
             scrollBottom()
         }

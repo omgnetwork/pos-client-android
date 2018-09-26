@@ -6,12 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import androidx.core.content.ContextCompat
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_main.*
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.databinding.FragmentMainBinding
+import network.omisego.omgwallet.extension.bindingInflate
 import network.omisego.omgwallet.extension.provideActivityViewModel
 import network.omisego.omgwallet.extension.replaceFragment
 import network.omisego.omgwallet.pages.balance.BalanceFragment
@@ -31,21 +31,21 @@ class MainFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false)
+        binding = bindingInflate(R.layout.fragment_main, container)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val wallets = viewModel.loadWallets()
-        val userEmail = viewModel.loadUserEmail()
+        val hasAuthToken = viewModel.hasAuthenticationToken()
         when {
             wallets != null -> {
                 init()
                 replaceFragment(R.id.pageContainer, balanceFragment)
                 bottomBarBalance.isSelected = true
             }
-            !userEmail.isNullOrEmpty() -> findNavController().navigate(R.id.action_main_to_splashFragment)
+            hasAuthToken -> findNavController().navigate(R.id.action_main_to_splashFragment)
             else -> findNavController().navigate(R.id.action_main_to_signInFragment)
         }
     }
