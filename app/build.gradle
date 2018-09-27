@@ -6,21 +6,39 @@ apply plugin: 'androidx.navigation.safeargs'
 apply plugin: 'kotlin-kapt'
 apply from: 'gradleScript/dependencies.gradle'
 
+// Setup EWallet client data
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+def clientAPIKey = properties.getProperty('ewallet.apikey')
+def clientAPIBaseURL = properties.getProperty('ewallet.baseurl')
+def clientEncryptKeyAlias = properties.getProperty('omg.encrypt.keyAlias')
+def clientEncryptIV = properties.getProperty('omg.encrypt.iv')
+
 android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "omisego.network.omgwallet"
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion 27
         versionCode 1
         versionName appVersion
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
+        debug {
+            buildConfigField 'String', "CLIENT_API_KEY", clientAPIKey
+            buildConfigField 'String', "CLIENT_API_BASE_URL", clientAPIBaseURL
+            buildConfigField 'String', "CLIENT_ENCRYPT_KEY_ALIAS", clientEncryptKeyAlias
+            buildConfigField 'String', "CLIENT_ENCRYPT_IV", clientEncryptIV
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', "CLIENT_API_KEY", clientAPIKey
+            buildConfigField 'String', "CLIENT_API_BASE_URL", clientAPIBaseURL
+            buildConfigField 'String', "CLIENT_ENCRYPT_KEY_ALIAS", clientEncryptKeyAlias
+            buildConfigField 'String', "CLIENT_ENCRYPT_IV", clientEncryptIV
         }
     }
     sourceSets {
@@ -59,8 +77,7 @@ dependencies {
     implementation arch.viewmodel
     implementation arch.extensions
     /* Databinding */
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0-alpha1'
-    kapt databinding.compiler
+
     /* Support library */
     implementation supportDependencies.appCompat
     implementation supportDependencies.design
@@ -82,4 +99,10 @@ dependencies {
     implementation okHttp3.loggingIntercepter
 
     testImplementation test
+}
+
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
 }

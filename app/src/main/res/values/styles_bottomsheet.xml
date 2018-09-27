@@ -1,0 +1,10 @@
+<resources>
+
+    <style name="OMGBottomSheet" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/OMGBottomSheetRound</item>
+    </style>
+
+    <style name="OMGBottomSheetRound" parent="Widget.MaterialComponents.BottomSheet.Modal">
+        <item name="android:background">@drawable/shape_dialog_round_corner</item>
+    </style>
+</resources>

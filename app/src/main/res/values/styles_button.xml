@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="OMGButton" parent="Widget.MaterialComponents.Button">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="backgroundTint">?attr/colorSecondary</item>
+    </style>
+
+    <style name="OMGButtonOutlineIcon" parent="Widget.MaterialComponents.Button.OutlinedButton.Icon">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">56dp</item>
+        <item name="android:textColor">?attr/colorSecondary</item>
+        <item name="android:gravity">center</item>
+        <item name="iconTint">?attr/colorSecondary</item>
+        <item name="iconPadding">16dp</item>
+        <item name="iconGravity">textStart</item>
+        <item name="strokeColor">?attr/colorSecondary</item>
+        <item name="strokeWidth">1dp</item>
+    </style>
+</resources>
