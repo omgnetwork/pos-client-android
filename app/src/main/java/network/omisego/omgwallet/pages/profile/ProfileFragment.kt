@@ -49,10 +49,10 @@ class ProfileFragment : Fragment() {
         viewModel.liveAuthenticateSuccessful.observe(this, Observer {
             if (it == true) {
                 dialog.dismiss()
-                viewModel.handleFingerprintOption(true)
+                viewModel.handleFingerprintOption(it)
                 context?.toast(getString(R.string.setting_help_enable_finger_print_successfully))
+                switchFingerprint.isChecked = it
             }
-            switchFingerprint.isChecked = it!!
         })
 
         switchFingerprint.setOnCheckedChangeListener { _, isChecked ->
