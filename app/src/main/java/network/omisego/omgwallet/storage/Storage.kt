@@ -10,7 +10,7 @@ package network.omisego.omgwallet.storage
 import android.content.Context
 import android.content.SharedPreferences
 import co.omisego.omisego.model.User
-import co.omisego.omisego.model.Wallet
+import co.omisego.omisego.model.WalletList
 import co.omisego.omisego.security.OMGKeyManager
 import co.omisego.omisego.utils.GsonProvider
 import kotlinx.coroutines.experimental.Deferred
@@ -39,7 +39,7 @@ object Storage {
 
     fun saveCredential(credential: Credential): Deferred<Unit> {
         return async {
-            sharePref[StorageKey.KEY_AUTHENTICATION_TOKEN] = credential.authenticationToken ?: "" encryptWith keyManager
+            sharePref[StorageKey.KEY_AUTHENTICATION_TOKEN] = (credential.authenticationToken ?: "") encryptWith keyManager
         }
     }
 
@@ -83,13 +83,13 @@ object Storage {
         return sharePref.getBoolean(StorageKey.KEY_FINGERPRINT_OPTION, false)
     }
 
-    fun saveWallet(wallet: Wallet) {
+    fun saveWallets(wallet: WalletList) {
         sharePref[StorageKey.KEY_WALLET] = gson.toJson(wallet)
     }
 
-    fun loadWallet(): Wallet? {
+    fun loadWallets(): WalletList? {
         if (sharePref[StorageKey.KEY_WALLET].isNullOrEmpty()) return null
-        return gson.fromJson<Wallet>(sharePref[StorageKey.KEY_WALLET], Wallet::class.java)
+        return gson.fromJson<WalletList>(sharePref[StorageKey.KEY_WALLET], WalletList::class.java)
     }
 
     fun saveUser(user: User) {

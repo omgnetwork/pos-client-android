@@ -29,6 +29,7 @@
     <string name="confirm_email_button">Got it</string>
 
     <!-- Balance -->
+    <string name="balance_title">Balance</string>
     <string name="balance_full_currency">%s</string>
     <string name="balance_abbr_currency">%s</string>
     <string name="balance_amount">%,.2f</string>
@@ -96,6 +97,10 @@
     <string name="dialog_fingerprint_unsupported">Your device does not support the fingerprint authentication.</string>
     <string name="dialog_fingerprint_not_enrolled">You haven\'t enrolled the fingerprint on your device yet.</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- BottomBar Item -->
+    <string name="bottombar_item_balance">Balance</string>
+    <string name="bottombar_item_balance_icon"></string>
+    <string name="bottombar_item_profile">Profile</string>
+    <string name="bottombar_item_profile_icon"></string>
+    <string name="bottombar_item_qr">QR</string>
 </resources>

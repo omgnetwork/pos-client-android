@@ -68,12 +68,15 @@ class SignInFragment : Fragment() {
                 startLogoAnimate()
             }
         }
-        btnSignIn.setOnClickListener { _ ->
-            signIn()
-        }
+
+        viewModel.liveAPIResult.observe(this, Observer {
+            viewModel.hideLoading(getString(R.string.sign_in_button))
+            it?.handle(this::handleSignInSuccess, this::handleSignInError)
+        })
+
         etPassword.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEND) {
-                signIn()
+                viewModel.signIn()
                 true
             }
             false
@@ -95,23 +98,13 @@ class SignInFragment : Fragment() {
         runOnMToP { subscribeSignInWithFingerprintBelowP() }
     }
 
-    private fun signIn() {
-        viewModel.signIn()?.let { liveResult ->
-            viewModel.showLoading(getString(R.string.sign_in_button_loading))
-            liveResult.observe(this, Observer {
-                viewModel.hideLoading(getString(R.string.sign_in_button))
-                it?.handle(this::handleSignInSuccess, this::handleSignInError)
-            })
-        }
-    }
-
     @RequiresApi(Build.VERSION_CODES.P)
     private fun subscribeSignInWithFingerprintP() {
         viewModel.liveAuthenticationSucceeded.observe(this, Observer {
             if (viewModel.isFingerprintAvailable()) {
                 etEmail.setText(viewModel.loadUserEmail())
                 etPassword.setText(viewModel.loadUserPassword())
-                signIn()
+                viewModel.signIn()
             } else {
                 context?.toast(getString(R.string.dialog_fingerprint_option_not_enabled))
             }
@@ -140,7 +133,7 @@ class SignInFragment : Fragment() {
                     scanFingerprintDialog?.dismiss()
                     etEmail.setText(viewModel.loadUserEmail())
                     etPassword.setText(viewModel.loadUserPassword())
-                    signIn()
+                    viewModel.signIn()
                 }
             })
         }

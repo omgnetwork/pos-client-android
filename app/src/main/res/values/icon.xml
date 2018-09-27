@@ -1,0 +1,149 @@
+<resources>
+    <style name="OMGIcon">
+        <item name="fontFamily">@font/icomoon</item>
+    </style>
+    <style name="OMGIcon.ArrowDown">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.ArrowUp">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.ArrowLongDown">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.ArrowLongUp">
+        <item name="android:text"></item>
+</style>
+    <style name="OMGIcon.ArrowLongLeft">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.ArrowLongRight">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.More">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.Topup">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.Help">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.Warning">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.Info">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.Request">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.Consumption">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.PieChart">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.Portfolio">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.QR">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.Time">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.Calendar">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.Camera">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.Checkmark">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.ChevronDown">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.ChevronLeft">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.CheckronRight">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.ChevronUp">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.Close">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.Copy">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.Credit">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.Dashboard">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.Debit">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.Download">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.Edit">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.Export">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.Filter">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.History">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.Image">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.Key">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.Merchant">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.OptionVertical">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.OptionHorizontal">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.People">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.Plus">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.Profile">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.Search">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.Setting">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.Token">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.Transaction">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.Upload">
+        <item name="android:text"></item>
+    </style>
+    <style name="OMGIcon.Wallet">
+        <item name="android:text"></item>
+    </style>
+</resources>

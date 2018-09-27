@@ -47,7 +47,7 @@ class SignInViewModel(
         LiveState(SignInState("", "", context.getString(R.string.sign_in_button), false))
     }
     private val liveByPassValidation: MutableLiveData<Boolean> by lazy { mutableLiveDataOf(true) }
-    private val liveAPIResult: MutableLiveData<APIResult> by lazy { MutableLiveData<APIResult>() }
+    val liveAPIResult: MutableLiveData<APIResult> by lazy { MutableLiveData<APIResult>() }
     val liveBtnText: LiveData<String> by lazy { liveState.mapPropChanged { it.btnText } }
     val liveLoading: LiveData<Boolean> by lazy { liveState.mapPropChanged { it.loading } }
     val liveToast: MutableLiveData<String> by lazy { MutableLiveData<String>() }
@@ -136,6 +136,7 @@ class SignInViewModel(
         val (email, password) = liveState.value ?: return null
         liveByPassValidation.value = false
         arrayOf(emailValidator, passwordValidator).find { !it.validation.pass }?.let { return null }
+        showLoading(app.getString(R.string.sign_in_button_loading))
         return signInRepository.signIn(LoginParams(email, password), liveAPIResult)
     }
 

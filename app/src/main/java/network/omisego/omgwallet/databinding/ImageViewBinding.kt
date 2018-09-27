@@ -1,6 +1,7 @@
-package network.omisego.omgmerchant.databinding
+package network.omisego.omgwallet.databinding
 
 import android.widget.ImageView
+import androidx.annotation.RawRes
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -27,5 +28,14 @@ object ImageViewBinding {
             .with(view.context)
             .setDefaultRequestOptions(options)
             .load("https://api.adorable.io/avatars/214/$imageUrl.png").into(view)
+    }
+
+    @JvmStatic
+    @BindingAdapter("loadGif")
+    fun loadGif(view: ImageView, @RawRes imageRes: Int) {
+        Glide
+            .with(view.context)
+            .load(imageRes)
+            .into(view)
     }
 }

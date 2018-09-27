@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/main"
-        android:name="network.omisego.omgwallet.MainFragment"
+        android:name="network.omisego.omgwallet.pages.MainFragment"
         android:label="fragment_main"
         tools:layout="@layout/fragment_main">
 
@@ -16,6 +16,12 @@
             app:destination="@id/signInFragment"
             app:popUpTo="@+id/main"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_main_to_splashFragment"
+            app:destination="@id/splashFragment" />
+        <action
+            android:id="@+id/action_main_to_showQRFragment"
+            app:destination="@id/showQRFragment" />
     </fragment>
 
     <fragment
@@ -48,4 +54,14 @@
         android:name="network.omisego.omgwallet.pages.confirm.ConfirmFragment"
         android:label="ConfirmFragment"
         tools:layout="@layout/fragment_confirm" />
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="network.omisego.omgwallet.pages.splash.SplashFragment"
+        android:label="SplashFragment"
+        tools:layout="@layout/fragment_splash" />
+    <fragment
+        android:id="@+id/showQRFragment"
+        android:name="network.omisego.omgwallet.pages.showqr.ShowQRFragment"
+        android:label="ShowQRFragment"
+        tools:layout="@layout/fragment_show_qr" />
 </navigation>

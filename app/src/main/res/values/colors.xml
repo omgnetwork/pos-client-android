@@ -6,6 +6,7 @@
     <color name="colorBlueWeakDisabled">#632176FF</color>
 
     <color name="colorBlack">#000000</color>
+    <color name="colorBlackHalf">#8A000000</color>
     <color name="colorBlackWeak">#DE000000</color>
     <color name="colorBlackWeak2">#04070D</color>
     <color name="colorBlackWeakTransparent">#9904070D</color>
@@ -14,6 +15,8 @@
     <color name="colorWhiteDisabled">#CCF0F2F5</color>
     <color name="colorWhiteWeak">#E4E7ED</color>
     <color name="colorWhiteWeak2">#ABB2C2</color>
+    <color name="colorWhiteWeak3">#FFFFFF</color>
+    <color name="colorWhiteWeak4">#E5E5E5</color>
 
     <color name="colorGray">#3c414d</color>
     <color name="colorGrayWeak">#858B9A</color>
