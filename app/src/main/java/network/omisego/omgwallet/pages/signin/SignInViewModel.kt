@@ -27,6 +27,7 @@ import network.omisego.omgwallet.extension.mutableLiveDataOf
 import network.omisego.omgwallet.extension.runBelowM
 import network.omisego.omgwallet.extension.runOnMToP
 import network.omisego.omgwallet.extension.runOnP
+import network.omisego.omgwallet.livedata.SingleLiveEvent
 import network.omisego.omgwallet.model.APIResult
 import network.omisego.omgwallet.model.Credential
 import network.omisego.omgwallet.util.BiometricUtil
@@ -50,9 +51,9 @@ class SignInViewModel(
     val liveBtnText: LiveData<String> by lazy { liveState.mapPropChanged { it.btnText } }
     val liveLoading: LiveData<Boolean> by lazy { liveState.mapPropChanged { it.loading } }
     val liveToast: MutableLiveData<String> by lazy { MutableLiveData<String>() }
-    val liveSignupClick: MutableLiveData<View> by lazy { MutableLiveData<View>() }
+    val liveSignupClick: SingleLiveEvent<View> by lazy { SingleLiveEvent<View>() }
 
-    val signupClickableSpan: ClickableSpan by lazy {
+    private val signupClickableSpan: ClickableSpan by lazy {
         object : ClickableSpan() {
             override fun onClick(view: View) {
                 liveSignupClick.value = view

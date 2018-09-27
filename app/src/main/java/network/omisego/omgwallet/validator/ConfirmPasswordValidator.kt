@@ -11,15 +11,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import network.omisego.omgwallet.model.ValidateResult
 
-class PasswordValidator(override var byPass: LiveData<Boolean>) : Validator(byPass) {
-    private val lessThanEight: (String) -> Boolean = { it.length < 8 }
+class ConfirmPasswordValidator(override var byPass: LiveData<Boolean>) : Validator(byPass) {
+    var currentPassword: String = ""
+        set(value) {
+            field = value
+            check(this.recentText, this.updateUI)
+        }
 
     override fun check(text: String, updateUI: ((ValidateResult) -> Unit)?): ValidateResult {
         this.updateUI = updateUI
         this.recentText = text
         validation = when {
-            byPass.value == false && lessThanEight(text) ->
-                ValidateResult(false, "Password must contain at least 8 characters")
+            byPass.value == false && text != currentPassword ->
+                ValidateResult(false, "Password is not matched")
             else -> ValidateResult(true)
         }
         updateUI?.invoke(validation)
