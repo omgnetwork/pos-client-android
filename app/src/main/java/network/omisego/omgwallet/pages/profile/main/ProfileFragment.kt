@@ -1,4 +1,4 @@
-package network.omisego.omgwallet.pages.profile
+package network.omisego.omgwallet.pages.profile.main
 
 /*
  * OmiseGO
@@ -19,17 +19,21 @@ import kotlinx.android.synthetic.main.fragment_profile.*
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.databinding.FragmentProfileBinding
 import network.omisego.omgwallet.extension.bindingInflate
+import network.omisego.omgwallet.extension.provideActivityViewModel
 import network.omisego.omgwallet.extension.provideAndroidViewModel
 import network.omisego.omgwallet.extension.toast
+import network.omisego.omgwallet.pages.profile.ProfileNavigationViewModel
 
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
     private lateinit var viewModel: ProfileViewModel
+    private lateinit var navigationViewModel: ProfileNavigationViewModel
     private lateinit var dialog: ConfirmFingerprintDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = provideAndroidViewModel()
+        navigationViewModel = provideActivityViewModel()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -42,6 +46,11 @@ class ProfileFragment : Fragment() {
         setupToolbar()
         binding.viewModel = viewModel
         binding.setLifecycleOwner(this)
+
+        viewModel.liveTransaction.observe(this, Observer {
+            navigationViewModel.liveNavigation.value = R.layout.fragment_transaction
+        })
+
         viewModel.liveSignout.observe(this, Observer {
             findNavController().navigate(R.id.action_main_to_signInFragment)
         })

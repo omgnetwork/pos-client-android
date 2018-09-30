@@ -15,19 +15,22 @@ import network.omisego.omgwallet.extension.bindingInflate
 import network.omisego.omgwallet.extension.provideActivityViewModel
 import network.omisego.omgwallet.extension.replaceFragment
 import network.omisego.omgwallet.pages.balance.BalanceFragment
-import network.omisego.omgwallet.pages.profile.ProfileFragment
+import network.omisego.omgwallet.pages.profile.ProfileContainerFragment
+import network.omisego.omgwallet.pages.profile.ProfileNavigationViewModel
 
 class MainFragment : Fragment() {
     private lateinit var binding: FragmentMainBinding
     private lateinit var viewModel: MainViewModel
     private lateinit var balanceFragment: BalanceFragment
-    private lateinit var profileFragment: ProfileFragment
+    private lateinit var profileContainerFragment: ProfileContainerFragment
+    private lateinit var navigationViewModel: ProfileNavigationViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = provideActivityViewModel()
         balanceFragment = BalanceFragment()
-        profileFragment = ProfileFragment()
+        profileContainerFragment = ProfileContainerFragment()
+        navigationViewModel = provideActivityViewModel()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -57,7 +60,8 @@ class MainFragment : Fragment() {
             bottomBarProfile.isSelected = false
         }
         bottomBarProfile.setOnClickListener {
-            replaceFragment(R.id.pageContainer, profileFragment)
+            replaceFragment(R.id.pageContainer, profileContainerFragment)
+            navigationViewModel.liveNavigation.value = R.layout.fragment_profile
             bottomBarProfile.isSelected = true
             bottomBarBalance.isSelected = false
         }

@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="network.omisego.omgwallet.pages.profile.ProfileViewModel" />
+            type="network.omisego.omgwallet.pages.profile.main.ProfileViewModel" />
 
     </data>
 
@@ -35,7 +35,6 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:background="@drawable/ripple_profile_item"
-            android:clickable="true"
             android:onClick="@{viewModel::clickTransaction}"
             android:padding="16dp"
             android:text="@string/profile_transaction"

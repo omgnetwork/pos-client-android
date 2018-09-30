@@ -1,4 +1,4 @@
-package network.omisego.omgwallet.pages.profile
+package network.omisego.omgwallet.pages.profile.main
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

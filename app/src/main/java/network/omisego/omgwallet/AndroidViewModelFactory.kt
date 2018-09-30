@@ -12,7 +12,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import network.omisego.omgwallet.data.LocalRepository
 import network.omisego.omgwallet.data.RemoteRepository
-import network.omisego.omgwallet.pages.profile.ProfileViewModel
+import network.omisego.omgwallet.pages.profile.main.ProfileViewModel
 import network.omisego.omgwallet.pages.signin.FingerprintBottomSheetViewModel
 import network.omisego.omgwallet.pages.signin.SignInViewModel
 import network.omisego.omgwallet.util.BiometricUtil
