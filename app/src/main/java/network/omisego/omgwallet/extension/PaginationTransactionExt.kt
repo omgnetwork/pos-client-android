@@ -13,11 +13,9 @@ import network.omisego.omgwallet.state.TransactionListState
 
 val PaginationList<Transaction>.state: TransactionListState
     get() {
-        return if (arrayOf(pagination.isFirstPage, pagination.isLastPage, data.isEmpty()).all { true }) {
-            TransactionListState.STATE_EMPTY_PAGE
-        } else if (pagination.isLastPage && data.isEmpty()) {
-            TransactionListState.STATE_OUT_BOUND_PAGE
-        } else {
-            TransactionListState.STATE_CONTENT_PAGE
+        return when {
+            arrayOf(pagination.isFirstPage, pagination.isLastPage, data.isEmpty()).all { it } -> TransactionListState.STATE_EMPTY_PAGE
+            arrayOf(pagination.currentPage > 1, data.isEmpty()).all { it } -> TransactionListState.STATE_OUT_BOUND_PAGE
+            else -> TransactionListState.STATE_CONTENT_PAGE
         }
     }

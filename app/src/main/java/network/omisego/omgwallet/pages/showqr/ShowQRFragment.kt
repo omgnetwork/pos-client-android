@@ -16,7 +16,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import androidx.transition.TransitionManager
 import kotlinx.android.synthetic.main.fragment_show_qr.*
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.databinding.FragmentShowQrBinding
@@ -43,7 +42,6 @@ class ShowQRFragment : Fragment() {
         setupToolbar()
         binding.viewModel = viewModel
         binding.setLifecycleOwner(this)
-        TransitionManager.beginDelayedTransition(viewGroup)
         viewModel.createQRBitmap()
     }
 
