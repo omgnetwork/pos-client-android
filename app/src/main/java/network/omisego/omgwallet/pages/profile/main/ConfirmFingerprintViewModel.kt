@@ -18,8 +18,8 @@ import network.omisego.omgwallet.model.Credential
  */
 
 class ConfirmFingerprintViewModel(
-    val localRepository: LocalRepository,
-    val remoteRepository: RemoteRepository
+    private val localRepository: LocalRepository,
+    private val remoteRepository: RemoteRepository
 ) : ViewModel() {
     val liveAPIResult: MutableLiveData<APIResult> by lazy { MutableLiveData<APIResult>() }
 

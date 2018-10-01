@@ -1,5 +1,12 @@
 package network.omisego.omgwallet.pages.profile.main
 
+/*
+ * OmiseGO
+ *
+ * Created by Phuchit Sirimongkolsathien on 30/8/2018 AD.
+ * Copyright © 2017-2018 OmiseGO. All rights reserved.
+ */
+
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -18,17 +25,11 @@ import kotlinx.coroutines.experimental.launch
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.extension.provideViewModel
 import network.omisego.omgwallet.extension.toast
-
-/*
- * OmiseGO
- *
- * Created by Phuchit Sirimongkolsathien on 30/8/2018 AD.
- * Copyright © 2017-2018 OmiseGO. All rights reserved.
- */
+import network.omisego.omgwallet.state.FingerprintDialogState
 
 class ConfirmFingerprintDialog : BottomSheetDialogFragment() {
     private lateinit var viewModel: ConfirmFingerprintViewModel
-    private var liveAuthenticateSuccessful: MutableLiveData<Boolean>? = null
+    var liveFingerprintDialogState: MutableLiveData<FingerprintDialogState>? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,11 +38,7 @@ class ConfirmFingerprintDialog : BottomSheetDialogFragment() {
 
     override fun onCancel(dialog: DialogInterface?) {
         super.onCancel(dialog)
-        liveAuthenticateSuccessful?.value = false
-    }
-
-    fun setLiveConfirmSuccess(liveConfirmSuccess: MutableLiveData<Boolean>) {
-        this.liveAuthenticateSuccessful = liveConfirmSuccess
+        liveFingerprintDialogState?.value = FingerprintDialogState.STATE_CANCELED
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -57,7 +54,6 @@ class ConfirmFingerprintDialog : BottomSheetDialogFragment() {
         view.etPassword.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEND) {
                 send()
-                true
             }
             false
         }
@@ -67,23 +63,23 @@ class ConfirmFingerprintDialog : BottomSheetDialogFragment() {
         })
     }
 
-    private fun send() {
-        btnConfirm.isEnabled = false
-        viewModel.signIn(etPassword.text.toString())
-    }
-
-    private fun handleSignInError(error: APIError) {
-        context?.toast(error.description)
-        liveAuthenticateSuccessful?.value = false
-        btnConfirm.isEnabled = true
-    }
-
     private fun handleSignInSuccess(data: ClientAuthenticationToken) {
         launch(UI) {
             viewModel.saveCredential(data).await()
             viewModel.saveUserPassword(etPassword.text.toString())
-            liveAuthenticateSuccessful?.value = true
+            liveFingerprintDialogState?.value = FingerprintDialogState.STATE_ENABLED
             btnConfirm.isEnabled = true
         }
+    }
+
+    private fun handleSignInError(error: APIError) {
+        context?.toast(error.description)
+        liveFingerprintDialogState?.value = FingerprintDialogState.STATE_WRONG_PASSWORD
+        btnConfirm.isEnabled = true
+    }
+
+    private fun send() {
+        btnConfirm.isEnabled = false
+        viewModel.signIn(etPassword.text.toString())
     }
 }

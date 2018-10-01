@@ -13,12 +13,13 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import co.infinum.goldfinger.Goldfinger
 import network.omisego.omgwallet.data.LocalRepository
+import network.omisego.omgwallet.state.FingerprintDialogState
 
 class ProfileViewModel(
     private val app: Application,
     private val localRepository: LocalRepository
 ) : AndroidViewModel(app) {
-    val liveAuthenticateSuccessful: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>() }
+    val liveFingerprintDialogState: MutableLiveData<FingerprintDialogState> by lazy { MutableLiveData<FingerprintDialogState>() }
     val liveTransaction: MutableLiveData<View> by lazy { MutableLiveData<View>() }
     val liveSignout: MutableLiveData<View> by lazy { MutableLiveData<View>() }
 

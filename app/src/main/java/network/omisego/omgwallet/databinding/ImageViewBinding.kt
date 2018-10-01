@@ -1,8 +1,10 @@
 package network.omisego.omgwallet.databinding
 
+import android.graphics.Bitmap
 import android.widget.ImageView
 import androidx.annotation.RawRes
 import androidx.databinding.BindingAdapter
+import androidx.lifecycle.LiveData
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -28,6 +30,12 @@ object ImageViewBinding {
             .with(view.context)
             .setDefaultRequestOptions(options)
             .load("https://api.adorable.io/avatars/214/$imageUrl.png").into(view)
+    }
+
+    @JvmStatic
+    @BindingAdapter("bitmap")
+    fun loadLiveBitmap(view: ImageView, liveBitmap: LiveData<Bitmap>) {
+        view.setImageBitmap(liveBitmap.value)
     }
 
     @JvmStatic

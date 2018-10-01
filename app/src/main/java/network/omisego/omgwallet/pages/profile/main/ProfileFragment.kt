@@ -23,6 +23,7 @@ import network.omisego.omgwallet.extension.provideActivityViewModel
 import network.omisego.omgwallet.extension.provideAndroidViewModel
 import network.omisego.omgwallet.extension.toast
 import network.omisego.omgwallet.pages.profile.ProfileNavigationViewModel
+import network.omisego.omgwallet.state.FingerprintDialogState
 
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
@@ -55,19 +56,26 @@ class ProfileFragment : Fragment() {
             findNavController().navigate(R.id.action_main_to_signInFragment)
         })
 
-        viewModel.liveAuthenticateSuccessful.observe(this, Observer {
-            if (it == true) {
-                dialog.dismiss()
-                viewModel.handleFingerprintOption(it)
-                context?.toast(getString(R.string.setting_help_enable_finger_print_successfully))
-                switchFingerprint.isChecked = it
+        viewModel.liveFingerprintDialogState.observe(this, Observer {
+            when (it) {
+                FingerprintDialogState.STATE_WRONG_PASSWORD -> {}
+                FingerprintDialogState.STATE_CANCELED -> {
+                    viewModel.handleFingerprintOption(false)
+                    switchFingerprint.isChecked = false
+                }
+                FingerprintDialogState.STATE_ENABLED -> {
+                    dialog.dismiss()
+                    viewModel.handleFingerprintOption(true)
+                    context?.toast(getString(R.string.setting_help_enable_finger_print_successfully))
+                    switchFingerprint.isChecked = true
+                }
             }
         })
 
         switchFingerprint.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked && !viewModel.hasFingerprintPassword()) {
                 dialog = ConfirmFingerprintDialog().apply {
-                    setLiveConfirmSuccess(viewModel.liveAuthenticateSuccessful)
+                    liveFingerprintDialogState = viewModel.liveFingerprintDialogState
                 }
                 dialog.show(childFragmentManager, null)
             } else if (!isChecked) {
