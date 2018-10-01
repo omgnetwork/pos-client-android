@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import co.omisego.omisego.model.params.LoginParams
 import co.omisego.omisego.model.params.SignUpParams
+import co.omisego.omisego.model.transaction.list.TransactionListParams
 import network.omisego.omgwallet.data.contract.BalanceDataRepository
 import network.omisego.omgwallet.extension.subscribe
 import network.omisego.omgwallet.model.APIResult
@@ -27,5 +28,9 @@ class RemoteRepository : BalanceDataRepository {
 
     fun signup(params: SignUpParams, liveAPIResult: MutableLiveData<APIResult>) {
         ClientProvider.client.signup(params).subscribe(liveAPIResult)
+    }
+
+    fun getTransactions(params: TransactionListParams, liveAPIResult: MutableLiveData<APIResult>) {
+        ClientProvider.client.getTransactions(params).subscribe(liveAPIResult)
     }
 }

@@ -43,6 +43,11 @@ class MainFragment : Fragment() {
         val wallets = viewModel.loadWallets()
         val hasAuthToken = viewModel.hasAuthenticationToken()
         when {
+            navigationViewModel.liveNavigation.value != null -> {
+                init()
+                replaceFragment(R.id.pageContainer, profileContainerFragment)
+                bottomBarProfile.isSelected = true
+            }
             wallets != null -> {
                 init()
                 replaceFragment(R.id.pageContainer, balanceFragment)
@@ -56,6 +61,7 @@ class MainFragment : Fragment() {
     private fun init() {
         bottomBarBalance.setOnClickListener {
             replaceFragment(R.id.pageContainer, balanceFragment)
+            navigationViewModel.liveNavigation.value = null
             bottomBarBalance.isSelected = true
             bottomBarProfile.isSelected = false
         }

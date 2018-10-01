@@ -19,7 +19,7 @@ import network.omisego.omgwallet.databinding.FragmentProfileContainerBinding
 import network.omisego.omgwallet.extension.provideActivityViewModel
 import network.omisego.omgwallet.extension.replaceFragment
 import network.omisego.omgwallet.pages.profile.main.ProfileFragment
-import network.omisego.omgwallet.pages.profile.transaction.TransactionFragment
+import network.omisego.omgwallet.pages.profile.transaction.TransactionListFragment
 
 class ProfileContainerFragment : Fragment() {
     private lateinit var profileFragment: ProfileFragment
@@ -43,7 +43,7 @@ class ProfileContainerFragment : Fragment() {
         viewModel.liveNavigation.observe(this, Observer {
             when (it) {
                 R.layout.fragment_transaction -> {
-                    replaceFragment(R.id.profileContainer, TransactionFragment())
+                    replaceFragment(R.id.profileContainer, TransactionListFragment())
                 }
                 else -> {
                     replaceFragment(R.id.profileContainer, profileFragment)
