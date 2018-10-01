@@ -24,8 +24,10 @@ import network.omisego.omgwallet.extension.dpToPx
 import network.omisego.omgwallet.extension.getDrawableCompat
 import network.omisego.omgwallet.extension.provideActivityViewModel
 import network.omisego.omgwallet.extension.provideAndroidViewModel
+import network.omisego.omgwallet.extension.state
 import network.omisego.omgwallet.extension.toast
 import network.omisego.omgwallet.pages.profile.ProfileNavigationViewModel
+import network.omisego.omgwallet.state.TransactionListState
 
 class TransactionListFragment : Fragment() {
     private lateinit var binding: FragmentTransactionListBinding
@@ -82,22 +84,33 @@ class TransactionListFragment : Fragment() {
         })
     }
 
-    private fun subscribeLoadMore() {
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                super.onScrolled(recyclerView, dx, dy)
-                totalItemCount = linearLayoutManager.itemCount
-                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition()
-                if (!loading && totalItemCount <= (lastVisibleItem + TOTAL_MOCK_LOADING_ITEM)) {
-                    onLoadMore()
-                }
+    private fun handleLoadTransactionSuccess(listTransaction: PaginationList<Transaction>) {
+        hideLoading()
+        when (listTransaction.state) {
+            TransactionListState.STATE_EMPTY_PAGE -> {
+                recyclerView.visibility = View.GONE
+                tvEmpty.visibility = View.VISIBLE
             }
-        })
+            TransactionListState.STATE_OUT_BOUND_PAGE -> {
+                isLastPage = true
+            }
+            TransactionListState.STATE_CONTENT_PAGE -> {
+                recyclerView.visibility = View.VISIBLE
+                tvEmpty.visibility = View.GONE
+            }
+        }
+        currentPage = listTransaction.pagination.currentPage
+        adapter.addItems(listTransaction.data)
     }
 
-    private fun onLoadMore() {
-        if (loading || isLastPage) return
-        loadTransaction(currentPage + 1)
+    private fun handleLoadTransactionFail(error: APIError) {
+        context?.toast(error.description)
+        hideLoading()
+    }
+
+    private fun hideLoading(){
+        swipeRefresh.isRefreshing = false
+        loading = false
     }
 
     private fun loadTransaction(page: Int) {
@@ -110,34 +123,17 @@ class TransactionListFragment : Fragment() {
         viewModel.getTransaction(page)
     }
 
+    private fun onLoadMore() {
+        if (loading || isLastPage) return
+        loadTransaction(currentPage + 1)
+    }
+
     private fun subscribeTransactionInfo() {
         viewModel.liveTransactionFailedDescription.observe(this, Observer {
             if (!it?.isEmpty()!!) {
                 context?.toast(it)
             }
         })
-    }
-
-    private fun handleLoadTransactionSuccess(listTransaction: PaginationList<Transaction>) {
-        swipeRefresh.isRefreshing = false
-        loading = false
-        if (listTransaction.pagination.isLastPage && listTransaction.pagination.isFirstPage && listTransaction.data.isEmpty()) {
-            recyclerView.visibility = View.GONE
-            tvEmpty.visibility = View.VISIBLE
-        } else if (listTransaction.pagination.isLastPage && listTransaction.data.isEmpty()) {
-            isLastPage = true
-        } else {
-            recyclerView.visibility = View.VISIBLE
-            tvEmpty.visibility = View.GONE
-        }
-        currentPage = listTransaction.pagination.currentPage
-        adapter.addItems(listTransaction.data)
-    }
-
-    private fun handleLoadTransactionFail(error: APIError) {
-        context?.toast(error.description)
-        swipeRefresh.isRefreshing = false
-        loading = false
     }
 
     private fun setupRecyclerView() {
@@ -153,5 +149,18 @@ class TransactionListFragment : Fragment() {
         toolbar.navigationIcon = context?.getDrawableCompat(R.drawable.ic_arrow_back)
         toolbar.title = getString(R.string.transaction_list_title)
         toolbar.setNavigationOnClickListener { navigationViewModel.liveNavigation.value = R.layout.fragment_profile }
+    }
+
+    private fun subscribeLoadMore() {
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                totalItemCount = linearLayoutManager.itemCount
+                lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition()
+                if (!loading && totalItemCount <= (lastVisibleItem + TOTAL_MOCK_LOADING_ITEM)) {
+                    onLoadMore()
+                }
+            }
+        })
     }
 }
