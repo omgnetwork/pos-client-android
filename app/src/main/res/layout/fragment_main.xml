@@ -80,7 +80,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_qr"
-            app:layout_anchor="@+id/bottom_app_bar" />
+            android:stateListAnimator="@animator/animator_state_button"
+            app:layout_anchor="@+id/bottom_app_bar"
+            app:rippleColor="@color/transparent" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
