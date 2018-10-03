@@ -10,18 +10,21 @@ package network.omisego.omgwallet.pages.splash
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import co.omisego.omisego.model.WalletList
+import network.omisego.omgwallet.data.LocalRepository
+import network.omisego.omgwallet.data.RemoteRepository
 import network.omisego.omgwallet.model.APIResult
 
 class PreloadResourceViewModel(
-    private val repository: PreloadResourceRepository
+    private val localRepository: LocalRepository,
+    private val remoteRepository: RemoteRepository
 ) : ViewModel() {
     val liveResult: MutableLiveData<APIResult> by lazy { MutableLiveData<APIResult>() }
 
     fun loadWallets() {
-        repository.loadWallets(liveResult)
+        remoteRepository.loadWallet(liveResult, true)
     }
 
     fun saveWallet(data: WalletList) {
-        repository.saveWallets(data)
+        localRepository.saveWallets(data)
     }
 }

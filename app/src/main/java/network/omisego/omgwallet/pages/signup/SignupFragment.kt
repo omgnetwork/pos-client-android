@@ -12,7 +12,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -21,6 +20,7 @@ import co.omisego.omisego.model.Empty
 import kotlinx.android.synthetic.main.fragment_signup.*
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.databinding.FragmentSignupBinding
+import network.omisego.omgwallet.extension.bindingInflate
 import network.omisego.omgwallet.extension.getDrawableCompat
 import network.omisego.omgwallet.extension.provideViewModel
 import network.omisego.omgwallet.extension.toast
@@ -36,7 +36,7 @@ class SignupFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_signup, container, false)
+        binding = bindingInflate(R.layout.fragment_signup, container)
         return binding.root
     }
 

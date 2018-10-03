@@ -22,6 +22,8 @@ import co.omisego.omisego.model.params.LoginParams
 import kotlinx.coroutines.experimental.Deferred
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.base.LiveState
+import network.omisego.omgwallet.data.LocalRepository
+import network.omisego.omgwallet.data.RemoteRepository
 import network.omisego.omgwallet.extension.mapPropChanged
 import network.omisego.omgwallet.extension.mutableLiveDataOf
 import network.omisego.omgwallet.extension.runBelowM
@@ -40,7 +42,8 @@ import network.omisego.omgwallet.validator.Validator
 
 class SignInViewModel(
     private val app: Application,
-    private val signInRepository: SignInRepository,
+    private val localRepository: LocalRepository,
+    private val remoteRepository: RemoteRepository,
     private val biometricUtil: BiometricUtil
 ) : AndroidViewModel(app) {
     private val liveState: LiveState<SignInState> by lazy {
@@ -126,23 +129,23 @@ class SignInViewModel(
         }
     }
 
-    fun isFingerprintAvailable() = signInRepository.loadFingerprintOption()
+    fun isFingerprintAvailable() = localRepository.loadFingerprintOption()
 
-    fun loadUserEmail(): String = signInRepository.loadUserEmail()
+    fun loadUserEmail(): String = localRepository.loadUserEmail()
 
-    fun loadUserPassword(): String = signInRepository.loadFingerprintCredential()
+    fun loadUserPassword(): String = localRepository.loadFingerprintCredential()
 
     fun signIn(): LiveData<APIResult>? {
         val (email, password) = liveState.value ?: return null
         liveByPassValidation.value = false
         arrayOf(emailValidator, passwordValidator).find { !it.validation.pass }?.let { return null }
         showLoading(app.getString(R.string.sign_in_button_loading))
-        return signInRepository.signIn(LoginParams(email, password), liveAPIResult)
+        return remoteRepository.signIn(LoginParams(email, password), liveAPIResult)
     }
 
     fun saveCredential(data: ClientAuthenticationToken): Deferred<Unit> {
-        signInRepository.saveUser(data.user)
-        return signInRepository.saveCredential(
+        localRepository.saveUser(data.user)
+        return localRepository.saveCredential(
             Credential(
                 data.authenticationToken
             )
@@ -150,7 +153,11 @@ class SignInViewModel(
     }
 
     fun saveUserEmail(email: String) {
-        signInRepository.saveUserEmail(email)
+        if (email != localRepository.loadUserEmail()) {
+            localRepository.deleteFingerprintCredential()
+            localRepository.saveFingerprintOption(false)
+        }
+        localRepository.saveUserEmail(email)
     }
 
     fun showLoading(text: String) {

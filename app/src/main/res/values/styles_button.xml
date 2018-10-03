@@ -8,6 +8,12 @@
         <item name="backgroundTint">?attr/colorSecondary</item>
     </style>
 
+    <style name="OMGTextButton" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">?attr/colorSecondary</item>
+    </style>
+
     <style name="OMGButtonOutlineIcon" parent="Widget.MaterialComponents.Button.OutlinedButton.Icon">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">56dp</item>

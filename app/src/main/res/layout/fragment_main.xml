@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            app:backgroundTint="@color/colorWhiteWeak3"
+            android:background="@color/colorWhiteWeak5"
             app:contentInsetStart="0dp"
             app:fabAlignmentMode="center">
 

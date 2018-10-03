@@ -11,6 +11,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import co.omisego.omisego.model.params.SignUpParams
 import network.omisego.omgwallet.BuildConfig
+import network.omisego.omgwallet.data.RemoteRepository
 import network.omisego.omgwallet.extension.logi
 import network.omisego.omgwallet.extension.mutableLiveDataOf
 import network.omisego.omgwallet.model.APIResult
@@ -21,7 +22,7 @@ import network.omisego.omgwallet.validator.RegisterPasswordValidator
 import network.omisego.omgwallet.validator.Validator
 
 class SignupViewModel(
-    val repository: SignupRepository
+    val remoteRepository: RemoteRepository
 ) : ViewModel() {
     /* property extension */
     private val Array<Validator>.valid
@@ -66,6 +67,6 @@ class SignupViewModel(
         )
 
         liveLoading.value = true
-        repository.signup(signupParams, liveResult)
+        remoteRepository.signup(signupParams, liveResult)
     }
 }

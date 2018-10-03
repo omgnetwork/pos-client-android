@@ -11,7 +11,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -19,6 +18,7 @@ import co.omisego.omisego.model.APIError
 import co.omisego.omisego.model.WalletList
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.databinding.FragmentSplashBinding
+import network.omisego.omgwallet.extension.bindingInflate
 import network.omisego.omgwallet.extension.provideViewModel
 import network.omisego.omgwallet.extension.toast
 
@@ -32,7 +32,7 @@ class SplashFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_splash, container, false)
+        binding = bindingInflate(R.layout.fragment_splash, container)
         return binding.root
     }
 

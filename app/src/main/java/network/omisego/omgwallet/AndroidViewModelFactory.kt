@@ -10,8 +10,10 @@ package network.omisego.omgwallet
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import network.omisego.omgwallet.data.LocalRepository
+import network.omisego.omgwallet.data.RemoteRepository
+import network.omisego.omgwallet.pages.profile.ProfileViewModel
 import network.omisego.omgwallet.pages.signin.FingerprintBottomSheetViewModel
-import network.omisego.omgwallet.pages.signin.SignInRepository
 import network.omisego.omgwallet.pages.signin.SignInViewModel
 import network.omisego.omgwallet.util.BiometricUtil
 
@@ -20,10 +22,13 @@ class AndroidViewModelFactory(private val application: Application) : ViewModelP
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return when {
             modelClass.isAssignableFrom(SignInViewModel::class.java) -> {
-                return SignInViewModel(application, SignInRepository(), BiometricUtil()) as T
+                return SignInViewModel(application, LocalRepository(), RemoteRepository(), BiometricUtil()) as T
             }
             modelClass.isAssignableFrom(FingerprintBottomSheetViewModel::class.java) -> {
                 FingerprintBottomSheetViewModel(application) as T
+            }
+            modelClass.isAssignableFrom(ProfileViewModel::class.java) -> {
+                return ProfileViewModel(application, LocalRepository()) as T
             }
             else -> {
                 throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")

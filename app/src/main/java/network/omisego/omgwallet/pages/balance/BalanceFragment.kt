@@ -13,7 +13,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
@@ -30,6 +29,7 @@ import network.omisego.omgwallet.base.StateViewHolder
 import network.omisego.omgwallet.base.UpdateAdapterDispatcher
 import network.omisego.omgwallet.databinding.FragmentBalanceBinding
 import network.omisego.omgwallet.databinding.ViewholderBalanceBinding
+import network.omisego.omgwallet.extension.bindingInflate
 import network.omisego.omgwallet.extension.provideViewModel
 import network.omisego.omgwallet.extension.toast
 
@@ -44,7 +44,7 @@ class BalanceFragment : Fragment(), UpdateAdapterDispatcher<Balance> {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_balance, container, false)
+        binding = bindingInflate(R.layout.fragment_balance, container)
         return binding.root
     }
 
