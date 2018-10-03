@@ -58,11 +58,6 @@ class SignInFragment : Fragment() {
         ivLogo.setImageDrawable(ContextCompat.getDrawable(ivLogo.context, R.drawable.omisego_logo_no_animated))
 
         setupDataBinding()
-        ivLogo.setOnClickListener {
-            runOnM {
-                startLogoAnimate()
-            }
-        }
 
         viewModel.liveAPIResult.observe(this, Observer {
             viewModel.hideLoading(getString(R.string.sign_in_button))

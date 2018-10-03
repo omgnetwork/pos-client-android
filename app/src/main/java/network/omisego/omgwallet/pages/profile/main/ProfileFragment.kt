@@ -49,16 +49,21 @@ class ProfileFragment : Fragment() {
         binding.setLifecycleOwner(this)
 
         viewModel.liveTransaction.observe(this, Observer {
-            navigationViewModel.liveNavigation.value = R.layout.fragment_transaction
+            it.getContentIfNotHandled().let { _ ->
+                navigationViewModel.liveNavigation.value = R.layout.fragment_transaction
+            }
         })
 
         viewModel.liveSignout.observe(this, Observer {
-            findNavController().navigate(R.id.action_main_to_signInFragment)
+            it.getContentIfNotHandled().let { _ ->
+                findNavController().navigate(R.id.action_main_to_signInFragment)
+            }
         })
 
         viewModel.liveFingerprintDialogState.observe(this, Observer {
             when (it) {
-                FingerprintDialogState.STATE_WRONG_PASSWORD -> {}
+                FingerprintDialogState.STATE_WRONG_PASSWORD -> {
+                }
                 FingerprintDialogState.STATE_CANCELED -> {
                     viewModel.handleFingerprintOption(false)
                     switchFingerprint.isChecked = false
