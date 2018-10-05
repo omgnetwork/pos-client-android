@@ -46,6 +46,7 @@ android {
     }
     sourceSets {
         test.java.srcDirs += 'src/test/kotlin'
+        androidTest.java.srcDirs += 'src/androidTest/java'
     }
     buildToolsVersion '28.0.2'
     compileOptions {
@@ -102,6 +103,7 @@ dependencies {
     implementation okHttp3.loggingIntercepter
 
     testImplementation test
+    androidTestImplementation espresso
 }
 
 kotlin {

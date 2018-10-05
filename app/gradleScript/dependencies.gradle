@@ -69,7 +69,10 @@ ext {
         "androidx.arch.core:core-testing:${architecture}"
     ]
     espresso = [
-        core: "androidx.test.espresso:espresso-core:3.0.1",
+        "androidx.test.espresso:espresso-core:3.1.0-alpha4",
+        "com.agoda.kakao:kakao:1.4.0-androidx",
+        "com.android.support.test:runner:1.0.1",
+        "com.android.support.test:rules:1.0.1",
     ]
     custom = [
         constraintLayout: 'androidx.constraintlayout:constraintlayout:1.1.0',
