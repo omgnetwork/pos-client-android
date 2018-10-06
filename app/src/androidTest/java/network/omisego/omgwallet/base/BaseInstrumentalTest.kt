@@ -1,8 +1,19 @@
 package network.omisego.omgwallet.base
 
 import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import androidx.test.InstrumentationRegistry
+import androidx.test.espresso.IdlingRegistry
+import androidx.test.rule.ActivityTestRule
+import com.jakewharton.espresso.OkHttp3IdlingResource
+import network.omisego.omgwallet.MainActivity
 import network.omisego.omgwallet.R
+import network.omisego.omgwallet.config.LocalClientSetup
+import network.omisego.omgwallet.config.TestData
+import network.omisego.omgwallet.network.ClientProvider
+import network.omisego.omgwallet.screen.LoginScreen
+import org.junit.Rule
 
 /*
  * OmiseGO
@@ -12,9 +23,49 @@ import network.omisego.omgwallet.R
  */
 open class BaseInstrumentalTest {
 
-    fun clearSharePreference() {
+    @Rule
+    @JvmField
+    val rule = ActivityTestRule(MainActivity::class.java, true, false)
+
+    val sharedPreferences: SharedPreferences by lazy {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
-        val sharedPreferences = context.getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE)
+        context.getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE)
+    }
+
+    val idlingResource by lazy {
+        OkHttp3IdlingResource.create("OkHTTP", ClientProvider.eWalletClient.client)
+    }
+
+    private val loginScreen: LoginScreen by lazy { LoginScreen() }
+
+    val toolbarTitle: String
+        get() = rule.activity.supportActionBar?.title!!.toString()
+
+    fun setupClientProvider() {
+        ClientProvider.init(LocalClientSetup())
+    }
+
+    fun registerIdlingResource() {
+        IdlingRegistry.getInstance().register(idlingResource)
+    }
+
+    fun unregisterIdlingResource() {
+        IdlingRegistry.getInstance().unregister(idlingResource)
+    }
+
+    fun start() {
+        rule.launchActivity(Intent())
+    }
+
+    fun login() {
+        loginScreen {
+            tilEmail.edit.typeText(TestData.USER_EMAIL)
+            tilPassword.edit.typeText(TestData.USER_PASSWORD)
+            btnLogin.click()
+        }
+    }
+
+    fun clearSharePreference() {
         sharedPreferences.edit().clear().apply()
     }
 }
