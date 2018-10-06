@@ -106,10 +106,15 @@ object Storage {
 
     fun clearSession() {
         sharePref.edit()
-            .remove(StorageKey.KEY_API_KEY)
             .remove(StorageKey.KEY_AUTHENTICATION_TOKEN)
             .remove(StorageKey.KEY_WALLET)
             .remove(StorageKey.KEY_USER)
+            .apply()
+    }
+
+    fun removeWallet(){
+        sharePref.edit()
+            .remove(StorageKey.KEY_WALLET)
             .apply()
     }
 }

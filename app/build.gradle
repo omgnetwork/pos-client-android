@@ -71,7 +71,6 @@ androidExtensions {
 dependencies {
     /* OmiseGO */
     implementation omisego.sdk
-
     /* Kotlin */
     implementation kotlinDependencies.stdlib
     /* Navigation Component */
@@ -81,7 +80,6 @@ dependencies {
     implementation arch.viewmodel
     implementation arch.extensions
     /* Databinding */
-
     /* Support library */
     implementation supportDependencies.appCompat
     implementation supportDependencies.design
@@ -94,16 +92,14 @@ dependencies {
     implementation rxJava2.rxandroid
     /* Load image */
     implementation glide.glide
-
     implementation custom.constraintLayout
     implementation custom.shimmer
     implementation custom.stetho
     implementation custom.dexter
     implementation custom.biometric
     implementation okHttp3.loggingIntercepter
-
     testImplementation test
-    androidTestImplementation espresso
+    androidTestImplementation androidTest
 }
 
 kotlin {

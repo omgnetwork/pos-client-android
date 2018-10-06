@@ -1,4 +1,4 @@
-package network.omisego.omgwallet.config
+package network.omisego.omgwallet.network
 
 /*
  * OmiseGO
@@ -6,7 +6,7 @@ package network.omisego.omgwallet.config
  * Created by Phuchit Sirimongkolsathien on 5/10/2018 AD.
  * Copyright © 2017-2018 OmiseGO. All rights reserved.
  */
-
-class Config {
-//    fun init
+interface ClientSetup {
+    val baseURL: String
+    val apiKey: String
 }

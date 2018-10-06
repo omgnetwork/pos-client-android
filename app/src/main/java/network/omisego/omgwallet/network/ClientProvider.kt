@@ -4,7 +4,6 @@ import co.omisego.omisego.OMGAPIClient
 import co.omisego.omisego.model.ClientConfiguration
 import co.omisego.omisego.network.ewallet.EWalletClient
 import com.facebook.stetho.okhttp3.StethoInterceptor
-import network.omisego.omgwallet.BuildConfig
 import network.omisego.omgwallet.model.Credential
 import network.omisego.omgwallet.storage.Storage
 import okhttp3.logging.HttpLoggingInterceptor
@@ -22,11 +21,12 @@ object ClientProvider {
 
     private lateinit var clientConfiguration: ClientConfiguration
     lateinit var client: OMGAPIClient
+    lateinit var eWalletClient: EWalletClient
 
-    fun init() {
+    fun init(clientSetup: ClientSetup) {
         clientConfiguration = ClientConfiguration(
-            BuildConfig.CLIENT_API_BASE_URL,
-            BuildConfig.CLIENT_API_KEY,
+            clientSetup.baseURL,
+            clientSetup.apiKey,
             credential.authenticationToken
         )
 
@@ -34,17 +34,18 @@ object ClientProvider {
     }
 
     private fun create(): OMGAPIClient {
+        eWalletClient = EWalletClient.Builder {
+            clientConfiguration = this@ClientProvider.clientConfiguration
+            debug = true
+            debugOkHttpInterceptors = mutableListOf(
+                StethoInterceptor(),
+                HttpLoggingInterceptor().apply {
+                    level = HttpLoggingInterceptor.Level.BODY
+                }
+            )
+        }.build()
         return OMGAPIClient(
-            EWalletClient.Builder {
-                clientConfiguration = this@ClientProvider.clientConfiguration
-                debug = true
-                debugOkHttpInterceptors = mutableListOf(
-                    StethoInterceptor(),
-                    HttpLoggingInterceptor().apply {
-                        level = HttpLoggingInterceptor.Level.BODY
-                    }
-                )
-            }.build()
+            eWalletClient
         )
     }
 }
