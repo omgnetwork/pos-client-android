@@ -18,7 +18,7 @@ object MockData {
     val walletList = WalletList(
         listOf(
             Wallet(
-                "",
+                "12345678",
                 listOf(
                     Balance(
                         10000.bd,
