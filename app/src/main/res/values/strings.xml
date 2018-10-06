@@ -96,4 +96,15 @@
     <string name="bottombar_item_profile">Profile</string>
     <string name="bottombar_item_profile_icon"></string>
     <string name="bottombar_item_qr">QR</string>
+
+    <!-- Validator -->
+    <string name="validator_signin_email_invalid_format">Email Address is invalid format</string>
+
+    <string name="validator_signup_fullname_not_empty">Field should not be empty</string>
+    <string name="validator_signup_password_at_least_8">Password must contain at least 8 characters</string>
+    <string name="validator_signup_password_upper_case">Password must contain at least 1 upper case character</string>
+    <string name="validator_signup_password_lower_case">Password must contain at least 1 lower case character</string>
+    <string name="validator_signup_password_numeric">Password must contain at least 1 numeric character</string>
+    <string name="validator_signup_password_special_char">Password must contain at least 1 special character</string>
+    <string name="validator_signup_confirm_password_not_matched">Password is not matched</string>
 </resources>

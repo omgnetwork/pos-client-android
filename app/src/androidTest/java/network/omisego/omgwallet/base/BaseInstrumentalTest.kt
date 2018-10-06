@@ -3,6 +3,7 @@ package network.omisego.omgwallet.base
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import androidx.annotation.StringRes
 import androidx.test.InstrumentationRegistry
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.rule.ActivityTestRule
@@ -10,9 +11,7 @@ import com.jakewharton.espresso.OkHttp3IdlingResource
 import network.omisego.omgwallet.MainActivity
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.config.LocalClientSetup
-import network.omisego.omgwallet.config.TestData
 import network.omisego.omgwallet.network.ClientProvider
-import network.omisego.omgwallet.screen.LoginScreen
 import org.junit.Rule
 
 /*
@@ -22,6 +21,9 @@ import org.junit.Rule
  * Copyright © 2017-2018 OmiseGO. All rights reserved.
  */
 open class BaseInstrumentalTest {
+    private val idlingResource by lazy {
+        OkHttp3IdlingResource.create("OkHTTP", ClientProvider.eWalletClient.client)
+    }
 
     @Rule
     @JvmField
@@ -32,17 +34,11 @@ open class BaseInstrumentalTest {
         context.getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE)
     }
 
-    val idlingResource by lazy {
-        OkHttp3IdlingResource.create("OkHTTP", ClientProvider.eWalletClient.client)
-    }
-
-    private val loginScreen: LoginScreen by lazy { LoginScreen() }
-
     val toolbarTitle: String
         get() = rule.activity.supportActionBar?.title!!.toString()
 
-    fun setupClientProvider() {
-        ClientProvider.init(LocalClientSetup())
+    fun clearSharePreference() {
+        sharedPreferences.edit().clear().apply()
     }
 
     fun registerIdlingResource() {
@@ -53,19 +49,15 @@ open class BaseInstrumentalTest {
         IdlingRegistry.getInstance().unregister(idlingResource)
     }
 
+    fun stringRes(@StringRes id: Int): String {
+        return rule.activity.getString(id)
+    }
+
+    fun setupClientProvider() {
+        ClientProvider.init(LocalClientSetup())
+    }
+
     fun start() {
         rule.launchActivity(Intent())
-    }
-
-    fun login() {
-        loginScreen {
-            tilEmail.edit.typeText(TestData.USER_EMAIL)
-            tilPassword.edit.typeText(TestData.USER_PASSWORD)
-            btnLogin.click()
-        }
-    }
-
-    fun clearSharePreference() {
-        sharedPreferences.edit().clear().apply()
     }
 }

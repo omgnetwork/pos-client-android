@@ -9,7 +9,9 @@ package network.omisego.omgwallet.validator
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import network.omisego.omgwallet.R
 import network.omisego.omgwallet.model.ValidateResult
+import network.omisego.omgwallet.util.ContextUtil
 
 class NotEmptyValidator(override var byPass: LiveData<Boolean>) : Validator(byPass) {
     private val empty: (String) -> Boolean = { it.isEmpty() }
@@ -19,7 +21,7 @@ class NotEmptyValidator(override var byPass: LiveData<Boolean>) : Validator(byPa
         this.recentText = text
         validation = when {
             byPass.value == false && empty(text) ->
-                ValidateResult(false, "Field should not be empty")
+                ValidateResult(false, ContextUtil.context.getString(R.string.validator_signup_fullname_not_empty))
             else -> ValidateResult(true)
         }
         updateUI?.invoke(validation)

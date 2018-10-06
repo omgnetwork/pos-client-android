@@ -41,13 +41,14 @@ class LoginTest : BaseInstrumentalTest() {
     }
 
     @Test
-    fun testLoginPageShouldAppearOnTheScreen() {
+    fun testButtonDisabledAfterSignIn() {
+        unregisterIdlingResource()
         loginScreen {
-            tilEmail.isDisplayed()
-            tilPassword.isDisplayed()
-            btnLogin.isDisplayed()
-            btnFingerprint.isDisplayed()
-            tvSignUp.isDisplayed()
+            tilEmail.edit.typeText("a@b.com")
+            tilPassword.edit.typeText("12345678")
+            btnLogin.click()
+            btnLogin.isDisabled()
+            btnFingerprint.isDisabled()
         }
     }
 
@@ -58,20 +59,8 @@ class LoginTest : BaseInstrumentalTest() {
             tilEmail.edit.typeText("hello")
             tilPassword.edit.typeText("pass")
             btnLogin.click()
-            tilEmail.hasError("Email Address is invalid format")
-            tilPassword.hasError("Password must contain at least 8 characters")
-        }
-    }
-
-    @Test
-    fun testButtonDisabledAfterSignIn() {
-        unregisterIdlingResource()
-        loginScreen {
-            tilEmail.edit.typeText("a@b.com")
-            tilPassword.edit.typeText("12345678")
-            btnLogin.click()
-            btnLogin.isDisabled()
-            btnFingerprint.isDisabled()
+            tilEmail.hasError(stringRes(R.string.validator_signin_email_invalid_format))
+            tilPassword.hasError(stringRes(R.string.validator_signup_password_at_least_8))
         }
     }
 
@@ -91,6 +80,17 @@ class LoginTest : BaseInstrumentalTest() {
                 contains(StorageKey.KEY_USER) shouldBe true
                 contains(StorageKey.KEY_AUTHENTICATION_TOKEN) shouldBe true
             }
+        }
+    }
+
+    @Test
+    fun testLoginPageShouldAppearOnTheScreen() {
+        loginScreen {
+            tilEmail.isDisplayed()
+            tilPassword.isDisplayed()
+            btnLogin.isDisplayed()
+            btnFingerprint.isDisplayed()
+            tvSignUp.isDisplayed()
         }
     }
 }

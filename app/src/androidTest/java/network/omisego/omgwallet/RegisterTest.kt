@@ -56,10 +56,10 @@ class RegisterTest : BaseInstrumentalTest() {
             tilEmail.edit.typeText("test")
             tilPassword.edit.typeText("1234")
             btnSignUp.click()
-            tilFullname.hasError("Field should not be empty")
-            tilEmail.hasError("Email Address is invalid format")
-            tilRetypePassword.hasError("Password is not matched")
-            tilPassword.hasError("Password must contain at least 8 characters")
+            tilFullname.hasError(stringRes(R.string.validator_signup_fullname_not_empty))
+            tilEmail.hasError(stringRes(R.string.validator_signin_email_invalid_format))
+            tilRetypePassword.hasError(stringRes(R.string.validator_signup_confirm_password_not_matched))
+            tilPassword.hasError(stringRes(R.string.validator_signup_password_at_least_8))
         }
     }
 
@@ -70,7 +70,7 @@ class RegisterTest : BaseInstrumentalTest() {
             tilPassword.edit { typeText("TEST1234") }
             btnSignUp.click()
             tilPassword {
-                hasError("Password must contain at least 1 lower case character")
+                hasError(stringRes(R.string.validator_signup_password_lower_case))
             }
         }
     }
@@ -82,7 +82,7 @@ class RegisterTest : BaseInstrumentalTest() {
             tilPassword.edit { typeText("test1234") }
             btnSignUp.click()
             tilPassword {
-                hasError("Password must contain at least 1 upper case character")
+                hasError(stringRes(R.string.validator_signup_password_upper_case))
             }
         }
     }
@@ -94,7 +94,7 @@ class RegisterTest : BaseInstrumentalTest() {
             tilPassword.edit { typeText("Test####") }
             btnSignUp.click()
             tilPassword {
-                hasError("Password must contain at least 1 numeric character")
+                hasError(stringRes(R.string.validator_signup_password_numeric))
             }
         }
     }
@@ -106,7 +106,7 @@ class RegisterTest : BaseInstrumentalTest() {
             tilPassword.edit { typeText("Test1234") }
             btnSignUp.click()
             tilPassword {
-                hasError("Password must contain at least 1 special character")
+                hasError(stringRes(R.string.validator_signup_password_special_char))
             }
         }
     }

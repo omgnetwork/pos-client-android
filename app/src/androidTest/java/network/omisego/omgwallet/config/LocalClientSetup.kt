@@ -11,7 +11,7 @@ import network.omisego.omgwallet.network.ClientSetup
 
 class LocalClientSetup : ClientSetup {
     override val baseURL: String
-        get() = "http://10.0.2.2:4000/api/client/"
+        get() = "http://10.0.2.2:4000/api/client/" // Special ip-address for local machine in the emulator
     override val apiKey: String
         get() = "eWjUTqgor_-WP6Dx28Y7rG9oXKohRm571YGsspg627Y"
 }
