@@ -7,34 +7,41 @@ package network.omisego.omgwallet
  * Copyright © 2017-2018 OmiseGO. All rights reserved.
  */
 
-import android.content.Intent
-import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
 import network.omisego.omgwallet.base.BaseInstrumentalTest
-import network.omisego.omgwallet.screen.BalanceScreen
+import network.omisego.omgwallet.config.MockData
+import network.omisego.omgwallet.config.TestData
 import network.omisego.omgwallet.screen.LoginScreen
+import network.omisego.omgwallet.screen.MainScreen
+import network.omisego.omgwallet.storage.Storage
+import network.omisego.omgwallet.storage.StorageKey
+import org.amshove.kluent.shouldBe
+import org.junit.After
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
-class LoginTest: BaseInstrumentalTest() {
-    @Rule
-    @JvmField
-    val rule = ActivityTestRule(MainActivity::class.java, true, false)
+class LoginTest : BaseInstrumentalTest() {
 
     private val loginScreen: LoginScreen by lazy { LoginScreen() }
-    private val balanceScreen: BalanceScreen by lazy { BalanceScreen() }
+    private val mainScreen: MainScreen by lazy { MainScreen() }
 
     @Before
     fun setup() {
+        setupClientProvider()
+        registerIdlingResource()
         clearSharePreference()
-        rule.launchActivity(Intent())
+        start()
+    }
+
+    @After
+    fun teardown() {
+        unregisterIdlingResource()
     }
 
     @Test
-    fun testLoginPageShouldAppearOnTheScreenProperly() {
+    fun testLoginPageShouldAppearOnTheScreen() {
         loginScreen {
             tilEmail.isDisplayed()
             tilPassword.isDisplayed()
@@ -45,7 +52,8 @@ class LoginTest: BaseInstrumentalTest() {
     }
 
     @Test
-    fun errorTextShouldBeDisplayAfterClickLogin() {
+    fun testErrorTextDisplayAfterClickLogin() {
+        unregisterIdlingResource()
         loginScreen {
             tilEmail.edit.typeText("hello")
             tilPassword.edit.typeText("pass")
@@ -56,7 +64,8 @@ class LoginTest: BaseInstrumentalTest() {
     }
 
     @Test
-    fun buttonShouldBeDisabledAfterSignIn() {
+    fun testButtonDisabledAfterSignIn() {
+        unregisterIdlingResource()
         loginScreen {
             tilEmail.edit.typeText("a@b.com")
             tilPassword.edit.typeText("12345678")
@@ -67,27 +76,20 @@ class LoginTest: BaseInstrumentalTest() {
     }
 
     @Test
-    fun shouldLoginSuccessfully() {
+    fun testLogin() {
         loginScreen {
-            tilEmail.edit.typeText("phuchit@omise.co")
-            tilPassword.edit.typeText("test1234")
+            tilEmail.edit.typeText(TestData.USER_EMAIL)
+            tilPassword.edit.typeText(TestData.USER_PASSWORD)
+            Storage.saveWallets(MockData.walletList)
             btnLogin.click()
-            Thread.sleep(3000)
-            balanceScreen {
-                recyclerView {
-                    isDisplayed()
-                    hasSize(2)
-                    firstChild<BalanceScreen.Item> {
-                        isVisible()
-                        tvTokenLogo {
-                            isVisible()
-                            hasText("CGO")
-                        }
-                        tvCurrencyName {
-                            hasText("Coffee GO")
-                        }
-                    }
-                }
+            mainScreen {
+                bottomBarProfile.isDisplayed()
+                bottombarBalance.isDisplayed()
+                fabQR.isDisplayed()
+            }
+            with(sharedPreferences) {
+                contains(StorageKey.KEY_USER) shouldBe true
+                contains(StorageKey.KEY_AUTHENTICATION_TOKEN) shouldBe true
             }
         }
     }
