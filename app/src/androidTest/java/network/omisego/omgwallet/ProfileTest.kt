@@ -71,60 +71,66 @@ class ProfileTest : BaseInstrumentalTest() {
 
     @Test
     fun testFingerprintConfirmDialogIsDisplay() {
-        profileScreen {
-            switch {
-                click()
+        if (hasFingerprint()) {
+            profileScreen {
+                switch {
+                    click()
+                }
             }
-        }
-        confirmFingerprintScreen {
-            tvTitle.isDisplayed()
-            btnConfirm.isDisplayed()
-            tilPassword.isDisplayed()
+            confirmFingerprintScreen {
+                tvTitle.isDisplayed()
+                btnConfirm.isDisplayed()
+                tilPassword.isDisplayed()
+            }
         }
     }
 
     @Test
     fun testCancelFingerprintConfirmDialogShouldDismiss() {
-        profileScreen {
-            switch {
-                isNotChecked()
-                click()
+        if (hasFingerprint()) {
+            profileScreen {
+                switch {
+                    isNotChecked()
+                    click()
+                }
             }
-        }
-        confirmFingerprintScreen {
-            closeSoftKeyboard()
-            pressBack()
-        }
-        profileScreen {
-            switch.isNotChecked()
-            tvFingerprintTitle.isDisplayed()
-            tvSignOut.isDisplayed()
-            tvTransaction.isDisplayed()
+            confirmFingerprintScreen {
+                closeSoftKeyboard()
+                pressBack()
+            }
+            profileScreen {
+                switch.isNotChecked()
+                tvFingerprintTitle.isDisplayed()
+                tvSignOut.isDisplayed()
+                tvTransaction.isDisplayed()
+            }
         }
     }
 
     @Test
     fun testEnableFingerprints() {
-        registerIdlingResource()
-        profileScreen {
-            switch {
-                isNotChecked()
-                click()
+        if (hasFingerprint()) {
+            registerIdlingResource()
+            profileScreen {
+                switch {
+                    isNotChecked()
+                    click()
+                }
             }
-        }
-        confirmFingerprintScreen {
-            tilPassword.edit {
-                typeText(TestData.USER_PASSWORD)
+            confirmFingerprintScreen {
+                tilPassword.edit {
+                    typeText(TestData.USER_PASSWORD)
+                }
+                closeSoftKeyboard()
+                btnConfirm.click()
             }
-            closeSoftKeyboard()
-            btnConfirm.click()
+            profileScreen {
+                tvFingerprintTitle.isDisplayed()
+                tvSignOut.isDisplayed()
+                tvTransaction.isDisplayed()
+                switch.isChecked()
+            }
+            unregisterIdlingResource()
         }
-        profileScreen {
-            tvFingerprintTitle.isDisplayed()
-            tvSignOut.isDisplayed()
-            tvTransaction.isDisplayed()
-            switch.isChecked()
-        }
-        unregisterIdlingResource()
     }
 }

@@ -96,7 +96,6 @@ class MainTest : BaseInstrumentalTest() {
         profileScreen {
             tvTransaction.isDisplayed()
             tvFingerprintTitle.isDisplayed()
-            tvFingerprintDescription.isNotDisplayed()
             tvSignOut.isDisplayed()
         }
     }

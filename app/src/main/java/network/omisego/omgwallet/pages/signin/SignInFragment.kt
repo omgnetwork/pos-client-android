@@ -25,8 +25,6 @@ import androidx.navigation.fragment.findNavController
 import co.omisego.omisego.model.APIError
 import co.omisego.omisego.model.ClientAuthenticationToken
 import kotlinx.android.synthetic.main.fragment_signin.*
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.databinding.FragmentSigninBinding
 import network.omisego.omgwallet.extension.bindingInflate
@@ -130,11 +128,9 @@ class SignInFragment : Fragment() {
     }
 
     private fun proceed(data: ClientAuthenticationToken) {
-        launch(UI) {
-            viewModel.saveCredential(data).await()
-            viewModel.saveUserEmail(etEmail.text.toString())
-            findNavController().navigateUp()
-        }
+        viewModel.saveCredential(data)
+        viewModel.saveUserEmail(etEmail.text.toString())
+        findNavController().navigateUp()
     }
 
     private fun handleSignInSuccess(data: ClientAuthenticationToken) {

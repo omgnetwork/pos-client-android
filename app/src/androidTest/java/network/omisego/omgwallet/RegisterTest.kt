@@ -4,6 +4,7 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.test.runner.AndroidJUnit4
 import network.omisego.omgwallet.base.BaseInstrumentalTest
 import network.omisego.omgwallet.config.TestData
+import network.omisego.omgwallet.extensions.clickThenReplace
 import network.omisego.omgwallet.screen.ConfirmScreen
 import network.omisego.omgwallet.screen.RegisterScreen
 import org.junit.After
@@ -54,7 +55,10 @@ class RegisterTest : BaseInstrumentalTest() {
         unregisterIdlingResource()
         registerScreen {
             tilEmail.edit.typeText("test")
+            closeSoftKeyboard()
             tilPassword.edit.typeText("1234")
+            closeSoftKeyboard()
+            scrollView.scrollToEnd()
             btnSignUp.click()
             tilFullname.hasError(stringRes(R.string.validator_signup_fullname_not_empty))
             tilEmail.hasError(stringRes(R.string.validator_signin_email_invalid_format))
@@ -68,6 +72,8 @@ class RegisterTest : BaseInstrumentalTest() {
         unregisterIdlingResource()
         registerScreen {
             tilPassword.edit { typeText("TEST1234") }
+            closeSoftKeyboard()
+            scrollView.scrollToEnd()
             btnSignUp.click()
             tilPassword {
                 hasError(stringRes(R.string.validator_signup_password_lower_case))
@@ -80,6 +86,7 @@ class RegisterTest : BaseInstrumentalTest() {
         unregisterIdlingResource()
         registerScreen {
             tilPassword.edit { typeText("test1234") }
+            closeSoftKeyboard()
             btnSignUp.click()
             tilPassword {
                 hasError(stringRes(R.string.validator_signup_password_upper_case))
@@ -92,6 +99,8 @@ class RegisterTest : BaseInstrumentalTest() {
         unregisterIdlingResource()
         registerScreen {
             tilPassword.edit { typeText("Test####") }
+            closeSoftKeyboard()
+            scrollView.scrollToEnd()
             btnSignUp.click()
             tilPassword {
                 hasError(stringRes(R.string.validator_signup_password_numeric))
@@ -104,6 +113,8 @@ class RegisterTest : BaseInstrumentalTest() {
         unregisterIdlingResource()
         registerScreen {
             tilPassword.edit { typeText("Test1234") }
+            closeSoftKeyboard()
+            scrollView.scrollToEnd()
             btnSignUp.click()
             tilPassword {
                 hasError(stringRes(R.string.validator_signup_password_special_char))
@@ -115,13 +126,19 @@ class RegisterTest : BaseInstrumentalTest() {
     fun testNotShowAnyError() {
         unregisterIdlingResource()
         registerScreen {
-            tilFullname.edit.typeText("a")
-            tilEmail.edit.typeText(TestData.REGISTER_USER_EMAIL)
-            tilPassword.edit.typeText("Tt123###")
-            tilRetypePassword.edit.typeText("Tt123###")
+            tilFullname.edit.clickThenReplace("a")
+            closeSoftKeyboard()
+            tilEmail.edit.clickThenReplace(TestData.REGISTER_USER_EMAIL)
+            closeSoftKeyboard()
+            tilPassword.edit.clickThenReplace("Tt123###")
+            closeSoftKeyboard()
+            tilRetypePassword.edit.clickThenReplace("Tt123###")
+            closeSoftKeyboard()
+            scrollView.scrollToEnd()
             btnSignUp.click()
             tilRetypePassword.isErrorDisabled()
             tilPassword.isErrorDisabled()
+            scrollView.scrollToStart()
             tilFullname.isErrorDisabled()
             tilEmail.isErrorDisabled()
         }
@@ -131,15 +148,22 @@ class RegisterTest : BaseInstrumentalTest() {
     fun testRegisterSuccessfully() {
         unregisterIdlingResource()
         registerScreen {
-            tilFullname.edit.typeText("a")
-            tilEmail.edit.typeText(TestData.REGISTER_USER_EMAIL)
-            tilPassword.edit.typeText("Tt123###")
-            tilRetypePassword.edit.typeText("Tt123###")
+            idle(300)
+            tilFullname.edit.clickThenReplace("a")
+            closeSoftKeyboard()
+            tilEmail.edit.clickThenReplace(TestData.REGISTER_USER_EMAIL)
+            closeSoftKeyboard()
+            tilPassword.edit.clickThenReplace("Tt123###")
+            closeSoftKeyboard()
+            tilRetypePassword.edit.clickThenReplace("Tt123###")
+            closeSoftKeyboard()
+            scrollView.scrollToEnd()
             btnSignUp.click()
             tilRetypePassword.isErrorDisabled()
             tilPassword.isErrorDisabled()
-            tilFullname.isErrorDisabled()
+            scrollView.scrollToStart()
             tilEmail.isErrorDisabled()
+            tilFullname.isErrorDisabled()
             registerIdlingResource()
         }
         confirmScreen {

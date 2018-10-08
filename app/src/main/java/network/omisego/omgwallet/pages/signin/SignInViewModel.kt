@@ -19,7 +19,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import co.omisego.omisego.model.ClientAuthenticationToken
 import co.omisego.omisego.model.params.LoginParams
-import kotlinx.coroutines.experimental.Deferred
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.base.LiveState
 import network.omisego.omgwallet.data.LocalRepository
@@ -143,9 +142,9 @@ class SignInViewModel(
         return remoteRepository.signIn(LoginParams(email, password), liveAPIResult)
     }
 
-    fun saveCredential(data: ClientAuthenticationToken): Deferred<Unit> {
+    fun saveCredential(data: ClientAuthenticationToken) {
         localRepository.saveUser(data.user)
-        return localRepository.saveCredential(
+        localRepository.saveCredential(
             Credential(
                 data.authenticationToken
             )

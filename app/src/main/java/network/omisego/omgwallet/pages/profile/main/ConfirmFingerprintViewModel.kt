@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import co.omisego.omisego.model.ClientAuthenticationToken
 import co.omisego.omisego.model.params.LoginParams
-import kotlinx.coroutines.experimental.Deferred
 import network.omisego.omgwallet.data.LocalRepository
 import network.omisego.omgwallet.data.RemoteRepository
 import network.omisego.omgwallet.model.APIResult
@@ -30,9 +29,9 @@ class ConfirmFingerprintViewModel(
         ), liveAPIResult)
     }
 
-    fun saveCredential(data: ClientAuthenticationToken): Deferred<Unit> {
+    fun saveCredential(data: ClientAuthenticationToken) {
         localRepository.saveUser(data.user)
-        return localRepository.saveCredential(Credential(
+        localRepository.saveCredential(Credential(
             data.authenticationToken
         ))
     }

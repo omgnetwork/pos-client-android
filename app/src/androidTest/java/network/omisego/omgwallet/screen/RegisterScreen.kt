@@ -4,6 +4,7 @@ import com.agoda.kakao.KButton
 import com.agoda.kakao.KTextInputLayout
 import com.agoda.kakao.Screen
 import network.omisego.omgwallet.R
+import network.omisego.omgwallet.custom.KScrollView
 
 /*
  * OmiseGO
@@ -12,6 +13,9 @@ import network.omisego.omgwallet.R
  * Copyright © 2017-2018 OmiseGO. All rights reserved.
  */
 class RegisterScreen : Screen<RegisterScreen>() {
+    val scrollView: KScrollView = KScrollView {
+        withId(R.id.scrollView)
+    }
     val tilFullname: KTextInputLayout = KTextInputLayout {
         withId(R.id.tilFullname)
     }

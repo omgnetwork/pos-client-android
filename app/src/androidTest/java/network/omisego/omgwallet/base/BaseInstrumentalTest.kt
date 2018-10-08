@@ -7,11 +7,13 @@ import androidx.annotation.StringRes
 import androidx.test.InstrumentationRegistry
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.rule.ActivityTestRule
+import co.infinum.goldfinger.Goldfinger
 import com.jakewharton.espresso.OkHttp3IdlingResource
 import network.omisego.omgwallet.MainActivity
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.config.LocalClientSetup
 import network.omisego.omgwallet.network.ClientProvider
+import network.omisego.omgwallet.util.ContextUtil
 import org.junit.Rule
 
 /*
@@ -40,6 +42,8 @@ open class BaseInstrumentalTest {
     fun clearSharePreference() {
         sharedPreferences.edit().clear().apply()
     }
+
+    fun hasFingerprint() = Goldfinger.Builder(ContextUtil.context).build().hasFingerprintHardware()
 
     fun registerIdlingResource() {
         IdlingRegistry.getInstance().register(idlingResource)

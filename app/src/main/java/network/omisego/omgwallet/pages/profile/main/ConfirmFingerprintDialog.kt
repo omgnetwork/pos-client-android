@@ -20,8 +20,6 @@ import co.omisego.omisego.model.ClientAuthenticationToken
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.bottomsheet_enter_password.*
 import kotlinx.android.synthetic.main.bottomsheet_enter_password.view.*
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.launch
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.extension.provideViewModel
 import network.omisego.omgwallet.extension.toast
@@ -64,12 +62,10 @@ class ConfirmFingerprintDialog : BottomSheetDialogFragment() {
     }
 
     private fun handleSignInSuccess(data: ClientAuthenticationToken) {
-        launch(UI) {
-            viewModel.saveCredential(data).await()
-            viewModel.saveUserPassword(etPassword.text.toString())
-            liveFingerprintDialogState?.value = FingerprintDialogState.STATE_ENABLED
-            btnConfirm.isEnabled = true
-        }
+        viewModel.saveCredential(data)
+        viewModel.saveUserPassword(etPassword.text.toString())
+        liveFingerprintDialogState?.value = FingerprintDialogState.STATE_ENABLED
+        btnConfirm.isEnabled = true
     }
 
     private fun handleSignInError(error: APIError) {

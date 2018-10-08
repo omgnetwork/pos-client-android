@@ -11,6 +11,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/rootLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -26,8 +27,8 @@
             app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
             app:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar" />
 
-        <androidx.core.widget.NestedScrollView
-            android:id="@+id/nestedScrollView"
+        <ScrollView
+            android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:fillViewport="true"
@@ -39,6 +40,7 @@
             app:layout_constraintVertical_bias="0.0">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/childLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
@@ -59,9 +61,9 @@
                         android:id="@+id/etFullname"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:importantForAutofill="no"
                         android:afterTextChanged="@{(editable) -> viewModel.checkValidationResult()}"
                         android:enabled="@{!viewModel.liveLoading}"
+                        android:importantForAutofill="no"
                         tools:hint="@string/sign_up_full_name" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -172,6 +174,7 @@
                     android:layout_marginEnd="@dimen/fragment_sign_in_padding_horizontal"
                     android:layout_marginBottom="8dp"
                     android:enabled="@{viewModel.livePassValidation &amp;&amp; !viewModel.liveLoading}"
+                    android:focusable="false"
                     android:onClick="@{(v) -> viewModel.handleSignupClick()}"
                     android:text="@string/sign_up_button"
                     app:layout_constraintBottom_toBottomOf="@+id/btnGroup"
@@ -201,7 +204,7 @@
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </androidx.core.widget.NestedScrollView>
+        </ScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

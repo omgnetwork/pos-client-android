@@ -10,7 +10,7 @@ import java.util.UUID
  */
 
 object TestData {
-    const val USER_EMAIL = "test@omise.co"
+    const val USER_EMAIL = "ripzery@gmail.com"
     const val USER_PASSWORD = "Tt123###"
 
     val REGISTER_USER_EMAIL = "test${UUID.randomUUID().toString().take(3)}@omise.co"

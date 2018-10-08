@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver.OnGlobalLayoutListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -44,9 +45,20 @@ class SignupFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupToolbar()
         setupDataBinding()
+        scrollToTop()
+
         viewModel.liveResult.observe(this, Observer {
             viewModel.liveLoading.value = false
             it.handle(this::handleSignupSuccess, this::handleSignupFail)
+        })
+    }
+
+    private fun scrollToTop() {
+        rootLayout.viewTreeObserver.addOnGlobalLayoutListener(object : OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                rootLayout.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                scrollView.scrollTo(0, 0)
+            }
         })
     }
 

@@ -15,9 +15,11 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import co.omisego.omisego.constant.enums.ErrorCode
 import co.omisego.omisego.model.APIError
 import co.omisego.omisego.model.Balance
 import co.omisego.omisego.model.WalletList
@@ -32,6 +34,7 @@ import network.omisego.omgwallet.databinding.ViewholderBalanceBinding
 import network.omisego.omgwallet.extension.bindingInflate
 import network.omisego.omgwallet.extension.provideViewModel
 import network.omisego.omgwallet.extension.toast
+import network.omisego.omgwallet.storage.Storage
 
 class BalanceFragment : Fragment(), UpdateAdapterDispatcher<Balance> {
     private lateinit var binding: FragmentBalanceBinding
@@ -76,6 +79,10 @@ class BalanceFragment : Fragment(), UpdateAdapterDispatcher<Balance> {
 
     private fun handleLoadWalletFail(error: APIError) {
         context?.toast(error.description)
+        if (error.code == ErrorCode.USER_AUTH_TOKEN_NOT_FOUND) {
+            Storage.clearSession()
+            findNavController().navigateUp()
+        }
     }
 
     private fun setupToolbar() {
