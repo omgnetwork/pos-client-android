@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'org.jlleitschuh.gradle.ktlint'
 apply plugin: 'androidx.navigation.safeargs'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'io.fabric'
 apply from: 'gradleScript/dependencies.gradle'
 
 // Setup EWallet client data
@@ -18,7 +19,7 @@ def clientVerificationSignUpPrefix = properties.getProperty('ewallet.verificatio
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "omisego.network.omgwallet"
+        applicationId "network.omisego.omgwallet"
         minSdkVersion 21
         targetSdkVersion 27
         versionCode 1
@@ -98,6 +99,11 @@ dependencies {
     implementation custom.dexter
     implementation custom.biometric
     implementation okHttp3.loggingIntercepter
+
+    /* Debugging */
+    implementation firebase.core
+    implementation firebase.crashlytics
+
     testImplementation test
     androidTestImplementation androidTest
 }
@@ -107,3 +113,5 @@ kotlin {
         coroutines "enable"
     }
 }
+
+apply plugin: 'com.google.gms.google-services'
