@@ -84,13 +84,14 @@ class LoginTest : BaseInstrumentalTest() {
     }
 
     @Test
-    fun testLoginPageShouldAppearOnTheScreen() {
+    fun testLoginPageAppearance() {
         loginScreen {
             tilEmail.isDisplayed()
             tilPassword.isDisplayed()
             btnLogin.isDisplayed()
             btnFingerprint.isDisplayed()
             tvSignUp.isDisplayed()
+            tvVersion.isDisplayed()
         }
     }
 }

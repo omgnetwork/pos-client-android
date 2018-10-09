@@ -133,15 +133,31 @@
                 style="@style/OMGButtonOutlineIcon"
                 android:layout_marginStart="@dimen/fragment_sign_in_padding_horizontal"
                 android:layout_marginEnd="@dimen/fragment_sign_in_padding_horizontal"
-                android:layout_marginBottom="@dimen/fragment_sign_in_margin_vertical"
+                android:layout_marginBottom="8dp"
                 android:enabled="@{!viewmodel.liveLoading}"
                 android:onClick="@{() -> viewmodel.handleFingerprintClick()}"
                 android:text="@string/sign_in_fingerprint"
                 app:icon="@drawable/ic_fingerprint"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/tvVersion"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:enabled="true" />
+
+            <TextView
+                android:id="@+id/tvVersion"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="@{viewmodel.liveVersionNumber}"
+                tools:text="1.0.0"
+                android:textSize="12sp"
+                android:textColor="@color/colorGrayWeak"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
