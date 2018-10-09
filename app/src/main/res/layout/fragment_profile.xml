@@ -146,30 +146,30 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/tvServer"
+                        android:id="@+id/tvEndpoint"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
-                        android:text="@string/profile_info_server"
+                        android:text="@string/profile_info_endpoint"
                         android:textColor="@color/colorGray"
                         android:textSize="16sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/tvInfo" />
 
                     <TextView
-                        android:id="@+id/tvServerData"
+                        android:id="@+id/tvEndpointData"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginEnd="16dp"
                         android:gravity="end"
-                        android:text="@{viewModel.liveServer}"
+                        android:text="@{viewModel.liveEndpoint}"
                         android:textColor="@color/colorBlack"
                         android:textSize="16sp"
-                        app:layout_constraintBaseline_toBaselineOf="@+id/tvServer"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/tvEndpoint"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/tvServer"
+                        app:layout_constraintStart_toEndOf="@+id/tvEndpoint"
                         tools:text="https://coffeego" />
 
                     <TextView
@@ -184,7 +184,7 @@
                         android:textSize="16sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/tvServerData" />
+                        app:layout_constraintTop_toBottomOf="@+id/tvEndpointData" />
 
                     <TextView
                         android:id="@+id/tvVersionData"

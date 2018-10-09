@@ -31,8 +31,8 @@ class ProfileScreen : Screen<ProfileScreen>() {
     val switch: KSwitch = KSwitch {
         withId(R.id.switchFingerprint)
     }
-    val tvServerName: KTextView = KTextView {
-        withId(R.id.tvServerData)
+    val tvEndpointName: KTextView = KTextView {
+        withId(R.id.tvEndpointData)
     }
     val tvVersionName: KTextView = KTextView {
         withId(R.id.tvVersionData)

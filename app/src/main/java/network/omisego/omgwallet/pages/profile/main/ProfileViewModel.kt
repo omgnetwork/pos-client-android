@@ -25,7 +25,7 @@ class ProfileViewModel(
     val liveTransaction: MutableLiveData<Event<View>> by lazy { MutableLiveData<Event<View>>() }
     val liveSignout: MutableLiveData<Event<View>> by lazy { MutableLiveData<Event<View>>() }
     val liveVersionName: MutableLiveData<String> by lazy { MutableLiveData<String>() }
-    val liveServer: MutableLiveData<String> by lazy { MutableLiveData<String>() }
+    val liveEndpoint: MutableLiveData<String> by lazy { MutableLiveData<String>() }
 
     fun clickSignout(view: View) {
         localRepository.clearSession()
@@ -49,7 +49,7 @@ class ProfileViewModel(
 
     init {
         liveVersionName.value = network.omisego.omgwallet.BuildConfig.VERSION_NAME
-        liveServer.value = ClientProvider.clientSetup.baseURL
+        liveEndpoint.value = ClientProvider.clientSetup.baseURL
     }
 
     fun hasFingerprintSupport() = Goldfinger.Builder(app).build().hasFingerprintHardware()

@@ -61,7 +61,7 @@
 
     <!-- Info -->
     <string name="profile_info">Info</string>
-    <string name="profile_info_server">Server</string>
+    <string name="profile_info_endpoint">Endpoint</string>
     <string name="profile_info_version">Version</string>
 
     <!-- Permission -->

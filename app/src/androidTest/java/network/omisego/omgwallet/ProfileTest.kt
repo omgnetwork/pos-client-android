@@ -75,7 +75,7 @@ class ProfileTest : BaseInstrumentalTest() {
     @Test
     fun testVersionAndServerIsDisplayed() {
         profileScreen {
-            tvServerName.startsWithText("http")
+            tvEndpointName.startsWithText("http")
             tvVersionName.hasText(BuildConfig.VERSION_NAME)
         }
     }
