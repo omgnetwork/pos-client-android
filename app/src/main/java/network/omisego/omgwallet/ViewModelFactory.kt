@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import network.omisego.omgwallet.data.LocalRepository
 import network.omisego.omgwallet.data.RemoteRepository
 import network.omisego.omgwallet.pages.MainViewModel
+import network.omisego.omgwallet.pages.balance.BalanceNavigationViewModel
 import network.omisego.omgwallet.pages.balance.BalanceViewModel
 import network.omisego.omgwallet.pages.profile.ProfileNavigationViewModel
 import network.omisego.omgwallet.pages.profile.main.ConfirmFingerprintViewModel
@@ -39,6 +40,9 @@ class ViewModelFactory : ViewModelProvider.NewInstanceFactory() {
             }
             modelClass.isAssignableFrom(ProfileNavigationViewModel::class.java) -> {
                 return ProfileNavigationViewModel() as T
+            }
+            modelClass.isAssignableFrom(BalanceNavigationViewModel::class.java) -> {
+                return BalanceNavigationViewModel() as T
             }
             else -> {
                 throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")

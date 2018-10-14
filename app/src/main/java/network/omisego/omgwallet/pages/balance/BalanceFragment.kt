@@ -32,18 +32,23 @@ import network.omisego.omgwallet.base.UpdateAdapterDispatcher
 import network.omisego.omgwallet.databinding.FragmentBalanceBinding
 import network.omisego.omgwallet.databinding.ViewholderBalanceBinding
 import network.omisego.omgwallet.extension.bindingInflate
+import network.omisego.omgwallet.extension.provideActivityViewModel
 import network.omisego.omgwallet.extension.provideViewModel
 import network.omisego.omgwallet.extension.toast
+import network.omisego.omgwallet.livedata.EventObserver
 import network.omisego.omgwallet.storage.Storage
 
 class BalanceFragment : Fragment(), UpdateAdapterDispatcher<Balance> {
+    private var currentBalances: List<Balance> = listOf()
     private lateinit var binding: FragmentBalanceBinding
     private lateinit var viewModel: BalanceViewModel
+    private lateinit var navigationViewModel: BalanceNavigationViewModel
     private lateinit var adapter: LoadingRecyclerAdapter<Balance, ViewholderBalanceBinding>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = provideViewModel()
+        navigationViewModel = provideActivityViewModel()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -63,6 +68,12 @@ class BalanceFragment : Fragment(), UpdateAdapterDispatcher<Balance> {
                 swipeRefresh.isRefreshing = false
             }
         })
+
+        viewModel.liveBalanceClickEvent.observe(this, EventObserver { balance ->
+            navigationViewModel.lastPageSelected = currentBalances.indexOfLast { it.token.id == balance.token.id }
+            navigationViewModel.liveNavigation.value = R.layout.fragment_balance_detail
+        })
+
         viewModel.loadWallet()
     }
 
@@ -73,7 +84,8 @@ class BalanceFragment : Fragment(), UpdateAdapterDispatcher<Balance> {
     }
 
     private fun handleLoadWalletSuccess(walletList: WalletList) {
-        adapter.reloadItems(walletList.data[0].balances)
+        currentBalances = walletList.data[0].balances
+        adapter.reloadItems(currentBalances)
         viewModel.updateWallet(walletList)
     }
 

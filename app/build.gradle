@@ -98,6 +98,7 @@ dependencies {
     implementation custom.stetho
     implementation custom.dexter
     implementation custom.biometric
+    implementation custom.pagerindicator
     implementation okHttp3.loggingIntercepter
 
     /* Debugging */

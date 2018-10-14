@@ -17,6 +17,7 @@
             android:id="@+id/pageContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/colorWhiteWeak3"
             android:layout_marginBottom="64dp">
 
         </FrameLayout>
@@ -26,13 +27,14 @@
             android:layout_width="match_parent"
             android:layout_height="64dp"
             android:layout_gravity="bottom"
-            android:background="@color/colorWhiteWeak5"
+            android:background="@color/colorWhiteWeak3"
             app:contentInsetStart="0dp"
             app:fabAlignmentMode="center">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/colorWhiteWeak3"
                 android:fitsSystemWindows="true">
 
                 <network.omisego.omgwallet.view.BottomBarItem

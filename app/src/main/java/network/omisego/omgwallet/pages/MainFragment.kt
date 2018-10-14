@@ -15,21 +15,21 @@ import network.omisego.omgwallet.extension.bindingInflate
 import network.omisego.omgwallet.extension.provideActivityViewModel
 import network.omisego.omgwallet.extension.replaceFragment
 import network.omisego.omgwallet.livedata.EventObserver
-import network.omisego.omgwallet.pages.balance.BalanceFragment
+import network.omisego.omgwallet.pages.balance.BalanceContainerFragment
 import network.omisego.omgwallet.pages.profile.ProfileContainerFragment
 import network.omisego.omgwallet.pages.profile.ProfileNavigationViewModel
 
 class MainFragment : Fragment() {
     private lateinit var binding: FragmentMainBinding
     private lateinit var viewModel: MainViewModel
-    private lateinit var balanceFragment: BalanceFragment
+    private lateinit var balanceContainerFragment: BalanceContainerFragment
     private lateinit var profileContainerFragment: ProfileContainerFragment
     private lateinit var navigationViewModel: ProfileNavigationViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = provideActivityViewModel()
-        balanceFragment = BalanceFragment()
+        balanceContainerFragment = BalanceContainerFragment()
         profileContainerFragment = ProfileContainerFragment()
         navigationViewModel = provideActivityViewModel()
     }
@@ -52,7 +52,7 @@ class MainFragment : Fragment() {
             }
             wallets != null -> {
                 init()
-                replaceFragment(R.id.pageContainer, balanceFragment)
+                replaceFragment(R.id.pageContainer, balanceContainerFragment)
                 bottomBarBalance.isSelected = true
             }
             hasAuthToken -> findNavController().navigate(R.id.action_main_to_splashFragment)
@@ -62,7 +62,7 @@ class MainFragment : Fragment() {
 
     private fun init() {
         viewModel.liveBalanceClickEvent.observe(this, EventObserver {
-            replaceFragment(R.id.pageContainer, balanceFragment)
+            replaceFragment(R.id.pageContainer, balanceContainerFragment)
             navigationViewModel.liveNavigation.value = null
             bottomBarBalance.isSelected = true
             bottomBarProfile.isSelected = false

@@ -85,6 +85,7 @@ ext {
         stetho          : 'com.facebook.stetho:stetho-okhttp3:1.5.0',
         shimmer         : 'com.facebook.shimmer:shimmer:0.2.0',
         dexter          : 'com.karumi:dexter:5.0.0',
-        biometric       : 'co.infinum:goldfinger:1.1.1'
+        biometric       : 'co.infinum:goldfinger:1.1.1',
+        pagerindicator  : 'com.romandanylyk:pageindicatorview:1.0.2'
     ]
 }

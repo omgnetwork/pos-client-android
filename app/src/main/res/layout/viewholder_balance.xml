@@ -6,6 +6,10 @@
     <data>
 
         <variable
+            name="viewModel"
+            type="network.omisego.omgwallet.pages.balance.BalanceViewModel" />
+
+        <variable
             name="displayAmount"
             type="String" />
 
@@ -15,8 +19,10 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutBalance"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:onClick="@{(view) -> viewModel.handleClickBalance(balance)}">
 
         <TextView
             android:id="@+id/ivTokenLogo"

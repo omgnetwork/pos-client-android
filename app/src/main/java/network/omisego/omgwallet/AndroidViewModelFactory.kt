@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import co.omisego.omisego.qrcode.generator.QRGenerator
 import network.omisego.omgwallet.data.LocalRepository
 import network.omisego.omgwallet.data.RemoteRepository
+import network.omisego.omgwallet.pages.balance.detail.BalanceDetailItemViewModel
 import network.omisego.omgwallet.pages.profile.main.ProfileViewModel
 import network.omisego.omgwallet.pages.profile.transaction.TransactionListTransformer
 import network.omisego.omgwallet.pages.profile.transaction.TransactionListViewModel
@@ -39,6 +40,9 @@ class AndroidViewModelFactory(private val application: Application) : ViewModelP
             }
             modelClass.isAssignableFrom(ShowQRViewModel::class.java) -> {
                 return ShowQRViewModel(application, LocalRepository(), QRGenerator()) as T
+            }
+            modelClass.isAssignableFrom(BalanceDetailItemViewModel::class.java) -> {
+                return BalanceDetailItemViewModel(application) as T
             }
             else -> {
                 throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
