@@ -37,7 +37,7 @@ import network.omisego.omgwallet.storage.Storage
  * Copyright © 2017-2018 OmiseGO. All rights reserved.
  */
 
-class BalanceFragment: Fragment(), UpdateAdapterDispatcher<Balance> {
+class BalanceFragment : Fragment(), UpdateAdapterDispatcher<Balance> {
     private var currentBalances: List<Balance> = listOf()
     private lateinit var binding: FragmentBalanceBinding
     private lateinit var viewModel: BalanceViewModel
@@ -66,9 +66,9 @@ class BalanceFragment: Fragment(), UpdateAdapterDispatcher<Balance> {
         })
 
         viewModel.liveBalanceClickEvent.observe(this, EventObserver { balance ->
-//            navigationViewModel.liveNavigation.value = R.layout.fragment_balance_detail
-//            navigationViewModel.lastPageSelected = currentBalances.indexOfLast { it.token.id == balance.token.id }
-            Navigation.findNavController(activity as MainActivity, R.id.content).navigate(R.id.action_balanceFragment_to_balanceDetailFragment)
+            val direction = BalanceFragmentDirections.actionBalanceFragmentToBalanceDetailFragment()
+            direction.setTokenIndex(currentBalances.indexOfLast { it.token.id == balance.token.id })
+            Navigation.findNavController(activity as MainActivity, R.id.content).navigate(direction)
         })
 
         viewModel.loadWallet()

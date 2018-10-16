@@ -19,25 +19,7 @@ import network.omisego.omgwallet.databinding.FragmentBalanceDetailBinding
 import network.omisego.omgwallet.storage.Storage
 
 class BalanceDetailFragment : Fragment() {
-    private var currentPage: Int = 0
     private lateinit var binding: FragmentBalanceDetailBinding
-
-    companion object {
-        const val CURRENT_PAGE = "current_page"
-
-        fun create(currentPage: Int): BalanceDetailFragment {
-            return BalanceDetailFragment().apply {
-                arguments = Bundle().apply {
-                    putInt(CURRENT_PAGE, currentPage)
-                }
-            }
-        }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        currentPage = arguments!!.getInt(CURRENT_PAGE, 0)
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_balance_detail, container, false)
@@ -53,6 +35,8 @@ class BalanceDetailFragment : Fragment() {
         val balances = Storage.loadWallets()?.data?.get(0)?.balances!!
         viewpager.adapter = BalanceDetailPagerAdapter(balances, childFragmentManager)
         pageIndicatorView.setFadeOnIdle(true)
+
+        val currentPage = BalanceDetailFragmentArgs.fromBundle(arguments).tokenIndex
         viewpager.setCurrentItem(currentPage, true)
         pageIndicatorView.setSelected(currentPage)
     }
