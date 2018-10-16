@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModel
 import co.omisego.omisego.model.Balance
 import co.omisego.omisego.model.WalletList
 import network.omisego.omgwallet.base.StateViewHolderBinding
+import network.omisego.omgwallet.data.LocalRepository
 import network.omisego.omgwallet.data.contract.BalanceDataRepository
 import network.omisego.omgwallet.databinding.ViewholderBalanceBinding
 import network.omisego.omgwallet.livedata.Event
@@ -19,7 +20,7 @@ import network.omisego.omgwallet.model.APIResult
 import network.omisego.omgwallet.storage.Storage
 
 class BalanceViewModel(
-    private val localRepository: BalanceDataRepository,
+    private val localRepository: LocalRepository,
     private val remoteRepository: BalanceDataRepository
 ) : ViewModel(), StateViewHolderBinding<Balance, ViewholderBalanceBinding> {
 
@@ -32,6 +33,10 @@ class BalanceViewModel(
     }
 
     val liveResult: MutableLiveData<Event<APIResult>> by lazy { MutableLiveData<Event<APIResult>>() }
+
+    fun isPrimaryToken(balance: Balance): Boolean {
+        return balance.token.id == localRepository.loadTokenPrimary()
+    }
 
     fun handleClickBalance(balance: Balance) {
         liveBalanceClickEvent.value = Event(balance)

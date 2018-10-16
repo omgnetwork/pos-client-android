@@ -33,6 +33,7 @@
     <string name="balance_full_currency">%s</string>
     <string name="balance_abbr_currency">%s</string>
     <string name="balance_amount">%,.2f</string>
+    <string name="balance_primary">primary</string>
 
     <!-- Balance Detail -->
     <string name="balance_detail_title">Token Detail</string>
