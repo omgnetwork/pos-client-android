@@ -13,12 +13,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_profile.*
-import network.omisego.omgwallet.MainActivity
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.databinding.FragmentProfileBinding
 import network.omisego.omgwallet.extension.bindingInflate
+import network.omisego.omgwallet.extension.findRootNavController
 import network.omisego.omgwallet.extension.provideAndroidViewModel
 import network.omisego.omgwallet.extension.toast
 import network.omisego.omgwallet.livedata.EventObserver
@@ -46,17 +46,17 @@ class ProfileFragment : Fragment() {
 
         viewModel.liveTransaction.observe(this, EventObserver {
             it.let { _ ->
-                Navigation.findNavController(activity as MainActivity, R.id.content).navigate(R.id.action_profileFragment_to_transactionListFragment)
+                findNavController().navigate(R.id.action_profileFragment_to_transactionListFragment)
             }
         })
 
         viewModel.liveSignout.observe(this, EventObserver {
             it.let { _ ->
                 /* Clear all back-stack fragments */
-                Navigation.findNavController(activity as MainActivity, R.id.nav_host).popBackStack(R.id.authFragment, true)
+                findRootNavController().popBackStack(R.id.authFragment, true)
 
                 /* Go back to sign-in */
-                Navigation.findNavController(activity as MainActivity, R.id.nav_host).navigate(R.id.action_global_signInFragment)
+                findRootNavController().navigate(R.id.action_global_signInFragment)
             }
         })
 
