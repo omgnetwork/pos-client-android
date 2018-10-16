@@ -7,6 +7,8 @@ import co.omisego.omisego.model.params.SignUpParams
 import co.omisego.omisego.model.transaction.list.TransactionListParams
 import network.omisego.omgwallet.data.contract.BalanceDataRepository
 import network.omisego.omgwallet.extension.subscribe
+import network.omisego.omgwallet.extension.subscribeSingleEvent
+import network.omisego.omgwallet.livedata.Event
 import network.omisego.omgwallet.model.APIResult
 import network.omisego.omgwallet.network.ClientProvider
 
@@ -18,12 +20,12 @@ import network.omisego.omgwallet.network.ClientProvider
  */
 
 class RemoteRepository : BalanceDataRepository {
-    override fun loadWallet(liveAPIResult: MutableLiveData<APIResult>, networkOnly: Boolean) {
-        ClientProvider.client.getWallets().subscribe(liveAPIResult)
+    override fun loadWallet(liveAPIResult: MutableLiveData<Event<APIResult>>, networkOnly: Boolean) {
+        ClientProvider.client.getWallets().subscribeSingleEvent(liveAPIResult)
     }
 
-    fun signIn(params: LoginParams, liveAPIResult: MutableLiveData<APIResult>): LiveData<APIResult> {
-        return ClientProvider.client.login(params).subscribe(liveAPIResult)
+    fun signIn(params: LoginParams, liveAPIResult: MutableLiveData<Event<APIResult>>): LiveData<Event<APIResult>> {
+        return ClientProvider.client.login(params).subscribeSingleEvent(liveAPIResult)
     }
 
     fun signup(params: SignUpParams, liveAPIResult: MutableLiveData<APIResult>) {

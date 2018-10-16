@@ -7,11 +7,11 @@
 
         <variable
             name="viewModel"
-            type="network.omisego.omgwallet.pages.profile.transaction.TransactionListViewModel" />
+            type="network.omisego.omgwallet.screen.auth.profile.transaction.TransactionListViewModel" />
 
         <variable
             name="transformer"
-            type="network.omisego.omgwallet.pages.profile.transaction.TransactionListTransformer" />
+            type="network.omisego.omgwallet.screen.auth.profile.transaction.TransactionListTransformer" />
 
         <variable
             name="transaction"

@@ -13,6 +13,7 @@ import co.omisego.omisego.custom.OMGCallback
 import co.omisego.omisego.custom.retrofit2.adapter.OMGCall
 import co.omisego.omisego.model.APIError
 import co.omisego.omisego.model.OMGResponse
+import network.omisego.omgwallet.livedata.Event
 import network.omisego.omgwallet.model.APIResult
 
 fun <T> OMGCall<T>.subscribe(
@@ -25,6 +26,21 @@ fun <T> OMGCall<T>.subscribe(
 
         override fun success(response: OMGResponse<T>) {
             liveCallback.value = APIResult.Success(response.data)
+        }
+    })
+    return liveCallback
+}
+
+fun <T> OMGCall<T>.subscribeSingleEvent(
+    liveCallback: MutableLiveData<Event<APIResult>> = MutableLiveData()
+): LiveData<Event<APIResult>> {
+    this.enqueue(object : OMGCallback<T> {
+        override fun fail(response: OMGResponse<APIError>) {
+            liveCallback.value = Event(APIResult.Fail(response.data))
+        }
+
+        override fun success(response: OMGResponse<T>) {
+            liveCallback.value = Event(APIResult.Success(response.data))
         }
     })
     return liveCallback

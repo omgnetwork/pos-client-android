@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="network.omisego.omgwallet.pages.profile.main.ProfileViewModel" />
+            type="network.omisego.omgwallet.screen.auth.profile.main.ProfileViewModel" />
 
     </data>
 
@@ -18,15 +18,6 @@
         android:layout_height="match_parent"
         android:background="@color/colorWhiteWeak4"
         android:orientation="vertical">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary"
-            android:minHeight="?attr/actionBarSize"
-            app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
-            app:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar" />
 
         <ScrollView
             android:id="@+id/scrollView"

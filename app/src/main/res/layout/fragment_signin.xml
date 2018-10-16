@@ -15,7 +15,7 @@
 
         <variable
             name="viewmodel"
-            type="network.omisego.omgwallet.pages.signin.SignInViewModel" />
+            type="network.omisego.omgwallet.screen.unauth.signin.SignInViewModel" />
     </data>
 
     <ScrollView

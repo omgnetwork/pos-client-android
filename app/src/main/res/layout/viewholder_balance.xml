@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="network.omisego.omgwallet.pages.balance.BalanceViewModel" />
+            type="network.omisego.omgwallet.screen.auth.balance.BalanceViewModel" />
 
         <variable
             name="displayAmount"

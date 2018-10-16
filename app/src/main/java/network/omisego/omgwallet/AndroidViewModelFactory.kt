@@ -13,13 +13,13 @@ import androidx.lifecycle.ViewModelProvider
 import co.omisego.omisego.qrcode.generator.QRGenerator
 import network.omisego.omgwallet.data.LocalRepository
 import network.omisego.omgwallet.data.RemoteRepository
-import network.omisego.omgwallet.pages.balance.detail.BalanceDetailItemViewModel
-import network.omisego.omgwallet.pages.profile.main.ProfileViewModel
-import network.omisego.omgwallet.pages.profile.transaction.TransactionListTransformer
-import network.omisego.omgwallet.pages.profile.transaction.TransactionListViewModel
-import network.omisego.omgwallet.pages.showqr.ShowQRViewModel
-import network.omisego.omgwallet.pages.signin.FingerprintBottomSheetViewModel
-import network.omisego.omgwallet.pages.signin.SignInViewModel
+import network.omisego.omgwallet.screen.auth.balance.detail.BalanceDetailItemViewModel
+import network.omisego.omgwallet.screen.auth.profile.main.ProfileViewModel
+import network.omisego.omgwallet.screen.auth.profile.transaction.TransactionListTransformer
+import network.omisego.omgwallet.screen.auth.profile.transaction.TransactionListViewModel
+import network.omisego.omgwallet.screen.auth.showqr.ShowQRViewModel
+import network.omisego.omgwallet.screen.unauth.signin.FingerprintBottomSheetViewModel
+import network.omisego.omgwallet.screen.unauth.signin.SignInViewModel
 import network.omisego.omgwallet.util.BiometricUtil
 
 @Suppress("UNCHECKED_CAST")

@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import co.omisego.omisego.model.User
 import co.omisego.omisego.model.WalletList
 import network.omisego.omgwallet.data.contract.BalanceDataRepository
+import network.omisego.omgwallet.livedata.Event
 import network.omisego.omgwallet.model.APIResult
 import network.omisego.omgwallet.model.Credential
 import network.omisego.omgwallet.storage.Storage
@@ -16,9 +17,8 @@ import network.omisego.omgwallet.storage.Storage
  */
 
 class LocalRepository : BalanceDataRepository {
-    override fun loadWallet(liveAPIResult: MutableLiveData<APIResult>, networkOnly: Boolean) {
-        if (!networkOnly)
-            liveAPIResult.value = APIResult.Success(Storage.loadWallets())
+    override fun loadWallet(liveAPIResult: MutableLiveData<Event<APIResult>>, networkOnly: Boolean) {
+        liveAPIResult.value = Event(APIResult.Success(Storage.loadWallets()))
     }
 
     fun clearSession() = Storage.clearSession()
