@@ -9,6 +9,7 @@ package network.omisego.omgwallet.storage
 
 import android.content.Context
 import android.content.SharedPreferences
+import co.omisego.omisego.model.Token
 import co.omisego.omisego.model.User
 import co.omisego.omisego.model.WalletList
 import co.omisego.omisego.security.OMGKeyManager
@@ -99,6 +100,15 @@ object Storage {
     fun loadUser(): User? {
         if (sharePref[StorageKey.KEY_USER].isNullOrEmpty()) return null
         return gson.fromJson<User>(sharePref[StorageKey.KEY_USER], User::class.java)
+    }
+
+    fun saveTokenPrimary(token: Token) {
+        sharePref[StorageKey.KEY_TOKEN_PRIMARY] = token.id
+    }
+
+    fun loadTokenPrimary(): String? {
+        if (sharePref[StorageKey.KEY_TOKEN_PRIMARY].isNullOrEmpty()) return null
+        return sharePref[StorageKey.KEY_TOKEN_PRIMARY]
     }
 
     fun clearSession() {

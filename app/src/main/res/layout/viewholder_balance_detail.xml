@@ -14,16 +14,24 @@
             type="Integer" />
 
         <variable
-            name="displayAmount"
-            type="String" />
-
-        <variable
             name="balance"
             type="co.omisego.omisego.model.Balance" />
 
         <variable
-            name="lastUpdated"
+            name="enableBtnSetPrimary"
+            type="Boolean" />
+
+        <variable
+            name="btnSetPrimaryName"
             type="String" />
+
+        <variable
+            name="viewModel"
+            type="network.omisego.omgwallet.screen.auth.balance.detail.BalanceDetailItemViewModel" />
+
+        <variable
+            name="balanceDetailViewModel"
+            type="network.omisego.omgwallet.screen.auth.balance.detail.BalanceDetailViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -91,7 +99,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-black"
-                        android:text="@{displayAmount}"
+                        android:text="@{viewModel.displayAmount(balance)}"
                         android:textColor="@color/colorBlackWeak"
                         android:textSize="34sp"
                         tools:text="20,000" />
@@ -112,13 +120,29 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="@{lastUpdated}"
+                    android:text="@{viewModel.displayDate(balance)}"
                     android:textColor="@color/colorGrayWeak"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/guideline2"
                     app:layout_constraintTop_toBottomOf="@+id/linearLayout"
                     tools:text="Last updated\nJune 14, 2018 11:30 AM" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/materialButton"
+                    style="@style/OMGTextButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:enabled="@{viewModel.liveTokenPrimaryEnabled}"
+                    android:onClick="@{(view) -> balanceDetailViewModel.saveTokenPrimary(balance.token)}"
+                    android:text="@{viewModel.liveTokenPrimaryText}"
+                    android:textColor="@color/color_omg_btn_selector"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:enabled="false"
+                    tools:text="Set Primary" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

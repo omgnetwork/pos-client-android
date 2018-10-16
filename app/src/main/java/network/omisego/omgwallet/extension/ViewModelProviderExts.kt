@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import network.omisego.omgwallet.AndroidViewModelFactory
 import network.omisego.omgwallet.ViewModelFactory
@@ -21,7 +20,7 @@ inline fun <reified T : ViewModel> Fragment.provideActivityViewModel(): T {
 }
 
 inline fun <reified T : AndroidViewModel> Fragment.provideActivityAndroidViewModel(): T {
-    return ViewModelProviders.of(activity!!, ViewModelProvider.AndroidViewModelFactory(this.activity!!.application))[T::class.java]
+    return ViewModelProviders.of(activity!!, AndroidViewModelFactory(this.activity!!.application))[T::class.java]
 }
 
 inline fun <reified T : ViewModel> Fragment.provideViewModel(): T {

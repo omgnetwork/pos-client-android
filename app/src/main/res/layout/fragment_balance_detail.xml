@@ -11,17 +11,36 @@
         android:layout_height="match_parent">
 
 
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/viewpager"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/balance_detail_card_height_container"
-            android:background="@color/colorWhiteWeak3"
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
             app:layout_constraintBottom_toTopOf="@+id/pageIndicatorView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_chainStyle="spread" />
+            app:layout_constraintVertical_chainStyle="spread">
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/balance_detail_card_height_container"
+                android:background="@color/colorWhiteWeak3" />
+
+            <TextView
+                android:id="@+id/tvTokenPrimaryHelper"
+                style="@style/OMGHintText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:maxLines="2"
+                android:text="@string/balance_detail_primary_token_help_text" />
+
+        </LinearLayout>
 
         <com.rd.PageIndicatorView
             android:id="@+id/pageIndicatorView"
@@ -34,7 +53,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/viewpager"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
             app:piv_animationType="scale"
             app:piv_dynamicCount="true"
             app:piv_interactiveAnimation="true"

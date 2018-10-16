@@ -13,13 +13,24 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import co.omisego.omisego.model.Balance
 import kotlinx.android.synthetic.main.fragment_balance_detail.*
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.databinding.FragmentBalanceDetailBinding
-import network.omisego.omgwallet.storage.Storage
+import network.omisego.omgwallet.extension.provideActivityAndroidViewModel
+import network.omisego.omgwallet.extension.toast
 
 class BalanceDetailFragment : Fragment() {
     private lateinit var binding: FragmentBalanceDetailBinding
+    private lateinit var viewModel: BalanceDetailViewModel
+    private lateinit var balances: List<Balance>
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = provideActivityAndroidViewModel()
+        balances = viewModel.loadBalances()
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_balance_detail, container, false)
@@ -29,10 +40,13 @@ class BalanceDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViewPager()
+        viewModel.liveTokenPrimaryId.observe(this, Observer { primaryTokenId ->
+            val balance = balances.findLast { it.token.id == primaryTokenId }
+            context?.toast(viewModel.displayTokenPrimaryNotify(balance!!))
+        })
     }
 
     private fun setupViewPager() {
-        val balances = Storage.loadWallets()?.data?.get(0)?.balances!!
         viewpager.adapter = BalanceDetailPagerAdapter(balances, childFragmentManager)
         pageIndicatorView.setFadeOnIdle(true)
 

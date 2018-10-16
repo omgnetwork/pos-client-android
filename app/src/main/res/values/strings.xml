@@ -35,8 +35,12 @@
     <string name="balance_amount">%,.2f</string>
 
     <!-- Balance Detail -->
-    <string name="balance_detail_title">Detail</string>
+    <string name="balance_detail_title">Token Detail</string>
     <string name="balance_detail_last_updated">Last updated\n%1$tB %1$te, %1$tY %1$tI:%1$tM %1$Tp</string>
+    <string name="balance_detail_token_primary">Primary</string>
+    <string name="balance_detail_token_set_primary">Set Primary</string>
+    <string name="balance_detail_primary_token_set_notify">Set %s as a primary token</string>
+    <string name="balance_detail_primary_token_help_text">* Primary token will be a default token to be used for receive or top-up.</string>
 
     <!-- Transaction List -->
     <string name="transaction_list_title">Transaction</string>
@@ -99,11 +103,9 @@
     <string name="dialog_fingerprint_not_enrolled">You haven\'t enrolled the fingerprint on your device yet.</string>
 
     <!-- BottomBar Item -->
-    <string name="bottombar_item_balance">Balance</string>
-    <string name="bottombar_item_balance_icon"></string>
-    <string name="bottombar_item_profile">Profile</string>
-    <string name="bottombar_item_profile_icon"></string>
-    <string name="bottombar_item_qr">QR</string>
+    <string name="bottom_navigation_item_balance">Balance</string>
+    <string name="bottom_navigation_item_profile">Profile</string>
+    <string name="bottom_navigation_item_qr">QR</string>
 
     <!-- Validator -->
     <string name="validator_signin_email_invalid_format">Email Address is invalid format</string>
