@@ -16,14 +16,11 @@ import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.fragment_balance_detail.*
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.databinding.FragmentBalanceDetailBinding
-import network.omisego.omgwallet.extension.provideActivityViewModel
-import network.omisego.omgwallet.screen.auth.balance.BalanceNavigationViewModel
 import network.omisego.omgwallet.storage.Storage
 
 class BalanceDetailFragment : Fragment() {
     private var currentPage: Int = 0
     private lateinit var binding: FragmentBalanceDetailBinding
-    private lateinit var navigationViewModel: BalanceNavigationViewModel
 
     companion object {
         const val CURRENT_PAGE = "current_page"
@@ -40,7 +37,6 @@ class BalanceDetailFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         currentPage = arguments!!.getInt(CURRENT_PAGE, 0)
-        navigationViewModel = provideActivityViewModel()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

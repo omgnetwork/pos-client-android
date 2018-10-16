@@ -20,17 +20,14 @@ import network.omisego.omgwallet.custom.MarginDividerDecorator
 import network.omisego.omgwallet.databinding.FragmentTransactionListBinding
 import network.omisego.omgwallet.databinding.ViewholderTransactionBinding
 import network.omisego.omgwallet.extension.dpToPx
-import network.omisego.omgwallet.extension.provideActivityViewModel
 import network.omisego.omgwallet.extension.provideAndroidViewModel
 import network.omisego.omgwallet.extension.state
 import network.omisego.omgwallet.extension.toast
-import network.omisego.omgwallet.screen.auth.profile.ProfileNavigationViewModel
 import network.omisego.omgwallet.state.TransactionListState
 
 class TransactionListFragment : Fragment() {
     private lateinit var binding: FragmentTransactionListBinding
     private lateinit var viewModel: TransactionListViewModel
-    private lateinit var navigationViewModel: ProfileNavigationViewModel
     private lateinit var adapter: LoadingRecyclerAdapter<Transaction, ViewholderTransactionBinding>
     private lateinit var linearLayoutManager: LinearLayoutManager
     private var currentPage: Int = 1
@@ -51,7 +48,6 @@ class TransactionListFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = provideAndroidViewModel()
-        navigationViewModel = provideActivityViewModel()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

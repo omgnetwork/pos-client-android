@@ -29,14 +29,12 @@ import network.omisego.omgwallet.R
 import network.omisego.omgwallet.databinding.FragmentSigninBinding
 import network.omisego.omgwallet.extension.bindingInflate
 import network.omisego.omgwallet.extension.provideAndroidViewModel
-import network.omisego.omgwallet.extension.provideViewModel
 import network.omisego.omgwallet.extension.runOnM
 import network.omisego.omgwallet.extension.runOnMToP
 import network.omisego.omgwallet.extension.runOnP
 import network.omisego.omgwallet.extension.scrollBottom
 import network.omisego.omgwallet.extension.toast
 import network.omisego.omgwallet.livedata.EventObserver
-import network.omisego.omgwallet.screen.MainViewModel
 import network.omisego.omgwallet.screen.unauth.signin.FingerprintBottomSheet
 import network.omisego.omgwallet.screen.unauth.signin.FingerprintBottomSheetViewModel
 import network.omisego.omgwallet.screen.unauth.signin.SignInViewModel
@@ -44,14 +42,12 @@ import network.omisego.omgwallet.screen.unauth.signin.SignInViewModel
 class SignInFragment : Fragment() {
     private lateinit var binding: FragmentSigninBinding
     private lateinit var viewModel: SignInViewModel
-    private lateinit var mainViewModel: MainViewModel
     private lateinit var fingerprintViewModel: FingerprintBottomSheetViewModel
     private var scanFingerprintDialog: FingerprintBottomSheet? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = provideAndroidViewModel()
-        mainViewModel = provideViewModel()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -101,8 +97,8 @@ class SignInFragment : Fragment() {
     }
 
     private fun takeNavigation() {
-        val wallets = mainViewModel.loadWallets()
-        val hasAuthToken = mainViewModel.hasAuthenticationToken()
+        val wallets = viewModel.loadWallets()
+        val hasAuthToken = viewModel.hasAuthenticationToken()
         when {
             hasAuthToken -> findNavController().navigate(R.id.action_signInFragment_to_authFragment)
         }

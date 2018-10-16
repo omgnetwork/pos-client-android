@@ -19,23 +19,19 @@ import network.omisego.omgwallet.MainActivity
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.databinding.FragmentProfileBinding
 import network.omisego.omgwallet.extension.bindingInflate
-import network.omisego.omgwallet.extension.provideActivityViewModel
 import network.omisego.omgwallet.extension.provideAndroidViewModel
 import network.omisego.omgwallet.extension.toast
 import network.omisego.omgwallet.livedata.EventObserver
-import network.omisego.omgwallet.screen.auth.profile.ProfileNavigationViewModel
 import network.omisego.omgwallet.state.FingerprintDialogState
 
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
     private lateinit var viewModel: ProfileViewModel
-    private lateinit var navigationViewModel: ProfileNavigationViewModel
     private lateinit var dialog: ConfirmFingerprintDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = provideAndroidViewModel()
-        navigationViewModel = provideActivityViewModel()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

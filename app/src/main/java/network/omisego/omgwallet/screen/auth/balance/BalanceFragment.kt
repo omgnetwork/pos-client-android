@@ -25,7 +25,6 @@ import network.omisego.omgwallet.base.UpdateAdapterDispatcher
 import network.omisego.omgwallet.databinding.FragmentBalanceBinding
 import network.omisego.omgwallet.databinding.ViewholderBalanceBinding
 import network.omisego.omgwallet.extension.bindingInflate
-import network.omisego.omgwallet.extension.provideActivityViewModel
 import network.omisego.omgwallet.extension.provideViewModel
 import network.omisego.omgwallet.extension.toast
 import network.omisego.omgwallet.livedata.EventObserver
@@ -42,13 +41,11 @@ class BalanceFragment: Fragment(), UpdateAdapterDispatcher<Balance> {
     private var currentBalances: List<Balance> = listOf()
     private lateinit var binding: FragmentBalanceBinding
     private lateinit var viewModel: BalanceViewModel
-    private lateinit var navigationViewModel: BalanceNavigationViewModel
     private lateinit var adapter: LoadingRecyclerAdapter<Balance, ViewholderBalanceBinding>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = provideViewModel()
-        navigationViewModel = provideActivityViewModel()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

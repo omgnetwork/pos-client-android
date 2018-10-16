@@ -3,12 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <data>
-
-        <variable
-            name="viewModel"
-            type="network.omisego.omgwallet.screen.MainViewModel" />
-    </data>
+    <data></data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -61,7 +56,6 @@
             android:id="@+id/fabQR"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="@{viewModel::handleQRClick}"
             android:src="@drawable/ic_qr"
             android:stateListAnimator="@animator/animator_state_button"
             app:layout_anchor="@+id/bottomNavigation"

@@ -131,11 +131,15 @@ class SignInViewModel(
         }
     }
 
+    fun hasAuthenticationToken() = localRepository.hasAuthenticationToken()
+
     fun isFingerprintAvailable() = localRepository.loadFingerprintOption()
 
     fun loadUserEmail(): String = localRepository.loadUserEmail()
 
     fun loadUserPassword(): String = localRepository.loadFingerprintCredential()
+
+    fun loadWallets() = localRepository.loadWallet()
 
     fun signIn(): LiveData<Event<APIResult>>? {
         val (email, password) = liveState.value ?: return null
