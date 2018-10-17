@@ -12,6 +12,8 @@ import android.content.SharedPreferences
 import co.omisego.omisego.model.Token
 import co.omisego.omisego.model.User
 import co.omisego.omisego.model.WalletList
+import co.omisego.omisego.model.transaction.request.TransactionRequest
+import co.omisego.omisego.model.transaction.request.TransactionRequestType
 import co.omisego.omisego.security.OMGKeyManager
 import co.omisego.omisego.utils.GsonProvider
 import kotlinx.coroutines.experimental.Deferred
@@ -111,17 +113,37 @@ object Storage {
         return sharePref[StorageKey.KEY_TOKEN_PRIMARY]
     }
 
+    fun saveFormattedId(request: TransactionRequest) {
+        when (request.type) {
+            TransactionRequestType.SEND ->
+                sharePref[StorageKey.KEY_TRANSACTION_REQUEST_FORMATTED_ID_SEND] = request.formattedId
+            TransactionRequestType.RECEIVE ->
+                sharePref[StorageKey.KEY_TRANSACTION_REQUEST_FORMATTED_ID_RECEIVE] = request.formattedId
+        }
+    }
+
+    /* Returns send|receive */
+    fun loadFormattedId(): String =
+        "${sharePref[StorageKey.KEY_TRANSACTION_REQUEST_FORMATTED_ID_SEND]}|${sharePref[StorageKey.KEY_TRANSACTION_REQUEST_FORMATTED_ID_RECEIVE]}"
+
     fun clearSession() {
         sharePref.edit()
             .remove(StorageKey.KEY_AUTHENTICATION_TOKEN)
             .remove(StorageKey.KEY_WALLET)
             .remove(StorageKey.KEY_USER)
+            .remove(StorageKey.KEY_TRANSACTION_REQUEST_FORMATTED_ID_RECEIVE)
+            .remove(StorageKey.KEY_TRANSACTION_REQUEST_FORMATTED_ID_SEND)
             .apply()
     }
 
-    fun removeWallet() {
-        sharePref.edit()
-            .remove(StorageKey.KEY_WALLET)
-            .apply()
+    fun clearOldAccountCache(email: String) {
+        if (email != sharePref[StorageKey.KEY_USER_EMAIL]) {
+            sharePref.edit()
+                .remove(StorageKey.KEY_TOKEN_PRIMARY)
+                .remove(StorageKey.KEY_WALLET)
+                .remove(StorageKey.KEY_FINGERPRINT_USER_PASSWORD)
+                .remove(StorageKey.KEY_FINGERPRINT_OPTION)
+                .apply()
+        }
     }
 }
