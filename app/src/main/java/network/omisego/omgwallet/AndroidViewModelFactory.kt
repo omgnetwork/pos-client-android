@@ -19,6 +19,7 @@ import network.omisego.omgwallet.screen.auth.profile.main.ProfileViewModel
 import network.omisego.omgwallet.screen.auth.profile.transaction.TransactionListTransformer
 import network.omisego.omgwallet.screen.auth.profile.transaction.TransactionListViewModel
 import network.omisego.omgwallet.screen.auth.showqr.ShowQRViewModel
+import network.omisego.omgwallet.screen.auth.splash.PreloadResourceViewModel
 import network.omisego.omgwallet.screen.unauth.signin.FingerprintBottomSheetViewModel
 import network.omisego.omgwallet.screen.unauth.signin.SignInViewModel
 import network.omisego.omgwallet.util.BiometricUtil
@@ -47,6 +48,9 @@ class AndroidViewModelFactory(private val application: Application) : ViewModelP
             }
             modelClass.isAssignableFrom(BalanceDetailViewModel::class.java) -> {
                 return BalanceDetailViewModel(application, LocalRepository()) as T
+            }
+            modelClass.isAssignableFrom(PreloadResourceViewModel::class.java) -> {
+                return PreloadResourceViewModel(application, LocalRepository(), RemoteRepository()) as T
             }
             else -> {
                 throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")

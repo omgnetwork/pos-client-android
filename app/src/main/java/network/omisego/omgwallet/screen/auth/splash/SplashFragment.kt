@@ -11,13 +11,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import co.omisego.omisego.model.APIError
 import co.omisego.omisego.model.WalletList
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.databinding.FragmentSplashBinding
 import network.omisego.omgwallet.extension.bindingInflate
-import network.omisego.omgwallet.extension.provideViewModel
+import network.omisego.omgwallet.extension.logi
+import network.omisego.omgwallet.extension.provideAndroidViewModel
 import network.omisego.omgwallet.extension.toast
 import network.omisego.omgwallet.livedata.EventObserver
 
@@ -27,7 +30,7 @@ class SplashFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = provideViewModel()
+        viewModel = provideAndroidViewModel()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -37,15 +40,32 @@ class SplashFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupDataBinding()
+        observeLiveData()
         viewModel.loadWallets()
+    }
+
+    private fun setupDataBinding() {
+        binding.viewModel = viewModel
+        binding.setLifecycleOwner(this)
+    }
+
+    private fun observeLiveData() {
         viewModel.liveResult.observe(this, EventObserver {
             it.handle(this::handleLoadWalletSuccess, this::handleLoadWalletFail)
-//            findNavController().navigate(R.id.action_splashFragment_to_authFragment)
+        })
+        viewModel.liveTransactionRequestFormattedId.observe(this, EventObserver {
+            logi("TransactionRequestFormattedId: $it")
+            findNavController().navigateUp()
+        })
+        viewModel.liveCreateTransactionRequestFailed.observe(this, EventObserver {
+            context?.toast(it.description, Toast.LENGTH_LONG)
         })
     }
 
     private fun handleLoadWalletSuccess(data: WalletList) {
         viewModel.saveWallet(data)
+        viewModel.createTransactionRequest(data)
     }
 
     private fun handleLoadWalletFail(error: APIError) {

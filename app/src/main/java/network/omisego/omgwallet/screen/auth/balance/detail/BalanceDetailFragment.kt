@@ -13,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import co.omisego.omisego.model.Balance
 import kotlinx.android.synthetic.main.fragment_balance_detail.*
 import network.omisego.omgwallet.R
@@ -42,6 +43,7 @@ class BalanceDetailFragment : Fragment() {
         setupViewPager()
         viewModel.liveEventTokenPrimaryId.observe(this, EventObserver { primaryTokenId ->
             val balance = balances.findLast { it.token.id == primaryTokenId }
+            findNavController().navigate(R.id.action_global_splash)
             context?.toast(viewModel.displayTokenPrimaryNotify(balance!!))
         })
     }

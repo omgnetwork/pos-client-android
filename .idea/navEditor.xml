@@ -73,6 +73,11 @@
                       <LayoutPositions />
                     </value>
                   </entry>
+                  <entry key="action_global_splash">
+                    <value>
+                      <LayoutPositions />
+                    </value>
+                  </entry>
                   <entry key="balance">
                     <value>
                       <LayoutPositions>
@@ -134,6 +139,18 @@
                           <Point>
                             <option name="x" value="12" />
                             <option name="y" value="642" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="splash">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
                           </Point>
                         </option>
                       </LayoutPositions>

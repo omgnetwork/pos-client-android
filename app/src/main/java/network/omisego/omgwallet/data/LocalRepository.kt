@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import co.omisego.omisego.model.Token
 import co.omisego.omisego.model.User
 import co.omisego.omisego.model.WalletList
+import co.omisego.omisego.model.transaction.request.TransactionRequest
 import network.omisego.omgwallet.data.contract.BalanceDataRepository
 import network.omisego.omgwallet.livedata.Event
 import network.omisego.omgwallet.model.APIResult
@@ -26,6 +27,8 @@ class LocalRepository : BalanceDataRepository {
 
     fun clearOldAccountCache(email: String) = Storage.clearOldAccountCache(email)
 
+    fun hasFormattedId() = Storage.hasFormattedId()
+
     fun deleteFingerprintCredential() {
         Storage.deleteFingerprintCredential()
     }
@@ -41,6 +44,8 @@ class LocalRepository : BalanceDataRepository {
     fun loadUserEmail() = Storage.loadUserEmail()
 
     fun loadFingerprintCredential() = Storage.loadFingerprintCredential()
+
+    fun saveTransactionRequestFormattedId(request: TransactionRequest) = Storage.saveFormattedId(request)
 
     fun saveUser(user: User) = Storage.saveUser(user)
 

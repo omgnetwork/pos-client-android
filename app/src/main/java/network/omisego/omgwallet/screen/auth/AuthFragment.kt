@@ -15,20 +15,28 @@ import kotlinx.android.synthetic.main.fragment_authenticated.*
 import network.omisego.omgwallet.MainActivity
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.extension.getColor
+import network.omisego.omgwallet.extension.provideViewModel
 
 class AuthFragment : Fragment() {
 
     private lateinit var navigateListener: (NavController, NavDestination) -> Unit
     private lateinit var navController: NavController
+    private lateinit var viewModel: AuthViewModel
     private val window: Window by lazy {
         activity?.window!!.apply {
             addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = provideViewModel()
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         setupNavController()
+        chooseDestination()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -40,13 +48,29 @@ class AuthFragment : Fragment() {
         navController.removeOnNavigatedListener(navigateListener)
     }
 
+    private fun chooseDestination() {
+        when {
+            viewModel.hasTransactionRequestFormattedId() -> {
+                // Do nothing
+            }
+            else -> {
+                navController.navigate(R.id.action_global_splash)
+            }
+        }
+    }
+
     private fun setupNavController() {
         navController = (activity as MainActivity).findNavController(R.id.content)
         toolbar.setupWithNavController(navController)
         bottomNavigation.setupWithNavController(navController)
         fabQR.setOnClickListener { navController.navigate(R.id.action_global_showQR) }
         navigateListener = { _, destination ->
-            setBottomNavigationVisibility(destination.id != R.id.showQR)
+            setBottomNavigationVisibility(destination.id !in arrayOf(R.id.showQR, R.id.splash))
+            toolbar.visibility = if (destination.id == R.id.splash) {
+                View.GONE
+            } else {
+                View.VISIBLE
+            }
         }
         navController.addOnNavigatedListener(navigateListener)
     }

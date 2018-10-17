@@ -113,6 +113,9 @@ object Storage {
         return sharePref[StorageKey.KEY_TOKEN_PRIMARY]
     }
 
+    fun hasFormattedId() = sharePref.contains(StorageKey.KEY_TRANSACTION_REQUEST_FORMATTED_ID_RECEIVE)
+        && sharePref.contains(StorageKey.KEY_TRANSACTION_REQUEST_FORMATTED_ID_SEND)
+
     fun saveFormattedId(request: TransactionRequest) {
         when (request.type) {
             TransactionRequestType.SEND ->

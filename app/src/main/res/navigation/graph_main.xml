@@ -27,7 +27,7 @@
         android:id="@+id/balanceDetail"
         android:name="network.omisego.omgwallet.screen.auth.balance.detail.BalanceDetailFragment"
         android:label="Detail"
-        tools:layout="@layout/fragment_balance_detail" >
+        tools:layout="@layout/fragment_balance_detail">
         <argument
             android:name="token_index"
             android:defaultValue="0"
@@ -46,4 +46,9 @@
     <action
         android:id="@+id/action_global_showQR"
         app:destination="@id/showQR" />
+    <fragment
+        android:id="@+id/splash"
+        android:name="network.omisego.omgwallet.screen.auth.splash.SplashFragment"
+        android:label="SplashFragment"
+        tools:layout="@layout/fragment_splash" /><action android:id="@+id/action_global_splash" app:destination="@id/splash"/>
 </navigation>
