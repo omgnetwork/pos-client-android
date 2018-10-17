@@ -24,6 +24,8 @@ class LocalRepository : BalanceDataRepository {
 
     fun clearSession() = Storage.clearSession()
 
+    fun clearOldAccountCache(email: String) = Storage.clearOldAccountCache(email)
+
     fun deleteFingerprintCredential() {
         Storage.deleteFingerprintCredential()
     }
