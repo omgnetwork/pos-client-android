@@ -50,5 +50,5 @@
         android:id="@+id/splash"
         android:name="network.omisego.omgwallet.screen.auth.splash.SplashFragment"
         android:label="SplashFragment"
-        tools:layout="@layout/fragment_splash" /><action android:id="@+id/action_global_splash" app:destination="@id/splash"/>
+        tools:layout="@layout/fragment_splash" /><action android:id="@+id/action_global_splash" app:destination="@id/splash"/><action android:id="@+id/action_global_balance" app:destination="@id/balance"/>
 </navigation>

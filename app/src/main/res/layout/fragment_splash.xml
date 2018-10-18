@@ -25,6 +25,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
             app:loadGif="@{R.raw.go_loading}"
             tools:srcCompat="@tools:sample/avatars" />
 
@@ -32,6 +33,7 @@
             android:id="@+id/tvCurrentStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="@{viewModel.liveStatus}"
             android:textColor="@color/colorGrayWeak"
             app:layout_constraintBottom_toBottomOf="parent"

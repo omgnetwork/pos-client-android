@@ -45,6 +45,10 @@ class LocalRepository : BalanceDataRepository {
 
     fun loadFingerprintCredential() = Storage.loadFingerprintCredential()
 
+    fun loadTransactionRequestFormattedId() = Storage.loadFormattedId()
+
+    fun loadUser() = Storage.loadUser()
+
     fun saveTransactionRequestFormattedId(request: TransactionRequest) = Storage.saveFormattedId(request)
 
     fun saveUser(user: User) = Storage.saveUser(user)

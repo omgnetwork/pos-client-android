@@ -14,7 +14,6 @@ import network.omisego.omgwallet.data.RemoteRepository
 import network.omisego.omgwallet.screen.auth.AuthViewModel
 import network.omisego.omgwallet.screen.auth.balance.BalanceViewModel
 import network.omisego.omgwallet.screen.auth.profile.main.ConfirmFingerprintViewModel
-import network.omisego.omgwallet.screen.auth.splash.PreloadResourceViewModel
 import network.omisego.omgwallet.screen.unauth.signup.SignupViewModel
 
 @Suppress("UNCHECKED_CAST")
@@ -31,7 +30,7 @@ class ViewModelFactory : ViewModelProvider.NewInstanceFactory() {
                 return ConfirmFingerprintViewModel(LocalRepository(), RemoteRepository()) as T
             }
             modelClass.isAssignableFrom(AuthViewModel::class.java) -> {
-                return AuthViewModel(LocalRepository()) as T
+                return AuthViewModel(LocalRepository(), RemoteRepository()) as T
             }
             else -> {
                 throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")

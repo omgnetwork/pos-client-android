@@ -52,14 +52,15 @@ class PreloadResourceViewModel(
             ?: walletList.data[0].balances[0].token.id
         val params = TransactionRequestCreateParams(
             TransactionRequestType.RECEIVE,
-            selectedTokenId
+            selectedTokenId,
+            requireConfirmation = false
         )
         val formattedIds: MutableList<String> = mutableListOf()
         launch(UI) {
             val result = async {
                 val txReceiveResult = remoteRepository.createTransactionRequest(params)
                 val txSendResult = remoteRepository.createTransactionRequest(
-                    params.copy(type = TransactionRequestType.SEND)
+                    params.copy(type = TransactionRequestType.SEND, requireConfirmation = true)
                 )
                 return@async txReceiveResult to txSendResult
             }

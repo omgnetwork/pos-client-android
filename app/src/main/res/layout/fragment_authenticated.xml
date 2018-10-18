@@ -6,6 +6,7 @@
     <data></data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/layoutContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -51,6 +52,7 @@
             android:src="@drawable/ic_qr"
             android:stateListAnimator="@animator/animator_state_button"
             app:layout_anchor="@+id/bottomNavigation"
+            app:layout_behavior=".custom.MoveUpBehavior"
             app:layout_anchorGravity="center_horizontal"
             app:rippleColor="@color/transparent" />
 

@@ -11,6 +11,8 @@ import network.omisego.omgwallet.BuildConfig
 class ProductionClientSetup : ClientSetup {
     override val baseURL: String
         get() = BuildConfig.CLIENT_API_BASE_URL
+    override val socketBaseURL: String
+        get() = BuildConfig.CLIENT_API_SOCKET_BASE_URL
     override val apiKey: String
         get() = BuildConfig.CLIENT_API_KEY
 }

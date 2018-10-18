@@ -8,5 +8,6 @@ package network.omisego.omgwallet.network
  */
 interface ClientSetup {
     val baseURL: String
+    val socketBaseURL: String
     val apiKey: String
 }

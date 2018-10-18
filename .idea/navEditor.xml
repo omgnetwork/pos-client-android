@@ -68,6 +68,11 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
+                  <entry key="action_global_balance">
+                    <value>
+                      <LayoutPositions />
+                    </value>
+                  </entry>
                   <entry key="action_global_showQR">
                     <value>
                       <LayoutPositions />
@@ -116,8 +121,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="11" />
-                            <option name="y" value="-102" />
+                            <option name="x" value="13" />
+                            <option name="y" value="-279" />
                           </Point>
                         </option>
                         <option name="myPositions">
@@ -161,8 +166,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="274" />
-                            <option name="y" value="-98" />
+                            <option name="x" value="280" />
+                            <option name="y" value="-278" />
                           </Point>
                         </option>
                       </LayoutPositions>
