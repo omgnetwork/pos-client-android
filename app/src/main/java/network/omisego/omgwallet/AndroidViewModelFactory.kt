@@ -15,6 +15,7 @@ import network.omisego.omgwallet.data.LocalRepository
 import network.omisego.omgwallet.data.RemoteRepository
 import network.omisego.omgwallet.screen.auth.balance.detail.BalanceDetailItemViewModel
 import network.omisego.omgwallet.screen.auth.balance.detail.BalanceDetailViewModel
+import network.omisego.omgwallet.screen.auth.confirm.ConfirmTransactionRequestViewModel
 import network.omisego.omgwallet.screen.auth.profile.main.ProfileViewModel
 import network.omisego.omgwallet.screen.auth.profile.transaction.TransactionListTransformer
 import network.omisego.omgwallet.screen.auth.profile.transaction.TransactionListViewModel
@@ -51,6 +52,9 @@ class AndroidViewModelFactory(private val application: Application) : ViewModelP
             }
             modelClass.isAssignableFrom(PreloadResourceViewModel::class.java) -> {
                 return PreloadResourceViewModel(application, LocalRepository(), RemoteRepository()) as T
+            }
+            modelClass.isAssignableFrom(ConfirmTransactionRequestViewModel::class.java) -> {
+                return ConfirmTransactionRequestViewModel(application, LocalRepository(), RemoteRepository()) as T
             }
             else -> {
                 throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")

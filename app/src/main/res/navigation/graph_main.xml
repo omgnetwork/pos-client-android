@@ -50,5 +50,23 @@
         android:id="@+id/splash"
         android:name="network.omisego.omgwallet.screen.auth.splash.SplashFragment"
         android:label="SplashFragment"
-        tools:layout="@layout/fragment_splash" /><action android:id="@+id/action_global_splash" app:destination="@id/splash"/><action android:id="@+id/action_global_balance" app:destination="@id/balance"/>
+        tools:layout="@layout/fragment_splash" />
+    <action
+        android:id="@+id/action_global_splash"
+        app:destination="@id/splash" />
+    <action
+        android:id="@+id/action_global_balance"
+        app:destination="@id/balance" />
+    <fragment
+        android:id="@+id/confirmTransactionRequest"
+        android:name="network.omisego.omgwallet.screen.auth.confirm.ConfirmTransactionRequestFragment"
+        android:label="@string/confirm_transaction_request_title"
+        tools:layout="@layout/fragment_confirm_transaction_request">
+        <argument
+            android:name="transactionConsumption"
+            app:argType="co.omisego.omisego.model.transaction.consumption.TransactionConsumption" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_confirmTransactionRequest"
+        app:destination="@id/confirmTransactionRequest" />
 </navigation>

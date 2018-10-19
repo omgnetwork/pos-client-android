@@ -14,19 +14,25 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import co.omisego.omisego.model.APIError
 import co.omisego.omisego.model.transaction.consumption.TransactionConsumption
+import co.omisego.omisego.model.transaction.consumption.TransactionConsumptionStatus.APPROVED
+import co.omisego.omisego.model.transaction.consumption.TransactionConsumptionStatus.CONFIRMED
+import co.omisego.omisego.model.transaction.consumption.TransactionConsumptionStatus.REJECTED
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_authenticated.*
+import network.omisego.omgwallet.GraphMainDirections
 import network.omisego.omgwallet.MainActivity
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.extension.getColor
 import network.omisego.omgwallet.extension.logi
 import network.omisego.omgwallet.extension.provideActivityViewModel
+import network.omisego.omgwallet.extension.snackbar
 
 class AuthFragment : Fragment() {
 
     private lateinit var navigateListener: (NavController, NavDestination) -> Unit
     private lateinit var navController: NavController
     private lateinit var viewModel: AuthViewModel
+    private lateinit var snackbar: Snackbar
     private val window: Window by lazy {
         activity?.window!!.apply {
             addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
@@ -109,6 +115,7 @@ class AuthFragment : Fragment() {
 
     inner class ConsumptionRequestObserver : Observer<TransactionConsumption> {
         override fun onChanged(txConsumption: TransactionConsumption) {
+            navController.navigate(GraphMainDirections.actionGlobalConfirmTransactionRequest(txConsumption))
             val message = "${txConsumption.transaction?.to?.account?.name} will be taken your token ${txConsumption.token.symbol} for amount ${txConsumption.estimatedConsumptionAmount.div(txConsumption.token.subunitToUnit)}"
             logi(message)
         }
@@ -123,17 +130,30 @@ class AuthFragment : Fragment() {
     inner class ConsumptionFinalizedObserver : Observer<TransactionConsumption> {
         override fun onChanged(txConsumption: TransactionConsumption) {
             /* Show notification */
-            val message = "${txConsumption.transaction?.from?.account?.name} is given the token ${txConsumption.token.symbol} for amount ${txConsumption.estimatedConsumptionAmount.div(txConsumption.token.subunitToUnit)}"
-            logi(message)
+            val message: String
+            when (txConsumption.status) {
+                CONFIRMED,
+                APPROVED -> {
+                    val amount = txConsumption.amount?.divide(txConsumption.token.subunitToUnit)
+                    message = getString(R.string.notification_transaction_received, amount, txConsumption.token.symbol, txConsumption.account?.name)
+                    snackbar = bottomNavigation.snackbar(message)
+                    snackbar.show()
+                }
+                REJECTED -> {
+                    message = getString(R.string.notification_transaction_rejected, txConsumption.account?.name)
+                    snackbar = bottomNavigation.snackbar(message)
+                    snackbar.show()
+                }
+            }
             navController.popBackStack(R.id.balance, true)
             navController.navigate(R.id.action_global_balance)
-            Snackbar.make(bottomNavigation, message, Snackbar.LENGTH_LONG).show()
         }
     }
 
     inner class ConsumptionFinalizedFailObserver : Observer<APIError> {
         override fun onChanged(error: APIError) {
             logi("ConsumptionFinalized error: ${error.description}")
+//            Snackbar.make(bottomNavigation, error.description, Snackbar.LENGTH_LONG).show()
         }
     }
 }

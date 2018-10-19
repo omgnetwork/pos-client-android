@@ -73,6 +73,11 @@
                       <LayoutPositions />
                     </value>
                   </entry>
+                  <entry key="action_global_confirmTransactionRequest">
+                    <value>
+                      <LayoutPositions />
+                    </value>
+                  </entry>
                   <entry key="action_global_showQR">
                     <value>
                       <LayoutPositions />
@@ -111,6 +116,18 @@
                           <Point>
                             <option name="x" value="265" />
                             <option name="y" value="280" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="confirmTransactionRequest">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
                           </Point>
                         </option>
                       </LayoutPositions>

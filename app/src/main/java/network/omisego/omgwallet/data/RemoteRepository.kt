@@ -7,6 +7,7 @@ import co.omisego.omisego.model.OMGResponse
 import co.omisego.omisego.model.params.LoginParams
 import co.omisego.omisego.model.params.SignUpParams
 import co.omisego.omisego.model.transaction.consumption.TransactionConsumption
+import co.omisego.omisego.model.transaction.consumption.TransactionConsumptionActionParams
 import co.omisego.omisego.model.transaction.list.TransactionListParams
 import co.omisego.omisego.model.transaction.request.TransactionRequest
 import co.omisego.omisego.model.transaction.request.TransactionRequestCreateParams
@@ -49,6 +50,18 @@ class RemoteRepository : BalanceDataRepository {
 
     fun getTransactions(params: TransactionListParams, liveAPIResult: MutableLiveData<APIResult>) {
         ClientProvider.client.getTransactions(params).subscribe(liveAPIResult)
+    }
+
+    fun approveTransaction(id: String, liveAPIResult: MutableLiveData<Event<APIResult>>) {
+        ClientProvider.client
+            .approveTransactionConsumption(TransactionConsumptionActionParams(id))
+            .subscribeSingleEvent(liveAPIResult)
+    }
+
+    fun rejectTransaction(id: String, liveAPIResult: MutableLiveData<Event<APIResult>>) {
+        ClientProvider.client
+            .rejectTransactionConsumption(TransactionConsumptionActionParams(id))
+            .subscribeSingleEvent(liveAPIResult)
     }
 
     fun listenUserSocketEvent(
