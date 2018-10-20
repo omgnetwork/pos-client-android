@@ -26,12 +26,14 @@ import network.omisego.omgwallet.extension.getColor
 import network.omisego.omgwallet.extension.logi
 import network.omisego.omgwallet.extension.provideActivityViewModel
 import network.omisego.omgwallet.extension.snackbar
+import network.omisego.omgwallet.screen.auth.balance.BalanceViewModel
 
 class AuthFragment : Fragment() {
 
     private lateinit var navigateListener: (NavController, NavDestination) -> Unit
     private lateinit var navController: NavController
     private lateinit var viewModel: AuthViewModel
+    private lateinit var balanceViewModel: BalanceViewModel
     private lateinit var snackbar: Snackbar
     private val window: Window by lazy {
         activity?.window!!.apply {
@@ -42,6 +44,7 @@ class AuthFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = provideActivityViewModel()
+        balanceViewModel = provideActivityViewModel()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -145,8 +148,12 @@ class AuthFragment : Fragment() {
                     snackbar.show()
                 }
             }
-            navController.popBackStack(R.id.balance, true)
-            navController.navigate(R.id.action_global_balance)
+            if (txConsumption.transactionRequest.requireConfirmation) {
+                navController.popBackStack(R.id.balance, true)
+                navController.navigate(R.id.action_global_balance)
+            } else {
+                balanceViewModel.loadWallet()
+            }
         }
     }
 

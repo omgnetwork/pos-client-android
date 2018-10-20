@@ -10,20 +10,10 @@ package network.omisego.omgwallet.extension
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations
 
 fun <T> mutableLiveDataOf(initial: T? = null): MutableLiveData<T> {
     return MutableLiveData<T>().apply { this.value = initial }
 }
-
-fun <T> MutableLiveData<T>.fetchedThenCache(fetch: (MutableLiveData<T>) -> LiveData<T>): LiveData<T> =
-    if (value != null) {
-        this
-    } else {
-        fetch(this)
-    }
-
-fun <T, R> LiveData<T>.map(transform: (T) -> R) = Transformations.map(this, transform)
 
 /**
  * Don't dispatch if the transformed data is not changed.
@@ -39,5 +29,3 @@ fun <T, R> LiveData<T>.mapPropChanged(transform: (T) -> R): LiveData<R> {
         }
     }
 }
-
-fun <T, R> LiveData<T>.switchMap(transform: (T) -> LiveData<R>) = Transformations.switchMap(this, transform)

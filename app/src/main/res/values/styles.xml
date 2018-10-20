@@ -1,6 +1,6 @@
 <resources>
     <!-- Global app theme -->
-    <!-- More info: https://github.com/material-components/material-components-android/blob/master/docs/theming/Color.md -->
+    <!-- More balanceInfo: https://github.com/material-components/material-components-android/blob/master/docs/theming/Color.md -->
     <style name="OMGTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
 
         <!-- Displayed most frequently across the app. -->

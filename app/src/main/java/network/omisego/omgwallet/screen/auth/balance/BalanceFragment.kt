@@ -18,14 +18,15 @@ import co.omisego.omisego.model.WalletList
 import kotlinx.android.synthetic.main.fragment_balance.*
 import network.omisego.omgwallet.MainActivity
 import network.omisego.omgwallet.R
-import network.omisego.omgwallet.base.BalanceDiffCallback
 import network.omisego.omgwallet.base.LoadingRecyclerAdapter
 import network.omisego.omgwallet.base.StateViewHolder
 import network.omisego.omgwallet.base.UpdateAdapterDispatcher
+import network.omisego.omgwallet.custom.BalanceDiffCallback
+import network.omisego.omgwallet.custom.BalanceItemAnimator
 import network.omisego.omgwallet.databinding.FragmentBalanceBinding
 import network.omisego.omgwallet.databinding.ViewholderBalanceBinding
 import network.omisego.omgwallet.extension.bindingInflate
-import network.omisego.omgwallet.extension.provideViewModel
+import network.omisego.omgwallet.extension.provideActivityViewModel
 import network.omisego.omgwallet.extension.toast
 import network.omisego.omgwallet.livedata.EventObserver
 import network.omisego.omgwallet.storage.Storage
@@ -45,7 +46,7 @@ class BalanceFragment : Fragment(), UpdateAdapterDispatcher<Balance> {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = provideViewModel()
+        viewModel = provideActivityViewModel()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -98,6 +99,7 @@ class BalanceFragment : Fragment(), UpdateAdapterDispatcher<Balance> {
         adapter = LoadingRecyclerAdapter(R.layout.viewholder_balance_loading, R.layout.viewholder_balance, viewModel, this)
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
+        recyclerView.itemAnimator = BalanceItemAnimator()
 
         swipeRefresh.setOnRefreshListener {
             viewModel.loadWallet()

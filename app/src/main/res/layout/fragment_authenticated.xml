@@ -29,7 +29,7 @@
             <fragment
                 android:id="@+id/content"
                 android:name="androidx.navigation.fragment.NavHostFragment"
-                android:layout_width="409dp"
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 app:defaultNavHost="true"
@@ -52,8 +52,8 @@
             android:src="@drawable/ic_qr"
             android:stateListAnimator="@animator/animator_state_button"
             app:layout_anchor="@+id/bottomNavigation"
-            app:layout_behavior=".custom.MoveUpBehavior"
             app:layout_anchorGravity="center_horizontal"
+            app:layout_behavior=".custom.MoveUpBehavior"
             app:rippleColor="@color/transparent" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

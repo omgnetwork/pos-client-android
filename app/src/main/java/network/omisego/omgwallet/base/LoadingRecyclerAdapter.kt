@@ -7,6 +7,7 @@ package network.omisego.omgwallet.base
  * Copyright © 2017-2018 OmiseGO. All rights reserved.
  */
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
@@ -14,6 +15,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import network.omisego.omgwallet.custom.LoadingDiffCallback
+import network.omisego.omgwallet.extension.logi
 import java.util.UUID
 
 class LoadingRecyclerAdapter<T : Any, V : ViewDataBinding>(
@@ -30,6 +33,9 @@ class LoadingRecyclerAdapter<T : Any, V : ViewDataBinding>(
         dispatchUpdate(contentLoadingList, contentList)
         contentLoadingList.clear()
         contentLoadingList.addAll(contentList)
+    }
+
+    fun changeItem(item: T) {
     }
 
     fun reloadItems(newContentItems: List<T>) {
@@ -96,6 +102,18 @@ class LoadingRecyclerAdapter<T : Any, V : ViewDataBinding>(
         when (holder) {
             is StateViewHolder.Show<*> -> {
                 stateViewHolderBinding.bind((holder as StateViewHolder.Show<V>).binding, contentList[position])
+            }
+        }
+    }
+
+    override fun onBindViewHolder(holder: StateViewHolder, position: Int, payloads: MutableList<Any>) {
+        if (payloads.isEmpty()) this.onBindViewHolder(holder, position)
+        else {
+            val bundle = payloads[0] as Bundle
+            if (holder is StateViewHolder.Show<*>) {
+                val data = stateViewHolderBinding.resolvePayloadBundle(bundle) ?: return
+                logi("onBindViewHolder With Payload: $data")
+                stateViewHolderBinding.bind((holder as StateViewHolder.Show<V>).binding, data)
             }
         }
     }
