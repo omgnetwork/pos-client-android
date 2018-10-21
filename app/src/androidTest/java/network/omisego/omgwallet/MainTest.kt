@@ -11,7 +11,6 @@ import androidx.test.runner.AndroidJUnit4
 import co.omisego.omisego.model.params.LoginParams
 import network.omisego.omgwallet.base.BaseInstrumentalTest
 import network.omisego.omgwallet.config.LocalClientSetup
-import network.omisego.omgwallet.config.MockData
 import network.omisego.omgwallet.config.TestData
 import network.omisego.omgwallet.model.Credential
 import network.omisego.omgwallet.network.ClientProvider
@@ -50,27 +49,26 @@ class MainTest : BaseInstrumentalTest() {
     @Before
     fun setup() {
         registerIdlingResource()
-        Storage.saveWallets(MockData.walletList)
+        start()
+//        Storage.saveWallets(MockData.walletList)
     }
 
     @After
-    fun teardown(){
+    fun teardown() {
         unregisterIdlingResource()
+        rule.finishActivity()
     }
 
     @Test
     fun testShowMainBottomBar() {
-        start()
         mainScreen {
             fabQR.isDisplayed()
-            bottomBarProfile.isDisplayed()
-            bottombarBalance.isDisplayed()
+            bottomNavigation.isDisplayed()
         }
     }
 
     @Test
     fun testShowBalance() {
-        start()
         balanceScreen {
             recyclerView {
                 isDisplayed()
@@ -85,14 +83,13 @@ class MainTest : BaseInstrumentalTest() {
                 }
             }
         }
-        toolbarTitle shouldEqual "Balance"
+        toolbarTitle shouldEqual stringRes(R.string.balance_title)
     }
 
     @Test
     fun testShowProfile() {
-        start()
-        mainScreen.bottomBarProfile.click()
-        toolbarTitle shouldEqual "Profile"
+        mainScreen.bottomNavigation.setSelectedItem(R.id.profile)
+        toolbarTitle shouldEqual stringRes(R.string.profile_title)
         profileScreen {
             tvTransaction.isDisplayed()
             tvFingerprintTitle.isDisplayed()
@@ -102,13 +99,12 @@ class MainTest : BaseInstrumentalTest() {
 
     @Test
     fun testRepeatlySwitchTab() {
-        start()
         for (i in 0..1) {
-            mainScreen.bottomBarProfile.click()
-            toolbarTitle shouldEqual "Profile"
+            mainScreen.bottomNavigation.setSelectedItem(R.id.profile)
+            toolbarTitle shouldEqual stringRes(R.string.profile_title)
             profileScreen.tvTransaction.isDisplayed()
-            mainScreen.bottombarBalance.click()
-            toolbarTitle shouldEqual "Balance"
+            mainScreen.bottomNavigation.setSelectedItem(R.id.balance)
+            toolbarTitle shouldEqual stringRes(R.string.balance_title)
             balanceScreen.recyclerView.isDisplayed()
         }
     }

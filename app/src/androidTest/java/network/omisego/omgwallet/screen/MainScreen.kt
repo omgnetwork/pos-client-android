@@ -1,5 +1,6 @@
 package network.omisego.omgwallet.screen
 
+import com.agoda.kakao.KBottomNavigationView
 import com.agoda.kakao.KView
 import com.agoda.kakao.Screen
 import network.omisego.omgwallet.R
@@ -12,12 +13,11 @@ import network.omisego.omgwallet.R
  */
 
 class MainScreen : Screen<MainScreen>() {
-    val bottombarBalance: KView = KView {
-        withId(R.id.bottomBarBalance)
+
+    val bottomNavigation: KBottomNavigationView = KBottomNavigationView {
+        withId(R.id.bottomNavigation)
     }
-    val bottomBarProfile: KView = KView {
-        withId(R.id.bottomBarProfile)
-    }
+
     val fabQR: KView = KView {
         withId(R.id.fabQR)
     }

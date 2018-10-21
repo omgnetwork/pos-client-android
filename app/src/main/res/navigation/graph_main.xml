@@ -41,7 +41,7 @@
     <fragment
         android:id="@+id/showQR"
         android:name="network.omisego.omgwallet.screen.auth.showqr.ShowQRFragment"
-        android:label="Show QR"
+        android:label="@string/show_qr_title"
         tools:layout="@layout/fragment_show_qr" />
     <action
         android:id="@+id/action_global_showQR"

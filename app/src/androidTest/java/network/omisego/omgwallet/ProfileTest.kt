@@ -46,7 +46,7 @@ class ProfileTest : BaseInstrumentalTest() {
         Storage.deleteFingerprintCredential()
         Storage.saveFingerprintOption(false)
         start()
-        mainScreen.bottomBarProfile.click()
+        mainScreen.bottomNavigation.setSelectedItem(R.id.profile)
     }
 
     @Test

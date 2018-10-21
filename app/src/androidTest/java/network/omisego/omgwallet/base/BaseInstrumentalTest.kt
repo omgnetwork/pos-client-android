@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import androidx.annotation.StringRes
 import androidx.test.InstrumentationRegistry
 import androidx.test.espresso.IdlingRegistry
+import androidx.test.espresso.idling.CountingIdlingResource
 import androidx.test.rule.ActivityTestRule
 import co.infinum.goldfinger.Goldfinger
 import com.jakewharton.espresso.OkHttp3IdlingResource
@@ -14,6 +15,7 @@ import network.omisego.omgwallet.R
 import network.omisego.omgwallet.config.LocalClientSetup
 import network.omisego.omgwallet.network.ClientProvider
 import network.omisego.omgwallet.util.ContextUtil
+import network.omisego.omgwallet.util.IdlingResourceUtil
 import org.junit.Rule
 
 /*
@@ -23,8 +25,11 @@ import org.junit.Rule
  * Copyright © 2017-2018 OmiseGO. All rights reserved.
  */
 open class BaseInstrumentalTest {
-    private val idlingResource by lazy {
+    val idlingResource by lazy {
         OkHttp3IdlingResource.create("OkHTTP", ClientProvider.eWalletClient.client)
+    }
+    val coroutineIdlingResource by lazy {
+        CountingIdlingResource("coroutines")
     }
 
     @Rule
@@ -47,10 +52,14 @@ open class BaseInstrumentalTest {
 
     fun registerIdlingResource() {
         IdlingRegistry.getInstance().register(idlingResource)
+        IdlingRegistry.getInstance().register(coroutineIdlingResource)
+        IdlingResourceUtil.idlingResource = coroutineIdlingResource
     }
 
     fun unregisterIdlingResource() {
         IdlingRegistry.getInstance().unregister(idlingResource)
+        IdlingRegistry.getInstance().unregister(coroutineIdlingResource)
+        IdlingResourceUtil.idlingResource = null
     }
 
     fun stringRes(@StringRes id: Int): String {

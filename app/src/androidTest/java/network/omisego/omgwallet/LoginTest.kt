@@ -23,7 +23,6 @@ import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
 class LoginTest : BaseInstrumentalTest() {
-
     private val loginScreen: LoginScreen by lazy { LoginScreen() }
     private val mainScreen: MainScreen by lazy { MainScreen() }
 
@@ -72,8 +71,6 @@ class LoginTest : BaseInstrumentalTest() {
             Storage.saveWallets(MockData.walletList)
             btnLogin.click()
             mainScreen {
-                bottomBarProfile.isDisplayed()
-                bottombarBalance.isDisplayed()
                 fabQR.isDisplayed()
             }
             with(sharedPreferences) {

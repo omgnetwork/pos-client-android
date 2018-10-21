@@ -35,6 +35,8 @@ class AuthFragment : Fragment() {
     private lateinit var viewModel: AuthViewModel
     private lateinit var balanceViewModel: BalanceViewModel
     private lateinit var snackbar: Snackbar
+    private val hostActivity: MainActivity
+        get() = (activity as MainActivity)
     private val window: Window by lazy {
         activity?.window!!.apply {
             addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
@@ -51,6 +53,7 @@ class AuthFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         setupNavController()
         listenForSocketEvent()
+        hostActivity.setSupportActionBar(toolbar)
     }
 
     override fun onStart() {
@@ -87,7 +90,7 @@ class AuthFragment : Fragment() {
     }
 
     private fun setupNavController() {
-        navController = (activity as MainActivity).findNavController(R.id.content)
+        navController = hostActivity.findNavController(R.id.content)
         toolbar.setupWithNavController(navController)
         bottomNavigation.setupWithNavController(navController)
         fabQR.setOnClickListener { navController.navigate(R.id.action_global_showQR) }

@@ -19,6 +19,7 @@ import network.omisego.omgwallet.screen.MainScreen
 import network.omisego.omgwallet.screen.QRScreen
 import network.omisego.omgwallet.storage.Storage
 import org.amshove.kluent.shouldEqualTo
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -40,6 +41,12 @@ class QRTest : BaseInstrumentalTest() {
         Storage.deleteFingerprintCredential()
         Storage.saveFingerprintOption(false)
         start()
+        registerIdlingResource()
+    }
+
+    @After
+    fun teardown() {
+        unregisterIdlingResource()
     }
 
     @Test
@@ -59,7 +66,7 @@ class QRTest : BaseInstrumentalTest() {
         toolbarTitle shouldEqualTo stringRes(R.string.show_qr_title)
         qrScreen.pressBack()
         toolbarTitle shouldEqualTo stringRes(R.string.balance_title)
-        mainScreen.bottomBarProfile.click()
+        mainScreen.bottomNavigation.setSelectedItem(R.id.profile)
         mainScreen.fabQR.click()
         qrScreen.pressBack()
         toolbarTitle shouldEqualTo stringRes(R.string.profile_title)

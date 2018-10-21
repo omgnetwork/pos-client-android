@@ -108,6 +108,9 @@ dependencies {
     implementation firebase.core
     implementation firebase.crashlytics
 
+    /* Testing */
+    implementation custom.idlingResource
+
     testImplementation test
     androidTestImplementation androidTest
 }

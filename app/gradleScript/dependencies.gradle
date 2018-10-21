@@ -18,6 +18,7 @@ ext {
     okhttp3 = '3.9.1'
     nav = '1.0.0-alpha06'
     architecture = "2.0.0-alpha1"
+    espresso = "3.1.0-alpha4"
 
     omisego = [
         sdk: "co.omisego:omisego-client:${omisego}",
@@ -27,7 +28,7 @@ ext {
         extensions: "androidx.lifecycle:lifecycle-extensions:${architecture}"
     ]
     firebase = [
-        core : "com.google.firebase:firebase-core:16.0.1",
+        core       : "com.google.firebase:firebase-core:16.0.1",
         crashlytics: "com.crashlytics.sdk.android:crashlytics:2.9.5"
     ]
     databinding = [
@@ -73,12 +74,12 @@ ext {
         "androidx.arch.core:core-testing:${architecture}"
     ]
     androidTest = [
-        "androidx.test.espresso:espresso-core:3.1.0-alpha4",
+        "androidx.test.espresso:espresso-core:${espresso}",
         "com.agoda.kakao:kakao:1.4.0-androidx",
         "com.android.support.test:runner:1.0.1",
         "org.amshove.kluent:kluent-android:1.30",
         "com.android.support.test:rules:1.0.1",
-        "com.jakewharton.espresso:okhttp3-idling-resource:1.0.0"
+        "com.jakewharton.espresso:okhttp3-idling-resource:1.0.0",
     ]
     custom = [
         constraintLayout: 'androidx.constraintlayout:constraintlayout:1.1.0',
@@ -86,6 +87,7 @@ ext {
         shimmer         : 'com.facebook.shimmer:shimmer:0.2.0',
         dexter          : 'com.karumi:dexter:5.0.0',
         biometric       : 'co.infinum:goldfinger:1.1.1',
-        pagerindicator  : 'com.romandanylyk:pageindicatorview:1.0.2'
+        pagerindicator  : 'com.romandanylyk:pageindicatorview:1.0.2',
+        idlingResource  : "androidx.test.espresso:espresso-idling-resource:${espresso}",
     ]
 }

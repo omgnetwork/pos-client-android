@@ -25,17 +25,18 @@ import network.omisego.omgwallet.extension.either
 import network.omisego.omgwallet.extension.logi
 import network.omisego.omgwallet.livedata.Event
 import network.omisego.omgwallet.model.APIResult
+import network.omisego.omgwallet.util.IdlingResourceUtil
 
 class PreloadResourceViewModel(
     private val app: Application,
     private val localRepository: LocalRepository,
     private val remoteRepository: RemoteRepository
 ) : AndroidViewModel(app) {
-    val liveResult: MutableLiveData<Event<APIResult>> by lazy { MutableLiveData<Event<APIResult>>() }
-    val liveTransactionRequestFormattedId: MutableLiveData<Event<String>> by lazy { MutableLiveData<Event<String>>() }
-    val liveCreateTransactionRequestFailed: MutableLiveData<Event<APIError>> by lazy { MutableLiveData<Event<APIError>>() }
-    val liveStatus: MutableLiveData<String> by lazy { MutableLiveData<String>() }
-    val liveCloseButtonVisiblity: MutableLiveData<Int> by lazy { MutableLiveData<Int>() }
+    val liveResult by lazy { MutableLiveData<Event<APIResult>>() }
+    val liveTransactionRequestFormattedId by lazy { MutableLiveData<Event<String>>() }
+    val liveCreateTransactionRequestFailed by lazy { MutableLiveData<Event<APIError>>() }
+    val liveStatus by lazy { MutableLiveData<String>() }
+    val liveCloseButtonVisiblity by lazy { MutableLiveData<Int>() }
 
     fun loadWallets() {
         liveCloseButtonVisiblity.value = View.GONE
@@ -49,7 +50,6 @@ class PreloadResourceViewModel(
 
     fun createTransactionRequest(walletList: WalletList) {
         liveStatus.value = app.getString(R.string.splash_status_creating_transaction)
-
         val primaryToken = localRepository.loadTokenPrimary()
         val selectedTokenId = walletList.data[0].balances.findLast { it.token.id == primaryToken }?.token?.id
             ?: walletList.data[0].balances[0].token.id
@@ -59,6 +59,8 @@ class PreloadResourceViewModel(
             requireConfirmation = false
         )
         val formattedIds: MutableList<String> = mutableListOf()
+
+        IdlingResourceUtil.increment()
         launch(UI) {
             val result = async {
                 val txReceiveResult = remoteRepository.createTransactionRequest(params)
@@ -81,6 +83,7 @@ class PreloadResourceViewModel(
 
                 /* Emit event success */
                 liveTransactionRequestFormattedId.value = Event(message)
+                IdlingResourceUtil.decrement()
             }
         }
     }
