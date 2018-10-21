@@ -31,15 +31,35 @@
 
         <TextView
             android:id="@+id/tvCurrentStatus"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="16dp"
+            android:gravity="center"
             android:text="@{viewModel.liveStatus}"
             android:textColor="@color/colorGrayWeak"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView"
-            tools:text="@string/splash_status_creating_transaction" />
+            tools:text="dasfjkdsfklasmflkdsfmkladsfmksdlfmksdlfmdlskfmkldsmfkldsmfklsdmfkldsfmlkdsfmalfmslfkmsdlfm" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnClose"
+            style="@style/OMGTextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:text="@string/splash_btn_close"
+            android:textColor="@color/colorGrayWeak"
+            android:visibility="@{viewModel.liveCloseButtonVisiblity}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvCurrentStatus" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

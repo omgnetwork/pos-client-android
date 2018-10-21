@@ -12,14 +12,12 @@ import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import android.view.View
-import android.view.ViewGroup
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.widget.TextView
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.RecyclerView
 import network.omisego.omgwallet.R
-import network.omisego.omgwallet.extension.logi
 
 class BalanceItemAnimator : DefaultItemAnimator() {
     // stateless interpolators re-used for every change animation
@@ -60,7 +58,6 @@ class BalanceItemAnimator : DefaultItemAnimator() {
             return super.animateChange(oldHolder, newHolder, preInfo, postInfo)
         }
 
-        val container = newHolder.itemView.findViewById<ViewGroup>(R.id.layoutBalance)
         val tvAmount = newHolder.itemView.findViewById<TextView>(R.id.tvAmount)
 
         val oldInfo = (preInfo as BalanceInfo)
@@ -86,10 +83,9 @@ class BalanceItemAnimator : DefaultItemAnimator() {
 
         animMoveOut.removeAllUpdateListeners()
         animMoveOut.addUpdateListener {
-            logi("update ${it.animatedFraction}")
             if (it.animatedFraction == 1.0f) {
                 tvAmount.text = newText
-            } else if(it.animatedFraction == 0.0f) {
+            } else if (it.animatedFraction == 0.0f) {
                 tvAmount.text = oldText
             }
         }

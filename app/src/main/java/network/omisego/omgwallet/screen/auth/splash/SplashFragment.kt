@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import co.omisego.omisego.model.APIError
 import co.omisego.omisego.model.WalletList
+import kotlinx.android.synthetic.main.fragment_splash.*
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.databinding.FragmentSplashBinding
 import network.omisego.omgwallet.extension.bindingInflate
@@ -43,6 +44,9 @@ class SplashFragment : Fragment() {
         setupDataBinding()
         observeLiveData()
         viewModel.loadWallets()
+        btnClose.setOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 
     private fun setupDataBinding() {
@@ -60,6 +64,7 @@ class SplashFragment : Fragment() {
         })
         viewModel.liveCreateTransactionRequestFailed.observe(this, EventObserver {
             context?.toast(it.description, Toast.LENGTH_LONG)
+            tvCurrentStatus.text = it.description
         })
     }
 
@@ -69,6 +74,6 @@ class SplashFragment : Fragment() {
     }
 
     private fun handleLoadWalletFail(error: APIError) {
-        context?.toast(error.description)
+        viewModel.handleAPIError(error)
     }
 }

@@ -8,6 +8,7 @@ package network.omisego.omgwallet.screen.auth.splash
  */
 
 import android.app.Application
+import android.view.View
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import co.omisego.omisego.model.APIError
@@ -34,8 +35,10 @@ class PreloadResourceViewModel(
     val liveTransactionRequestFormattedId: MutableLiveData<Event<String>> by lazy { MutableLiveData<Event<String>>() }
     val liveCreateTransactionRequestFailed: MutableLiveData<Event<APIError>> by lazy { MutableLiveData<Event<APIError>>() }
     val liveStatus: MutableLiveData<String> by lazy { MutableLiveData<String>() }
+    val liveCloseButtonVisiblity: MutableLiveData<Int> by lazy { MutableLiveData<Int>() }
 
     fun loadWallets() {
+        liveCloseButtonVisiblity.value = View.GONE
         remoteRepository.loadWallet(liveResult, true)
         liveStatus.value = app.getString(R.string.splash_status_loading_wallet)
     }
@@ -82,7 +85,8 @@ class PreloadResourceViewModel(
         }
     }
 
-    private fun handleAPIError(apiError: APIError) {
+    fun handleAPIError(apiError: APIError) {
         liveCreateTransactionRequestFailed.value = Event(apiError)
+        liveCloseButtonVisiblity.value = View.VISIBLE
     }
 }

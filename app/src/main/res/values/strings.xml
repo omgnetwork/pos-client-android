@@ -15,6 +15,7 @@
     <!-- Splash -->
     <string name="splash_status_loading_wallet">Loading wallet…</string>
     <string name="splash_status_creating_transaction">Creating transaction…</string>
+    <string name="splash_btn_close">Close</string>
 
     <!-- Sign Up -->
     <string name="sign_up_title">Signup</string>
