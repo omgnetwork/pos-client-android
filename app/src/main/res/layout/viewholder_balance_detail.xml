@@ -128,7 +128,7 @@
                     tools:text="Last updated\nJune 14, 2018 11:30 AM" />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/materialButton"
+                    android:id="@+id/btnSetPrimary"
                     style="@style/OMGTextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
