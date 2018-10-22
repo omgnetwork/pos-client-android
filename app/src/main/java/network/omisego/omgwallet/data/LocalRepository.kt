@@ -19,8 +19,8 @@ import network.omisego.omgwallet.storage.Storage
  */
 
 class LocalRepository : BalanceDataRepository {
-    override fun loadWallet(liveAPIResult: MutableLiveData<Event<APIResult>>, networkOnly: Boolean) {
-        liveAPIResult.value = Event(APIResult.Success(Storage.loadWallets()))
+    override fun loadWallet(liveAPIResult: MutableLiveData<Event<APIResult>>) {
+        liveAPIResult.value = Event(APIResult.Success(loadWallet()))
     }
 
     fun clearSession() = Storage.clearSession()

@@ -53,7 +53,6 @@ class AuthFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         setupNavController()
         listenForSocketEvent()
-        hostActivity.setSupportActionBar(toolbar)
     }
 
     override fun onStart() {
@@ -85,7 +84,7 @@ class AuthFragment : Fragment() {
 
     private fun showSplashIfNeeded() {
         if (!viewModel.hasTransactionRequestFormattedId()) {
-            navController.navigate(R.id.action_global_splash)
+            navController.navigate(viewModel.provideSplashDirection())
         }
     }
 

@@ -11,6 +11,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import co.omisego.omisego.model.APIError
 import co.omisego.omisego.model.transaction.consumption.TransactionConsumption
+import network.omisego.omgwallet.GraphMainDirections
 import network.omisego.omgwallet.data.LocalRepository
 import network.omisego.omgwallet.data.RemoteRepository
 
@@ -26,6 +27,14 @@ class AuthViewModel(
     fun hasTransactionRequestFormattedId(): Boolean {
         return localRepository.hasFormattedId()
     }
+
+    fun loadPrimaryTokenId(): String? {
+        return localRepository.loadTokenPrimary()
+    }
+
+    fun provideSplashDirection() = GraphMainDirections
+        .actionGlobalSplash()
+        .setPrimaryTokenId(loadPrimaryTokenId())
 
     fun startListenForUserEvent() {
         remoteRepository.listenUserSocketEvent(

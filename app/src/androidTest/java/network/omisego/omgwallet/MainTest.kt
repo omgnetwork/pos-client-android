@@ -19,7 +19,6 @@ import network.omisego.omgwallet.screen.MainScreen
 import network.omisego.omgwallet.screen.ProfileScreen
 import network.omisego.omgwallet.screen.SplashScreen
 import network.omisego.omgwallet.storage.Storage
-import org.amshove.kluent.shouldEqual
 import org.junit.After
 import org.junit.Before
 import org.junit.BeforeClass
@@ -50,13 +49,11 @@ class MainTest : BaseInstrumentalTest() {
     fun setup() {
         registerIdlingResource()
         start()
-//        Storage.saveWallets(MockData.walletList)
     }
 
     @After
     fun teardown() {
         unregisterIdlingResource()
-        rule.finishActivity()
     }
 
     @Test
@@ -83,13 +80,13 @@ class MainTest : BaseInstrumentalTest() {
                 }
             }
         }
-        toolbarTitle shouldEqual stringRes(R.string.balance_title)
+        hasToolbarTitle(stringRes(R.string.balance_title))
     }
 
     @Test
     fun testShowProfile() {
         mainScreen.bottomNavigation.setSelectedItem(R.id.profile)
-        toolbarTitle shouldEqual stringRes(R.string.profile_title)
+        hasToolbarTitle(stringRes(R.string.profile_title))
         profileScreen {
             tvTransaction.isDisplayed()
             tvFingerprintTitle.isDisplayed()
@@ -101,10 +98,10 @@ class MainTest : BaseInstrumentalTest() {
     fun testRepeatlySwitchTab() {
         for (i in 0..1) {
             mainScreen.bottomNavigation.setSelectedItem(R.id.profile)
-            toolbarTitle shouldEqual stringRes(R.string.profile_title)
+            hasToolbarTitle(stringRes(R.string.profile_title))
             profileScreen.tvTransaction.isDisplayed()
             mainScreen.bottomNavigation.setSelectedItem(R.id.balance)
-            toolbarTitle shouldEqual stringRes(R.string.balance_title)
+            hasToolbarTitle(stringRes(R.string.balance_title))
             balanceScreen.recyclerView.isDisplayed()
         }
     }

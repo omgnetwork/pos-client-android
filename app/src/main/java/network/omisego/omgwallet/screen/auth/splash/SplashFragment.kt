@@ -28,10 +28,12 @@ import network.omisego.omgwallet.livedata.EventObserver
 class SplashFragment : Fragment() {
     private lateinit var binding: FragmentSplashBinding
     private lateinit var viewModel: PreloadResourceViewModel
+    private lateinit var args: SplashFragmentArgs
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = provideAndroidViewModel()
+        args = SplashFragmentArgs.fromBundle(arguments)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -43,9 +45,14 @@ class SplashFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupDataBinding()
         observeLiveData()
-        viewModel.loadWallets()
         btnClose.setOnClickListener {
             findNavController().navigateUp()
+        }
+
+        if (args.shouldLoadWallet) {
+            viewModel.loadWallets()
+        } else {
+            viewModel.loadWalletLocally()
         }
     }
 
@@ -58,8 +65,10 @@ class SplashFragment : Fragment() {
         viewModel.liveResult.observe(this, EventObserver {
             it.handle(this::handleLoadWalletSuccess, this::handleLoadWalletFail)
         })
-        viewModel.liveTransactionRequestFormattedId.observe(this, EventObserver {
-            logi("TransactionRequestFormattedId: $it")
+        viewModel.liveTransactionRequestFormattedId.observe(this, EventObserver { id ->
+            logi("TransactionRequestFormattedId: $id")
+            val balance = viewModel.loadBalances().findLast { it.token.id == args.primaryTokenId }
+            context?.toast(viewModel.displayTokenPrimaryNotify(balance!!))
             findNavController().navigateUp()
         })
         viewModel.liveCreateTransactionRequestFailed.observe(this, EventObserver {
@@ -70,7 +79,7 @@ class SplashFragment : Fragment() {
 
     private fun handleLoadWalletSuccess(data: WalletList) {
         viewModel.saveWallet(data)
-        viewModel.createTransactionRequest(data)
+        viewModel.createTransactionRequest(data, args.primaryTokenId)
     }
 
     private fun handleLoadWalletFail(error: APIError) {

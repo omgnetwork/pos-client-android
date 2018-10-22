@@ -36,7 +36,7 @@ class RemoteRepository : BalanceDataRepository {
         return ClientProvider.client.createTransactionRequest(params).execute()
     }
 
-    override fun loadWallet(liveAPIResult: MutableLiveData<Event<APIResult>>, networkOnly: Boolean) {
+    override fun loadWallet(liveAPIResult: MutableLiveData<Event<APIResult>>) {
         ClientProvider.client.getWallets().subscribeSingleEvent(liveAPIResult)
     }
 

@@ -50,7 +50,19 @@
         android:id="@+id/splash"
         android:name="network.omisego.omgwallet.screen.auth.splash.SplashFragment"
         android:label="SplashFragment"
-        tools:layout="@layout/fragment_splash" />
+        tools:layout="@layout/fragment_splash">
+
+        <argument
+            android:name="primaryTokenId"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="shouldLoadWallet"
+            android:defaultValue="true"
+            app:argType="boolean" />
+
+    </fragment>
     <action
         android:id="@+id/action_global_splash"
         app:destination="@id/splash" />

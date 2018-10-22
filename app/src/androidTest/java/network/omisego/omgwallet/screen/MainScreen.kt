@@ -4,6 +4,7 @@ import com.agoda.kakao.KBottomNavigationView
 import com.agoda.kakao.KView
 import com.agoda.kakao.Screen
 import network.omisego.omgwallet.R
+import network.omisego.omgwallet.custom.KToolbar
 
 /*
  * OmiseGO
@@ -13,6 +14,9 @@ import network.omisego.omgwallet.R
  */
 
 class MainScreen : Screen<MainScreen>() {
+    val toolbar: KToolbar = KToolbar {
+        withId(R.id.toolbar)
+    }
 
     val bottomNavigation: KBottomNavigationView = KBottomNavigationView {
         withId(R.id.bottomNavigation)

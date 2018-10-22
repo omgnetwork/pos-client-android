@@ -12,5 +12,5 @@ import network.omisego.omgwallet.livedata.Event
 import network.omisego.omgwallet.model.APIResult
 
 interface BalanceDataRepository {
-    fun loadWallet(liveAPIResult: MutableLiveData<Event<APIResult>>, networkOnly: Boolean = false)
+    fun loadWallet(liveAPIResult: MutableLiveData<Event<APIResult>>)
 }

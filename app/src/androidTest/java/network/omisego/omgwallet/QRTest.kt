@@ -18,7 +18,6 @@ import network.omisego.omgwallet.network.ClientProvider
 import network.omisego.omgwallet.screen.MainScreen
 import network.omisego.omgwallet.screen.QRScreen
 import network.omisego.omgwallet.storage.Storage
-import org.amshove.kluent.shouldEqualTo
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -53,7 +52,7 @@ class QRTest : BaseInstrumentalTest() {
     fun testShowQR() {
         mainScreen.fabQR.click()
         qrScreen {
-            toolbarTitle shouldEqualTo stringRes(R.string.show_qr_title)
+            hasToolbarTitle(stringRes(R.string.show_qr_title))
             ivQR {
                 isDisplayed()
             }
@@ -63,12 +62,12 @@ class QRTest : BaseInstrumentalTest() {
     @Test
     fun testCloseQR() {
         mainScreen.fabQR.click()
-        toolbarTitle shouldEqualTo stringRes(R.string.show_qr_title)
+        hasToolbarTitle(stringRes(R.string.show_qr_title))
         qrScreen.pressBack()
-        toolbarTitle shouldEqualTo stringRes(R.string.balance_title)
+        hasToolbarTitle(stringRes(R.string.balance_title))
         mainScreen.bottomNavigation.setSelectedItem(R.id.profile)
         mainScreen.fabQR.click()
         qrScreen.pressBack()
-        toolbarTitle shouldEqualTo stringRes(R.string.profile_title)
+        hasToolbarTitle(stringRes(R.string.profile_title))
     }
 }

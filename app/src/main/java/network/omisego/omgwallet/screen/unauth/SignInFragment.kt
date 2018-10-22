@@ -48,6 +48,7 @@ class SignInFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = provideAndroidViewModel()
+        fingerprintViewModel = provideAndroidViewModel()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -60,8 +61,9 @@ class SignInFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        fingerprintViewModel = provideAndroidViewModel()
-        takeNavigation()
+        if (viewModel.hasAuthenticationToken()) {
+            findNavController().navigate(R.id.action_signInFragment_to_authFragment)
+        }
 
         ivLogo.setImageDrawable(ContextCompat.getDrawable(ivLogo.context, R.drawable.omisego_logo_no_animated))
 
@@ -94,14 +96,6 @@ class SignInFragment : Fragment() {
 
         runOnP { subscribeSignInWithFingerprintP() }
         runOnMToP { subscribeSignInWithFingerprintBelowP() }
-    }
-
-    private fun takeNavigation() {
-        val wallets = viewModel.loadWallets()
-        val hasAuthToken = viewModel.hasAuthenticationToken()
-        when {
-            hasAuthToken -> findNavController().navigate(R.id.action_signInFragment_to_authFragment)
-        }
     }
 
     @RequiresApi(Build.VERSION_CODES.P)

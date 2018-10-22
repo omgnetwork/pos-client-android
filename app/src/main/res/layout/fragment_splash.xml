@@ -56,7 +56,7 @@
             android:layout_marginBottom="8dp"
             android:text="@string/splash_btn_close"
             android:textColor="@color/colorGrayWeak"
-            android:visibility="@{viewModel.liveCloseButtonVisiblity}"
+            android:visibility="@{viewModel.liveCloseButtonVisibility}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

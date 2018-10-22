@@ -14,6 +14,7 @@ import network.omisego.omgwallet.MainActivity
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.config.LocalClientSetup
 import network.omisego.omgwallet.network.ClientProvider
+import network.omisego.omgwallet.screen.MainScreen
 import network.omisego.omgwallet.util.ContextUtil
 import network.omisego.omgwallet.util.IdlingResourceUtil
 import org.junit.Rule
@@ -32,6 +33,8 @@ open class BaseInstrumentalTest {
         CountingIdlingResource("coroutines")
     }
 
+    private val mainScreen: MainScreen by lazy { MainScreen() }
+
     @Rule
     @JvmField
     val rule = ActivityTestRule(MainActivity::class.java, true, false)
@@ -41,8 +44,9 @@ open class BaseInstrumentalTest {
         context.getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE)
     }
 
-    val toolbarTitle: String
-        get() = rule.activity.supportActionBar?.title!!.toString()
+    fun hasToolbarTitle(title: String) {
+        mainScreen.toolbar.hasTitle(title)
+    }
 
     fun clearSharePreference() {
         sharedPreferences.edit().clear().apply()

@@ -12,6 +12,7 @@ import android.view.View
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import co.omisego.omisego.model.APIError
+import co.omisego.omisego.model.Balance
 import co.omisego.omisego.model.WalletList
 import co.omisego.omisego.model.transaction.request.TransactionRequestCreateParams
 import co.omisego.omisego.model.transaction.request.TransactionRequestType
@@ -36,11 +37,23 @@ class PreloadResourceViewModel(
     val liveTransactionRequestFormattedId by lazy { MutableLiveData<Event<String>>() }
     val liveCreateTransactionRequestFailed by lazy { MutableLiveData<Event<APIError>>() }
     val liveStatus by lazy { MutableLiveData<String>() }
-    val liveCloseButtonVisiblity by lazy { MutableLiveData<Int>() }
+    val liveCloseButtonVisibility by lazy { MutableLiveData<Int>() }
+
+    fun displayTokenPrimaryNotify(balance: Balance) = app.getString(
+        R.string.balance_detail_primary_token_set_notify,
+        balance.token.symbol
+    )
+
+    fun loadBalances() = localRepository.loadWallet()?.data?.get(0)?.balances!!
+
+    fun loadWalletLocally() {
+        liveCloseButtonVisibility.value = View.GONE
+        localRepository.loadWallet(liveResult)
+    }
 
     fun loadWallets() {
-        liveCloseButtonVisiblity.value = View.GONE
-        remoteRepository.loadWallet(liveResult, true)
+        liveCloseButtonVisibility.value = View.GONE
+        remoteRepository.loadWallet(liveResult)
         liveStatus.value = app.getString(R.string.splash_status_loading_wallet)
     }
 
@@ -48,14 +61,15 @@ class PreloadResourceViewModel(
         localRepository.saveWallets(data)
     }
 
-    fun createTransactionRequest(walletList: WalletList) {
+    fun createTransactionRequest(walletList: WalletList, primaryTokenId: String?) {
         liveStatus.value = app.getString(R.string.splash_status_creating_transaction)
-        val primaryToken = localRepository.loadTokenPrimary()
-        val selectedTokenId = walletList.data[0].balances.findLast { it.token.id == primaryToken }?.token?.id
-            ?: walletList.data[0].balances[0].token.id
+
+        val selectedToken = walletList.data[0].balances.findLast { it.token.id == primaryTokenId }?.token
+            ?: walletList.data[0].balances[0].token
+
         val params = TransactionRequestCreateParams(
             TransactionRequestType.RECEIVE,
-            selectedTokenId,
+            selectedToken.id,
             requireConfirmation = false
         )
         val formattedIds: MutableList<String> = mutableListOf()
@@ -81,8 +95,12 @@ class PreloadResourceViewModel(
                 localRepository.saveTransactionRequestFormattedId(txReceive.body()?.data!!)
                 localRepository.saveTransactionRequestFormattedId(txSend.body()?.data!!)
 
+                /* Save primary token */
+                localRepository.saveTokenPrimary(selectedToken)
+
                 /* Emit event success */
                 liveTransactionRequestFormattedId.value = Event(message)
+
                 IdlingResourceUtil.decrement()
             }
         }
@@ -90,6 +108,6 @@ class PreloadResourceViewModel(
 
     fun handleAPIError(apiError: APIError) {
         liveCreateTransactionRequestFailed.value = Event(apiError)
-        liveCloseButtonVisiblity.value = View.VISIBLE
+        liveCloseButtonVisibility.value = View.VISIBLE
     }
 }

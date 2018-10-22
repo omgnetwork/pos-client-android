@@ -19,7 +19,6 @@ import kotlinx.android.synthetic.main.fragment_balance_detail.*
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.databinding.FragmentBalanceDetailBinding
 import network.omisego.omgwallet.extension.provideActivityAndroidViewModel
-import network.omisego.omgwallet.extension.toast
 import network.omisego.omgwallet.livedata.EventObserver
 
 class BalanceDetailFragment : Fragment() {
@@ -42,9 +41,8 @@ class BalanceDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupViewPager()
         viewModel.liveEventTokenPrimaryId.observe(this, EventObserver { primaryTokenId ->
-            val balance = balances.findLast { it.token.id == primaryTokenId }
-            findNavController().navigate(R.id.action_global_splash)
-            context?.toast(viewModel.displayTokenPrimaryNotify(balance!!))
+            val dirGlobalSplash = viewModel.provideSplashDirection(primaryTokenId)
+            findNavController().navigate(dirGlobalSplash)
         })
     }
 
