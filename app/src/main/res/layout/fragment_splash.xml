@@ -18,14 +18,17 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="14dp"
             app:layout_constraintBottom_toTopOf="@+id/tvCurrentStatus"
+            app:layout_constraintDimensionRatio="H,1:1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed"
+            app:layout_constraintWidth_percent="0.5"
             app:loadGif="@{R.raw.go_loading}"
             tools:srcCompat="@tools:sample/avatars" />
 

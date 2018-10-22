@@ -20,7 +20,6 @@ import kotlinx.android.synthetic.main.fragment_splash.*
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.databinding.FragmentSplashBinding
 import network.omisego.omgwallet.extension.bindingInflate
-import network.omisego.omgwallet.extension.logi
 import network.omisego.omgwallet.extension.provideAndroidViewModel
 import network.omisego.omgwallet.extension.toast
 import network.omisego.omgwallet.livedata.EventObserver
@@ -65,10 +64,9 @@ class SplashFragment : Fragment() {
         viewModel.liveResult.observe(this, EventObserver {
             it.handle(this::handleLoadWalletSuccess, this::handleLoadWalletFail)
         })
-        viewModel.liveTransactionRequestFormattedId.observe(this, EventObserver { id ->
-            logi("TransactionRequestFormattedId: $id")
-            val balance = viewModel.loadBalances().findLast { it.token.id == args.primaryTokenId }
-            context?.toast(viewModel.displayTokenPrimaryNotify(balance!!))
+        viewModel.liveTransactionRequestPrimaryTokenId.observe(this, EventObserver { primaryTokenId ->
+            val balance = viewModel.loadBalances().find { it.token.id == primaryTokenId }
+            context?.toast(viewModel.displayTokenPrimaryNotify(balance))
             findNavController().navigateUp()
         })
         viewModel.liveCreateTransactionRequestFailed.observe(this, EventObserver {

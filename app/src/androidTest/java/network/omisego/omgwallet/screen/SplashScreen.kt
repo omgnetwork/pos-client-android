@@ -1,5 +1,6 @@
 package network.omisego.omgwallet.screen
 
+import com.agoda.kakao.KButton
 import com.agoda.kakao.KImageView
 import com.agoda.kakao.KTextView
 import com.agoda.kakao.Screen
@@ -20,5 +21,9 @@ class SplashScreen : Screen<SplashScreen>() {
 
     val tvStatus: KTextView = KTextView {
         withId(R.id.tvCurrentStatus)
+    }
+
+    val btnClose: KButton = KButton {
+        withId(R.id.btnClose)
     }
 }

@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import co.omisego.omisego.model.Token
 import co.omisego.omisego.model.User
 import co.omisego.omisego.model.WalletList
-import co.omisego.omisego.model.transaction.request.TransactionRequest
+import co.omisego.omisego.model.transaction.request.TransactionRequestType
 import network.omisego.omgwallet.data.contract.BalanceDataRepository
 import network.omisego.omgwallet.livedata.Event
 import network.omisego.omgwallet.model.APIResult
@@ -49,7 +49,7 @@ class LocalRepository : BalanceDataRepository {
 
     fun loadUser() = Storage.loadUser()
 
-    fun saveTransactionRequestFormattedId(request: TransactionRequest) = Storage.saveFormattedId(request)
+    fun saveTransactionRequestFormattedId(formattedIds: Map<TransactionRequestType, String>) = Storage.saveFormattedId(formattedIds)
 
     fun saveUser(user: User) = Storage.saveUser(user)
 

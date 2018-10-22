@@ -14,10 +14,12 @@ import retrofit2.Response
 
 /*  Either<T,APIError> */
 
-fun <T> Response<T>.either(): Either<T, APIError> {
-    return if (this.isSuccessful) {
+fun <T> Response<T>.either(doOnSuccess: (T) -> Unit, doOnError: (APIError) -> Unit) {
+    val successOrError = if (this.isSuccessful) {
         Either.Left(this.body()!!)
     } else {
         Either.Right(GsonProvider.create().fromJson(this.errorBody()?.string(), APIError::class.java))
     }
+
+    successOrError.either(doOnSuccess, doOnError)
 }
