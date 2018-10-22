@@ -26,5 +26,6 @@ class BalanceScreen : Screen<BalanceScreen>() {
         val tvCurrencyName: KTextView = KTextView(parent) { withId(R.id.tvCurrencyName) }
         val tvAmount: KTextView = KTextView(parent) { withId(R.id.tvAmount) }
         val tvCurrencySymbol: KTextView = KTextView(parent) { withId(R.id.tvCurrencySymbol) }
+        val tvPrimaryToken: KTextView = KTextView(parent) { withId(R.id.tvPrimary) }
     }
 }

@@ -8,6 +8,9 @@ import androidx.test.InstrumentationRegistry
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.rule.ActivityTestRule
 import co.infinum.goldfinger.Goldfinger
+import co.omisego.omisego.model.Balance
+import co.omisego.omisego.model.Token
+import co.omisego.omisego.model.WalletList
 import com.jakewharton.espresso.OkHttp3IdlingResource
 import network.omisego.omgwallet.MainActivity
 import network.omisego.omgwallet.R
@@ -17,6 +20,7 @@ import network.omisego.omgwallet.screen.MainScreen
 import network.omisego.omgwallet.util.ContextUtil
 import network.omisego.omgwallet.util.IdlingResourceUtil
 import org.junit.Rule
+import java.math.BigDecimal
 
 /*
  * OmiseGO
@@ -58,6 +62,13 @@ open class BaseInstrumentalTest {
     fun unregisterIdlingResource() {
         IdlingRegistry.getInstance().unregister(idlingResource)
         IdlingRegistry.getInstance().unregister(IdlingResourceUtil.idlingResource)
+    }
+
+    fun selectPrimaryToken(walletList: WalletList, primaryTokenId: String?): Token {
+        val theHighestBalance: (Balance) -> BigDecimal = { it.amount.divide(it.token.subunitToUnit) }
+        return walletList.data[0].balances.find { it.token.id == primaryTokenId }?.token
+            ?: walletList.data[0].balances.maxBy(theHighestBalance)?.token
+            ?: walletList.data[0].balances[0].token
     }
 
     fun stringRes(@StringRes id: Int): String {

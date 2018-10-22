@@ -19,6 +19,8 @@ import network.omisego.omgwallet.screen.MainScreen
 import network.omisego.omgwallet.screen.ProfileScreen
 import network.omisego.omgwallet.screen.SplashScreen
 import network.omisego.omgwallet.storage.Storage
+import org.amshove.kluent.shouldBeGreaterThan
+import org.amshove.kluent.shouldNotBe
 import org.junit.After
 import org.junit.Before
 import org.junit.BeforeClass
@@ -47,6 +49,8 @@ class MainTest : BaseInstrumentalTest() {
 
     @Before
     fun setup() {
+        Storage.deleteFormattedIds()
+        Storage.deleteTokenPrimary()
         registerIdlingResource()
         start()
     }
@@ -91,6 +95,25 @@ class MainTest : BaseInstrumentalTest() {
             tvTransaction.isDisplayed()
             tvFingerprintTitle.isDisplayed()
             tvSignOut.isDisplayed()
+        }
+    }
+
+    @Test
+    fun testPrimaryTokenShouldBeVisibleWhenFirstTimeLogin() {
+        balanceScreen {
+            this.recyclerView.isDisplayed()
+
+            val primaryToken = selectPrimaryToken(Storage.loadWallets()!!, null)
+            val position = Storage.loadWallets()?.data?.get(0)?.balances?.indexOfFirst { it.token.id == primaryToken.id }
+
+            position shouldNotBe null
+            position?.shouldBeGreaterThan(-1)
+
+            recyclerView {
+                childAt<BalanceScreen.Item>(position!!) {
+                    tvPrimaryToken.isDisplayed()
+                }
+            }
         }
     }
 
