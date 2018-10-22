@@ -6,7 +6,6 @@ import android.content.SharedPreferences
 import androidx.annotation.StringRes
 import androidx.test.InstrumentationRegistry
 import androidx.test.espresso.IdlingRegistry
-import androidx.test.espresso.idling.CountingIdlingResource
 import androidx.test.rule.ActivityTestRule
 import co.infinum.goldfinger.Goldfinger
 import com.jakewharton.espresso.OkHttp3IdlingResource
@@ -28,9 +27,6 @@ import org.junit.Rule
 open class BaseInstrumentalTest {
     val idlingResource by lazy {
         OkHttp3IdlingResource.create("OkHTTP", ClientProvider.eWalletClient.client)
-    }
-    val coroutineIdlingResource by lazy {
-        CountingIdlingResource("coroutines")
     }
 
     private val mainScreen: MainScreen by lazy { MainScreen() }
@@ -56,14 +52,12 @@ open class BaseInstrumentalTest {
 
     fun registerIdlingResource() {
         IdlingRegistry.getInstance().register(idlingResource)
-        IdlingRegistry.getInstance().register(coroutineIdlingResource)
-        IdlingResourceUtil.idlingResource = coroutineIdlingResource
+        IdlingRegistry.getInstance().register(IdlingResourceUtil.idlingResource)
     }
 
     fun unregisterIdlingResource() {
         IdlingRegistry.getInstance().unregister(idlingResource)
-        IdlingRegistry.getInstance().unregister(coroutineIdlingResource)
-        IdlingResourceUtil.idlingResource = null
+        IdlingRegistry.getInstance().unregister(IdlingResourceUtil.idlingResource)
     }
 
     fun stringRes(@StringRes id: Int): String {

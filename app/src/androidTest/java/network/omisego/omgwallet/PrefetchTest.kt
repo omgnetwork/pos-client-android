@@ -7,7 +7,9 @@ package network.omisego.omgwallet
  * Copyright © 2017-2018 OmiseGO. All rights reserved.
  */
 
-import androidx.test.espresso.IdlingRegistry
+import co.omisego.omisego.model.Balance
+import co.omisego.omisego.model.Token
+import co.omisego.omisego.model.WalletList
 import co.omisego.omisego.model.params.LoginParams
 import network.omisego.omgwallet.base.BaseInstrumentalTest
 import network.omisego.omgwallet.config.LocalClientSetup
@@ -17,12 +19,15 @@ import network.omisego.omgwallet.network.ClientProvider
 import network.omisego.omgwallet.screen.MainScreen
 import network.omisego.omgwallet.screen.SplashScreen
 import network.omisego.omgwallet.storage.Storage
+import org.amshove.kluent.shouldBe
 import org.amshove.kluent.shouldBeGreaterThan
+import org.amshove.kluent.shouldEqual
 import org.amshove.kluent.shouldEqualTo
 import org.junit.After
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
+import java.math.BigDecimal
 
 class PrefetchTest : BaseInstrumentalTest() {
     private val splashScreen: SplashScreen by lazy { SplashScreen() }
@@ -43,7 +48,8 @@ class PrefetchTest : BaseInstrumentalTest() {
 
     @Before
     fun setup() {
-        start()
+        Storage.deleteWallets()
+        Storage.deleteFormattedIds()
     }
 
     @After
@@ -52,28 +58,54 @@ class PrefetchTest : BaseInstrumentalTest() {
     }
 
     @Test
-    fun testSplashScreenShouldShowInformationCorrectly() {
+    fun testSplashScreenShouldDisplayCorrectly() {
+        start()
         splashScreen {
-            loadingGif.isDisplayed()
-            tvStatus.hasText(R.string.splash_status_loading_wallet)
-            IdlingRegistry.getInstance().register(idlingResource)
-            tvStatus.hasText(R.string.splash_status_creating_transaction)
-            IdlingRegistry.getInstance().register(coroutineIdlingResource)
+            loadingGif.isVisible()
+            tvStatus.isDisplayed()
+            btnClose.isNotDisplayed()
         }
     }
 
     @Test
     fun testSplashScreenShouldLoadWalletAndSaveCorrectly() {
         registerIdlingResource()
+        start()
 
+        /* This will ensure that the test framework will be waiting for the idle state */
+        mainScreen.bottomNavigation.isDisplayed()
         Storage.loadWallets()?.data?.size?.shouldBeGreaterThan(0)
     }
 
     @Test
     fun testSplashScreenShouldCreateTransactionRequestAndSaveIdCorrectly() {
         registerIdlingResource()
+        start()
 
         /* Should create a transaction request and save the id with format `id1|id2` */
+        mainScreen.bottomNavigation.isDisplayed()
         Storage.loadFormattedId().split("|").size shouldEqualTo 2
+    }
+
+    @Test
+    fun testSelectPrimaryTokenAutomaticallyWhenTheTokenPrimaryIdIsNull() {
+        /* Delete token primary first so that the primary token is null */
+        Storage.deleteTokenPrimary()
+
+        /* Verify that the token has already deleted */
+        Storage.loadTokenPrimary() shouldBe null
+
+        registerIdlingResource()
+        start()
+
+        mainScreen.bottomNavigation.isDisplayed()
+        selectPrimaryToken(Storage.loadWallets()!!, null).id shouldEqual Storage.loadTokenPrimary()
+    }
+
+    private fun selectPrimaryToken(walletList: WalletList, primaryTokenId: String?): Token {
+        val theHighestBalance: (Balance) -> BigDecimal = { it.amount.divide(it.token.subunitToUnit) }
+        return walletList.data[0].balances.find { it.token.id == primaryTokenId }?.token
+            ?: walletList.data[0].balances.maxBy(theHighestBalance)?.token
+            ?: walletList.data[0].balances[0].token
     }
 }
