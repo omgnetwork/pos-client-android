@@ -15,6 +15,7 @@ import com.jakewharton.espresso.OkHttp3IdlingResource
 import network.omisego.omgwallet.MainActivity
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.config.LocalClientSetup
+import network.omisego.omgwallet.config.TxConsumerClient
 import network.omisego.omgwallet.network.ClientProvider
 import network.omisego.omgwallet.screen.MainScreen
 import network.omisego.omgwallet.util.ContextUtil
@@ -29,8 +30,16 @@ import java.math.BigDecimal
  * Copyright © 2017-2018 OmiseGO. All rights reserved.
  */
 open class BaseInstrumentalTest {
+    val consumerClient by lazy {
+        TxConsumerClient.create()
+    }
+
     val idlingResource by lazy {
         OkHttp3IdlingResource.create("OkHTTP", ClientProvider.eWalletClient.client)
+    }
+
+    val consumerIdlingResource by lazy {
+        OkHttp3IdlingResource.create("OkHTTPConsumer", consumerClient.okHttpClient)
     }
 
     private val mainScreen: MainScreen by lazy { MainScreen() }
@@ -56,11 +65,13 @@ open class BaseInstrumentalTest {
 
     fun registerIdlingResource() {
         IdlingRegistry.getInstance().register(idlingResource)
+        IdlingRegistry.getInstance().register(consumerIdlingResource)
         IdlingRegistry.getInstance().register(IdlingResourceUtil.idlingResource)
     }
 
     fun unregisterIdlingResource() {
         IdlingRegistry.getInstance().unregister(idlingResource)
+        IdlingRegistry.getInstance().unregister(consumerIdlingResource)
         IdlingRegistry.getInstance().unregister(IdlingResourceUtil.idlingResource)
     }
 

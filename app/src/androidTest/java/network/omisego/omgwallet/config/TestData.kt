@@ -13,5 +13,8 @@ object TestData {
     const val USER_EMAIL = "ripzery@gmail.com"
     const val USER_PASSWORD = "Tt123###"
 
+    const val CONSUME_TX_USER_EMAIL = "phuchit.sir@gmail.com"
+    const val CONSUME_TX_USER_PASSWORD = "Tt123###"
+
     val REGISTER_USER_EMAIL = "test${UUID.randomUUID().toString().take(3)}@omise.co"
 }
