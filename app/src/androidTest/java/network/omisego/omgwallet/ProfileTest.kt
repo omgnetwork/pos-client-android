@@ -12,7 +12,6 @@ import androidx.test.runner.AndroidJUnit4
 import co.omisego.omisego.model.params.LoginParams
 import network.omisego.omgwallet.base.BaseInstrumentalTest
 import network.omisego.omgwallet.config.LocalClientSetup
-import network.omisego.omgwallet.config.MockData
 import network.omisego.omgwallet.config.TestData
 import network.omisego.omgwallet.model.Credential
 import network.omisego.omgwallet.network.ClientProvider
@@ -23,7 +22,9 @@ import network.omisego.omgwallet.screen.ProfileScreen
 import network.omisego.omgwallet.storage.Storage
 import network.omisego.omgwallet.storage.StorageKey
 import org.amshove.kluent.shouldBe
+import org.junit.After
 import org.junit.Before
+import org.junit.BeforeClass
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -34,19 +35,32 @@ class ProfileTest : BaseInstrumentalTest() {
     private val loginScreen: LoginScreen by lazy { LoginScreen() }
     private val confirmFingerprintScreen: ConfirmFingerprintScreen by lazy { ConfirmFingerprintScreen() }
 
+    companion object {
+        @BeforeClass
+        @JvmStatic
+        fun setupClass() {
+            ClientProvider.init(LocalClientSetup())
+            Storage.clearSession()
+            val response = ClientProvider.client.login(LoginParams(TestData.USER_EMAIL, TestData.USER_PASSWORD)).execute()
+            Storage.saveUser(response.body()!!.data.user)
+            Storage.saveCredential(Credential(response.body()!!.data.authenticationToken))
+            Storage.saveUserEmail(TestData.USER_EMAIL)
+        }
+    }
+
     @Before
     fun setup() {
-        ClientProvider.init(LocalClientSetup())
-        Storage.clearSession()
-        val response = ClientProvider.client.login(LoginParams(TestData.USER_EMAIL, TestData.USER_PASSWORD)).execute()
-        Storage.saveWallets(MockData.walletList)
-        Storage.saveUser(response.body()!!.data.user)
-        Storage.saveCredential(Credential(response.body()!!.data.authenticationToken))
-        Storage.saveUserEmail(TestData.USER_EMAIL)
         Storage.deleteFingerprintCredential()
         Storage.saveFingerprintOption(false)
+        Storage.deleteFormattedIds()
+        registerIdlingResource()
         start()
         mainScreen.bottomNavigation.setSelectedItem(R.id.profile)
+    }
+
+    @After
+    fun teardown() {
+        unregisterIdlingResource()
     }
 
     @Test

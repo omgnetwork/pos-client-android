@@ -2,6 +2,7 @@ package network.omisego.omgwallet
 
 import androidx.test.runner.AndroidJUnit4
 import co.omisego.omisego.extension.bd
+import co.omisego.omisego.model.Balance
 import co.omisego.omisego.model.Token
 import co.omisego.omisego.model.params.LoginParams
 import co.omisego.omisego.model.transaction.consumption.TransactionConsumption
@@ -53,6 +54,7 @@ class ConsumeTransactionRequestTest : BaseInstrumentalTest() {
 
     @Before
     fun setup() {
+        Storage.deleteTokenPrimary()
         Storage.deleteFormattedIds()
         registerIdlingResource()
         start()
@@ -64,7 +66,7 @@ class ConsumeTransactionRequestTest : BaseInstrumentalTest() {
     }
 
     @Test
-    fun testWhenConsumeTransactionRequestTypeSend_ThenConfirmPageShouldBeDisplayedCorrectly() {
+    fun testConsumeTransactionRequestWithTypeSend_ThenConfirmPageShouldBeDisplayedCorrectly() {
         mainScreen {
             bottomNavigation.isDisplayed()
 
@@ -100,7 +102,7 @@ class ConsumeTransactionRequestTest : BaseInstrumentalTest() {
     }
 
     @Test
-    fun testWhenConsumeTransactionRequestTypeSend_doApprove_ThenBalanceScreenShouldBeDisplayCorrectly() {
+    fun testConsumeTransactionRequestWithTypeSend_doApprove_ThenBalanceScreenShouldBeDisplayCorrectly() {
         mainScreen {
             bottomNavigation.isDisplayed()
 
@@ -144,7 +146,7 @@ class ConsumeTransactionRequestTest : BaseInstrumentalTest() {
     }
 
     @Test
-    fun testWhenConsumeTransactionRequestTypeSend_doReject_ThenBalanceScreenShouldBeDisplayCorrectly() {
+    fun testConsumeTransactionRequestWithTypeSend_doReject_ThenBalanceScreenShouldBeDisplayCorrectly() {
         mainScreen {
             bottomNavigation.isDisplayed()
 
@@ -190,7 +192,7 @@ class ConsumeTransactionRequestTest : BaseInstrumentalTest() {
     }
 
     @Test
-    fun testWhenConsumeTransactionRequestTypeSend_doConsumeLargeAmount_ThenErrorShouldBeDisplayed() {
+    fun testConsumeTransactionRequestWithTypeSend_doConsumeLargeAmount_ThenErrorShouldBeDisplayed() {
         mainScreen {
             bottomNavigation.isDisplayed()
 
@@ -227,7 +229,7 @@ class ConsumeTransactionRequestTest : BaseInstrumentalTest() {
     }
 
     @Test
-    fun testWhenConsumeTransactionRequestTypeReceive_ThenBalanceScreenShouldBeDisplayedCorrectly() {
+    fun testConsumeTransactionRequestWithTypeReceive_ThenBalanceScreenShouldBeDisplayedCorrectly() {
         mainScreen {
             bottomNavigation.isDisplayed()
 
@@ -242,20 +244,23 @@ class ConsumeTransactionRequestTest : BaseInstrumentalTest() {
 
             idle(1000)
 
-            balanceScreen {
-                val tokenIndex = Storage.loadWallets()?.data?.get(0)?.balances?.indexOfFirst { currentBalance.token.id == it.token.id }!!
-                recyclerView {
-                    isDisplayed()
-                    childAt<BalanceScreen.Item>(tokenIndex) {
-                        val latestAmountText = String.format(
-                            "%,.2f",
-                            currentBalance.amount
-                                .plus(currentBalance.token.subunitToUnit)
-                                .divide(currentBalance.token.subunitToUnit)
-                        )
-                        idle(500)
-                        tvAmount.hasText(latestAmountText)
-                    }
+        }
+    }
+
+    private fun verifyBalanceChange(currentBalance: Balance, receive: Boolean) {
+        balanceScreen {
+            val tokenIndex = Storage.loadWallets()?.data?.get(0)?.balances?.indexOfFirst { currentBalance.token.id == it.token.id }!!
+            recyclerView {
+                isDisplayed()
+                childAt<BalanceScreen.Item>(tokenIndex) {
+                    val latestAmountText = String.format(
+                        "%,.2f",
+                        currentBalance.amount
+                            .plus(currentBalance.token.subunitToUnit)
+                            .divide(currentBalance.token.subunitToUnit)
+                    )
+                    idle(500)
+                    tvAmount.hasText(latestAmountText)
                 }
             }
         }

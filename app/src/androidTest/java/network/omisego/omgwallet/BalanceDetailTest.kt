@@ -14,7 +14,6 @@ import network.omisego.omgwallet.network.ClientProvider
 import network.omisego.omgwallet.screen.BalanceDetailScreen
 import network.omisego.omgwallet.screen.BalanceScreen
 import network.omisego.omgwallet.screen.MainScreen
-import network.omisego.omgwallet.screen.SplashScreen
 import network.omisego.omgwallet.storage.Storage
 import org.amshove.kluent.shouldEqual
 import org.amshove.kluent.shouldNotBe
@@ -36,7 +35,6 @@ class BalanceDetailTest : BaseInstrumentalTest() {
     private val mainScreen: MainScreen by lazy { MainScreen() }
     private val balanceScreen: BalanceScreen by lazy { BalanceScreen() }
     private val balanceDetailScreen: BalanceDetailScreen by lazy { BalanceDetailScreen() }
-    private val splashScreen: SplashScreen by lazy { SplashScreen() }
 
     companion object {
         @BeforeClass
