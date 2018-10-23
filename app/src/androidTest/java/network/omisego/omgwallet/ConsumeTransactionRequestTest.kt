@@ -1,15 +1,16 @@
 package network.omisego.omgwallet
 
 import androidx.test.runner.AndroidJUnit4
+import co.omisego.omisego.extension.bd
 import co.omisego.omisego.model.Token
 import co.omisego.omisego.model.params.LoginParams
 import co.omisego.omisego.model.transaction.consumption.TransactionConsumption
+import com.agoda.kakao.KView
 import network.omisego.omgwallet.base.BaseInstrumentalTest
 import network.omisego.omgwallet.config.LocalClientSetup
 import network.omisego.omgwallet.config.TestData
 import network.omisego.omgwallet.model.Credential
 import network.omisego.omgwallet.network.ClientProvider
-import network.omisego.omgwallet.screen.BalanceDetailScreen
 import network.omisego.omgwallet.screen.BalanceScreen
 import network.omisego.omgwallet.screen.ConfirmTransactionRequestScreen
 import network.omisego.omgwallet.screen.MainScreen
@@ -35,7 +36,6 @@ import org.junit.runner.RunWith
 class ConsumeTransactionRequestTest : BaseInstrumentalTest() {
     private val mainScreen: MainScreen by lazy { MainScreen() }
     private val balanceScreen: BalanceScreen by lazy { BalanceScreen() }
-    private val balanceDetailScreen: BalanceDetailScreen by lazy { BalanceDetailScreen() }
     private val confirmTransactionRequestScreen: ConfirmTransactionRequestScreen by lazy { ConfirmTransactionRequestScreen() }
 
     companion object {
@@ -143,11 +143,133 @@ class ConsumeTransactionRequestTest : BaseInstrumentalTest() {
         }
     }
 
-    private fun consumeTx(token: Token, formattedId: String): TransactionConsumption? {
+    @Test
+    fun testWhenConsumeTransactionRequestTypeSend_doReject_ThenBalanceScreenShouldBeDisplayCorrectly() {
+        mainScreen {
+            bottomNavigation.isDisplayed()
+
+            /* Preparing test data */
+            val currentPrimaryTokenId = Storage.loadTokenPrimary()
+            val currentTxFormattedIds = Storage.loadFormattedId()
+            val currentTxFormattedIdSend = currentTxFormattedIds.split("|")[0]
+            val currentBalance = Storage.loadWallets()?.data?.get(0)?.balances?.find { it.token.id == currentPrimaryTokenId }!!
+
+            /* Consume transaction */
+            val txConsumption = consumeTx(currentBalance.token, currentTxFormattedIdSend)
+
+            idle(1000)
+
+            /* Verify confirmation screen data */
+            confirmTransactionRequestScreen {
+                tvTokenFrom.isDisplayed()
+                btnReject {
+                    isDisplayed()
+                    click()
+                }
+            }
+
+            balanceScreen {
+                val tokenIndex = Storage.loadWallets()?.data?.get(0)?.balances?.indexOfFirst { currentBalance.token.id == it.token.id }!!
+                recyclerView {
+                    isDisplayed()
+                    childAt<BalanceScreen.Item>(tokenIndex) {
+                        val latestAmountText = String.format(
+                            "%,.2f",
+                            currentBalance.amount.divide(currentBalance.token.subunitToUnit)
+                        )
+                        tvAmount.hasText(latestAmountText)
+                    }
+                }
+            }
+
+            val toastText = KView {
+                withText(String.format(stringRes(R.string.notification_transaction_rejected), txConsumption?.account?.name))
+            }
+            toastText.isDisplayed()
+        }
+    }
+
+    @Test
+    fun testWhenConsumeTransactionRequestTypeSend_doConsumeLargeAmount_ThenErrorShouldBeDisplayed() {
+        mainScreen {
+            bottomNavigation.isDisplayed()
+
+            /* Preparing test data */
+            val currentPrimaryTokenId = Storage.loadTokenPrimary()
+            val currentTxFormattedIds = Storage.loadFormattedId()
+            val currentTxFormattedIdSend = currentTxFormattedIds.split("|")[0]
+            val currentBalance = Storage.loadWallets()?.data?.get(0)?.balances?.find { it.token.id == currentPrimaryTokenId }!!
+
+            /* Consume transaction */
+            consumeTx(currentBalance.token, currentTxFormattedIdSend, largeAmount = true)
+
+            idle(1000)
+
+            /* Verify confirmation screen data */
+            confirmTransactionRequestScreen {
+                tvTokenFrom.isDisplayed()
+                btnApprove {
+                    isDisplayed()
+                    click()
+                }
+                tvErrorDescription {
+                    isDisplayed()
+                    hasText(
+                        String.format(
+                            stringRes(R.string.confirm_transaction_request_error_not_has_enough_fund),
+                            currentBalance.displayAmount(),
+                            currentBalance.token.symbol
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    @Test
+    fun testWhenConsumeTransactionRequestTypeReceive_ThenBalanceScreenShouldBeDisplayedCorrectly() {
+        mainScreen {
+            bottomNavigation.isDisplayed()
+
+            /* Preparing test data */
+            val currentPrimaryTokenId = Storage.loadTokenPrimary()
+            val currentTxFormattedIds = Storage.loadFormattedId()
+            val currentTxFormattedIdReceive = currentTxFormattedIds.split("|")[1]
+            val currentBalance = Storage.loadWallets()?.data?.get(0)?.balances?.find { it.token.id == currentPrimaryTokenId }!!
+
+            /* Consume transaction */
+            consumeTx(currentBalance.token, currentTxFormattedIdReceive)
+
+            idle(1000)
+
+            balanceScreen {
+                val tokenIndex = Storage.loadWallets()?.data?.get(0)?.balances?.indexOfFirst { currentBalance.token.id == it.token.id }!!
+                recyclerView {
+                    isDisplayed()
+                    childAt<BalanceScreen.Item>(tokenIndex) {
+                        val latestAmountText = String.format(
+                            "%,.2f",
+                            currentBalance.amount
+                                .plus(currentBalance.token.subunitToUnit)
+                                .divide(currentBalance.token.subunitToUnit)
+                        )
+                        idle(500)
+                        tvAmount.hasText(latestAmountText)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun consumeTx(token: Token, formattedId: String, largeAmount: Boolean = false): TransactionConsumption? {
         var consumeResponse: TransactionConsumption? = null
         mainScreen {
             bottomNavigation.isDisplayed()
-            consumeResponse = consumerClient.consumeTxFormattedId(formattedId, token.subunitToUnit)
+            consumeResponse = if (!largeAmount) {
+                consumerClient.consumeTxFormattedId(formattedId, token.subunitToUnit)
+            } else {
+                consumerClient.consumeTxFormattedId(formattedId, token.subunitToUnit * 100_000_000_000.bd)
+            }
             bottomNavigation.isDisplayed()
         }
 
