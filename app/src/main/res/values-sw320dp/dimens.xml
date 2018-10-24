@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="btn_fingerprint_padding_start">96dp</dimen>
+    <dimen name="btn_fingerprint_padding_end">88dp</dimen>
+    <dimen name="fragment_sign_in_padding_horizontal">40dp</dimen>
+    <dimen name="fragment_sign_in_margin_vertical">8dp</dimen>
+    <dimen name="balance_detail_card_height">280dp</dimen>
+    <dimen name="balance_detail_card_height_container">300dp</dimen>
+</resources>

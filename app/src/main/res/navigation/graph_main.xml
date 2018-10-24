@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/graph_main"
+    app:startDestination="@id/balance">
+
+    <fragment
+        android:id="@+id/profile"
+        android:name="network.omisego.omgwallet.screen.auth.profile.main.ProfileFragment"
+        android:label="@string/profile_title"
+        tools:layout="@layout/fragment_profile">
+        <action
+            android:id="@+id/action_profileFragment_to_transactionListFragment"
+            app:destination="@id/transactionList" />
+    </fragment>
+    <fragment
+        android:id="@+id/balance"
+        android:name="network.omisego.omgwallet.screen.auth.balance.BalanceFragment"
+        android:label="@string/balance_title"
+        tools:layout="@layout/fragment_balance">
+        <action
+            android:id="@+id/action_balanceFragment_to_balanceDetailFragment"
+            app:destination="@id/balanceDetail" />
+    </fragment>
+    <fragment
+        android:id="@+id/balanceDetail"
+        android:name="network.omisego.omgwallet.screen.auth.balance.detail.BalanceDetailFragment"
+        android:label="Detail"
+        tools:layout="@layout/fragment_balance_detail" >
+        <argument
+            android:name="token_index"
+            android:defaultValue="0"
+            app:argType="integer" />
+    </fragment>
+    <fragment
+        android:id="@+id/transactionList"
+        android:name="network.omisego.omgwallet.screen.auth.profile.transaction.TransactionListFragment"
+        android:label="@string/transaction_list_title"
+        tools:layout="@layout/fragment_transaction_list" />
+    <fragment
+        android:id="@+id/showQR"
+        android:name="network.omisego.omgwallet.screen.auth.showqr.ShowQRFragment"
+        android:label="Show QR"
+        tools:layout="@layout/fragment_show_qr" />
+    <action
+        android:id="@+id/action_global_showQR"
+        app:destination="@id/showQR" />
+</navigation>

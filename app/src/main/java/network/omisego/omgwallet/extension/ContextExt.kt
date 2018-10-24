@@ -10,6 +10,7 @@ package network.omisego.omgwallet.extension
 import android.content.Context
 import android.util.TypedValue
 import android.widget.Toast
+import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 
@@ -18,6 +19,8 @@ fun Context.dpToPx(dp: Float): Int {
 }
 
 fun Context.getDrawableCompat(@DrawableRes res: Int) = ContextCompat.getDrawable(this, res)
+
+infix fun Context?.getColor(@ColorRes id: Int) = ContextCompat.getColor(this!!, id)
 
 fun Context.toast(msg: String, duration: Int = Toast.LENGTH_SHORT) {
     Toaster.toast?.cancel()

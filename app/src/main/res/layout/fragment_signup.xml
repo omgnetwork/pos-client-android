@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="network.omisego.omgwallet.pages.signup.SignupViewModel" />
+            type="network.omisego.omgwallet.screen.unauth.signup.SignupViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

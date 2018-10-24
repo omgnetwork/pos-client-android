@@ -49,7 +49,7 @@ android {
         test.java.srcDirs += 'src/test/kotlin'
         androidTest.java.srcDirs += 'src/androidTest/java'
     }
-    buildToolsVersion '28.0.2'
+    buildToolsVersion '28.0.3'
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -98,6 +98,7 @@ dependencies {
     implementation custom.stetho
     implementation custom.dexter
     implementation custom.biometric
+    implementation custom.pagerindicator
     implementation okHttp3.loggingIntercepter
 
     /* Debugging */

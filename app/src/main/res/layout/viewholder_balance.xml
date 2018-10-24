@@ -5,6 +5,12 @@
 
     <data>
 
+        <import type="android.view.View" />
+
+        <variable
+            name="viewModel"
+            type="network.omisego.omgwallet.screen.auth.balance.BalanceViewModel" />
+
         <variable
             name="displayAmount"
             type="String" />
@@ -15,8 +21,10 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutBalance"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:onClick="@{(view) -> viewModel.handleClickBalance(balance)}">
 
         <TextView
             android:id="@+id/ivTokenLogo"
@@ -35,20 +43,36 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="OMG" />
 
-        <TextView
-            android:id="@+id/tvCurrencyName"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="@{balance.token.name}"
-            android:textColor="@color/colorBlackWeak2"
-            android:textSize="16sp"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/ivTokenLogo"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Thai Baht" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/tvCurrencyName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{balance.token.name}"
+                android:textColor="@color/colorBlackWeak2"
+                android:textSize="16sp"
+                tools:text="Thai Baht" />
+
+            <TextView
+                android:id="@+id/tvPrimary"
+                style="@style/OMGHintText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/balance_primary"
+                android:textSize="12sp"
+                android:visibility="@{viewModel.isPrimaryToken(balance) ? View.VISIBLE : View.GONE}"
+                tools:visibility="visible" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tvAmount"
@@ -87,4 +111,5 @@
             app:layout_constraintGuide_end="56dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

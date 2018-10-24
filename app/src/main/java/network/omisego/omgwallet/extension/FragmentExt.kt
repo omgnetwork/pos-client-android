@@ -1,11 +1,13 @@
 package network.omisego.omgwallet.extension
 
 import android.view.ViewGroup
-import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
+import network.omisego.omgwallet.MainActivity
+import network.omisego.omgwallet.R
 
 /*
  * OmiseGO
@@ -24,23 +26,4 @@ fun <T : ViewDataBinding> Fragment.bindingInflate(
     false
 )
 
-fun Fragment.replaceFragment(
-    @IdRes layoutContainerRes: Int,
-    fragment: Fragment
-) {
-    childFragmentManager
-        .beginTransaction()
-        .replace(layoutContainerRes, fragment)
-        .commit()
-}
-
-fun Fragment.replaceFragmentBackstack(
-    @IdRes layoutContainerRes: Int,
-    fragment: Fragment
-) {
-    childFragmentManager
-        .beginTransaction()
-        .addToBackStack(null)
-        .replace(layoutContainerRes, fragment)
-        .commit()
-}
+fun Fragment.findRootNavController()= Navigation.findNavController(activity as MainActivity, R.id.nav_host)

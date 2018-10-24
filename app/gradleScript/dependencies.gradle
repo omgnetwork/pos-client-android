@@ -8,7 +8,7 @@ allprojects {
 
 ext {
     /* Version */
-    appVersion = '1.0.0'
+    appVersion = '1.1.0'
     omisego = '1.1.1-alpha6'
     supportLibrary = '1.0.0-rc02'
     kotlin = '1.2.61'
@@ -85,6 +85,7 @@ ext {
         stetho          : 'com.facebook.stetho:stetho-okhttp3:1.5.0',
         shimmer         : 'com.facebook.shimmer:shimmer:0.2.0',
         dexter          : 'com.karumi:dexter:5.0.0',
-        biometric       : 'co.infinum:goldfinger:1.1.1'
+        biometric       : 'co.infinum:goldfinger:1.1.1',
+        pagerindicator  : 'com.romandanylyk:pageindicatorview:1.0.2'
     ]
 }
