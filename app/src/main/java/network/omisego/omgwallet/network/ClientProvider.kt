@@ -22,8 +22,10 @@ object ClientProvider {
     private lateinit var clientConfiguration: ClientConfiguration
     lateinit var client: OMGAPIClient
     lateinit var eWalletClient: EWalletClient
+    lateinit var clientSetup: ClientSetup
 
     fun init(clientSetup: ClientSetup) {
+        this.clientSetup = clientSetup
         clientConfiguration = ClientConfiguration(
             clientSetup.baseURL,
             clientSetup.apiKey,

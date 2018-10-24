@@ -13,119 +13,213 @@
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorWhiteWeak4">
+        android:background="@color/colorWhiteWeak4"
+        android:orientation="vertical">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="?attr/colorPrimary"
             android:minHeight="?attr/actionBarSize"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
             app:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar" />
 
-        <TextView
-            android:id="@+id/tvTransaction"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ripple_profile_item"
-            android:onClick="@{viewModel::clickTransaction}"
-            android:padding="16dp"
-            android:text="@string/profile_transaction"
-            android:textColor="@color/colorBlackWeak2"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        <ScrollView
+            android:id="@+id/scrollView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
 
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layoutAccount"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/ripple_profile_item"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvTransaction">
-
-            <TextView
-                android:id="@+id/tvAccount"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/contentLayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/profile_account"
-                android:textColor="@color/colorGrayWeak"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:background="@color/colorWhiteWeak4">
 
-            <TextView
-                android:id="@+id/tvFingerprintTitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:text="@string/setting_help_fingerprint"
-                android:textColor="@color/colorGray"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toTopOf="@+id/tvFingerprintDescription"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvAccount"
-                app:layout_constraintVertical_chainStyle="spread"
-                tools:text="Fingeprint" />
+                <TextView
+                    android:id="@+id/tvTransaction"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ripple_profile_item"
+                    android:onClick="@{viewModel::clickTransaction}"
+                    android:padding="16dp"
+                    android:text="@string/profile_transaction"
+                    android:textColor="@color/colorBlackWeak2"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/contentLayout" />
 
-            <TextView
-                android:id="@+id/tvFingerprintDescription"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginBottom="16dp"
-                android:text="@string/setting_help_fingerprint_not_supported"
-                android:textColor="@color/colorGrayWeak"
-                android:textSize="12sp"
-                android:visibility="@{viewModel.hasFingerprintSupport() ? View.GONE : View.VISIBLE}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tvFingerprintTitle"
-                tools:text="Your device isn't support fingerprint"
-                tools:visibility="visible" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layoutAccount"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/ripple_profile_item"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvTransaction">
 
-            <Switch
-                android:id="@+id/switchFingerprint"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="16dp"
-                android:checked="@{viewModel.loadFingerprintOption()}"
-                android:enabled="@{viewModel.hasFingerprintSupport()}"
-                android:textOff=""
-                android:textOn=""
-                android:theme="@style/OMGTheme.Switch"
-                app:layout_constraintBaseline_toBaselineOf="@+id/tvFingerprintTitle"
-                app:layout_constraintEnd_toEndOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/tvAccount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/profile_account"
+                        android:textColor="@color/colorGrayWeak"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tvSignOut"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/ripple_profile_item"
-            android:onClick="@{viewModel::clickSignout}"
-            android:padding="16dp"
-            android:text="@string/profile_sign_out"
-            android:textColor="@color/colorRed"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/layoutAccount" />
+                    <TextView
+                        android:id="@+id/tvFingerprintTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:text="@string/setting_help_fingerprint"
+                        android:textColor="@color/colorGray"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toTopOf="@+id/tvFingerprintDescription"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvAccount"
+                        app:layout_constraintVertical_chainStyle="spread"
+                        tools:text="Fingeprint" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/tvFingerprintDescription"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:lines="2"
+                        android:text="@string/setting_help_fingerprint_not_supported"
+                        android:textColor="@color/colorGrayWeak"
+                        android:textSize="12sp"
+                        android:visibility="@{viewModel.hasFingerprintSupport() ? View.GONE : View.VISIBLE}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvFingerprintTitle"
+                        tools:text="@string/setting_help_fingerprint_not_supported"
+                        tools:visibility="visible" />
+
+                    <Switch
+                        android:id="@+id/switchFingerprint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:checked="@{viewModel.loadFingerprintOption()}"
+                        android:enabled="@{viewModel.hasFingerprintSupport()}"
+                        android:textOff=""
+                        android:textOn=""
+                        android:theme="@style/OMGTheme.Switch"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/tvFingerprintTitle"
+                        app:layout_constraintEnd_toEndOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/layoutInfo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:background="@drawable/ripple_profile_item"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/layoutAccount">
+
+                    <TextView
+                        android:id="@+id/tvInfo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/profile_info"
+                        android:textColor="@color/colorGrayWeak"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvEndpoint"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:text="@string/profile_info_endpoint"
+                        android:textColor="@color/colorGray"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvInfo" />
+
+                    <TextView
+                        android:id="@+id/tvEndpointData"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:gravity="end"
+                        android:text="@{viewModel.liveEndpoint}"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="16sp"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/tvEndpoint"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/tvEndpoint"
+                        tools:text="https://coffeego" />
+
+                    <TextView
+                        android:id="@+id/tvVersion"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/profile_info_version"
+                        android:textColor="@color/colorGray"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tvEndpointData" />
+
+                    <TextView
+                        android:id="@+id/tvVersionData"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
+                        android:text="@{viewModel.liveVersionName}"
+                        android:textColor="@color/colorBlack"
+                        android:textSize="16sp"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/tvVersion"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        tools:text="version_data" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TextView
+                    android:id="@+id/tvSignOut"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@drawable/ripple_profile_item"
+                    android:onClick="@{viewModel::clickSignout}"
+                    android:padding="16dp"
+                    android:text="@string/profile_sign_out"
+                    android:textColor="@color/colorRed"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/layoutInfo" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+    </LinearLayout>
 </layout>

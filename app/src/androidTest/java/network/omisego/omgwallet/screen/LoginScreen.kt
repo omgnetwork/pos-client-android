@@ -30,4 +30,7 @@ class LoginScreen : Screen<LoginScreen>() {
     val tvSignUp: KTextView = KTextView {
         withId(R.id.tvSignUp)
     }
+    val tvVersion: KTextView = KTextView {
+        withId(R.id.tvVersion)
+    }
 }

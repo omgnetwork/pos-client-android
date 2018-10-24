@@ -3,6 +3,7 @@ package network.omisego.omgwallet.screen
 import com.agoda.kakao.KTextView
 import com.agoda.kakao.Screen
 import network.omisego.omgwallet.R
+import network.omisego.omgwallet.custom.KScrollView
 import network.omisego.omgwallet.custom.KSwitch
 
 /*
@@ -12,6 +13,9 @@ import network.omisego.omgwallet.custom.KSwitch
  * Copyright © 2017-2018 OmiseGO. All rights reserved.
  */
 class ProfileScreen : Screen<ProfileScreen>() {
+    val scrollView: KScrollView = KScrollView {
+        withId(R.id.scrollView)
+    }
     val tvTransaction: KTextView = KTextView {
         withId(R.id.tvTransaction)
     }
@@ -26,5 +30,11 @@ class ProfileScreen : Screen<ProfileScreen>() {
     }
     val switch: KSwitch = KSwitch {
         withId(R.id.switchFingerprint)
+    }
+    val tvEndpointName: KTextView = KTextView {
+        withId(R.id.tvEndpointData)
+    }
+    val tvVersionName: KTextView = KTextView {
+        withId(R.id.tvVersionData)
     }
 }

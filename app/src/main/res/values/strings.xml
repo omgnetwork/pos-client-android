@@ -59,6 +59,11 @@
     <string name="profile_password">Password</string>
     <string name="profile_sign_out">Sign out</string>
 
+    <!-- Info -->
+    <string name="profile_info">Info</string>
+    <string name="profile_info_endpoint">Endpoint</string>
+    <string name="profile_info_version">Version</string>
+
     <!-- Permission -->
     <string name="camera_permission_explain">Camera access is needed to scan the QR code.</string>
     <string name="permission_setting">Settings</string>

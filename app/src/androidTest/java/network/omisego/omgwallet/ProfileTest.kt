@@ -7,6 +7,7 @@ package network.omisego.omgwallet
  * Copyright © 2017-2018 OmiseGO. All rights reserved.
  */
 
+import androidx.test.espresso.action.GeneralLocation
 import androidx.test.runner.AndroidJUnit4
 import co.omisego.omisego.model.params.LoginParams
 import network.omisego.omgwallet.base.BaseInstrumentalTest
@@ -51,7 +52,9 @@ class ProfileTest : BaseInstrumentalTest() {
     @Test
     fun testSignOut() {
         profileScreen {
-            tvSignOut.click()
+            scrollView.scrollToEnd()
+            idle(300)
+            tvSignOut.click(GeneralLocation.CENTER_LEFT)
         }
 
         loginScreen {
@@ -66,6 +69,14 @@ class ProfileTest : BaseInstrumentalTest() {
             contains(StorageKey.KEY_USER) shouldBe false
             contains(StorageKey.KEY_WALLET) shouldBe false
             contains(StorageKey.KEY_AUTHENTICATION_TOKEN) shouldBe false
+        }
+    }
+
+    @Test
+    fun testVersionAndServerIsDisplayed() {
+        profileScreen {
+            tvEndpointName.startsWithText("http")
+            tvVersionName.hasText(BuildConfig.VERSION_NAME)
         }
     }
 

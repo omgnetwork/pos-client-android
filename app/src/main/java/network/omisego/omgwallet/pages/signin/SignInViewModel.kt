@@ -19,6 +19,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import co.omisego.omisego.model.ClientAuthenticationToken
 import co.omisego.omisego.model.params.LoginParams
+import network.omisego.omgwallet.BuildConfig
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.base.LiveState
 import network.omisego.omgwallet.data.LocalRepository
@@ -54,6 +55,7 @@ class SignInViewModel(
     val liveLoading: LiveData<Boolean> by lazy { liveState.mapPropChanged { it.loading } }
     val liveToast: MutableLiveData<String> by lazy { MutableLiveData<String>() }
     val liveSignupClick: SingleLiveEvent<View> by lazy { SingleLiveEvent<View>() }
+    val liveVersionNumber : MutableLiveData<String> by lazy { MutableLiveData<String>() }
 
     private val signupClickableSpan: ClickableSpan by lazy {
         object : ClickableSpan() {
@@ -183,5 +185,6 @@ class SignInViewModel(
 
     init {
         liveState.state { it.copy(loading = false) }
+        liveVersionNumber.value = BuildConfig.VERSION_NAME
     }
 }
