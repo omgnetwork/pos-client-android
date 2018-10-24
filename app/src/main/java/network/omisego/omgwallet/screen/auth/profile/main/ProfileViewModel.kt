@@ -13,13 +13,15 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import co.infinum.goldfinger.Goldfinger
 import network.omisego.omgwallet.data.LocalRepository
+import network.omisego.omgwallet.data.RemoteRepository
 import network.omisego.omgwallet.livedata.Event
 import network.omisego.omgwallet.network.ClientProvider
 import network.omisego.omgwallet.state.FingerprintDialogState
 
 class ProfileViewModel(
     private val app: Application,
-    private val localRepository: LocalRepository
+    private val localRepository: LocalRepository,
+    private val remoteRepository: RemoteRepository
 ) : AndroidViewModel(app) {
     val liveFingerprintDialogState: MutableLiveData<FingerprintDialogState> by lazy { MutableLiveData<FingerprintDialogState>() }
     val liveTransaction: MutableLiveData<Event<View>> by lazy { MutableLiveData<Event<View>>() }
@@ -29,6 +31,7 @@ class ProfileViewModel(
 
     fun clickSignout(view: View) {
         localRepository.clearSession()
+        remoteRepository.stopListeningToUserSocketEvent()
         liveSignout.value = Event(view)
     }
 

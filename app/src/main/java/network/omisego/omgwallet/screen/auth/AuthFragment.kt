@@ -162,7 +162,6 @@ class AuthFragment : Fragment() {
     inner class ConsumptionFinalizedFailObserver : Observer<APIError> {
         override fun onChanged(error: APIError) {
             logi("ConsumptionFinalized error: ${error.description}")
-//            Snackbar.make(bottomNavigation, error.description, Snackbar.LENGTH_LONG).show()
         }
     }
 }

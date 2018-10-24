@@ -36,7 +36,7 @@ class AndroidViewModelFactory(private val application: Application) : ViewModelP
                 FingerprintBottomSheetViewModel(application) as T
             }
             modelClass.isAssignableFrom(ProfileViewModel::class.java) -> {
-                return ProfileViewModel(application, LocalRepository()) as T
+                return ProfileViewModel(application, LocalRepository(), RemoteRepository()) as T
             }
             modelClass.isAssignableFrom(TransactionListViewModel::class.java) -> {
                 return TransactionListViewModel(application, LocalRepository(), RemoteRepository(), TransactionListTransformer(application)) as T
