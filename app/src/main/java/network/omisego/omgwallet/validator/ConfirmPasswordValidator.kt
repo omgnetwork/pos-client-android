@@ -9,7 +9,9 @@ package network.omisego.omgwallet.validator
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import network.omisego.omgwallet.R
 import network.omisego.omgwallet.model.ValidateResult
+import network.omisego.omgwallet.util.ContextUtil
 
 class ConfirmPasswordValidator(override var byPass: LiveData<Boolean>) : Validator(byPass) {
     var currentPassword: String = ""
@@ -23,7 +25,7 @@ class ConfirmPasswordValidator(override var byPass: LiveData<Boolean>) : Validat
         this.recentText = text
         validation = when {
             byPass.value == false && text != currentPassword ->
-                ValidateResult(false, "Password is not matched")
+                ValidateResult(false, ContextUtil.context.getString(R.string.validator_signup_confirm_password_not_matched))
             else -> ValidateResult(true)
         }
         updateUI?.invoke(validation)

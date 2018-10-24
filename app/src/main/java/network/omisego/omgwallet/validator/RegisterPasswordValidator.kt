@@ -9,7 +9,9 @@ package network.omisego.omgwallet.validator
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import network.omisego.omgwallet.R
 import network.omisego.omgwallet.model.ValidateResult
+import network.omisego.omgwallet.util.ContextUtil
 
 class RegisterPasswordValidator(override var byPass: LiveData<Boolean>) : Validator(byPass) {
     private val lessThanEight: (String) -> Boolean = { it.length < 8 }
@@ -23,15 +25,15 @@ class RegisterPasswordValidator(override var byPass: LiveData<Boolean>) : Valida
         this.recentText = text
         validation = when {
             byPass.value == false && lessThanEight(text) ->
-                ValidateResult(false, "Password must contain at least 8 characters")
+                ValidateResult(false, ContextUtil.context.getString(R.string.validator_signup_password_at_least_8))
             byPass.value == false && missingLowerCase(text) ->
-                ValidateResult(false, "Password must contain at least 1 lower case character")
+                ValidateResult(false, ContextUtil.context.getString(R.string.validator_signup_password_lower_case))
             byPass.value == false && missingUpperCase(text) ->
-                ValidateResult(false, "Password must contain at least 1 upper case character")
+                ValidateResult(false, ContextUtil.context.getString(R.string.validator_signup_password_upper_case))
             byPass.value == false && missingNumber(text) ->
-                ValidateResult(false, "Password must contain at least 1 numeric character")
+                ValidateResult(false, ContextUtil.context.getString(R.string.validator_signup_password_numeric))
             byPass.value == false && missingSpecialChar(text) ->
-                ValidateResult(false, "Password must contain at least 1 special character")
+                ValidateResult(false, ContextUtil.context.getString(R.string.validator_signup_password_special_char))
             else -> ValidateResult(true)
         }
         updateUI?.invoke(validation)

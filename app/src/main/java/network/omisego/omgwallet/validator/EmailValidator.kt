@@ -10,7 +10,9 @@ package network.omisego.omgwallet.validator
 import android.util.Patterns
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import network.omisego.omgwallet.R
 import network.omisego.omgwallet.model.ValidateResult
+import network.omisego.omgwallet.util.ContextUtil
 
 class EmailValidator(override var byPass: LiveData<Boolean>) : Validator(byPass) {
     private val isInvalidEmailFormat: (String) -> Boolean = {
@@ -21,7 +23,7 @@ class EmailValidator(override var byPass: LiveData<Boolean>) : Validator(byPass)
         this.updateUI = updateUI
         this.recentText = text
         validation = when {
-            byPass.value == false && isInvalidEmailFormat(text) -> ValidateResult(false, "Email Address is invalid format")
+            byPass.value == false && isInvalidEmailFormat(text) -> ValidateResult(false, ContextUtil.context.getString(R.string.validator_signin_email_invalid_format))
             else -> ValidateResult(true)
         }
         updateUI?.invoke(validation)

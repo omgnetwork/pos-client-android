@@ -4,6 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'org.jlleitschuh.gradle.ktlint'
 apply plugin: 'androidx.navigation.safeargs'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'io.fabric'
 apply from: 'gradleScript/dependencies.gradle'
 
 // Setup EWallet client data
@@ -18,7 +19,7 @@ def clientVerificationSignUpPrefix = properties.getProperty('ewallet.verificatio
 android {
     compileSdkVersion 28
     defaultConfig {
-        applicationId "omisego.network.omgwallet"
+        applicationId "network.omisego.omgwallet"
         minSdkVersion 21
         targetSdkVersion 27
         versionCode 1
@@ -46,6 +47,7 @@ android {
     }
     sourceSets {
         test.java.srcDirs += 'src/test/kotlin'
+        androidTest.java.srcDirs += 'src/androidTest/java'
     }
     buildToolsVersion '28.0.2'
     compileOptions {
@@ -70,7 +72,6 @@ androidExtensions {
 dependencies {
     /* OmiseGO */
     implementation omisego.sdk
-
     /* Kotlin */
     implementation kotlinDependencies.stdlib
     /* Navigation Component */
@@ -80,7 +81,6 @@ dependencies {
     implementation arch.viewmodel
     implementation arch.extensions
     /* Databinding */
-
     /* Support library */
     implementation supportDependencies.appCompat
     implementation supportDependencies.design
@@ -93,7 +93,6 @@ dependencies {
     implementation rxJava2.rxandroid
     /* Load image */
     implementation glide.glide
-
     implementation custom.constraintLayout
     implementation custom.shimmer
     implementation custom.stetho
@@ -101,7 +100,12 @@ dependencies {
     implementation custom.biometric
     implementation okHttp3.loggingIntercepter
 
+    /* Debugging */
+    implementation firebase.core
+    implementation firebase.crashlytics
+
     testImplementation test
+    androidTestImplementation androidTest
 }
 
 kotlin {
@@ -109,3 +113,5 @@ kotlin {
         coroutines "enable"
     }
 }
+
+apply plugin: 'com.google.gms.google-services'

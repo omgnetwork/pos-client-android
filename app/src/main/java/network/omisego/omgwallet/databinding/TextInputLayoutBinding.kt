@@ -2,8 +2,8 @@ package network.omisego.omgwallet.databinding
 
 import androidx.databinding.BindingAdapter
 import com.google.android.material.textfield.TextInputLayout
-import network.omisego.omgwallet.model.ValidateResult
 import network.omisego.omgwallet.listener.MinimalTextChangeListener
+import network.omisego.omgwallet.model.ValidateResult
 import network.omisego.omgwallet.validator.Validator
 
 /*
@@ -26,6 +26,7 @@ object TextInputLayoutBinding {
                 view.isErrorEnabled = false
             }
         }
+        validator.byPass.observeForever { validator.check(view.editText!!.text.toString(), updateUI) }
         view.editText?.addTextChangedListener(MinimalTextChangeListener {
             validator.check(it.toString(), updateUI)
         })

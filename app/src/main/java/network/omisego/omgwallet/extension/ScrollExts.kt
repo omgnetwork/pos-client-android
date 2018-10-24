@@ -7,15 +7,15 @@ package network.omisego.omgwallet.extension
  * Copyright © 2017-2018 OmiseGO. All rights reserved.
  */
 
+import android.widget.ScrollView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.NestedScrollView
 import androidx.fragment.app.Fragment
 import network.omisego.omgwallet.MainActivity
 import network.omisego.omgwallet.R
 
 fun AppCompatActivity.scrollBottom() {
     if (this is MainActivity) {
-        val scroller = this.findViewById<NestedScrollView>(R.id.nestedScrollView)
+        val scroller = this.findViewById<ScrollView>(R.id.scrollView)
         scroller?.scrollTo(0, scroller.bottom)
     }
 }

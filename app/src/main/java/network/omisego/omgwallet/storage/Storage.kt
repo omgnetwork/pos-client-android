@@ -39,11 +39,8 @@ object Storage {
 
     fun hasAuthenticationToken() = sharePref.contains(StorageKey.KEY_AUTHENTICATION_TOKEN)
 
-    fun saveCredential(credential: Credential): Deferred<Unit> {
-        return async {
-            sharePref[StorageKey.KEY_AUTHENTICATION_TOKEN] = (credential.authenticationToken
-                ?: "") encryptWith keyManager
-        }
+    fun saveCredential(credential: Credential) {
+        sharePref[StorageKey.KEY_AUTHENTICATION_TOKEN] = (credential.authenticationToken ?: "") encryptWith keyManager
     }
 
     fun loadCredential(): Credential {
@@ -106,10 +103,15 @@ object Storage {
 
     fun clearSession() {
         sharePref.edit()
-            .remove(StorageKey.KEY_API_KEY)
             .remove(StorageKey.KEY_AUTHENTICATION_TOKEN)
             .remove(StorageKey.KEY_WALLET)
             .remove(StorageKey.KEY_USER)
+            .apply()
+    }
+
+    fun removeWallet() {
+        sharePref.edit()
+            .remove(StorageKey.KEY_WALLET)
             .apply()
     }
 }

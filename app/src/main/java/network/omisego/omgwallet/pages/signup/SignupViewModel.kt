@@ -12,7 +12,6 @@ import androidx.lifecycle.ViewModel
 import co.omisego.omisego.model.params.SignUpParams
 import network.omisego.omgwallet.BuildConfig
 import network.omisego.omgwallet.data.RemoteRepository
-import network.omisego.omgwallet.extension.logi
 import network.omisego.omgwallet.extension.mutableLiveDataOf
 import network.omisego.omgwallet.model.APIResult
 import network.omisego.omgwallet.validator.ConfirmPasswordValidator
@@ -50,8 +49,6 @@ class SignupViewModel(
             passwordValidator,
             confirmPasswordValidator
         ).valid
-
-        logi(livePassValidation.value)
     }
 
     fun handleSignupClick() {

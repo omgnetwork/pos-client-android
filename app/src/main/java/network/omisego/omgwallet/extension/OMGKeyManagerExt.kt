@@ -1,6 +1,7 @@
 package network.omisego.omgwallet.extension
 
 import co.omisego.omisego.security.OMGKeyManager
+import com.crashlytics.android.Crashlytics
 
 /*
  * OmiseGO
@@ -9,6 +10,16 @@ import co.omisego.omisego.security.OMGKeyManager
  * Copyright © 2017-2018 OmiseGO. All rights reserved.
  */
 
-fun OMGKeyManager.encrypt(data: String) = this.encrypt(data.toByteArray())
+fun OMGKeyManager.encrypt(data: String) = try {
+    this.encrypt(data.toByteArray())
+} catch (e: Exception) {
+    Crashlytics.log(e.message)
+    data
+}
 
-fun OMGKeyManager.decrypt(data: String) = this.decrypt(data.toByteArray())
+fun OMGKeyManager.decrypt(data: String) = try {
+    this.decrypt(data.toByteArray())
+} catch (e: Exception) {
+    Crashlytics.log(e.message)
+    data
+}
