@@ -4,6 +4,9 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="network.omisego.omgwallet.pages.MainViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -36,6 +39,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="24dp"
+                    android:onClick="@{viewModel::handleBalanceClick}"
                     app:bb_icon="@string/bottombar_item_balance_icon"
                     app:bb_title="@string/bottombar_item_balance"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -63,6 +67,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="24dp"
+                    android:onClick="@{viewModel::handleProfileClick}"
                     app:bb_icon="@string/bottombar_item_profile_icon"
                     app:bb_title="@string/bottombar_item_profile"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -80,7 +85,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_qr"
-            app:layout_anchor="@+id/bottom_app_bar" />
+            android:onClick="@{viewModel::handleQRClick}"
+            android:stateListAnimator="@animator/animator_state_button"
+            app:layout_anchor="@+id/bottom_app_bar"
+            app:rippleColor="@color/transparent" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

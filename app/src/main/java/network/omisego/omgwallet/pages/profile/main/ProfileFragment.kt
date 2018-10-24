@@ -1,4 +1,4 @@
-package network.omisego.omgwallet.pages.profile
+package network.omisego.omgwallet.pages.profile.main
 
 /*
  * OmiseGO
@@ -19,17 +19,22 @@ import kotlinx.android.synthetic.main.fragment_profile.*
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.databinding.FragmentProfileBinding
 import network.omisego.omgwallet.extension.bindingInflate
+import network.omisego.omgwallet.extension.provideActivityViewModel
 import network.omisego.omgwallet.extension.provideAndroidViewModel
 import network.omisego.omgwallet.extension.toast
+import network.omisego.omgwallet.pages.profile.ProfileNavigationViewModel
+import network.omisego.omgwallet.state.FingerprintDialogState
 
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
     private lateinit var viewModel: ProfileViewModel
+    private lateinit var navigationViewModel: ProfileNavigationViewModel
     private lateinit var dialog: ConfirmFingerprintDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = provideAndroidViewModel()
+        navigationViewModel = provideActivityViewModel()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -42,23 +47,40 @@ class ProfileFragment : Fragment() {
         setupToolbar()
         binding.viewModel = viewModel
         binding.setLifecycleOwner(this)
-        viewModel.liveSignout.observe(this, Observer {
-            findNavController().navigate(R.id.action_main_to_signInFragment)
+
+        viewModel.liveTransaction.observe(this, Observer {
+            it.getContentIfNotHandled().let { _ ->
+                navigationViewModel.liveNavigation.value = R.layout.fragment_transaction
+            }
         })
 
-        viewModel.liveAuthenticateSuccessful.observe(this, Observer {
-            if (it == true) {
-                dialog.dismiss()
-                viewModel.handleFingerprintOption(it)
-                context?.toast(getString(R.string.setting_help_enable_finger_print_successfully))
-                switchFingerprint.isChecked = it
+        viewModel.liveSignout.observe(this, Observer {
+            it.getContentIfNotHandled().let { _ ->
+                findNavController().navigate(R.id.action_main_to_signInFragment)
+            }
+        })
+
+        viewModel.liveFingerprintDialogState.observe(this, Observer {
+            when (it) {
+                FingerprintDialogState.STATE_WRONG_PASSWORD -> {
+                }
+                FingerprintDialogState.STATE_CANCELED -> {
+                    viewModel.handleFingerprintOption(false)
+                    switchFingerprint.isChecked = false
+                }
+                FingerprintDialogState.STATE_ENABLED -> {
+                    dialog.dismiss()
+                    viewModel.handleFingerprintOption(true)
+                    context?.toast(getString(R.string.setting_help_enable_finger_print_successfully))
+                    switchFingerprint.isChecked = true
+                }
             }
         })
 
         switchFingerprint.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked && !viewModel.hasFingerprintPassword()) {
                 dialog = ConfirmFingerprintDialog().apply {
-                    setLiveConfirmSuccess(viewModel.liveAuthenticateSuccessful)
+                    liveFingerprintDialogState = viewModel.liveFingerprintDialogState
                 }
                 dialog.show(childFragmentManager, null)
             } else if (!isChecked) {

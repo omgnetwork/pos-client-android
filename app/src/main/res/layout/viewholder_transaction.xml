@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="network.omisego.omgwallet.pages.profile.transaction.TransactionListViewModel" />
+
+        <variable
+            name="transformer"
+            type="network.omisego.omgwallet.pages.profile.transaction.TransactionListTransformer" />
+
+        <variable
+            name="transaction"
+            type="co.omisego.omisego.model.transaction.Transaction" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutViewHolder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ripple_select_account"
+        android:clickable="true"
+        android:onClick="@{() -> viewModel.giveTransactionStatusDescription(transaction)}">
+
+        <TextView
+            android:id="@+id/tvAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@{transformer.transformTransactionDisplayName(transaction)}"
+            android:textColor="@color/colorBlackWeak"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/tvDate"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="packed"
+            tools:text="Somsak H." />
+
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="@{transformer.transformDate(transaction)}"
+            android:textColor="@color/colorGrayWeak"
+            android:textSize="12sp"
+            android:textStyle="normal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvAccount"
+            tools:text="Apr 05, 8:30 AM" />
+
+        <TextView
+            android:id="@+id/tvAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:text="@{transformer.transformAmount(transaction)}"
+            android:textColor="@color/colorBlackWeak"
+            android:textSize="16sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tvAccount"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:transaction="@{transaction}"
+            tools:text="000 STK" />
+
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="4dp"
+            android:text="@{transformer.transformDescription(transaction)}"
+            android:textColor="@color/colorGrayWeak"
+            android:textSize="12sp"
+            android:textStyle="normal"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tvDate"
+            app:layout_constraintEnd_toStartOf="@+id/tvStatusIcon"
+            tools:text="Success" />
+
+
+        <TextView
+            android:id="@+id/tvStatusIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:textSize="8sp"
+            app:fontFamily="@font/icomoon"
+            android:text="@{transformer.transformStatusIcon(transaction)}"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tvStatus"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

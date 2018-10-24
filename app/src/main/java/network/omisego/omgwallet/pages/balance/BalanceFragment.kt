@@ -63,6 +63,21 @@ class BalanceFragment : Fragment(), UpdateAdapterDispatcher<Balance> {
         viewModel.loadWallet()
     }
 
+    override fun dispatchUpdate(oldList: List<Balance>, newList: List<Balance>, adapter: RecyclerView.Adapter<StateViewHolder>) {
+        val diff = BalanceDiffCallback(oldList, newList)
+        val result = DiffUtil.calculateDiff(diff)
+        result.dispatchUpdatesTo(adapter)
+    }
+
+    private fun handleLoadWalletSuccess(walletList: WalletList) {
+        adapter.reloadItems(walletList.data[0].balances)
+        viewModel.updateWallet(walletList)
+    }
+
+    private fun handleLoadWalletFail(error: APIError) {
+        context?.toast(error.description)
+    }
+
     private fun setupToolbar() {
         val hostActivity = activity as AppCompatActivity
         hostActivity.setSupportActionBar(toolbar)
@@ -77,20 +92,5 @@ class BalanceFragment : Fragment(), UpdateAdapterDispatcher<Balance> {
         swipeRefresh.setOnRefreshListener {
             viewModel.loadWallet(networkOnly = true)
         }
-    }
-
-    override fun dispatchUpdate(oldList: List<Balance>, newList: List<Balance>, adapter: RecyclerView.Adapter<StateViewHolder>) {
-        val diff = BalanceDiffCallback(oldList, newList)
-        val result = DiffUtil.calculateDiff(diff)
-        result.dispatchUpdatesTo(adapter)
-    }
-
-    private fun handleLoadWalletSuccess(walletList: WalletList) {
-        adapter.reloadItems(walletList.data[0].balances)
-        viewModel.updateWallet(walletList)
-    }
-
-    private fun handleLoadWalletFail(error: APIError) {
-        context?.toast(error.description)
     }
 }

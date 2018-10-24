@@ -1,4 +1,4 @@
-package network.omisego.omgwallet.pages.profile
+package network.omisego.omgwallet.pages.profile.main
 
 /*
  * OmiseGO
@@ -13,22 +13,24 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import co.infinum.goldfinger.Goldfinger
 import network.omisego.omgwallet.data.LocalRepository
+import network.omisego.omgwallet.livedata.Event
+import network.omisego.omgwallet.state.FingerprintDialogState
 
 class ProfileViewModel(
     private val app: Application,
     private val localRepository: LocalRepository
 ) : AndroidViewModel(app) {
-    val liveAuthenticateSuccessful: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>() }
-    val liveTransaction: MutableLiveData<View> by lazy { MutableLiveData<View>() }
-    val liveSignout: MutableLiveData<View> by lazy { MutableLiveData<View>() }
+    val liveFingerprintDialogState: MutableLiveData<FingerprintDialogState> by lazy { MutableLiveData<FingerprintDialogState>() }
+    val liveTransaction: MutableLiveData<Event<View>> by lazy { MutableLiveData<Event<View>>() }
+    val liveSignout: MutableLiveData<Event<View>> by lazy { MutableLiveData<Event<View>>() }
 
     fun clickSignout(view: View) {
         localRepository.clearSession()
-        liveSignout.value = view
+        liveSignout.value = Event(view)
     }
 
     fun clickTransaction(view: View) {
-        liveTransaction.value = view
+        liveTransaction.value = Event(view)
     }
 
     fun deleteFingerprintCredential() {

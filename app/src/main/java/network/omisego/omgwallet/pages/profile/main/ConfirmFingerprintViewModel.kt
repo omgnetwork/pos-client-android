@@ -1,4 +1,4 @@
-package network.omisego.omgwallet.pages.profile
+package network.omisego.omgwallet.pages.profile.main
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,8 +18,8 @@ import network.omisego.omgwallet.model.Credential
  */
 
 class ConfirmFingerprintViewModel(
-    val localRepository: LocalRepository,
-    val remoteRepository: RemoteRepository
+    private val localRepository: LocalRepository,
+    private val remoteRepository: RemoteRepository
 ) : ViewModel() {
     val liveAPIResult: MutableLiveData<APIResult> by lazy { MutableLiveData<APIResult>() }
 

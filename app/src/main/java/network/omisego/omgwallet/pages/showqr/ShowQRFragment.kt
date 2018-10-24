@@ -8,7 +8,6 @@ package network.omisego.omgwallet.pages.showqr
  */
 
 import android.os.Bundle
-import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,16 +16,21 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import co.omisego.omisego.qrcode.generator.QRGenerator
 import kotlinx.android.synthetic.main.fragment_show_qr.*
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.databinding.FragmentShowQrBinding
 import network.omisego.omgwallet.extension.bindingInflate
 import network.omisego.omgwallet.extension.getDrawableCompat
-import network.omisego.omgwallet.storage.Storage
+import network.omisego.omgwallet.extension.provideAndroidViewModel
 
 class ShowQRFragment : Fragment() {
     private lateinit var binding: FragmentShowQrBinding
+    private lateinit var viewModel: ShowQRViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel = provideAndroidViewModel()
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = bindingInflate(R.layout.fragment_show_qr, container)
@@ -36,11 +40,9 @@ class ShowQRFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupToolbar()
-        val address = Storage.loadWallets()!!.data[0].address
-        val displayMetrics = DisplayMetrics()
-        activity?.windowManager?.defaultDisplay?.getMetrics(displayMetrics)
-        val size = displayMetrics.widthPixels * 0.8
-        ivQR.setImageBitmap(QRGenerator().generate(address, size.toInt()))
+        binding.viewModel = viewModel
+        binding.setLifecycleOwner(this)
+        viewModel.createQRBitmap()
     }
 
     private fun setupToolbar() {

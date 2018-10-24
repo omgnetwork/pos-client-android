@@ -43,8 +43,8 @@
     <string name="transaction_list_info_date_time">%1$tb %1$te, %1$tI:%1$tM %1$Tp</string>
     <string name="transaction_list_info_success">Success</string>
     <string name="transaction_list_info_failure">Failure</string>
-    <string name="transaction_list_topup_info">Top-up %,.2f %s to %s</string>
-    <string name="transaction_list_receive_info">Receive %,.2f %s from %s</string>
+    <string name="transaction_list_topup_info">Receive top-up %,.2f %s from %s</string>
+    <string name="transaction_list_pay_info">Pay %,.2f %s to %s</string>
     <string name="transaction_list_empty_transaction">EMPTY TRANSACTION</string>
 
     <!-- Show QR -->

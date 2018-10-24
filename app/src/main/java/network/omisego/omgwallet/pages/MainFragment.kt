@@ -14,20 +14,24 @@ import network.omisego.omgwallet.databinding.FragmentMainBinding
 import network.omisego.omgwallet.extension.bindingInflate
 import network.omisego.omgwallet.extension.provideActivityViewModel
 import network.omisego.omgwallet.extension.replaceFragment
+import network.omisego.omgwallet.livedata.EventObserver
 import network.omisego.omgwallet.pages.balance.BalanceFragment
-import network.omisego.omgwallet.pages.profile.ProfileFragment
+import network.omisego.omgwallet.pages.profile.ProfileContainerFragment
+import network.omisego.omgwallet.pages.profile.ProfileNavigationViewModel
 
 class MainFragment : Fragment() {
     private lateinit var binding: FragmentMainBinding
     private lateinit var viewModel: MainViewModel
     private lateinit var balanceFragment: BalanceFragment
-    private lateinit var profileFragment: ProfileFragment
+    private lateinit var profileContainerFragment: ProfileContainerFragment
+    private lateinit var navigationViewModel: ProfileNavigationViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = provideActivityViewModel()
         balanceFragment = BalanceFragment()
-        profileFragment = ProfileFragment()
+        profileContainerFragment = ProfileContainerFragment()
+        navigationViewModel = provideActivityViewModel()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -37,9 +41,15 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.viewModel = viewModel
         val wallets = viewModel.loadWallets()
         val hasAuthToken = viewModel.hasAuthenticationToken()
         when {
+            navigationViewModel.liveNavigation.value != null -> {
+                init()
+                replaceFragment(R.id.pageContainer, profileContainerFragment)
+                bottomBarProfile.isSelected = true
+            }
             wallets != null -> {
                 init()
                 replaceFragment(R.id.pageContainer, balanceFragment)
@@ -51,17 +61,23 @@ class MainFragment : Fragment() {
     }
 
     private fun init() {
-        bottomBarBalance.setOnClickListener {
+        viewModel.liveBalanceClickEvent.observe(this, EventObserver {
             replaceFragment(R.id.pageContainer, balanceFragment)
+            navigationViewModel.liveNavigation.value = null
             bottomBarBalance.isSelected = true
             bottomBarProfile.isSelected = false
-        }
-        bottomBarProfile.setOnClickListener {
-            replaceFragment(R.id.pageContainer, profileFragment)
+        })
+
+        viewModel.liveProfileClickEvent.observe(this, EventObserver {
+            replaceFragment(R.id.pageContainer, profileContainerFragment)
+            navigationViewModel.liveNavigation.value = R.layout.fragment_profile
             bottomBarProfile.isSelected = true
             bottomBarBalance.isSelected = false
-        }
-        fabQR.setOnClickListener { findNavController().navigate(R.id.action_main_to_showQRFragment) }
+        })
+
+        viewModel.liveQRClickEvent.observe(this, EventObserver {
+            findNavController().navigate(R.id.action_main_to_showQRFragment)
+        })
 
         val window = activity?.window
         window?.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
