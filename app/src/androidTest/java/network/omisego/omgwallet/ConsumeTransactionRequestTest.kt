@@ -21,6 +21,7 @@ import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.math.BigDecimal
 
 /*
  * OmiseGO
@@ -126,22 +127,12 @@ class ConsumeTransactionRequestTest : BaseInstrumentalTest() {
                 }
             }
 
-            balanceScreen {
-                val tokenIndex = Storage.loadWallets()?.data?.get(0)?.balances?.indexOfFirst { currentBalance.token.id == it.token.id }!!
-                recyclerView {
-                    isDisplayed()
-                    childAt<BalanceScreen.Item>(tokenIndex) {
-                        val latestAmountText = String.format(
-                            "%,.2f",
-                            currentBalance.amount
-                                .minus(currentBalance.token.subunitToUnit)
-                                .divide(currentBalance.token.subunitToUnit)
-                        )
-                        idle(500)
-                        tvAmount.hasText(latestAmountText)
-                    }
-                }
-            }
+            verifyBalanceHasChanged(
+                currentBalance = currentBalance,
+                expectedAmount = currentBalance.amount
+                    .minus(currentBalance.token.subunitToUnit)
+                    .divide(currentBalance.token.subunitToUnit)
+            )
         }
     }
 
@@ -170,19 +161,10 @@ class ConsumeTransactionRequestTest : BaseInstrumentalTest() {
                 }
             }
 
-            balanceScreen {
-                val tokenIndex = Storage.loadWallets()?.data?.get(0)?.balances?.indexOfFirst { currentBalance.token.id == it.token.id }!!
-                recyclerView {
-                    isDisplayed()
-                    childAt<BalanceScreen.Item>(tokenIndex) {
-                        val latestAmountText = String.format(
-                            "%,.2f",
-                            currentBalance.amount.divide(currentBalance.token.subunitToUnit)
-                        )
-                        tvAmount.hasText(latestAmountText)
-                    }
-                }
-            }
+            verifyBalanceHasChanged(
+                currentBalance = currentBalance,
+                expectedAmount = currentBalance.amount.divide(currentBalance.token.subunitToUnit)
+            )
 
             val toastText = KView {
                 withText(String.format(stringRes(R.string.notification_transaction_rejected), txConsumption?.account?.name))
@@ -244,23 +226,24 @@ class ConsumeTransactionRequestTest : BaseInstrumentalTest() {
 
             idle(1000)
 
+            verifyBalanceHasChanged(
+                currentBalance = currentBalance,
+                expectedAmount = currentBalance.amount
+                    .plus(currentBalance.token.subunitToUnit)
+                    .divide(currentBalance.token.subunitToUnit)
+            )
         }
     }
 
-    private fun verifyBalanceChange(currentBalance: Balance, receive: Boolean) {
+    private fun verifyBalanceHasChanged(currentBalance: Balance, expectedAmount: BigDecimal) {
         balanceScreen {
             val tokenIndex = Storage.loadWallets()?.data?.get(0)?.balances?.indexOfFirst { currentBalance.token.id == it.token.id }!!
             recyclerView {
                 isDisplayed()
                 childAt<BalanceScreen.Item>(tokenIndex) {
-                    val latestAmountText = String.format(
-                        "%,.2f",
-                        currentBalance.amount
-                            .plus(currentBalance.token.subunitToUnit)
-                            .divide(currentBalance.token.subunitToUnit)
-                    )
+                    val expectedAmountText = String.format("%,.2f", expectedAmount)
                     idle(500)
-                    tvAmount.hasText(latestAmountText)
+                    tvAmount.hasText(expectedAmountText)
                 }
             }
         }
