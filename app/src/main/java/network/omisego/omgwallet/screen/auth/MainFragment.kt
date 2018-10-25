@@ -121,7 +121,7 @@ class MainFragment : Fragment() {
     inner class ConsumptionRequestObserver : Observer<TransactionConsumption> {
         override fun onChanged(txConsumption: TransactionConsumption) {
             navController.navigate(GraphMainDirections.actionGlobalConfirmTransactionRequest(txConsumption))
-            val message = "${txConsumption.transaction?.to?.account?.name} will be taken your token ${txConsumption.token.symbol} for amount ${txConsumption.estimatedConsumptionAmount.div(txConsumption.token.subunitToUnit)}"
+            val message = "${txConsumption.transaction?.to?.account?.name} will be taken your token ${txConsumption.token.symbol} for amount ${txConsumption.estimatedRequestAmount.div(txConsumption.transactionRequest.token.subunitToUnit)}"
             logi(message)
         }
     }
@@ -139,13 +139,21 @@ class MainFragment : Fragment() {
             when (txConsumption.status) {
                 CONFIRMED,
                 APPROVED -> {
-                    val amount = txConsumption.amount?.divide(txConsumption.token.subunitToUnit)
-                    message = getString(R.string.notification_transaction_received, amount, txConsumption.transactionRequest.token.symbol, txConsumption.account?.name)
+                    val amount = txConsumption.estimatedRequestAmount.divide(txConsumption.transactionRequest.token.subunitToUnit)
+                    message = getString(
+                        R.string.notification_transaction_received,
+                        amount,
+                        txConsumption.transactionRequest.token.symbol,
+                        txConsumption.account?.name
+                    )
                     snackbar = bottomNavigation.snackbar(message)
                     snackbar.show()
                 }
                 REJECTED -> {
-                    message = getString(R.string.notification_transaction_rejected, txConsumption.account?.name)
+                    message = getString(
+                        R.string.notification_transaction_rejected,
+                        txConsumption.account?.name
+                    )
                     snackbar = bottomNavigation.snackbar(message)
                     snackbar.show()
                 }
