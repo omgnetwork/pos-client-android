@@ -15,7 +15,7 @@ import network.omisego.omgwallet.GraphMainDirections
 import network.omisego.omgwallet.data.LocalRepository
 import network.omisego.omgwallet.data.RemoteRepository
 
-class AuthViewModel(
+class MainViewModel(
     private val localRepository: LocalRepository,
     private val remoteRepository: RemoteRepository
 ) : ViewModel() {

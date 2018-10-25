@@ -18,7 +18,7 @@ import co.omisego.omisego.model.transaction.consumption.TransactionConsumptionSt
 import co.omisego.omisego.model.transaction.consumption.TransactionConsumptionStatus.CONFIRMED
 import co.omisego.omisego.model.transaction.consumption.TransactionConsumptionStatus.REJECTED
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.android.synthetic.main.fragment_authenticated.*
+import kotlinx.android.synthetic.main.fragment_main.*
 import network.omisego.omgwallet.GraphMainDirections
 import network.omisego.omgwallet.MainActivity
 import network.omisego.omgwallet.R
@@ -28,11 +28,11 @@ import network.omisego.omgwallet.extension.provideActivityViewModel
 import network.omisego.omgwallet.extension.snackbar
 import network.omisego.omgwallet.screen.auth.balance.BalanceViewModel
 
-class AuthFragment : Fragment() {
+class MainFragment : Fragment() {
 
     private lateinit var navigateListener: (NavController, NavDestination) -> Unit
     private lateinit var navController: NavController
-    private lateinit var viewModel: AuthViewModel
+    private lateinit var viewModel: MainViewModel
     private lateinit var balanceViewModel: BalanceViewModel
     private lateinit var snackbar: Snackbar
     private val hostActivity: MainActivity
@@ -62,7 +62,7 @@ class AuthFragment : Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_authenticated, container, false)
+        return inflater.inflate(R.layout.fragment_main, container, false)
     }
 
     override fun onStop() {

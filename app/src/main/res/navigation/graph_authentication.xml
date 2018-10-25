@@ -43,9 +43,9 @@
 
     <fragment
         android:id="@+id/authFragment"
-        android:name="network.omisego.omgwallet.screen.auth.AuthFragment"
+        android:name="network.omisego.omgwallet.screen.auth.MainFragment"
         android:label="AuthFragment"
-        tools:layout="@layout/fragment_authenticated" />
+        tools:layout="@layout/fragment_main" />
     <action
         android:id="@+id/action_global_signInFragment"
         app:destination="@id/signInFragment" />
