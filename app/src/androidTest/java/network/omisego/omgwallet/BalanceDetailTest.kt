@@ -223,8 +223,8 @@ class BalanceDetailTest : BaseInstrumentalTest() {
                 oldsFormattedIds shouldNotEqualTo newFormattedIds
 
                 /* Verify the transaction request ids are correct */
-                val sendTxId = newFormattedIds.split("|")[0]
-                val receiveTxId = newFormattedIds.split("|")[1]
+                val sendTxId = newFormattedIds.split("|")[1]
+                val receiveTxId = newFormattedIds.split("|")[0]
                 val sendTx = ClientProvider.client.retrieveTransactionRequest(TransactionRequestParams(sendTxId)).execute()
                 val receiveTx = ClientProvider.client.retrieveTransactionRequest(TransactionRequestParams(receiveTxId)).execute()
 

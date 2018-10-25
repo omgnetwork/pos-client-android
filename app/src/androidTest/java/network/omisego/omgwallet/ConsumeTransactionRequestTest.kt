@@ -74,7 +74,7 @@ class ConsumeTransactionRequestTest : BaseInstrumentalTest() {
             /* Preparing test data */
             val currentPrimaryTokenId = Storage.loadTokenPrimary()
             val currentTxFormattedIds = Storage.loadFormattedId()
-            val currentTxFormattedIdSend = currentTxFormattedIds.split("|")[0]
+            val currentTxFormattedIdSend = currentTxFormattedIds.split("|")[1]
             val consumeToken: Token = Storage.loadWallets()?.data?.get(0)?.balances?.find { it.token.id == currentPrimaryTokenId }?.token!!
 
             /* Consume transaction */
@@ -110,7 +110,7 @@ class ConsumeTransactionRequestTest : BaseInstrumentalTest() {
             /* Preparing test data */
             val currentPrimaryTokenId = Storage.loadTokenPrimary()
             val currentTxFormattedIds = Storage.loadFormattedId()
-            val currentTxFormattedIdSend = currentTxFormattedIds.split("|")[0]
+            val currentTxFormattedIdSend = currentTxFormattedIds.split("|")[1]
             val currentBalance = Storage.loadWallets()?.data?.get(0)?.balances?.find { it.token.id == currentPrimaryTokenId }!!
 
             /* Consume transaction */
@@ -144,7 +144,7 @@ class ConsumeTransactionRequestTest : BaseInstrumentalTest() {
             /* Preparing test data */
             val currentPrimaryTokenId = Storage.loadTokenPrimary()
             val currentTxFormattedIds = Storage.loadFormattedId()
-            val currentTxFormattedIdSend = currentTxFormattedIds.split("|")[0]
+            val currentTxFormattedIdSend = currentTxFormattedIds.split("|")[1]
             val currentBalance = Storage.loadWallets()?.data?.get(0)?.balances?.find { it.token.id == currentPrimaryTokenId }!!
 
             /* Consume transaction */
@@ -181,7 +181,7 @@ class ConsumeTransactionRequestTest : BaseInstrumentalTest() {
             /* Preparing test data */
             val currentPrimaryTokenId = Storage.loadTokenPrimary()
             val currentTxFormattedIds = Storage.loadFormattedId()
-            val currentTxFormattedIdSend = currentTxFormattedIds.split("|")[0]
+            val currentTxFormattedIdSend = currentTxFormattedIds.split("|")[1]
             val currentBalance = Storage.loadWallets()?.data?.get(0)?.balances?.find { it.token.id == currentPrimaryTokenId }!!
 
             /* Consume transaction */
@@ -218,7 +218,7 @@ class ConsumeTransactionRequestTest : BaseInstrumentalTest() {
             /* Preparing test data */
             val currentPrimaryTokenId = Storage.loadTokenPrimary()
             val currentTxFormattedIds = Storage.loadFormattedId()
-            val currentTxFormattedIdReceive = currentTxFormattedIds.split("|")[1]
+            val currentTxFormattedIdReceive = currentTxFormattedIds.split("|")[0]
             val currentBalance = Storage.loadWallets()?.data?.get(0)?.balances?.find { it.token.id == currentPrimaryTokenId }!!
 
             /* Consume transaction */
