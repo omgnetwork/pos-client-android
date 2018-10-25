@@ -52,11 +52,19 @@ class TransactionListTransformer(
     }
 
     fun transformAmount(transaction: Transaction): String {
-        val amountText = context.getString(
-            R.string.transaction_list_info_amount,
-            transaction.from.amount.divide(transaction.from.token.subunitToUnit),
-            transaction.from.token.symbol
-        )
+        val amountText = if (transaction.isTopup) {
+            context.getString(
+                R.string.transaction_list_info_amount,
+                transaction.to.amount.divide(transaction.to.token.subunitToUnit),
+                transaction.to.token.symbol
+            )
+        } else {
+            context.getString(
+                R.string.transaction_list_info_amount,
+                transaction.from.amount.divide(transaction.from.token.subunitToUnit),
+                transaction.from.token.symbol
+            )
+        }
         return when (transaction.status) {
             Paginable.Transaction.TransactionStatus.CONFIRMED -> {
                 if (transaction.to.accountId != null) {

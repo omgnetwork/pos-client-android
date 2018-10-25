@@ -130,7 +130,7 @@ object Storage {
 
     /* Returns send|receive */
     fun loadFormattedId(): String =
-        "${sharePref[StorageKey.KEY_TRANSACTION_REQUEST_FORMATTED_ID_SEND]}|${sharePref[StorageKey.KEY_TRANSACTION_REQUEST_FORMATTED_ID_RECEIVE]}"
+        "${sharePref[StorageKey.KEY_TRANSACTION_REQUEST_FORMATTED_ID_RECEIVE]}|${sharePref[StorageKey.KEY_TRANSACTION_REQUEST_FORMATTED_ID_SEND]}"
 
     fun deleteFormattedIds() {
         sharePref.edit()

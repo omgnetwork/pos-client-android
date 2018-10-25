@@ -140,7 +140,7 @@ class AuthFragment : Fragment() {
                 CONFIRMED,
                 APPROVED -> {
                     val amount = txConsumption.amount?.divide(txConsumption.token.subunitToUnit)
-                    message = getString(R.string.notification_transaction_received, amount, txConsumption.token.symbol, txConsumption.account?.name)
+                    message = getString(R.string.notification_transaction_received, amount, txConsumption.transactionRequest.token.symbol, txConsumption.account?.name)
                     snackbar = bottomNavigation.snackbar(message)
                     snackbar.show()
                 }

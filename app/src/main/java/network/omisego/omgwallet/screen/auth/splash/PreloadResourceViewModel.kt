@@ -88,11 +88,11 @@ class PreloadResourceViewModel(
                 return@async txReceiveResult to txSendResult
             }
             val (txReceive, txSend) = result.await()
-            txReceive.either({ formattedIds[it.data.type] = it.data.formattedId }, this@PreloadResourceViewModel::handleAPIError)
-            txSend.either({ formattedIds[it.data.type] = it.data.formattedId }, this@PreloadResourceViewModel::handleAPIError)
+            txReceive.either({ formattedIds[RECEIVE] = it.data.formattedId }, this@PreloadResourceViewModel::handleAPIError)
+            txSend.either({ formattedIds[SEND] = it.data.formattedId }, this@PreloadResourceViewModel::handleAPIError)
 
             if (formattedIds.size == 2) {
-                val message = "${formattedIds[SEND]}|${formattedIds[RECEIVE]}"
+                val message = "${formattedIds[RECEIVE]}|${formattedIds[SEND]}"
                 logi(message)
 
                 localRepository.saveTransactionRequestFormattedId(formattedIds)

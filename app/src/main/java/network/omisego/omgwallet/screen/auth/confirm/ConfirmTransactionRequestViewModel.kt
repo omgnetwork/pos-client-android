@@ -33,8 +33,8 @@ class ConfirmTransactionRequestViewModel(
     fun formatAmount(txConsumption: TransactionConsumption) {
         liveAmountText.value = app.getString(
             R.string.confirm_transaction_request_amount,
-            txConsumption.amount?.divide(txConsumption.token.subunitToUnit),
-            txConsumption.token.symbol
+            txConsumption.estimatedConsumptionAmount.divide(txConsumption.token.subunitToUnit),
+            txConsumption.transactionRequest.token.symbol
         )
     }
 

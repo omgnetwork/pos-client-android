@@ -3,6 +3,11 @@
   <component name="WizardSettings">
     <option name="children">
       <map>
+        <entry key="imageWizard">
+          <value>
+            <PersistentState />
+          </value>
+        </entry>
         <entry key="vectorWizard">
           <value>
             <PersistentState>
@@ -30,8 +35,8 @@
                           <map>
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="ffffff" />
-                            <entry key="outputName" value="ic_odyssey_wallet" />
-                            <entry key="sourceFile" value="$USER_HOME$/Downloads/Odyssey_Wallet.svg" />
+                            <entry key="outputName" value="ic_go" />
+                            <entry key="sourceFile" value="$USER_HOME$/Desktop/go.svg" />
                           </map>
                         </option>
                       </PersistentState>
