@@ -51,3 +51,6 @@ before_script:
 script:
   - ./gradlew clean build
   - ./gradlew assembleDebug
+
+after_script:
+  - rm -f local.properties
