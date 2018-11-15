@@ -32,17 +32,26 @@ android:
    - android-sdk-license-.+
    - google-gdk-license-.+
 
-#before_install:
-#  - mkdir "$ANDROID_HOME/licenses" || true
-#  - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
-#  - echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
-#  - chmod +x gradlew
-#  - ./gradlew dependencies || true
-
 before_script:
   - echo "${GOOGLE_SERVICES}" | base64 --decode > app/google-services.json
   - echo "${LOCAL_PROPERTIES}" | base64 --decode > local.properties
 
 script:
-  - ./gradlew clean build
+  - ./gradlew ktlintDebugCheck
+  - ./gradlew lintDebug
   - ./gradlew assembleDebug
+
+before_deploy:
+  - git config --local user.name "ripzery"
+  - git config --local user.email "phuchit@omise.co"
+  - git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
+
+deploy:
+  provider: release
+  api_key: $GH_AUTH_TOKEN
+  file_glob: true
+  file: app/build/outputs/apk/debug/*.apk
+  skip_cleanup: true
+  on:
+    tags: true
+#    branch: master

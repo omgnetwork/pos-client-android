@@ -68,6 +68,12 @@ android {
     }
 }
 
+android.applicationVariants.all { variant ->
+    variant.outputs.all {
+        outputFileName = "pos-client-${variant.name}-${variant.versionName}.apk"
+    }
+}
+
 androidExtensions {
     experimental = true
 }
