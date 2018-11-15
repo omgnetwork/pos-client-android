@@ -8,29 +8,28 @@ before_cache:
 
 cache:
   directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
 
 env:
   global:
-    - ANDROID_API=28
-    - ANDROID_BUILD_TOOLS=28.0.3
-    - ADB_INSTALL_TIMEOUT=5 # minutes
+  - ANDROID_API=28
+  - ANDROID_BUILD_TOOLS=28.0.3
+  - ADB_INSTALL_TIMEOUT=5
 
 android:
   components:
-    - tools
-    - platform-tools
-    - tools
-    - extra-google-m2repository
-    - extra-android-m2repository # for design library
-    - build-tools-$ANDROID_BUILD_TOOLS
-    - android-$ANDROID_API
-
+  - tools
+  - platform-tools
+  - tools
+  - extra-google-m2repository
+  - extra-android-m2repository
+  - build-tools-$ANDROID_BUILD_TOOLS
+  - android-$ANDROID_API
   licenses:
-   - android-sdk-preview-license-.+
-   - android-sdk-license-.+
-   - google-gdk-license-.+
+  - android-sdk-preview-license-.+
+  - android-sdk-license-.+
+  - google-gdk-license-.+
 
 before_script:
   - echo "${GOOGLE_SERVICES}" | base64 --decode > app/google-services.json
@@ -42,16 +41,25 @@ script:
   - ./gradlew assembleDebug
 
 before_deploy:
-  - git config --local user.name "ripzery"
-  - git config --local user.email "phuchit@omise.co"
-  - git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
+  - export BUILD_APK_FILE=$(ls app/build/outputs/apk/debug/*.apk)
+  - echo "Deploying $BUILD_APK_FILE to Github releases"
+  - echo "Deploying $BUILD_APK_FILE to Testfairy"
 
 deploy:
-  provider: release
-  api_key: $GH_AUTH_TOKEN
-  file_glob: true
-  file: app/build/outputs/apk/debug/*.apk
-  skip_cleanup: true
-  on:
-    tags: true
-#    branch: master
+  - provider: releases
+    file_glob: true
+    api_key:
+      secure: Px5jB9gHpDTjJeljQVivThZiWkvU6QU29DTlBzKyrNmTwKHX9B3y8A+3bj/xu5n7pLO9e1MJnkMXAu/Yjp+Jw8MSNfN6cJFJ6cgmnH2nO+MceHEbvmV2Fgn5Xn7B2L7KmIZhSuGM2yBiXy/payzGdG5tyQrzB4GZK1IuMxc3bEfuWtuOP9BK2RMTaOIB9Ccg5yNq8m9KnxjtQ/JXUR/WQIZShie7L3gnasXNx5Rg9X5nK37ubmNXu6lqtXzUQyl9so29PAffE/ph49CbyN0XxEq0+cSgfCn29eaPoKOxK6KLWp2Nmd0+31T6LRarGJnX8nEH1LQSOjLQyqVgQdj/or6tyXH6pEgPew2DS4j6zmMh0XPlOYqKcMwEazcXudfLaN5JzoA1lFRvqGqaYvJ+5rPNtizCIHVcn56DF4q6eTLBO8g9TJ/Fdl0x7xJRwTObYYSG0GHbqrXQoNJINIoh9ijfTuTVMnN05VWBLbwyIDPFjkMMSEdLmqX09g72B56COthWaIZsea2TntCL2MsWdpSYPehyfH566JTjDoyRnC4SMLEkFJufd8srrCR8AyXhpvEyMOcrZTKL2UkYJJQp6ES3Hn4p3Eflv5KHyrhzxComwqxTpCahqlQiPAQJGn+0sC91uWpXrYX6KI/niUK6NwcI1yFsVESDKBrincviuMc=
+    file: $BUILD_APK_FILE
+    skip_cleanup: true
+    name: "POS Client Android ${TRAVIS_TAG}"
+    on:
+      tags: true
+  - provider: testfairy
+    api-key: $TESTFAIRY_API_KEY
+    app-file: $BUILD_APK_FILE
+    skip_cleanup: true
+    notify: true
+    testers-groups: omisego
+    on:
+      tags: true
