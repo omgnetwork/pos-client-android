@@ -9,12 +9,10 @@ package network.omisego.omgwallet.extension
 
 import android.content.Context
 import android.util.TypedValue
-import android.view.View
 import android.widget.Toast
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
-import com.google.android.material.snackbar.Snackbar
 
 fun Context.dpToPx(dp: Float): Int {
     return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, resources.displayMetrics).toInt()

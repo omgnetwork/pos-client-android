@@ -26,4 +26,4 @@ fun <T : ViewDataBinding> Fragment.bindingInflate(
     false
 )
 
-fun Fragment.findRootNavController()= Navigation.findNavController(activity as MainActivity, R.id.nav_host)
+fun Fragment.findRootNavController() = Navigation.findNavController(activity as MainActivity, R.id.nav_host)

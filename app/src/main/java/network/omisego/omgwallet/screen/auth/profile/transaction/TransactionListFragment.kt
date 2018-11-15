@@ -101,7 +101,7 @@ class TransactionListFragment : Fragment() {
         hideLoading()
     }
 
-    private fun hideLoading(){
+    private fun hideLoading() {
         swipeRefresh.isRefreshing = false
         loading = false
     }

@@ -38,4 +38,3 @@ inline fun <reified T : ViewModel> AppCompatActivity.provideViewModel(): T {
 inline fun <reified T : AndroidViewModel> AppCompatActivity.provideAndroidViewModel(): T {
     return ViewModelProviders.of(this, AndroidViewModelFactory(application))[T::class.java]
 }
-
