@@ -40,18 +40,9 @@ android:
 #  - ./gradlew dependencies || true
 
 before_script:
-  - touch local.properties
-  - echo "ewallet.verification.signup.prefix=\"$SIGNUP_SUCCESSFUL_DEEPLINK\"" >> local.properties
-  - echo "ewallet.baseurl=\"$BASE_URL\"" >> local.properties
-  - echo "ewallet.socket.baseurl=\"$SOCKET_BASE_URL\"" >> local.properties
-  - echo "ewallet.apikey=\"$API_KEY\"" >> local.properties
-  - echo "omg.encrypt.keyAlias=\"$KEY_ALIAS\"" >> local.properties
-  - echo "omg.encrypt.iv=\"$KEY_IV\"" >> local.properties
   - echo "${GOOGLE_SERVICES}" | base64 --decode > app/google-services.json
+  - echo "${LOCAL_PROPERTIES}" | base64 --decode > local.properties
 
 script:
   - ./gradlew clean build
   - ./gradlew assembleDebug
-
-after_script:
-  - rm -f local.properties
