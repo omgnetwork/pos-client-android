@@ -4,7 +4,6 @@ import android.view.View
 import com.agoda.kakao.KRecyclerItem
 import com.agoda.kakao.KRecyclerView
 import com.agoda.kakao.KTextView
-import com.agoda.kakao.KView
 import com.agoda.kakao.Screen
 import network.omisego.omgwallet.R
 import org.hamcrest.Matcher
@@ -16,10 +15,6 @@ import org.hamcrest.Matcher
  * Copyright © 2017-2018 OmiseGO. All rights reserved.
  */
 class TransactionListScreen : Screen<TransactionListScreen>() {
-    val backButton: KView = KView {
-        withDrawable(R.drawable.ic_arrow_back)
-    }
-
     val recyclerView: KRecyclerView = KRecyclerView({
         withId(R.id.recyclerView)
     }, {

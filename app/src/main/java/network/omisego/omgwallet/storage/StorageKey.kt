@@ -15,4 +15,6 @@ object StorageKey {
     const val KEY_USER_EMAIL = "user_email"
     const val KEY_FINGERPRINT_USER_PASSWORD = "fingerprint_user_password"
     const val KEY_TOKEN_PRIMARY = "token_primary"
+    const val KEY_TRANSACTION_REQUEST_FORMATTED_ID_RECEIVE = "transaction_request_formatted_id_receive"
+    const val KEY_TRANSACTION_REQUEST_FORMATTED_ID_SEND = "transaction_request_formatted_id_send"
 }

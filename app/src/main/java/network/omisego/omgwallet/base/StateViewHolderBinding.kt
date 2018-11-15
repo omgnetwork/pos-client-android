@@ -7,8 +7,10 @@ package network.omisego.omgwallet.base
  * Copyright © 2017-2018 OmiseGO. All rights reserved.
  */
 
+import android.os.Bundle
 import androidx.databinding.ViewDataBinding
 
 interface StateViewHolderBinding<T, R : ViewDataBinding> {
     fun bind(binding: R, data: T)
+    fun resolvePayloadBundle(bundle: Bundle): T?
 }

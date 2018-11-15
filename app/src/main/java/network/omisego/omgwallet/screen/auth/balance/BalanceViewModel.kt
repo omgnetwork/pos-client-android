@@ -7,6 +7,7 @@ package network.omisego.omgwallet.screen.auth.balance
  * Copyright © 2017-2018 OmiseGO. All rights reserved.
  */
 
+import android.os.Bundle
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import co.omisego.omisego.model.Balance
@@ -26,10 +27,14 @@ class BalanceViewModel(
 
     val liveBalanceClickEvent: MutableLiveData<Event<Balance>> by lazy { MutableLiveData<Event<Balance>>() }
 
+    override fun resolvePayloadBundle(bundle: Bundle): Balance? {
+        return bundle.getParcelable("balance")
+    }
+
     override fun bind(binding: ViewholderBalanceBinding, data: Balance) {
         binding.balance = data
         binding.viewModel = this
-        binding.displayAmount = data.displayAmount(2)
+        binding.tvAmount.text = data.displayAmount(2)
     }
 
     val liveResult: MutableLiveData<Event<APIResult>> by lazy { MutableLiveData<Event<APIResult>>() }
@@ -43,6 +48,7 @@ class BalanceViewModel(
     }
 
     fun loadWallet() {
+        localRepository.loadWallet(liveResult)
         remoteRepository.loadWallet(liveResult)
     }
 

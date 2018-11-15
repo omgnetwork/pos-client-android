@@ -11,9 +11,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import network.omisego.omgwallet.data.LocalRepository
 import network.omisego.omgwallet.data.RemoteRepository
+import network.omisego.omgwallet.screen.auth.MainViewModel
 import network.omisego.omgwallet.screen.auth.balance.BalanceViewModel
 import network.omisego.omgwallet.screen.auth.profile.main.ConfirmFingerprintViewModel
-import network.omisego.omgwallet.screen.auth.splash.PreloadResourceViewModel
 import network.omisego.omgwallet.screen.unauth.signup.SignupViewModel
 
 @Suppress("UNCHECKED_CAST")
@@ -23,14 +23,14 @@ class ViewModelFactory : ViewModelProvider.NewInstanceFactory() {
             modelClass.isAssignableFrom(SignupViewModel::class.java) -> {
                 return SignupViewModel(RemoteRepository()) as T
             }
-            modelClass.isAssignableFrom(PreloadResourceViewModel::class.java) -> {
-                return PreloadResourceViewModel(LocalRepository(), RemoteRepository()) as T
-            }
             modelClass.isAssignableFrom(BalanceViewModel::class.java) -> {
                 return BalanceViewModel(LocalRepository(), RemoteRepository()) as T
             }
             modelClass.isAssignableFrom(ConfirmFingerprintViewModel::class.java) -> {
                 return ConfirmFingerprintViewModel(LocalRepository(), RemoteRepository()) as T
+            }
+            modelClass.isAssignableFrom(MainViewModel::class.java) -> {
+                return MainViewModel(LocalRepository(), RemoteRepository()) as T
             }
             else -> {
                 throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")

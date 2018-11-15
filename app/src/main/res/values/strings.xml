@@ -12,6 +12,11 @@
     <string name="sign_in_success">Sign in as %s successfully.</string>
     <string name="sign_in_fingerprint">Fingerprint</string>
 
+    <!-- Splash -->
+    <string name="splash_status_loading_wallet">Loading wallet…</string>
+    <string name="splash_status_creating_transaction">Creating transaction…</string>
+    <string name="splash_btn_close">Close</string>
+
     <!-- Sign Up -->
     <string name="sign_up_title">Signup</string>
     <string name="sign_up_full_name">Full name</string>
@@ -87,6 +92,19 @@
     <string name="setting_help_enter_password">Enter your password to confirm</string>
     <string name="setting_help_enable_finger_print_successfully">Enable fingerprint successfully.</string>
     <string name="setting_help_confirm">Confirm</string>
+
+    <!-- Confirm Transaction Request-->
+    <string name="confirm_transaction_request_title">Confirm Transaction Request</string>
+    <string name="confirm_transaction_request_send">Send</string>
+    <string name="confirm_transaction_request_amount">%,.2f %s</string>
+    <string name="confirm_transaction_request_to">To %s</string>
+    <string name="confirm_transaction_request_approve">Approve</string>
+    <string name="confirm_transaction_request_reject">Reject</string>
+    <string name="confirm_transaction_request_error_not_has_enough_fund">Your current account does not have enough fund (%s %s)</string>
+
+    <!-- Transaction Notification Message -->
+    <string name="notification_transaction_received">Successfully received %,.2f %s from %s</string>
+    <string name="notification_transaction_rejected">Transaction request from %s has been rejected</string>
 
     <!-- Fingerprint -->
     <string name="dialog_fingerprint_title">Sign-in</string>

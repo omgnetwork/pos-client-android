@@ -1,4 +1,4 @@
-package network.omisego.omgwallet.base
+package network.omisego.omgwallet.custom
 
 import androidx.recyclerview.widget.DiffUtil
 

@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import co.omisego.omisego.model.Token
 import co.omisego.omisego.model.User
 import co.omisego.omisego.model.WalletList
+import co.omisego.omisego.model.transaction.request.TransactionRequestType
 import network.omisego.omgwallet.data.contract.BalanceDataRepository
 import network.omisego.omgwallet.livedata.Event
 import network.omisego.omgwallet.model.APIResult
@@ -18,11 +19,15 @@ import network.omisego.omgwallet.storage.Storage
  */
 
 class LocalRepository : BalanceDataRepository {
-    override fun loadWallet(liveAPIResult: MutableLiveData<Event<APIResult>>, networkOnly: Boolean) {
-        liveAPIResult.value = Event(APIResult.Success(Storage.loadWallets()))
+    override fun loadWallet(liveAPIResult: MutableLiveData<Event<APIResult>>) {
+        liveAPIResult.value = Event(APIResult.Success(loadWallet()))
     }
 
     fun clearSession() = Storage.clearSession()
+
+    fun clearOldAccountCache(email: String) = Storage.clearOldAccountCache(email)
+
+    fun hasFormattedId() = Storage.hasFormattedId()
 
     fun deleteFingerprintCredential() {
         Storage.deleteFingerprintCredential()
@@ -39,6 +44,12 @@ class LocalRepository : BalanceDataRepository {
     fun loadUserEmail() = Storage.loadUserEmail()
 
     fun loadFingerprintCredential() = Storage.loadFingerprintCredential()
+
+    fun loadTransactionRequestFormattedId() = Storage.loadFormattedId()
+
+    fun loadUser() = Storage.loadUser()
+
+    fun saveTransactionRequestFormattedId(formattedIds: Map<TransactionRequestType, String>) = Storage.saveFormattedId(formattedIds)
 
     fun saveUser(user: User) = Storage.saveUser(user)
 

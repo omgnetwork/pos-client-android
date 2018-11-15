@@ -13,6 +13,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import co.omisego.omisego.qrcode.generator.QRGenerator
 import network.omisego.omgwallet.data.LocalRepository
+import network.omisego.omgwallet.extension.logi
 
 class ShowQRViewModel(
     val app: Application,
@@ -27,8 +28,9 @@ class ShowQRViewModel(
     }
 
     fun createQRBitmap() {
-        val address = localRepository.loadWallet()!!.data[0].address
+        val sendReceiveFormattedId = localRepository.loadTransactionRequestFormattedId()
+        logi("Encoded [$sendReceiveFormattedId] to the QR code")
         val size = app.resources.displayMetrics.widthPixels * RATIO_QR_WIDTH_TO_SCREEN
-        liveQR.value = generator.generate(address, size.toInt())
+        liveQR.value = generator.generate(sendReceiveFormattedId, size.toInt())
     }
 }

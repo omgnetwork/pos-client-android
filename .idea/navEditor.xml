@@ -15,37 +15,17 @@
                   </entry>
                   <entry key="authFragment">
                     <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="305" />
-                            <option name="y" value="-142" />
-                          </Point>
-                        </option>
-                      </LayoutPositions>
+                      <LayoutPositions />
                     </value>
                   </entry>
                   <entry key="confirmFragment">
                     <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="581" />
-                            <option name="y" value="209" />
-                          </Point>
-                        </option>
-                      </LayoutPositions>
+                      <LayoutPositions />
                     </value>
                   </entry>
                   <entry key="signInFragment">
                     <value>
                       <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="12" />
-                            <option name="y" value="54" />
-                          </Point>
-                        </option>
                         <option name="myPositions">
                           <map>
                             <entry key="action_signInFragment_to_authFragment">
@@ -66,12 +46,6 @@
                   <entry key="signupFragment">
                     <value>
                       <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="305" />
-                            <option name="y" value="209" />
-                          </Point>
-                        </option>
                         <option name="myPositions">
                           <map>
                             <entry key="action_signupFragment_to_confirmFragment">
@@ -94,7 +68,22 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
+                  <entry key="action_global_balance">
+                    <value>
+                      <LayoutPositions />
+                    </value>
+                  </entry>
+                  <entry key="action_global_confirmTransactionRequest">
+                    <value>
+                      <LayoutPositions />
+                    </value>
+                  </entry>
                   <entry key="action_global_showQR">
+                    <value>
+                      <LayoutPositions />
+                    </value>
+                  </entry>
+                  <entry key="action_global_splash">
                     <value>
                       <LayoutPositions />
                     </value>
@@ -132,13 +121,25 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="confirmTransactionRequest">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="12" />
+                            <option name="y" value="12" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="profile">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="11" />
-                            <option name="y" value="-102" />
+                            <option name="x" value="13" />
+                            <option name="y" value="-279" />
                           </Point>
                         </option>
                         <option name="myPositions">
@@ -165,13 +166,25 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="splash">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="19" />
+                            <option name="y" value="970" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="transactionList">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="274" />
-                            <option name="y" value="-98" />
+                            <option name="x" value="280" />
+                            <option name="y" value="-278" />
                           </Point>
                         </option>
                       </LayoutPositions>

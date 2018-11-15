@@ -27,7 +27,7 @@
         android:id="@+id/balanceDetail"
         android:name="network.omisego.omgwallet.screen.auth.balance.detail.BalanceDetailFragment"
         android:label="Detail"
-        tools:layout="@layout/fragment_balance_detail" >
+        tools:layout="@layout/fragment_balance_detail">
         <argument
             android:name="token_index"
             android:defaultValue="0"
@@ -41,9 +41,44 @@
     <fragment
         android:id="@+id/showQR"
         android:name="network.omisego.omgwallet.screen.auth.showqr.ShowQRFragment"
-        android:label="Show QR"
+        android:label="@string/show_qr_title"
         tools:layout="@layout/fragment_show_qr" />
     <action
         android:id="@+id/action_global_showQR"
         app:destination="@id/showQR" />
+    <fragment
+        android:id="@+id/splash"
+        android:name="network.omisego.omgwallet.screen.auth.splash.SplashFragment"
+        android:label="SplashFragment"
+        tools:layout="@layout/fragment_splash">
+
+        <argument
+            android:name="primaryTokenId"
+            android:defaultValue="@null"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="shouldLoadWallet"
+            android:defaultValue="true"
+            app:argType="boolean" />
+
+    </fragment>
+    <action
+        android:id="@+id/action_global_splash"
+        app:destination="@id/splash" />
+    <action
+        android:id="@+id/action_global_balance"
+        app:destination="@id/balance" />
+    <fragment
+        android:id="@+id/confirmTransactionRequest"
+        android:name="network.omisego.omgwallet.screen.auth.confirm.ConfirmTransactionRequestFragment"
+        android:label="@string/confirm_transaction_request_title"
+        tools:layout="@layout/fragment_confirm_transaction_request">
+        <argument
+            android:name="transactionConsumption"
+            app:argType="co.omisego.omisego.model.transaction.consumption.TransactionConsumption" />
+    </fragment>
+    <action
+        android:id="@+id/action_global_confirmTransactionRequest"
+        app:destination="@id/confirmTransactionRequest" />
 </navigation>

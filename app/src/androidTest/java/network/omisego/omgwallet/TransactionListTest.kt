@@ -52,7 +52,7 @@ class TransactionListTest : BaseInstrumentalTest() {
     @Test
     fun testShowTransactionList() {
         mainScreen {
-            bottomBarProfile.click()
+            bottomNavigation.setSelectedItem(R.id.profile)
         }
         profileScreen {
             tvTransaction.click()
@@ -66,15 +66,9 @@ class TransactionListTest : BaseInstrumentalTest() {
 
     @Test
     fun testCloseTransactionList() {
-        mainScreen {
-            bottomBarProfile.click()
-        }
-        profileScreen {
-            tvTransaction.click()
-        }
-        transactionListScreen {
-            backButton.click()
-        }
+        mainScreen.bottomNavigation.setSelectedItem(R.id.profile)
+        profileScreen.tvTransaction.click()
+        mainScreen.pressBack()
         profileScreen {
             tvTransaction.isDisplayed()
             tvFingerprintTitle.isDisplayed()

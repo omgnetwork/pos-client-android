@@ -8,6 +8,7 @@ package network.omisego.omgwallet.screen.auth.profile.transaction
  */
 
 import android.app.Application
+import android.os.Bundle
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import co.omisego.omisego.model.Wallet
@@ -42,6 +43,8 @@ class TransactionListViewModel(
         binding.viewModel = this
         binding.transformer = transformer
     }
+
+    override fun resolvePayloadBundle(bundle: Bundle): Transaction? = null
 
     fun giveTransactionStatusDescription(transaction: Transaction) {
         transaction.error?.let {

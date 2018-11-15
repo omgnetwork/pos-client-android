@@ -1,6 +1,6 @@
 <resources>
     <!-- Global app theme -->
-    <!-- More info: https://github.com/material-components/material-components-android/blob/master/docs/theming/Color.md -->
+    <!-- More balanceInfo: https://github.com/material-components/material-components-android/blob/master/docs/theming/Color.md -->
     <style name="OMGTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
 
         <!-- Displayed most frequently across the app. -->
@@ -29,5 +29,15 @@
         <item name="materialButtonStyle">@style/OMGButton</item>
         <item name="textInputStyle">@style/OMGTextInputLayout</item>
         <item name="editTextStyle">@style/OMGTextInputEditText</item>
+    </style>
+
+    <!-- Splash Screen theme. -->
+    <style name="SplashTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorGray</item>
+        <item name="colorSecondary">@color/color_omg_btn_selector</item>
+        <item name="colorPrimaryDark">@color/colorGray</item>
+        <item name="android:navigationBarColor">@color/colorGray</item>
+
+        <item name="android:windowBackground">@drawable/splash</item>
     </style>
 </resources>

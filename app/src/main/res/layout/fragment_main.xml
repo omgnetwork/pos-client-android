@@ -6,22 +6,21 @@
     <data></data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/layoutContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/colorPrimary"
                 android:minHeight="?attr/actionBarSize"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
                 app:titleTextColor="@color/colorWhite"
@@ -30,13 +29,10 @@
             <fragment
                 android:id="@+id/content"
                 android:name="androidx.navigation.fragment.NavHostFragment"
-                android:layout_width="409dp"
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_weight="1"
                 app:defaultNavHost="true"
-                app:layout_constraintBottom_toTopOf="@+id/bottomNavigation"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/toolbar"
                 app:navGraph="@navigation/graph_main" />
 
             <com.google.android.material.bottomnavigation.BottomNavigationView
@@ -45,12 +41,9 @@
                 android:layout_height="wrap_content"
                 app:itemIconTint="@color/color_bottom_bar_text_selector"
                 app:itemTextColor="@color/color_bottom_bar_text_selector"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:menu="@menu/bottom_navigation" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/fabQR"
@@ -60,6 +53,7 @@
             android:stateListAnimator="@animator/animator_state_button"
             app:layout_anchor="@+id/bottomNavigation"
             app:layout_anchorGravity="center_horizontal"
+            app:layout_behavior=".custom.MoveUpBehavior"
             app:rippleColor="@color/transparent" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

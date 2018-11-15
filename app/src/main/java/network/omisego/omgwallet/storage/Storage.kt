@@ -12,6 +12,7 @@ import android.content.SharedPreferences
 import co.omisego.omisego.model.Token
 import co.omisego.omisego.model.User
 import co.omisego.omisego.model.WalletList
+import co.omisego.omisego.model.transaction.request.TransactionRequestType
 import co.omisego.omisego.security.OMGKeyManager
 import co.omisego.omisego.utils.GsonProvider
 import kotlinx.coroutines.experimental.Deferred
@@ -93,6 +94,10 @@ object Storage {
         return gson.fromJson<WalletList>(sharePref[StorageKey.KEY_WALLET], WalletList::class.java)
     }
 
+    fun deleteWallets() {
+        sharePref.edit()?.remove(StorageKey.KEY_WALLET)?.apply()
+    }
+
     fun saveUser(user: User) {
         sharePref[StorageKey.KEY_USER] = gson.toJson(user)
     }
@@ -106,9 +111,32 @@ object Storage {
         sharePref[StorageKey.KEY_TOKEN_PRIMARY] = token.id
     }
 
+    fun deleteTokenPrimary() {
+        sharePref.edit().remove(StorageKey.KEY_TOKEN_PRIMARY).apply()
+    }
+
     fun loadTokenPrimary(): String? {
         if (sharePref[StorageKey.KEY_TOKEN_PRIMARY].isNullOrEmpty()) return null
         return sharePref[StorageKey.KEY_TOKEN_PRIMARY]
+    }
+
+    fun hasFormattedId() = sharePref.contains(StorageKey.KEY_TRANSACTION_REQUEST_FORMATTED_ID_RECEIVE)
+        && sharePref.contains(StorageKey.KEY_TRANSACTION_REQUEST_FORMATTED_ID_SEND)
+
+    fun saveFormattedId(formattedIds: Map<TransactionRequestType, String>) {
+        sharePref[StorageKey.KEY_TRANSACTION_REQUEST_FORMATTED_ID_SEND] = formattedIds[TransactionRequestType.SEND]!!
+        sharePref[StorageKey.KEY_TRANSACTION_REQUEST_FORMATTED_ID_RECEIVE] = formattedIds[TransactionRequestType.RECEIVE]!!
+    }
+
+    /* Returns send|receive */
+    fun loadFormattedId(): String =
+        "${sharePref[StorageKey.KEY_TRANSACTION_REQUEST_FORMATTED_ID_RECEIVE]}|${sharePref[StorageKey.KEY_TRANSACTION_REQUEST_FORMATTED_ID_SEND]}"
+
+    fun deleteFormattedIds() {
+        sharePref.edit()
+            .remove(StorageKey.KEY_TRANSACTION_REQUEST_FORMATTED_ID_SEND)
+            .remove(StorageKey.KEY_TRANSACTION_REQUEST_FORMATTED_ID_RECEIVE)
+            .apply()
     }
 
     fun clearSession() {
@@ -116,12 +144,19 @@ object Storage {
             .remove(StorageKey.KEY_AUTHENTICATION_TOKEN)
             .remove(StorageKey.KEY_WALLET)
             .remove(StorageKey.KEY_USER)
+            .remove(StorageKey.KEY_TRANSACTION_REQUEST_FORMATTED_ID_RECEIVE)
+            .remove(StorageKey.KEY_TRANSACTION_REQUEST_FORMATTED_ID_SEND)
             .apply()
     }
 
-    fun removeWallet() {
-        sharePref.edit()
-            .remove(StorageKey.KEY_WALLET)
-            .apply()
+    fun clearOldAccountCache(email: String) {
+        if (email != sharePref[StorageKey.KEY_USER_EMAIL]) {
+            sharePref.edit()
+                .remove(StorageKey.KEY_TOKEN_PRIMARY)
+                .remove(StorageKey.KEY_WALLET)
+                .remove(StorageKey.KEY_FINGERPRINT_USER_PASSWORD)
+                .remove(StorageKey.KEY_FINGERPRINT_OPTION)
+                .apply()
+        }
     }
 }

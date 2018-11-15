@@ -11,7 +11,6 @@ import androidx.test.runner.AndroidJUnit4
 import co.omisego.omisego.model.params.LoginParams
 import network.omisego.omgwallet.base.BaseInstrumentalTest
 import network.omisego.omgwallet.config.LocalClientSetup
-import network.omisego.omgwallet.config.MockData
 import network.omisego.omgwallet.config.TestData
 import network.omisego.omgwallet.model.Credential
 import network.omisego.omgwallet.network.ClientProvider
@@ -20,7 +19,8 @@ import network.omisego.omgwallet.screen.MainScreen
 import network.omisego.omgwallet.screen.ProfileScreen
 import network.omisego.omgwallet.screen.SplashScreen
 import network.omisego.omgwallet.storage.Storage
-import org.amshove.kluent.shouldEqual
+import org.amshove.kluent.shouldBeGreaterThan
+import org.amshove.kluent.shouldNotBe
 import org.junit.After
 import org.junit.Before
 import org.junit.BeforeClass
@@ -49,28 +49,27 @@ class MainTest : BaseInstrumentalTest() {
 
     @Before
     fun setup() {
+        Storage.deleteFormattedIds()
+        Storage.deleteTokenPrimary()
         registerIdlingResource()
-        Storage.saveWallets(MockData.walletList)
+        start()
     }
 
     @After
-    fun teardown(){
+    fun teardown() {
         unregisterIdlingResource()
     }
 
     @Test
     fun testShowMainBottomBar() {
-        start()
         mainScreen {
             fabQR.isDisplayed()
-            bottomBarProfile.isDisplayed()
-            bottombarBalance.isDisplayed()
+            bottomNavigation.isDisplayed()
         }
     }
 
     @Test
     fun testShowBalance() {
-        start()
         balanceScreen {
             recyclerView {
                 isDisplayed()
@@ -85,14 +84,13 @@ class MainTest : BaseInstrumentalTest() {
                 }
             }
         }
-        toolbarTitle shouldEqual "Balance"
+        hasToolbarTitle(stringRes(R.string.balance_title))
     }
 
     @Test
     fun testShowProfile() {
-        start()
-        mainScreen.bottomBarProfile.click()
-        toolbarTitle shouldEqual "Profile"
+        mainScreen.bottomNavigation.setSelectedItem(R.id.profile)
+        hasToolbarTitle(stringRes(R.string.profile_title))
         profileScreen {
             tvTransaction.isDisplayed()
             tvFingerprintTitle.isDisplayed()
@@ -101,14 +99,32 @@ class MainTest : BaseInstrumentalTest() {
     }
 
     @Test
+    fun testPrimaryTokenShouldBeVisibleWhenFirstTimeLogin() {
+        balanceScreen {
+            this.recyclerView.isDisplayed()
+
+            val primaryToken = selectPrimaryToken(Storage.loadWallets()!!, null)
+            val position = Storage.loadWallets()?.data?.get(0)?.balances?.indexOfFirst { it.token.id == primaryToken.id }
+
+            position shouldNotBe null
+            position?.shouldBeGreaterThan(-1)
+
+            recyclerView {
+                childAt<BalanceScreen.Item>(position!!) {
+                    tvPrimaryToken.isDisplayed()
+                }
+            }
+        }
+    }
+
+    @Test
     fun testRepeatlySwitchTab() {
-        start()
         for (i in 0..1) {
-            mainScreen.bottomBarProfile.click()
-            toolbarTitle shouldEqual "Profile"
+            mainScreen.bottomNavigation.setSelectedItem(R.id.profile)
+            hasToolbarTitle(stringRes(R.string.profile_title))
             profileScreen.tvTransaction.isDisplayed()
-            mainScreen.bottombarBalance.click()
-            toolbarTitle shouldEqual "Balance"
+            mainScreen.bottomNavigation.setSelectedItem(R.id.balance)
+            hasToolbarTitle(stringRes(R.string.balance_title))
             balanceScreen.recyclerView.isDisplayed()
         }
     }
