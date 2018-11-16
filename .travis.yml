@@ -45,8 +45,7 @@ script:
 
 before_deploy:
   - export BUILD_APK_FILE=$(ls app/build/outputs/apk/debug/*.apk)
-  - echo "Deploying ${BUILD_APK_FILE} to Github releases"
-  - echo "Deploying ${BUILD_APK_FILE} to Testfairy"
+  - echo "Deploying ${BUILD_APK_FILE}.."
 
 deploy:
   - provider: releases
