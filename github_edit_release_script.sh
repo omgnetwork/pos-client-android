@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ===> Set these variables first
-branch="$TRAVIS_BRANCH"
+branch="master"
 repo_slug="$TRAVIS_REPO_SLUG"
 token="$GH_CHANGELOG_RELEASE_KEY"
 version="$TRAVIS_TAG"
