@@ -10,6 +10,7 @@ apply from: 'gradleScript/dependencies.gradle'
 // Setup EWallet client data
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
+def appVersion = properties.getProperty("app.version")
 def clientAPIKey = properties.getProperty('ewallet.apikey')
 def clientAPIBaseURL = properties.getProperty('ewallet.baseurl')
 def clientAPISocketBaseURL = properties.getProperty('ewallet.socket.baseurl')

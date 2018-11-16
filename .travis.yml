@@ -34,6 +34,7 @@ android:
 before_script:
   - echo "${GOOGLE_SERVICES}" | base64 --decode > app/google-services.json
   - echo "${LOCAL_PROPERTIES}" | base64 --decode > local.properties
+  - echo "app.version=$TRAVIS_TAG" >> local.properties
 
 script:
   - ./gradlew ktlintDebugCheck
