@@ -32,9 +32,10 @@ android:
   - google-gdk-license-.+
 
 before_script:
+  - export LATEST_TAG=$(git rev-list --tags --max-count=1 | git describe --abbrev=0)
   - echo "${GOOGLE_SERVICES}" | base64 --decode > app/google-services.json
   - echo "${LOCAL_PROPERTIES}" | base64 --decode > local.properties
-  - echo "app.version=$TRAVIS_TAG" >> local.properties
+  - echo "app.version=${LATEST_TAG}" >> local.properties
 
 script:
   - ./gradlew ktlintDebugCheck
