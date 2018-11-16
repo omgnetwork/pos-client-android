@@ -63,3 +63,6 @@ deploy:
     testers-groups: omisego
     on:
       tags: true
+
+after_deploy:
+  - ./github_edit_release_script.sh
