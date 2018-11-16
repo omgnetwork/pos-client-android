@@ -45,14 +45,14 @@ script:
 
 before_deploy:
   - export BUILD_APK_FILE=$(ls app/build/outputs/apk/debug/*.apk)
-  - echo "Deploying $BUILD_APK_FILE to Github releases"
-  - echo "Deploying $BUILD_APK_FILE to Testfairy"
+  - echo "Deploying ${BUILD_APK_FILE} to Github releases"
+  - echo "Deploying ${BUILD_APK_FILE} to Testfairy"
 
 deploy:
   - provider: releases
     file_glob: true
     api_key:
-      secure: Px5jB9gHpDTjJeljQVivThZiWkvU6QU29DTlBzKyrNmTwKHX9B3y8A+3bj/xu5n7pLO9e1MJnkMXAu/Yjp+Jw8MSNfN6cJFJ6cgmnH2nO+MceHEbvmV2Fgn5Xn7B2L7KmIZhSuGM2yBiXy/payzGdG5tyQrzB4GZK1IuMxc3bEfuWtuOP9BK2RMTaOIB9Ccg5yNq8m9KnxjtQ/JXUR/WQIZShie7L3gnasXNx5Rg9X5nK37ubmNXu6lqtXzUQyl9so29PAffE/ph49CbyN0XxEq0+cSgfCn29eaPoKOxK6KLWp2Nmd0+31T6LRarGJnX8nEH1LQSOjLQyqVgQdj/or6tyXH6pEgPew2DS4j6zmMh0XPlOYqKcMwEazcXudfLaN5JzoA1lFRvqGqaYvJ+5rPNtizCIHVcn56DF4q6eTLBO8g9TJ/Fdl0x7xJRwTObYYSG0GHbqrXQoNJINIoh9ijfTuTVMnN05VWBLbwyIDPFjkMMSEdLmqX09g72B56COthWaIZsea2TntCL2MsWdpSYPehyfH566JTjDoyRnC4SMLEkFJufd8srrCR8AyXhpvEyMOcrZTKL2UkYJJQp6ES3Hn4p3Eflv5KHyrhzxComwqxTpCahqlQiPAQJGn+0sC91uWpXrYX6KI/niUK6NwcI1yFsVESDKBrincviuMc=
+      secure: O6WzQNdNoK4SJyHFjq827U02z85S2kjgx/YeoDd6dhhi9n2eA+kxbGScDPgfZkB8PEyXCWPc2VKdhhfvlkVnCoOubzFSKeV5mJT3Ed6E17xPN3SZsRdengkocse6+lRvQsHM8qht960KQz9GYbZKX/oAgZ4t9wQ3YvyBV0B1ee1bJwCED1+yEQvNoZPph+dTZJpTNepbNmC3qgZ/+iBSkM4mLoCAAtepFUVR8SpjFlhc7SHvDhI5Qc00TZ2UeqT3KHjUuGc1cAP8y7u2U+P6aXMkn3hu2aFND86dpgbuW/xSgPB1LtMYJKEXNSTBfbN/PMRSS5wl1qTZUx2jy4ZUMZToc+uHFauN2loLF2wiKk0MTXCgei4IjCV/Yo6KgloGI99ec7EBy9Lnwr7Z4Hcn4SQK6Ke2wOceYEjVcgREfq7PpZLiAdi8uSwcUl1wUUJ6Ma9uehRyPIiSt9oQezKKosM5C9CEJUV6iXeuRy5pR+UyRVtgf37z0AmlPmEEesy1uU4pzDatCSgDdywrs4otSJytfEtbhZxokNGNXiiicKgL4wmk1uheFNsIpyZxDz4m/CR84U8uLgfajv9POLwAJoQMmxaQPQ7MpdiXqaiOz4QSDNRIaYr3qq7YR26voJzNv7PYvvWvd9iEvOq0DvZeyfQZGtxhYhadIbL2AcXXFHA=
     file: $BUILD_APK_FILE
     skip_cleanup: true
     name: "POS Client Android ${TRAVIS_TAG}"
