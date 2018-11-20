@@ -91,4 +91,3 @@ class TransactionListTransformer(
         return context.getString(R.string.transaction_list_info_date_time, transaction.createdAt)
     }
 }
-

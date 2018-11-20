@@ -11,7 +11,7 @@ import network.omisego.omgwallet.R
  * Copyright © 2017-2018 OmiseGO. All rights reserved.
  */
 
-class QRScreen: Screen<QRScreen>() {
+class QRScreen : Screen<QRScreen>() {
     val ivQR: KImageView = KImageView {
         withId(R.id.ivQR)
     }

@@ -10,6 +10,7 @@ apply from: 'gradleScript/dependencies.gradle'
 // Setup EWallet client data
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
+def appVersion = properties.getProperty("app.version")
 def clientAPIKey = properties.getProperty('ewallet.apikey')
 def clientAPIBaseURL = properties.getProperty('ewallet.baseurl')
 def clientAPISocketBaseURL = properties.getProperty('ewallet.socket.baseurl')
@@ -22,7 +23,7 @@ android {
     defaultConfig {
         applicationId "network.omisego.omgwallet"
         minSdkVersion 21
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 1
         versionName appVersion
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -65,6 +66,12 @@ android {
     }
     lintOptions {
         disable 'ParcelCreator'
+    }
+}
+
+android.applicationVariants.all { variant ->
+    variant.outputs.all {
+        outputFileName = "pos-client-${variant.name}-${variant.versionName}.apk"
     }
 }
 

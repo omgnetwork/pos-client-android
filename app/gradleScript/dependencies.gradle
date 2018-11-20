@@ -8,7 +8,6 @@ allprojects {
 
 ext {
     /* Version */
-    appVersion = '2.0.0'
     omisego = '1.1.2-alpha4'
     supportLibrary = '1.0.0-rc02'
     kotlin = '1.2.61'
