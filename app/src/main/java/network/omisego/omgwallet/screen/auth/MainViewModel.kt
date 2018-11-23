@@ -10,10 +10,11 @@ package network.omisego.omgwallet.screen.auth
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import co.omisego.omisego.model.APIError
-import co.omisego.omisego.model.transaction.consumption.TransactionConsumption
+import co.omisego.omisego.model.TransactionConsumption
 import network.omisego.omgwallet.GraphMainDirections
 import network.omisego.omgwallet.data.LocalRepository
 import network.omisego.omgwallet.data.RemoteRepository
+import network.omisego.omgwallet.extension.logi
 
 class MainViewModel(
     private val localRepository: LocalRepository,
@@ -37,6 +38,7 @@ class MainViewModel(
         .setPrimaryTokenId(loadPrimaryTokenId())
 
     fun startListenForUserEvent() {
+        logi("start listen for user event...")
         remoteRepository.listenUserSocketEvent(
             liveConsumptionRequestEvent,
             liveConsumptionRequestFailEvent,

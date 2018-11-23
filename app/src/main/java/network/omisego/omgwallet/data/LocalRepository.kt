@@ -2,9 +2,9 @@ package network.omisego.omgwallet.data
 
 import androidx.lifecycle.MutableLiveData
 import co.omisego.omisego.model.Token
+import co.omisego.omisego.model.TransactionRequestType
 import co.omisego.omisego.model.User
 import co.omisego.omisego.model.WalletList
-import co.omisego.omisego.model.transaction.request.TransactionRequestType
 import network.omisego.omgwallet.data.contract.BalanceDataRepository
 import network.omisego.omgwallet.livedata.Event
 import network.omisego.omgwallet.model.APIResult
@@ -46,6 +46,8 @@ class LocalRepository : BalanceDataRepository {
     fun loadFingerprintCredential() = Storage.loadFingerprintCredential()
 
     fun loadTransactionRequestFormattedId() = Storage.loadFormattedId()
+
+    fun loadCredential() = Storage.loadCredential()
 
     fun loadUser() = Storage.loadUser()
 

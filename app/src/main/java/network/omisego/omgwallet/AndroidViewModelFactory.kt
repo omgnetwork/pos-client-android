@@ -11,8 +11,6 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import co.omisego.omisego.qrcode.generator.QRGenerator
-import network.omisego.omgwallet.data.LocalRepository
-import network.omisego.omgwallet.data.RemoteRepository
 import network.omisego.omgwallet.screen.auth.balance.detail.BalanceDetailItemViewModel
 import network.omisego.omgwallet.screen.auth.balance.detail.BalanceDetailViewModel
 import network.omisego.omgwallet.screen.auth.confirm.ConfirmTransactionRequestViewModel
@@ -24,37 +22,38 @@ import network.omisego.omgwallet.screen.auth.splash.PreloadResourceViewModel
 import network.omisego.omgwallet.screen.unauth.signin.FingerprintBottomSheetViewModel
 import network.omisego.omgwallet.screen.unauth.signin.SignInViewModel
 import network.omisego.omgwallet.util.BiometricUtil
+import network.omisego.omgwallet.util.RepositoryUtil
 
 @Suppress("UNCHECKED_CAST")
 class AndroidViewModelFactory(private val application: Application) : ViewModelProvider.AndroidViewModelFactory(application) {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return when {
             modelClass.isAssignableFrom(SignInViewModel::class.java) -> {
-                return SignInViewModel(application, LocalRepository(), RemoteRepository(), BiometricUtil()) as T
+                return SignInViewModel(application, RepositoryUtil.localRepository, RepositoryUtil.remoteRepository, BiometricUtil()) as T
             }
             modelClass.isAssignableFrom(FingerprintBottomSheetViewModel::class.java) -> {
                 FingerprintBottomSheetViewModel(application) as T
             }
             modelClass.isAssignableFrom(ProfileViewModel::class.java) -> {
-                return ProfileViewModel(application, LocalRepository(), RemoteRepository()) as T
+                return ProfileViewModel(application, RepositoryUtil.localRepository) as T
             }
             modelClass.isAssignableFrom(TransactionListViewModel::class.java) -> {
-                return TransactionListViewModel(application, LocalRepository(), RemoteRepository(), TransactionListTransformer(application)) as T
+                return TransactionListViewModel(application, RepositoryUtil.localRepository, RepositoryUtil.remoteRepository, TransactionListTransformer(application)) as T
             }
             modelClass.isAssignableFrom(ShowQRViewModel::class.java) -> {
-                return ShowQRViewModel(application, LocalRepository(), QRGenerator()) as T
+                return ShowQRViewModel(application, RepositoryUtil.localRepository, QRGenerator()) as T
             }
             modelClass.isAssignableFrom(BalanceDetailItemViewModel::class.java) -> {
                 return BalanceDetailItemViewModel(application) as T
             }
             modelClass.isAssignableFrom(BalanceDetailViewModel::class.java) -> {
-                return BalanceDetailViewModel(application, LocalRepository()) as T
+                return BalanceDetailViewModel(application, RepositoryUtil.localRepository) as T
             }
             modelClass.isAssignableFrom(PreloadResourceViewModel::class.java) -> {
-                return PreloadResourceViewModel(application, LocalRepository(), RemoteRepository()) as T
+                return PreloadResourceViewModel(application, RepositoryUtil.localRepository, RepositoryUtil.remoteRepository) as T
             }
             modelClass.isAssignableFrom(ConfirmTransactionRequestViewModel::class.java) -> {
-                return ConfirmTransactionRequestViewModel(application, LocalRepository(), RemoteRepository()) as T
+                return ConfirmTransactionRequestViewModel(application, RepositoryUtil.localRepository, RepositoryUtil.remoteRepository) as T
             }
             else -> {
                 throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")

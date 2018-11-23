@@ -13,10 +13,8 @@ import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import co.omisego.omisego.model.APIError
-import co.omisego.omisego.model.transaction.consumption.TransactionConsumption
-import co.omisego.omisego.model.transaction.consumption.TransactionConsumptionStatus.APPROVED
-import co.omisego.omisego.model.transaction.consumption.TransactionConsumptionStatus.CONFIRMED
-import co.omisego.omisego.model.transaction.consumption.TransactionConsumptionStatus.REJECTED
+import co.omisego.omisego.model.TransactionConsumption
+import co.omisego.omisego.model.TransactionConsumptionStatus
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_main.*
 import network.omisego.omgwallet.GraphMainDirections
@@ -66,8 +64,8 @@ class MainFragment : Fragment() {
     }
 
     override fun onStop() {
-        super.onStop()
         viewModel.stopListenForUserEvent()
+        super.onStop()
     }
 
     override fun onDestroyView() {
@@ -137,8 +135,8 @@ class MainFragment : Fragment() {
             /* Show notification */
             val message: String
             when (txConsumption.status) {
-                CONFIRMED,
-                APPROVED -> {
+                TransactionConsumptionStatus.CONFIRMED,
+                TransactionConsumptionStatus.APPROVED -> {
                     val amount = txConsumption.estimatedRequestAmount.divide(txConsumption.transactionRequest.token.subunitToUnit)
                     message = getString(
                         R.string.notification_transaction_received,
@@ -149,7 +147,7 @@ class MainFragment : Fragment() {
                     snackbar = bottomNavigation.snackbar(message)
                     snackbar.show()
                 }
-                REJECTED -> {
+                TransactionConsumptionStatus.REJECTED -> {
                     message = getString(
                         R.string.notification_transaction_rejected,
                         txConsumption.account?.name
