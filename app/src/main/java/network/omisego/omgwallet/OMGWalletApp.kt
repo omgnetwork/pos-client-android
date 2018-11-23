@@ -8,17 +8,15 @@ package network.omisego.omgwallet
  */
 
 import android.app.Application
-import co.omisego.omisego.model.ClientAuthenticationToken
 import com.facebook.stetho.Stetho
 import network.omisego.omgwallet.data.LocalRepository
 import network.omisego.omgwallet.data.RemoteRepository
-import network.omisego.omgwallet.model.Credential
 import network.omisego.omgwallet.network.ClientProvider
 import network.omisego.omgwallet.network.ProductionClientSetup
 import network.omisego.omgwallet.util.ContextUtil
 import network.omisego.omgwallet.util.RepositoryUtil
 
-class OMGWalletApp : Application(), LoginListener {
+class OMGWalletApp : Application() {
     override fun onCreate() {
         super.onCreate()
         ContextUtil.context = applicationContext
@@ -30,23 +28,4 @@ class OMGWalletApp : Application(), LoginListener {
         }
         Stetho.initializeWithDefaults(this)
     }
-
-    override fun onLoggedin(email: String, token: ClientAuthenticationToken) {
-        val credential = Credential(token.authenticationToken)
-        RepositoryUtil.localRepository.clearOldAccountCache(email)
-        RepositoryUtil.localRepository.saveUserEmail(email)
-        RepositoryUtil.localRepository.saveUser(token.user)
-        RepositoryUtil.localRepository.saveCredential(credential)
-        ClientProvider.initSocketClient(credential.authenticationToken!!)
-    }
-
-    override fun onLoggedout() {
-        RepositoryUtil.remoteRepository.stopListeningToUserSocketEvent()
-        RepositoryUtil.localRepository.clearSession()
-    }
-}
-
-interface LoginListener {
-    fun onLoggedin(email: String, token: ClientAuthenticationToken)
-    fun onLoggedout()
 }

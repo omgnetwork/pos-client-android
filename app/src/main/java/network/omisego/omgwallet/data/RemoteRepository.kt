@@ -12,6 +12,7 @@ import co.omisego.omisego.model.params.TransactionConsumptionActionParams
 import co.omisego.omisego.model.params.TransactionListParams
 import co.omisego.omisego.model.params.client.TransactionRequestCreateParams
 import co.omisego.omisego.operation.startListeningEvents
+import co.omisego.omisego.websocket.SocketClientContract
 import co.omisego.omisego.websocket.event.TransactionConsumptionFinalizedEvent
 import co.omisego.omisego.websocket.event.TransactionConsumptionRequestEvent
 import co.omisego.omisego.websocket.listener.SocketCustomEventListener
@@ -66,6 +67,7 @@ class RemoteRepository : BalanceDataRepository {
     }
 
     fun listenUserSocketEvent(
+        socketClient: SocketClientContract.Client,
         liveConsumptionRequestEvent: MutableLiveData<TransactionConsumption>,
         liveConsumptionRequestFailEvent: MutableLiveData<APIError>,
         liveConsumptionFinalizedEvent: MutableLiveData<TransactionConsumption>,
@@ -75,7 +77,7 @@ class RemoteRepository : BalanceDataRepository {
         val user = Storage.loadUser()
         logi("load the user ${user?.email}")
         user?.startListeningEvents(
-            ClientProvider.socketClient,
+            socketClient,
             listener = SocketCustomEventListener.forEvent<TransactionConsumptionRequestEvent> {
                 // Show confirmation fragment here
                 val txConsumption = it.socketReceive
@@ -88,7 +90,7 @@ class RemoteRepository : BalanceDataRepository {
         logi("listening for consumption request event successfully.")
 
         user?.startListeningEvents(
-            ClientProvider.socketClient,
+            socketClient,
             listener = SocketCustomEventListener.forEvent<TransactionConsumptionFinalizedEvent> {
                 /* TODO: Handle transaction consumption finalized event here */
                 val txConsumption = it.socketReceive
@@ -101,8 +103,8 @@ class RemoteRepository : BalanceDataRepository {
         logi("listening for consumption finalized event successfully.")
     }
 
-    fun stopListeningToUserSocketEvent() {
+    fun stopListeningToUserSocketEvent(socketClient: SocketClientContract.Client) {
         val user = Storage.loadUser()
-        user?.stopListening(ClientProvider.socketClient)
+        user?.stopListening(socketClient)
     }
 }

@@ -25,7 +25,7 @@ object ClientProvider {
     private lateinit var clientConfiguration: ClientConfiguration
     private lateinit var socketClientConfiguration: ClientConfiguration
     lateinit var client: OMGAPIClient
-    lateinit var socketClient: SocketClientContract.Client
+    var socketClient: SocketClientContract.Client? = null
     lateinit var eWalletClient: EWalletClient
     lateinit var clientSetup: ClientSetup
 
@@ -49,7 +49,7 @@ object ClientProvider {
     }
 
     fun addSocketListener() {
-        ClientProvider.socketClient.addChannelListener(object : SocketChannelListener {
+        ClientProvider.socketClient?.addChannelListener(object : SocketChannelListener {
             override fun onError(apiError: APIError): Boolean {
                 logi("Error: ${apiError.description}")
                 return true
@@ -66,7 +66,7 @@ object ClientProvider {
             }
         })
 
-        ClientProvider.socketClient.addConnectionListener(object : SocketConnectionListener {
+        ClientProvider.socketClient?.addConnectionListener(object : SocketConnectionListener {
             override fun onConnected() {
                 Log.i("Socket", "Connected")
             }
