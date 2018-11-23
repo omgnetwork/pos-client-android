@@ -1,4 +1,4 @@
-package network.omisego.omgwallet.screen.auth.profile.transaction
+package network.omisego.omgwallet.databinding
 
 /*
  * OmiseGO
@@ -10,11 +10,11 @@ package network.omisego.omgwallet.screen.auth.profile.transaction
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
+import co.omisego.omisego.model.Transaction
 import co.omisego.omisego.model.pagination.Paginable
-import co.omisego.omisego.model.transaction.Transaction
 import network.omisego.omgwallet.R
 
-object TransactionBindingAdapter {
+object TransactionBinding {
     @JvmStatic
     @BindingAdapter("transaction")
     fun colorizedTransaction(tv: TextView, transaction: Transaction) {

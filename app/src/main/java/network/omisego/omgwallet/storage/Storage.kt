@@ -10,9 +10,9 @@ package network.omisego.omgwallet.storage
 import android.content.Context
 import android.content.SharedPreferences
 import co.omisego.omisego.model.Token
+import co.omisego.omisego.model.TransactionRequestType
 import co.omisego.omisego.model.User
 import co.omisego.omisego.model.WalletList
-import co.omisego.omisego.model.transaction.request.TransactionRequestType
 import co.omisego.omisego.security.OMGKeyManager
 import co.omisego.omisego.utils.GsonProvider
 import kotlinx.coroutines.experimental.Deferred

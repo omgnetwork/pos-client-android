@@ -34,7 +34,7 @@ class PrefetchTest : BaseInstrumentalTest() {
         @JvmStatic
         fun setupClass() {
             Storage.clearSession()
-            ClientProvider.init(LocalClientSetup())
+            ClientProvider.initHTTPClient(LocalClientSetup())
             val response = ClientProvider.client.login(LoginParams(TestData.USER_EMAIL, TestData.USER_PASSWORD)).execute()
             Storage.saveUser(response.body()!!.data.user)
             Storage.saveCredential(Credential(response.body()!!.data.authenticationToken))

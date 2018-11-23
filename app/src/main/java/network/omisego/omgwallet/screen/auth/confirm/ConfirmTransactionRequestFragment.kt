@@ -14,7 +14,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import co.omisego.omisego.model.APIError
-import co.omisego.omisego.model.transaction.consumption.TransactionConsumption
+import co.omisego.omisego.model.TransactionConsumption
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.databinding.FragmentConfirmTransactionRequestBinding
 import network.omisego.omgwallet.extension.provideAndroidViewModel

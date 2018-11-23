@@ -11,8 +11,8 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import co.omisego.omisego.model.APIError
+import co.omisego.omisego.model.Transaction
 import co.omisego.omisego.model.pagination.PaginationList
-import co.omisego.omisego.model.transaction.Transaction
 import kotlinx.android.synthetic.main.fragment_transaction_list.*
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.base.LoadingRecyclerAdapter

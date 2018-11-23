@@ -4,18 +4,19 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import co.omisego.omisego.model.APIError
 import co.omisego.omisego.model.OMGResponse
+import co.omisego.omisego.model.TransactionConsumption
+import co.omisego.omisego.model.TransactionRequest
 import co.omisego.omisego.model.params.LoginParams
 import co.omisego.omisego.model.params.SignUpParams
-import co.omisego.omisego.model.transaction.consumption.TransactionConsumption
-import co.omisego.omisego.model.transaction.consumption.TransactionConsumptionActionParams
-import co.omisego.omisego.model.transaction.list.TransactionListParams
-import co.omisego.omisego.model.transaction.request.TransactionRequest
-import co.omisego.omisego.model.transaction.request.TransactionRequestCreateParams
+import co.omisego.omisego.model.params.TransactionConsumptionActionParams
+import co.omisego.omisego.model.params.TransactionListParams
+import co.omisego.omisego.model.params.client.TransactionRequestCreateParams
 import co.omisego.omisego.operation.startListeningEvents
 import co.omisego.omisego.websocket.event.TransactionConsumptionFinalizedEvent
 import co.omisego.omisego.websocket.event.TransactionConsumptionRequestEvent
 import co.omisego.omisego.websocket.listener.SocketCustomEventListener
 import network.omisego.omgwallet.data.contract.BalanceDataRepository
+import network.omisego.omgwallet.extension.logi
 import network.omisego.omgwallet.extension.subscribe
 import network.omisego.omgwallet.extension.subscribeSingleEvent
 import network.omisego.omgwallet.livedata.Event
@@ -72,10 +73,10 @@ class RemoteRepository : BalanceDataRepository {
     ) {
         /* Listen for request event */
         val user = Storage.loadUser()
+        logi("load the user ${user?.email}")
         user?.startListeningEvents(
             ClientProvider.socketClient,
             listener = SocketCustomEventListener.forEvent<TransactionConsumptionRequestEvent> {
-                /* TODO: Handle incoming transaction consumption request event here*/
                 // Show confirmation fragment here
                 val txConsumption = it.socketReceive
                 if (txConsumption.error == null) {
@@ -84,6 +85,8 @@ class RemoteRepository : BalanceDataRepository {
                     liveConsumptionRequestFailEvent.value = txConsumption.error
                 }
             })
+        logi("listening for consumption request event successfully.")
+
         user?.startListeningEvents(
             ClientProvider.socketClient,
             listener = SocketCustomEventListener.forEvent<TransactionConsumptionFinalizedEvent> {
@@ -95,6 +98,7 @@ class RemoteRepository : BalanceDataRepository {
                     liveConsumptionFinalizedFailEvent.value = txConsumption.error
                 }
             })
+        logi("listening for consumption finalized event successfully.")
     }
 
     fun stopListeningToUserSocketEvent() {

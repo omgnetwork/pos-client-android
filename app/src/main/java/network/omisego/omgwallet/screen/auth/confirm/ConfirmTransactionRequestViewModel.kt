@@ -5,7 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import co.omisego.omisego.constant.enums.ErrorCode
 import co.omisego.omisego.model.APIError
-import co.omisego.omisego.model.transaction.consumption.TransactionConsumption
+import co.omisego.omisego.model.TransactionConsumption
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.data.LocalRepository
 import network.omisego.omgwallet.data.RemoteRepository

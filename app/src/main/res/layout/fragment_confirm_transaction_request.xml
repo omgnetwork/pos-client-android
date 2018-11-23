@@ -11,7 +11,7 @@
 
         <variable
             name="txConsumption"
-            type="co.omisego.omisego.model.transaction.consumption.TransactionConsumption" />
+            type="co.omisego.omisego.model.TransactionConsumption" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

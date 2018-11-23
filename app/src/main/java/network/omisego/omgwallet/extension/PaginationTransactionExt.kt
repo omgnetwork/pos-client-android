@@ -7,8 +7,8 @@ package network.omisego.omgwallet.extension
  * Copyright © 2017-2018 OmiseGO. All rights reserved.
  */
 
+import co.omisego.omisego.model.Transaction
 import co.omisego.omisego.model.pagination.PaginationList
-import co.omisego.omisego.model.transaction.Transaction
 import network.omisego.omgwallet.state.TransactionListState
 
 val PaginationList<Transaction>.state: TransactionListState

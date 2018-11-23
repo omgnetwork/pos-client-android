@@ -39,7 +39,7 @@ class ProfileTest : BaseInstrumentalTest() {
         @BeforeClass
         @JvmStatic
         fun setupClass() {
-            ClientProvider.init(LocalClientSetup())
+            ClientProvider.initHTTPClient(LocalClientSetup())
             Storage.clearSession()
             val response = ClientProvider.client.login(LoginParams(TestData.USER_EMAIL, TestData.USER_PASSWORD)).execute()
             Storage.saveUser(response.body()!!.data.user)
