@@ -29,9 +29,9 @@ fun <T : ViewDataBinding> Fragment.bindingInflate(
 
 fun Fragment.findLoginListener(): LoginListener? {
     val app = activity
-    return if(app is LoginListener){
+    return if (app is LoginListener) {
         app
-    }else {
+    } else {
         null
     }
 }

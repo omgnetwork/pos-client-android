@@ -28,5 +28,4 @@ class MainViewModel(
     fun provideSplashDirection() = GraphMainDirections
         .actionGlobalSplash()
         .setPrimaryTokenId(loadPrimaryTokenId())
-
 }

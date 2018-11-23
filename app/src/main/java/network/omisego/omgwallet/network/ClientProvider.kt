@@ -1,16 +1,11 @@
 package network.omisego.omgwallet.network
 
-import android.util.Log
 import co.omisego.omisego.OMGAPIClient
-import co.omisego.omisego.model.APIError
 import co.omisego.omisego.model.ClientConfiguration
 import co.omisego.omisego.network.ewallet.EWalletClient
 import co.omisego.omisego.websocket.OMGSocketClient
 import co.omisego.omisego.websocket.SocketClientContract
-import co.omisego.omisego.websocket.listener.SocketChannelListener
-import co.omisego.omisego.websocket.listener.SocketConnectionListener
 import com.facebook.stetho.okhttp3.StethoInterceptor
-import network.omisego.omgwallet.extension.logi
 import network.omisego.omgwallet.storage.Storage
 import okhttp3.logging.HttpLoggingInterceptor
 
@@ -45,36 +40,6 @@ object ClientProvider {
             authenticationToken = authenticationToken
         )
         socketClient = createSocketClient()
-        addSocketListener()
-    }
-
-    fun addSocketListener() {
-        ClientProvider.socketClient?.addChannelListener(object : SocketChannelListener {
-            override fun onError(apiError: APIError): Boolean {
-                logi("Error: ${apiError.description}")
-                return true
-            }
-
-            override fun onJoinedChannel(topic: String): Boolean {
-                Log.i("Socket", "Joined: ${topic}")
-                return true
-            }
-
-            override fun onLeftChannel(topic: String): Boolean {
-                Log.i("Socket", "Left $topic")
-                return true
-            }
-        })
-
-        ClientProvider.socketClient?.addConnectionListener(object : SocketConnectionListener {
-            override fun onConnected() {
-                Log.i("Socket", "Connected")
-            }
-
-            override fun onDisconnected(throwable: Throwable?) {
-                Log.i("Socket", "Disconnected")
-            }
-        })
     }
 
     private fun create(): OMGAPIClient {
