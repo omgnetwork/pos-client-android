@@ -28,6 +28,7 @@ import kotlinx.android.synthetic.main.fragment_signin.*
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.databinding.FragmentSigninBinding
 import network.omisego.omgwallet.extension.bindingInflate
+import network.omisego.omgwallet.extension.findLoginListener
 import network.omisego.omgwallet.extension.provideAndroidViewModel
 import network.omisego.omgwallet.extension.runOnM
 import network.omisego.omgwallet.extension.runOnMToP
@@ -140,8 +141,7 @@ class SignInFragment : Fragment() {
     }
 
     private fun proceed(data: ClientAuthenticationToken) {
-        viewModel.saveCredential(data)
-        viewModel.saveUserEmail(etEmail.text.toString())
+        findLoginListener()?.onLoggedin(etEmail.text.toString(), data)
         findNavController().navigate(R.id.action_signInFragment_to_authFragment)
     }
 

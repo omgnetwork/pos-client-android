@@ -6,7 +6,6 @@ import co.omisego.omisego.network.ewallet.EWalletClient
 import co.omisego.omisego.websocket.OMGSocketClient
 import co.omisego.omisego.websocket.SocketClientContract
 import com.facebook.stetho.okhttp3.StethoInterceptor
-import network.omisego.omgwallet.model.Credential
 import network.omisego.omgwallet.storage.Storage
 import okhttp3.logging.HttpLoggingInterceptor
 
@@ -18,25 +17,28 @@ import okhttp3.logging.HttpLoggingInterceptor
  */
 
 object ClientProvider {
-    private val credential: Credential
-        get() = Storage.loadCredential()
-
     private lateinit var clientConfiguration: ClientConfiguration
     private lateinit var socketClientConfiguration: ClientConfiguration
     lateinit var client: OMGAPIClient
-    lateinit var socketClient: SocketClientContract.Client
+    var socketClient: SocketClientContract.Client? = null
     lateinit var eWalletClient: EWalletClient
     lateinit var clientSetup: ClientSetup
 
-    fun init(clientSetup: ClientSetup) {
+    fun initHTTPClient(clientSetup: ClientSetup) {
         this.clientSetup = clientSetup
         clientConfiguration = ClientConfiguration(
             clientSetup.baseURL,
             clientSetup.apiKey,
-            credential.authenticationToken
+            Storage.loadCredential().authenticationToken
         )
-        socketClientConfiguration = clientConfiguration.copy(baseURL = clientSetup.socketBaseURL)
         client = create()
+    }
+
+    fun initSocketClient(authenticationToken: String) {
+        socketClientConfiguration = clientConfiguration.copy(
+            baseURL = clientSetup.socketBaseURL,
+            authenticationToken = authenticationToken
+        )
         socketClient = createSocketClient()
     }
 

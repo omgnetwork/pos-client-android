@@ -15,7 +15,7 @@
 
         <variable
             name="transaction"
-            type="co.omisego.omisego.model.transaction.Transaction" />
+            type="co.omisego.omisego.model.Transaction" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

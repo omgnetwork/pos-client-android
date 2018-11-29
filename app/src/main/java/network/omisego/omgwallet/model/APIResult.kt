@@ -16,6 +16,7 @@ sealed class APIResult {
     fun <T> handle(handleSuccess: (T) -> Unit, handleError: (APIError) -> Unit) {
         when (this) {
             is Success<*> -> {
+                this.data ?: return
                 handleSuccess(this.data as T)
             }
             is Fail<*> -> {

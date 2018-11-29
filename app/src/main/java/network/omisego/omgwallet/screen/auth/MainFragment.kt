@@ -13,12 +13,11 @@ import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import co.omisego.omisego.model.APIError
-import co.omisego.omisego.model.transaction.consumption.TransactionConsumption
-import co.omisego.omisego.model.transaction.consumption.TransactionConsumptionStatus.APPROVED
-import co.omisego.omisego.model.transaction.consumption.TransactionConsumptionStatus.CONFIRMED
-import co.omisego.omisego.model.transaction.consumption.TransactionConsumptionStatus.REJECTED
+import co.omisego.omisego.model.TransactionConsumption
+import co.omisego.omisego.model.TransactionConsumptionStatus
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_main.*
+import network.omisego.omgwallet.GlobalViewModel
 import network.omisego.omgwallet.GraphMainDirections
 import network.omisego.omgwallet.MainActivity
 import network.omisego.omgwallet.R
@@ -34,6 +33,7 @@ class MainFragment : Fragment() {
     private lateinit var navController: NavController
     private lateinit var viewModel: MainViewModel
     private lateinit var balanceViewModel: BalanceViewModel
+    private lateinit var globalViewModel: GlobalViewModel
     private lateinit var snackbar: Snackbar
     private val hostActivity: MainActivity
         get() = (activity as MainActivity)
@@ -47,6 +47,7 @@ class MainFragment : Fragment() {
         super.onCreate(savedInstanceState)
         viewModel = provideActivityViewModel()
         balanceViewModel = provideActivityViewModel()
+        globalViewModel = provideActivityViewModel()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -58,16 +59,10 @@ class MainFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         showSplashIfNeeded()
-        viewModel.startListenForUserEvent()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_main, container, false)
-    }
-
-    override fun onStop() {
-        super.onStop()
-        viewModel.stopListenForUserEvent()
     }
 
     override fun onDestroyView() {
@@ -76,10 +71,10 @@ class MainFragment : Fragment() {
     }
 
     private fun listenForSocketEvent() {
-        viewModel.liveConsumptionRequestEvent.observe(this, ConsumptionRequestObserver())
-        viewModel.liveConsumptionRequestFailEvent.observe(this, ConsumptionRequestFailObserver())
-        viewModel.liveConsumptionFinalizedEvent.observe(this, ConsumptionFinalizedObserver())
-        viewModel.liveConsumptionFinalizedFailEvent.observe(this, ConsumptionFinalizedFailObserver())
+        globalViewModel.liveConsumptionRequestEvent.observe(this, ConsumptionRequestObserver())
+        globalViewModel.liveConsumptionRequestFailEvent.observe(this, ConsumptionRequestFailObserver())
+        globalViewModel.liveConsumptionFinalizedEvent.observe(this, ConsumptionFinalizedObserver())
+        globalViewModel.liveConsumptionFinalizedFailEvent.observe(this, ConsumptionFinalizedFailObserver())
     }
 
     private fun showSplashIfNeeded() {
@@ -137,8 +132,8 @@ class MainFragment : Fragment() {
             /* Show notification */
             val message: String
             when (txConsumption.status) {
-                CONFIRMED,
-                APPROVED -> {
+                TransactionConsumptionStatus.CONFIRMED,
+                TransactionConsumptionStatus.APPROVED -> {
                     val amount = txConsumption.estimatedRequestAmount.divide(txConsumption.transactionRequest.token.subunitToUnit)
                     message = getString(
                         R.string.notification_transaction_received,
@@ -149,7 +144,7 @@ class MainFragment : Fragment() {
                     snackbar = bottomNavigation.snackbar(message)
                     snackbar.show()
                 }
-                REJECTED -> {
+                TransactionConsumptionStatus.REJECTED -> {
                     message = getString(
                         R.string.notification_transaction_rejected,
                         txConsumption.account?.name

@@ -14,11 +14,9 @@ import androidx.lifecycle.MutableLiveData
 import co.omisego.omisego.model.APIError
 import co.omisego.omisego.model.Balance
 import co.omisego.omisego.model.Token
+import co.omisego.omisego.model.TransactionRequestType
 import co.omisego.omisego.model.WalletList
-import co.omisego.omisego.model.transaction.request.TransactionRequestCreateParams
-import co.omisego.omisego.model.transaction.request.TransactionRequestType
-import co.omisego.omisego.model.transaction.request.TransactionRequestType.RECEIVE
-import co.omisego.omisego.model.transaction.request.TransactionRequestType.SEND
+import co.omisego.omisego.model.params.client.TransactionRequestCreateParams
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.launch
@@ -83,16 +81,16 @@ class PreloadResourceViewModel(
             val result = async {
                 val txReceiveResult = remoteRepository.createTransactionRequest(params)
                 val txSendResult = remoteRepository.createTransactionRequest(
-                    params.copy(type = SEND, requireConfirmation = true)
+                    params.copy(type = TransactionRequestType.SEND, requireConfirmation = true)
                 )
                 return@async txReceiveResult to txSendResult
             }
             val (txReceive, txSend) = result.await()
-            txReceive.either({ formattedIds[RECEIVE] = it.data.formattedId }, this@PreloadResourceViewModel::handleAPIError)
-            txSend.either({ formattedIds[SEND] = it.data.formattedId }, this@PreloadResourceViewModel::handleAPIError)
+            txReceive.either({ formattedIds[TransactionRequestType.RECEIVE] = it.data.formattedId }, this@PreloadResourceViewModel::handleAPIError)
+            txSend.either({ formattedIds[TransactionRequestType.SEND] = it.data.formattedId }, this@PreloadResourceViewModel::handleAPIError)
 
             if (formattedIds.size == 2) {
-                val message = "${formattedIds[RECEIVE]}|${formattedIds[SEND]}"
+                val message = "${formattedIds[TransactionRequestType.RECEIVE]}|${formattedIds[TransactionRequestType.SEND]}"
                 logi(message)
 
                 localRepository.saveTransactionRequestFormattedId(formattedIds)
@@ -118,7 +116,7 @@ class PreloadResourceViewModel(
 
     fun createTransactionRequestCreateParams(token: Token): TransactionRequestCreateParams {
         return TransactionRequestCreateParams(
-            RECEIVE,
+            TransactionRequestType.RECEIVE,
             token.id,
             requireConfirmation = false
         )

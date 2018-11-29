@@ -9,28 +9,30 @@ package network.omisego.omgwallet
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import network.omisego.omgwallet.data.LocalRepository
-import network.omisego.omgwallet.data.RemoteRepository
 import network.omisego.omgwallet.screen.auth.MainViewModel
 import network.omisego.omgwallet.screen.auth.balance.BalanceViewModel
 import network.omisego.omgwallet.screen.auth.profile.main.ConfirmFingerprintViewModel
 import network.omisego.omgwallet.screen.unauth.signup.SignupViewModel
+import network.omisego.omgwallet.util.RepositoryUtil
 
 @Suppress("UNCHECKED_CAST")
 class ViewModelFactory : ViewModelProvider.NewInstanceFactory() {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         when {
             modelClass.isAssignableFrom(SignupViewModel::class.java) -> {
-                return SignupViewModel(RemoteRepository()) as T
+                return SignupViewModel(RepositoryUtil.remoteRepository) as T
             }
             modelClass.isAssignableFrom(BalanceViewModel::class.java) -> {
-                return BalanceViewModel(LocalRepository(), RemoteRepository()) as T
+                return BalanceViewModel(RepositoryUtil.localRepository, RepositoryUtil.remoteRepository) as T
             }
             modelClass.isAssignableFrom(ConfirmFingerprintViewModel::class.java) -> {
-                return ConfirmFingerprintViewModel(LocalRepository(), RemoteRepository()) as T
+                return ConfirmFingerprintViewModel(RepositoryUtil.localRepository, RepositoryUtil.remoteRepository) as T
             }
             modelClass.isAssignableFrom(MainViewModel::class.java) -> {
-                return MainViewModel(LocalRepository(), RemoteRepository()) as T
+                return MainViewModel(RepositoryUtil.localRepository, RepositoryUtil.remoteRepository) as T
+            }
+            modelClass.isAssignableFrom(GlobalViewModel::class.java) -> {
+                return GlobalViewModel(RepositoryUtil.remoteRepository) as T
             }
             else -> {
                 throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")

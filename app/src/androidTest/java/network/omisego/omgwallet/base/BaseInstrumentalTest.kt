@@ -87,7 +87,7 @@ open class BaseInstrumentalTest {
     }
 
     fun setupClientProvider() {
-        ClientProvider.init(LocalClientSetup())
+        ClientProvider.initHTTPClient(LocalClientSetup())
     }
 
     fun start() {

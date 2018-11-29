@@ -6,6 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
+import network.omisego.omgwallet.LoginListener
 import network.omisego.omgwallet.MainActivity
 import network.omisego.omgwallet.R
 
@@ -25,5 +26,14 @@ fun <T : ViewDataBinding> Fragment.bindingInflate(
     container,
     false
 )
+
+fun Fragment.findLoginListener(): LoginListener? {
+    val app = activity
+    return if (app is LoginListener) {
+        app
+    } else {
+        null
+    }
+}
 
 fun Fragment.findRootNavController() = Navigation.findNavController(activity as MainActivity, R.id.nav_host)

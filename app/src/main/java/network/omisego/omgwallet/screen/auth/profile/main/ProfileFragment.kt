@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.fragment_profile.*
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.databinding.FragmentProfileBinding
 import network.omisego.omgwallet.extension.bindingInflate
+import network.omisego.omgwallet.extension.findLoginListener
 import network.omisego.omgwallet.extension.findRootNavController
 import network.omisego.omgwallet.extension.provideAndroidViewModel
 import network.omisego.omgwallet.extension.toast
@@ -51,12 +52,14 @@ class ProfileFragment : Fragment() {
         })
 
         viewModel.liveSignout.observe(this, EventObserver {
-            it.let { _ ->
+            it.let {
                 /* Clear all back-stack fragments */
                 findRootNavController().popBackStack(R.id.authFragment, true)
 
                 /* Go back to sign-in */
                 findRootNavController().navigate(R.id.action_global_signInFragment)
+
+                findLoginListener()?.onLoggedout()
             }
         })
 

@@ -17,7 +17,6 @@ import android.view.View
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import co.omisego.omisego.model.ClientAuthenticationToken
 import co.omisego.omisego.model.params.LoginParams
 import network.omisego.omgwallet.BuildConfig
 import network.omisego.omgwallet.R
@@ -32,7 +31,6 @@ import network.omisego.omgwallet.extension.runOnP
 import network.omisego.omgwallet.livedata.Event
 import network.omisego.omgwallet.livedata.SingleLiveEvent
 import network.omisego.omgwallet.model.APIResult
-import network.omisego.omgwallet.model.Credential
 import network.omisego.omgwallet.util.BiometricUtil
 import network.omisego.omgwallet.util.ContextUtil.context
 import network.omisego.omgwallet.util.click
@@ -147,20 +145,6 @@ class SignInViewModel(
         arrayOf(emailValidator, passwordValidator).find { !it.validation.pass }?.let { return null }
         showLoading(app.getString(R.string.sign_in_button_loading))
         return remoteRepository.signIn(LoginParams(email, password), liveAPIResult)
-    }
-
-    fun saveCredential(data: ClientAuthenticationToken) {
-        localRepository.saveUser(data.user)
-        localRepository.saveCredential(
-            Credential(
-                data.authenticationToken
-            )
-        )
-    }
-
-    fun saveUserEmail(email: String) {
-        localRepository.clearOldAccountCache(email)
-        localRepository.saveUserEmail(email)
     }
 
     fun showLoading(text: String) {

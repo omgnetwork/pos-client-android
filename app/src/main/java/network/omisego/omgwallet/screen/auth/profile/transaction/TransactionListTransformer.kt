@@ -8,9 +8,9 @@ package network.omisego.omgwallet.screen.auth.profile.transaction
  */
 
 import android.content.Context
+import co.omisego.omisego.model.Transaction
+import co.omisego.omisego.model.TransactionSource
 import co.omisego.omisego.model.pagination.Paginable
-import co.omisego.omisego.model.transaction.Transaction
-import co.omisego.omisego.model.transaction.TransactionSource
 import network.omisego.omgwallet.R
 
 class TransactionListTransformer(
@@ -33,12 +33,12 @@ class TransactionListTransformer(
         return if (transaction.isTopup) {
             context.getString(
                 R.string.transaction_list_info_name_id,
-                transaction.from.username
+                transaction.from.user?.email
             )
         } else {
             context.getString(
                 R.string.transaction_list_info_name_id,
-                transaction.to.username
+                transaction.to.user?.email
             )
         }
     }
