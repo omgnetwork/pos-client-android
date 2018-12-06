@@ -1,5 +1,12 @@
 package network.omisego.omgwallet.screen.auth.balance
 
+/*
+ * OmiseGO
+ *
+ * Created by Phuchit Sirimongkolsathien on 21/9/2018 AD.
+ * Copyright © 2017-2018 OmiseGO. All rights reserved.
+ */
+
 import android.graphics.Rect
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -30,13 +37,6 @@ import network.omisego.omgwallet.extension.provideActivityViewModel
 import network.omisego.omgwallet.extension.toast
 import network.omisego.omgwallet.livedata.EventObserver
 import network.omisego.omgwallet.storage.Storage
-
-/*
- * OmiseGO
- *
- * Created by Phuchit Sirimongkolsathien on 21/9/2018 AD.
- * Copyright © 2017-2018 OmiseGO. All rights reserved.
- */
 
 class BalanceFragment : Fragment(), UpdateAdapterDispatcher<Balance> {
     private var currentBalances: List<Balance> = listOf()

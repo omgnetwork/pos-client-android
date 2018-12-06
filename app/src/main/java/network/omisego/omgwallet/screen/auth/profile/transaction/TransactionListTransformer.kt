@@ -9,36 +9,26 @@ package network.omisego.omgwallet.screen.auth.profile.transaction
 
 import android.content.Context
 import co.omisego.omisego.model.Transaction
-import co.omisego.omisego.model.TransactionSource
 import co.omisego.omisego.model.pagination.Paginable
 import network.omisego.omgwallet.R
+import network.omisego.omgwallet.extension.displayFormattedAmount
 
 class TransactionListTransformer(
     val context: Context
 ) {
-    val TransactionSource.username: String
-        get() = "${this.account?.name ?: this.account?.name}"
     val Transaction.isTopup: Boolean
         get() = this.from.accountId != null
-
-    fun transformTransactionType(transaction: Transaction): String {
-        return if (transaction.isTopup) {
-            "\uE92F"
-        } else {
-            "\uE902"
-        }
-    }
 
     fun transformTransactionDisplayName(transaction: Transaction): String {
         return if (transaction.isTopup) {
             context.getString(
                 R.string.transaction_list_info_name_id,
-                transaction.from.user?.email
+                transaction.from.account?.name
             )
         } else {
             context.getString(
                 R.string.transaction_list_info_name_id,
-                transaction.to.user?.email
+                transaction.to.account?.name
             )
         }
     }
@@ -55,13 +45,13 @@ class TransactionListTransformer(
         val amountText = if (transaction.isTopup) {
             context.getString(
                 R.string.transaction_list_info_amount,
-                transaction.to.amount.divide(transaction.to.token.subunitToUnit),
+                transaction.to.displayFormattedAmount(maxPrecision = 2),
                 transaction.to.token.symbol
             )
         } else {
             context.getString(
                 R.string.transaction_list_info_amount,
-                transaction.from.amount.divide(transaction.from.token.subunitToUnit),
+                transaction.from.displayFormattedAmount(maxPrecision = 2),
                 transaction.from.token.symbol
             )
         }

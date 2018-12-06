@@ -4,10 +4,10 @@ import co.omisego.omisego.OMGAPIClient
 import co.omisego.omisego.extension.bd
 import co.omisego.omisego.model.ClientAuthenticationToken
 import co.omisego.omisego.model.ClientConfiguration
+import co.omisego.omisego.model.TransactionConsumption
 import co.omisego.omisego.model.params.LoginParams
-import co.omisego.omisego.model.transaction.consumption.TransactionConsumption
-import co.omisego.omisego.model.transaction.consumption.TransactionConsumptionParams
-import co.omisego.omisego.model.transaction.request.TransactionRequestParams
+import co.omisego.omisego.model.params.TransactionRequestParams
+import co.omisego.omisego.model.params.client.TransactionConsumptionParams
 import co.omisego.omisego.network.ewallet.EWalletClient
 import okhttp3.OkHttpClient
 import java.math.BigDecimal

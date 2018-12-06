@@ -4,8 +4,8 @@ import androidx.test.runner.AndroidJUnit4
 import co.omisego.omisego.extension.bd
 import co.omisego.omisego.model.Balance
 import co.omisego.omisego.model.Token
+import co.omisego.omisego.model.TransactionConsumption
 import co.omisego.omisego.model.params.LoginParams
-import co.omisego.omisego.model.transaction.consumption.TransactionConsumption
 import com.agoda.kakao.KView
 import network.omisego.omgwallet.base.BaseInstrumentalTest
 import network.omisego.omgwallet.config.LocalClientSetup
