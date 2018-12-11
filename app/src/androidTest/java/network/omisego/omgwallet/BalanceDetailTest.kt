@@ -1,9 +1,9 @@
 package network.omisego.omgwallet
 
 import androidx.test.runner.AndroidJUnit4
+import co.omisego.omisego.model.TransactionRequestType
 import co.omisego.omisego.model.params.LoginParams
-import co.omisego.omisego.model.transaction.request.TransactionRequestParams
-import co.omisego.omisego.model.transaction.request.TransactionRequestType
+import co.omisego.omisego.model.params.TransactionRequestParams
 import com.agoda.kakao.KButton
 import network.omisego.omgwallet.base.BaseInstrumentalTest
 import network.omisego.omgwallet.config.LocalClientSetup

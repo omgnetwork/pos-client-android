@@ -19,6 +19,7 @@ import network.omisego.omgwallet.base.StateViewHolderBinding
 import network.omisego.omgwallet.data.LocalRepository
 import network.omisego.omgwallet.data.RemoteRepository
 import network.omisego.omgwallet.databinding.ViewholderTransactionBinding
+import network.omisego.omgwallet.extension.displayFormattedAmount
 import network.omisego.omgwallet.extension.mutableLiveDataOf
 import network.omisego.omgwallet.model.APIResult
 
@@ -54,14 +55,14 @@ class TransactionListViewModel(
             liveTransactionFailedDescription.value = if (transaction.isTopup) {
                 app.getString(
                     R.string.transaction_list_topup_info,
-                    transaction.to.amount.divide(transaction.to.token.subunitToUnit),
+                    transaction.to.displayFormattedAmount(),
                     transaction.to.token.symbol,
                     transaction.from.account?.name
                 )
             } else {
                 app.getString(
                     R.string.transaction_list_pay_info,
-                    transaction.from.amount.divide(transaction.from.token.subunitToUnit),
+                    transaction.from.displayFormattedAmount(),
                     transaction.from.token.symbol,
                     transaction.to.account?.name
                 )

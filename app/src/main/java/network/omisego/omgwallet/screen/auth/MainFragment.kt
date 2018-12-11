@@ -21,6 +21,7 @@ import network.omisego.omgwallet.GlobalViewModel
 import network.omisego.omgwallet.GraphMainDirections
 import network.omisego.omgwallet.MainActivity
 import network.omisego.omgwallet.R
+import network.omisego.omgwallet.extension.displayFormattedAmount
 import network.omisego.omgwallet.extension.getColor
 import network.omisego.omgwallet.extension.logi
 import network.omisego.omgwallet.extension.provideActivityViewModel
@@ -139,10 +140,9 @@ class MainFragment : Fragment() {
                     } else {
                         R.string.notification_transaction_approved_received
                     }
-                    val amount = txConsumption.estimatedRequestAmount.divide(txConsumption.transactionRequest.token.subunitToUnit)
                     message = getString(
                         templateRes,
-                        amount,
+                        txConsumption.displayFormattedAmount(),
                         txConsumption.transactionRequest.token.symbol,
                         txConsumption.account?.name
                     )

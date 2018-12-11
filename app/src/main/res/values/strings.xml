@@ -57,7 +57,7 @@
     <string name="transaction_list_info_success">Success</string>
     <string name="transaction_list_info_failure">Failure</string>
     <string name="transaction_list_topup_info">Receive top-up %,.2f %s from %s</string>
-    <string name="transaction_list_pay_info">Pay %,.2f %s to %s</string>
+    <string name="transaction_list_pay_info">Pay %s %s to %s</string>
     <string name="transaction_list_empty_transaction">EMPTY TRANSACTION</string>
 
     <!-- Show QR -->
@@ -96,15 +96,15 @@
     <!-- Confirm Transaction Request-->
     <string name="confirm_transaction_request_title">Confirm Transaction Request</string>
     <string name="confirm_transaction_request_send">Send</string>
-    <string name="confirm_transaction_request_amount">%,.2f %s</string>
+    <string name="confirm_transaction_request_amount">%s %s</string>
     <string name="confirm_transaction_request_to">To %s</string>
     <string name="confirm_transaction_request_approve">Approve</string>
     <string name="confirm_transaction_request_reject">Reject</string>
     <string name="confirm_transaction_request_error_not_has_enough_fund">Your current account does not have enough fund (%s %s)</string>
 
     <!-- Transaction Notification Message -->
-    <string name="notification_transaction_approved_received">Successfully received %,.2f %s from %s</string>
-    <string name="notification_transaction_approved_sent">Successfully sent %,.2f %s to %s</string>
+    <string name="notification_transaction_approved_received">Successfully received %s %s from %s</string>
+    <string name="notification_transaction_approved_sent">Successfully sent %s %s to %s</string>
     <string name="notification_transaction_rejected">Transaction request from %s has been rejected</string>
 
     <!-- Fingerprint -->

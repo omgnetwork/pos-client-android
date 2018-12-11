@@ -9,6 +9,7 @@ import co.omisego.omisego.model.TransactionConsumption
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.data.LocalRepository
 import network.omisego.omgwallet.data.RemoteRepository
+import network.omisego.omgwallet.extension.displayFormattedAmount
 import network.omisego.omgwallet.livedata.Event
 import network.omisego.omgwallet.model.APIResult
 
@@ -33,7 +34,7 @@ class ConfirmTransactionRequestViewModel(
     fun formatAmount(txConsumption: TransactionConsumption) {
         liveAmountText.value = app.getString(
             R.string.confirm_transaction_request_amount,
-            txConsumption.estimatedRequestAmount.divide(txConsumption.transactionRequest.token.subunitToUnit),
+            txConsumption.displayFormattedAmount(),
             txConsumption.transactionRequest.token.symbol
         )
     }
