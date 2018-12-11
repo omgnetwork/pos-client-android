@@ -134,9 +134,14 @@ class MainFragment : Fragment() {
             when (txConsumption.status) {
                 TransactionConsumptionStatus.CONFIRMED,
                 TransactionConsumptionStatus.APPROVED -> {
+                    val templateRes = if (txConsumption.transaction?.from?.userId != null) {
+                        R.string.notification_transaction_approved_sent
+                    } else {
+                        R.string.notification_transaction_approved_received
+                    }
                     val amount = txConsumption.estimatedRequestAmount.divide(txConsumption.transactionRequest.token.subunitToUnit)
                     message = getString(
-                        R.string.notification_transaction_received,
+                        templateRes,
                         amount,
                         txConsumption.transactionRequest.token.symbol,
                         txConsumption.account?.name

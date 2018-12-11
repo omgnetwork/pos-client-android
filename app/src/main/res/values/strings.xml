@@ -103,7 +103,8 @@
     <string name="confirm_transaction_request_error_not_has_enough_fund">Your current account does not have enough fund (%s %s)</string>
 
     <!-- Transaction Notification Message -->
-    <string name="notification_transaction_received">Successfully received %,.2f %s from %s</string>
+    <string name="notification_transaction_approved_received">Successfully received %,.2f %s from %s</string>
+    <string name="notification_transaction_approved_sent">Successfully sent %,.2f %s to %s</string>
     <string name="notification_transaction_rejected">Transaction request from %s has been rejected</string>
 
     <!-- Fingerprint -->
