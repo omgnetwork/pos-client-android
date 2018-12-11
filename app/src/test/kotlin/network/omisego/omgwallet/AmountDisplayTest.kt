@@ -26,7 +26,7 @@ class AmountDisplayTest {
     }
 
     @Test
-    fun `test amount should not be loss precision to display`() {
+    fun `test amount should not loss precision`() {
         whenever(mockBalance.amount).thenReturn(1240.bd)
         whenever(mockBalance.token.subunitToUnit).thenReturn(100.bd)
 
