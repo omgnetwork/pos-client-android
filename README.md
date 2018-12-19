@@ -1,8 +1,10 @@
 <img src="assets/logo.png" align="right" />
 
-# POS Client Application
+# POS Client Application (Unreleased)
 
 [![Build Status](https://travis-ci.org/omisego/pos-client-android.svg?branch=master)](https://travis-ci.org/omisego/pos-client-android)
+
+This is a small gif showing the main feature of the app.
 
 <img src ="assets/sample.gif" />
 
