@@ -9,6 +9,7 @@ package network.omisego.omgwallet
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import co.omisego.omisego.model.params.LoginParams
+import com.agoda.kakao.screen.Screen.Companion.idle
 import network.omisego.omgwallet.setup.base.BaseInstrumentalTest
 import network.omisego.omgwallet.setup.config.TestData
 import network.omisego.omgwallet.setup.screen.BalanceScreen
@@ -78,6 +79,7 @@ class MainTest : BaseInstrumentalTest() {
                 }
             }
         }
+        idle(5000)
         hasToolbarTitle(stringRes(R.string.balance_title))
     }
 

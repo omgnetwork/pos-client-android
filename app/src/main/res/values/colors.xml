@@ -14,10 +14,8 @@
     <color name="colorWhite">#F0F2F5</color>
     <color name="colorWhiteDisabled">#CCF0F2F5</color>
     <color name="colorWhiteWeak">#E4E7ED</color>
-    <color name="colorWhiteWeak2">#ABB2C2</color>
     <color name="colorWhiteWeak3">#FFFFFF</color>
     <color name="colorWhiteWeak4">#E5E5E5</color>
-    <color name="colorWhiteWeak5">#FAFAFA</color>
 
     <color name="colorGray">#3c414d</color>
     <color name="colorGrayWeak">#858B9A</color>
@@ -30,6 +28,8 @@
     <color name="colorRed">#EF3526</color>
     <color name="colorRedWeak">#f44336</color>
     <color name="colorRedWeak2">#FC7166</color>
+
+    <color name="colorTheme">#1e51a4</color>
 
     <color name="transparent">#00ffffff</color>
 </resources>

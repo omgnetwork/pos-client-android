@@ -6,7 +6,7 @@
         <item name="android:layout_height">56dp</item>
         <item name="android:textColor">?android:attr/textColorSecondary</item>
         <item name="backgroundTint">?attr/colorSecondary</item>
-        <item name="rippleColor">@color/colorGrayWeak</item>
+        <item name="rippleColor">@color/colorTheme</item>
         <item name="android:stateListAnimator">@animator/animator_state_button</item>
     </style>
 

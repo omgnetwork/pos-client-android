@@ -6,11 +6,12 @@ import co.omisego.omisego.model.Balance
 import co.omisego.omisego.model.Token
 import co.omisego.omisego.model.TransactionConsumption
 import co.omisego.omisego.model.params.LoginParams
-import com.agoda.kakao.common.views.KView
 import com.agoda.kakao.screen.Screen.Companion.idle
 import network.omisego.omgwallet.extension.calledName
 import network.omisego.omgwallet.setup.base.BaseInstrumentalTest
 import network.omisego.omgwallet.setup.config.TestData
+import network.omisego.omgwallet.setup.custom.assertions.onToast
+import network.omisego.omgwallet.setup.custom.matchers.ToastMatcher
 import network.omisego.omgwallet.setup.screen.BalanceScreen
 import network.omisego.omgwallet.setup.screen.ConfirmTransactionRequestScreen
 import network.omisego.omgwallet.setup.screen.MainScreen
@@ -39,7 +40,7 @@ class ConsumeTransactionRequestTest : BaseInstrumentalTest() {
     private val balanceScreen: BalanceScreen by lazy { BalanceScreen() }
     private val confirmTransactionRequestScreen: ConfirmTransactionRequestScreen by lazy { ConfirmTransactionRequestScreen() }
 
-    companion object: BaseInstrumentalTest() {
+    companion object : BaseInstrumentalTest() {
 
         @BeforeClass
         @JvmStatic
@@ -173,15 +174,10 @@ class ConsumeTransactionRequestTest : BaseInstrumentalTest() {
                 expectedAmount = currentBalance.amount.divide(currentBalance.token.subunitToUnit)
             )
 
-            val toastText = KView {
-                withText(
-                    String.format(
-                        stringRes(R.string.notification_transaction_rejected),
-                        txConsumption?.calledName()
-                    )
-                )
-            }
-            toastText.isDisplayed()
+            onToast(ToastMatcher.contains(String.format(
+                stringRes(R.string.notification_transaction_rejected),
+                txConsumption?.calledName()
+            )))
         }
     }
 

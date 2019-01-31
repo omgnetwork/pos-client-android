@@ -108,7 +108,7 @@
             android:layout_marginBottom="8dp"
             android:onClick="@{() -> viewModel.handleApproveClick(txConsumption)}"
             android:text="@string/confirm_transaction_request_approve"
-            android:textColor="@color/colorBlue"
+            android:textColor="@color/colorTheme"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 

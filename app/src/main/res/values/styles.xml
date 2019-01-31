@@ -4,18 +4,18 @@
     <style name="OMGTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
 
         <!-- Displayed most frequently across the app. -->
-        <item name="colorPrimary">@color/colorGray</item>
+        <item name="colorPrimary">@color/colorTheme</item>
         <!-- For buttons, bottom nav tabs,  -->
         <item name="colorSecondary">@color/color_omg_btn_selector</item>
         <!-- For status bar scrim color -->
-        <item name="colorPrimaryDark">@color/colorGray</item>
+        <item name="colorPrimaryDark">@color/colorTheme</item>
 
         <!-- The color used for indicate error status. -->
         <item name="colorError">@color/colorRed</item>
 
         <!-- The color for stated UI e.g. edittext, checkbox, switch, button -->
         <item name="colorControlHighlight">@color/colorGrayWeak</item>
-        <item name="colorControlActivated">@color/colorBlue</item>
+        <item name="colorControlActivated">@color/colorTheme</item>
         <item name="colorControlNormal">@color/color_edit_text_baseline_selector</item>
 
         <!-- Text color -->
@@ -33,10 +33,10 @@
 
     <!-- Splash Screen theme. -->
     <style name="SplashTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="colorPrimary">@color/colorGray</item>
+        <item name="colorPrimary">@color/colorTheme</item>
         <item name="colorSecondary">@color/color_omg_btn_selector</item>
-        <item name="colorPrimaryDark">@color/colorGray</item>
-        <item name="android:navigationBarColor">@color/colorGray</item>
+        <item name="colorPrimaryDark">@color/colorTheme</item>
+        <item name="android:navigationBarColor">@color/colorTheme</item>
 
         <item name="android:windowBackground">@drawable/splash</item>
     </style>

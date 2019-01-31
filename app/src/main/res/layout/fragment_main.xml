@@ -20,6 +20,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="?attr/colorPrimary"
+                android:backgroundTint="@color/colorTheme"
                 android:minHeight="?attr/actionBarSize"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
@@ -53,7 +54,7 @@
             android:stateListAnimator="@animator/animator_state_button"
             app:layout_anchor="@+id/bottomNavigation"
             app:layout_anchorGravity="center_horizontal"
-            app:layout_behavior=".custom.MoveUpBehavior"
+            app:layout_behavior="network.omisego.omgwallet.custom.MoveUpBehavior"
             app:rippleColor="@color/transparent" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

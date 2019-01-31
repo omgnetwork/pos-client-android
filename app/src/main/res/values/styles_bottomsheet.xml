@@ -1,6 +1,21 @@
 <resources>
 
     <style name="OMGBottomSheet" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+        <!-- Displayed most frequently across the app. -->
+        <item name="colorPrimary">@color/colorTheme</item>
+        <!-- For buttons, bottom nav tabs,  -->
+        <item name="colorSecondary">@color/color_omg_btn_selector</item>
+        <!-- For status bar scrim color -->
+        <item name="colorPrimaryDark">@color/colorTheme</item>
+
+        <!-- The color used for indicate error status. -->
+        <item name="colorError">@color/colorRed</item>
+
+        <!-- The color for stated UI e.g. edittext, checkbox, switch, button -->
+        <item name="colorControlHighlight">@color/colorGrayWeak</item>
+        <item name="colorControlActivated">@color/colorTheme</item>
+        <item name="colorControlNormal">@color/color_edit_text_baseline_selector</item>
+
         <item name="bottomSheetStyle">@style/OMGBottomSheetRound</item>
     </style>
 

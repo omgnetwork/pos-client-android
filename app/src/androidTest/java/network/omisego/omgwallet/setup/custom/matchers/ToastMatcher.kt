@@ -13,4 +13,5 @@ import org.hamcrest.CoreMatchers.not
 
 object ToastMatcher {
     fun notContainsNull() = withText(not(containsString("null")))
+    fun contains(text: String) = withText(text)
 }

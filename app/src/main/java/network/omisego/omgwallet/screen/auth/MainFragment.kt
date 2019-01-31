@@ -28,7 +28,7 @@ import network.omisego.omgwallet.extension.getColor
 import network.omisego.omgwallet.extension.logi
 import network.omisego.omgwallet.extension.provideActivityViewModel
 import network.omisego.omgwallet.extension.scaleAmount
-import network.omisego.omgwallet.extension.snackbar
+import network.omisego.omgwallet.extension.toast
 import network.omisego.omgwallet.screen.auth.balance.BalanceViewModel
 
 class MainFragment : Fragment() {
@@ -108,12 +108,12 @@ class MainFragment : Fragment() {
             (fabQR as View).visibility = View.VISIBLE
             bottomNavigation.visibility = View.VISIBLE
             toolbar.setBackgroundColor(context getColor R.color.colorGray)
-            window.statusBarColor = context getColor R.color.colorGray
+            window.statusBarColor = context getColor R.color.colorTheme
         } else {
             (fabQR as View).visibility = View.GONE
             bottomNavigation.visibility = View.INVISIBLE
-            toolbar.setBackgroundColor(context getColor R.color.colorBlue)
-            window.statusBarColor = context getColor R.color.colorBlue
+            toolbar.setBackgroundColor(context getColor R.color.colorTheme)
+            window.statusBarColor = context getColor R.color.colorTheme
         }
     }
 
@@ -149,16 +149,16 @@ class MainFragment : Fragment() {
                         txConsumption.transactionRequest.token.symbol,
                         txConsumption.calledName()
                     )
-                    snackbar = bottomNavigation.snackbar(message)
-                    snackbar.show()
+                    context?.toast(message)
                 }
                 TransactionConsumptionStatus.REJECTED -> {
                     message = getString(
                         R.string.notification_transaction_rejected,
                         txConsumption.calledName()
                     )
-                    snackbar = bottomNavigation.snackbar(message)
-                    snackbar.show()
+                    context?.toast(message)
+                    navController.popBackStack(R.id.balance, true)
+                    navController.navigate(R.id.action_global_balance)
                 }
             }
             if (txConsumption.transactionRequest.requireConfirmation) {

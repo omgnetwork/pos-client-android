@@ -54,7 +54,9 @@ open class BaseInstrumentalTest {
     val rule = ActivityTestRule(MainActivity::class.java, true, false)
 
     fun hasToolbarTitle(title: String) {
-        mainScreen.toolbar.hasTitle(title)
+        mainScreen.toolbar.hasDescendant {
+            this.containsText(title)
+        }
     }
 
     fun clearSharePreference() {

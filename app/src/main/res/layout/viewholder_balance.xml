@@ -37,7 +37,7 @@
             android:background="@drawable/shape_black_rectangle_round_corner"
             android:gravity="center"
             android:text="@{balance.token.symbol}"
-            android:textColor="@color/colorWhite"
+            android:textColor="@color/colorTheme"
             android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
