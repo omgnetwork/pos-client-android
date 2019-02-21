@@ -21,6 +21,8 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
 
+            <nav-graph android:value="@navigation/graph_authentication" />
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
