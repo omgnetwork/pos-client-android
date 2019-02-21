@@ -55,13 +55,13 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:validator="@{viewModel.fullNameValidator}">
+                    app:validator="@{viewModel.fullNameValidator}"
+                    app:verifier="@{viewModel.verifier}">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etFullname"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:afterTextChanged="@{(editable) -> viewModel.checkValidationResult()}"
                         android:enabled="@{!viewModel.liveLoading}"
                         android:importantForAutofill="no"
                         tools:hint="@string/sign_up_full_name" />
@@ -80,13 +80,13 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tilFullname"
-                    app:validator="@{viewModel.emailValidator}">
+                    app:validator="@{viewModel.emailValidator}"
+                    app:verifier="@{viewModel.verifier}">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etEmail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:afterTextChanged="@{(editable) -> viewModel.checkValidationResult()}"
                         android:enabled="@{!viewModel.liveLoading}"
                         android:importantForAutofill="no"
                         android:inputType="textEmailAddress"
@@ -108,13 +108,13 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tilEmail"
-                    app:validator="@{viewModel.passwordValidator}">
+                    app:validator="@{viewModel.passwordValidator}"
+                    app:verifier="@{viewModel.verifier}">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etPassword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:afterTextChanged="@{(editable) -> viewModel.checkValidationResult()}"
                         android:enabled="@{!viewModel.liveLoading}"
                         android:inputType="textPassword"
                         tools:hint="@string/sign_up_password" />
@@ -134,13 +134,13 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tilPassword"
                     app:layout_constraintVertical_bias="0.0"
-                    app:validator="@{viewModel.confirmPasswordValidator}">
+                    app:validator="@{viewModel.confirmPasswordValidator}"
+                    app:verifier="@{viewModel.verifier}">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etReTypePassword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:afterTextChanged="@{(editable) -> viewModel.checkValidationResult()}"
                         android:enabled="@{!viewModel.liveLoading}"
                         android:inputType="textPassword"
                         tools:enabled="false"

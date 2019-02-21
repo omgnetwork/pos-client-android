@@ -23,10 +23,6 @@ import network.omisego.omgwallet.validator.Validator
 class SignupViewModel(
     val remoteRepository: RemoteRepository
 ) : ViewModel() {
-    /* property extension */
-    private val Array<Validator>.valid
-        get() = !this.any { !it.validation.pass }
-
     val liveByPass: MutableLiveData<Boolean> by lazy { mutableLiveDataOf(true) }
     val liveLoading: MutableLiveData<Boolean> by lazy { mutableLiveDataOf(false) }
 
@@ -36,23 +32,24 @@ class SignupViewModel(
     val passwordValidator: Validator by lazy { RegisterPasswordValidator(liveByPass) }
     val confirmPasswordValidator: ConfirmPasswordValidator by lazy { ConfirmPasswordValidator(liveByPass) }
 
+    /* Verifier */
+    val verifier: Verifier by lazy {
+        Verifier(
+            arrayOf(
+                fullNameValidator,
+                emailValidator,
+                passwordValidator,
+                confirmPasswordValidator
+            )
+        )
+    }
+
     /* Control button signup enable */
     val livePassValidation: MutableLiveData<Boolean> by lazy { mutableLiveDataOf(true) }
 
     val liveResult: MutableLiveData<APIResult> by lazy { MutableLiveData<APIResult>() }
 
-    fun checkValidationResult() {
-        /* Check if pass all validation */
-        livePassValidation.value = arrayOf(
-            fullNameValidator,
-            emailValidator,
-            passwordValidator,
-            confirmPasswordValidator
-        ).valid
-    }
-
     fun handleSignupClick() {
-
         /* Enable validator */
         liveByPass.value = false
 
@@ -65,5 +62,14 @@ class SignupViewModel(
 
         liveLoading.value = true
         remoteRepository.signup(signupParams, liveResult)
+    }
+
+    inner class Verifier(val validators: Array<Validator>) {
+        private val Array<Validator>.valid
+            get() = this.all { it.validation.pass }
+
+        fun checkValidationResult() {
+            livePassValidation.value = validators.valid
+        }
     }
 }
