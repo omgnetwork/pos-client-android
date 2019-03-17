@@ -34,7 +34,8 @@ android:
 before_script:
   - export LATEST_TAG=$(git rev-list --tags --max-count=1 | git describe --abbrev=0)
   # Generate google-services.json.
-  - echo "${GOOGLE_SERVICES_DEFAULT}" | base64 --decode | awk '{print $1"\n"}' > app/google-services.json
+  - echo "${GOOGLE_SERVICES}" | base64 --decode | awk '{print $1"\n"}' > app/google-services.json
+  - echo "${GOOGLE_SERVICES_LOCAL}" | base64 --decode | awk '{print $1"\n"}' > app/src/local/google-services.json
   - echo "${GOOGLE_SERVICES_DEMO}" | base64 --decode | awk '{print $1"\n"}' > app/src/demo/google-services.json
   - echo "${GOOGLE_SERVICES_COFFEEGO}" | base64 --decode | awk '{print $1"\n"}' > app/src/coffeego/google-services.json
   # Generate flavor configuration files.
