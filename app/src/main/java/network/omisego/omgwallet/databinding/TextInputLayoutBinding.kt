@@ -2,7 +2,7 @@ package network.omisego.omgwallet.databinding
 
 import androidx.databinding.BindingAdapter
 import com.google.android.material.textfield.TextInputLayout
-import network.omisego.omgwallet.listener.MinimalTextChangeListener
+import network.omisego.omgwallet.listener.MinimalTextChangedListener
 import network.omisego.omgwallet.model.ValidateResult
 import network.omisego.omgwallet.screen.unauth.signup.SignupViewModel
 import network.omisego.omgwallet.validator.Validator
@@ -19,7 +19,7 @@ object TextInputLayoutBinding {
     @BindingAdapter("validator", "verifier")
     fun validate(view: TextInputLayout, validator: Validator, verifier: SignupViewModel.Verifier) {
         val uiFeedback = addUIFeedback(view, validator)
-        view.editText?.addTextChangedListener(MinimalTextChangeListener {
+        view.editText?.addTextChangedListener(MinimalTextChangedListener {
             validator.check(it.toString(), uiFeedback)
             verifier.checkValidationResult()
         })
@@ -29,7 +29,7 @@ object TextInputLayoutBinding {
     @BindingAdapter("validator")
     fun validate(view: TextInputLayout, validator: Validator) {
         val uiFeedback = addUIFeedback(view, validator)
-        view.editText?.addTextChangedListener(MinimalTextChangeListener {
+        view.editText?.addTextChangedListener(MinimalTextChangedListener {
             validator.check(it.toString(), uiFeedback)
         })
     }
