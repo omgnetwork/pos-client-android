@@ -7,6 +7,8 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'io.fabric'
 apply from: 'config/config.gradle'
 
+def version = getBuildTypeProperties("default")['version']
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -14,7 +16,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
-        versionName "0.2.3"
+        versionName version
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
