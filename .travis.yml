@@ -34,17 +34,17 @@ android:
 before_script:
   - export LATEST_TAG=$(git rev-list --tags --max-count=1 | git describe --abbrev=0)
   # Generate google-services.json.
-  - echo "${GOOGLE_SERVICES}" | base64 --decode | awk '{print $1"\n"}' > app/google-services.json
-  - echo "${GOOGLE_SERVICES_LOCAL}" | base64 --decode | awk '{print $1"\n"}' > app/src/local/google-services.json
-  - echo "${GOOGLE_SERVICES_DEMO}" | base64 --decode | awk '{print $1"\n"}' > app/src/demo/google-services.json
-  - echo "${GOOGLE_SERVICES_COFFEEGO}" | base64 --decode | awk '{print $1"\n"}' > app/src/coffeego/google-services.json
+  - echo "${GOOGLE_SERVICES}" | base64 --decode > app/google-services.json
+  - echo "${GOOGLE_SERVICES_LOCAL}" | base64 --decode > app/src/local/google-services.json
+  - echo "${GOOGLE_SERVICES_DEMO}" | base64 --decode > app/src/demo/google-services.json
+  - echo "${GOOGLE_SERVICES_COFFEEGO}" | base64 --decode > app/src/coffeego/google-services.json
   # Generate flavor configuration files.
-  - echo "${LOCAL_PROPERTIES}" | base64 --decode | awk '{print $1"\n"}' > app/config/flavor/local.properties
-  - echo "${DEMO_PROPERTIES}" | base64 --decode | awk '{print $1"\n"}' > app/config/flavor/demo.properties
-  - echo "${COFFEEGO_PROPERTIES}" | base64 --decode | awk '{print $1"\n"}' > app/config/flavor/coffeego.properties
+  - echo "${LOCAL_PROPERTIES}" | base64 --decode > app/config/flavor/local.properties
+  - echo "${DEMO_PROPERTIES}" | base64 --decode > app/config/flavor/demo.properties
+  - echo "${COFFEEGO_PROPERTIES}" | base64 --decode > app/config/flavor/coffeego.properties
   # Generate buildType configuration files.
-  - echo "${DEBUG_PROPERTIES}" | base64 --decode | awk '{print $1"\n"}' > app/config/buildType/debug.properties
-  - echo "${RELEASE_PROPERTIES}" | base64 --decode | awk '{print $1"\n"}' > app/config/buildType/release.properties
+  - echo "${DEBUG_PROPERTIES}" | base64 --decode | sed 's/;$//' > app/config/buildType/debug.properties
+  - echo "${RELEASE_PROPERTIES}" | base64 --decode | sed 's/;$//' > app/config/buildType/release.properties
   - echo "app.version=${LATEST_TAG}" | tee -a app/config/buildType/debug.properties app/config/buildType/release.properties
 
 script:
