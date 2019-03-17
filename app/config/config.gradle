@@ -1,0 +1,47 @@
+def getFlavorProperties(flavor) {
+    Properties properties = new Properties()
+    properties.load(getFlavorConfigFile(flavor).newDataInputStream())
+    return [
+        version        : properties.getProperty("config.version"),
+        api_key        : properties.getProperty("config.api_key"),
+        base_url       : properties.getProperty("config.base_url"),
+        socket_base_url: properties.getProperty("config.socket_base_url"),
+    ]
+}
+
+def getBuildTypeProperties(buildType) {
+    Properties properties = new Properties()
+    properties.load(getBuildTypeConfigFile(buildType).newDataInputStream())
+    return [
+        key_alias   : properties.getProperty("config.key_alias"),
+        iv          : properties.getProperty("config.iv"),
+        redirect_url: properties.getProperty("config.redirect_url")
+    ]
+}
+
+def getFlavorConfigFile(flavor) {
+    def defaultFlavorConfigFile = file('config/flavor/coffeego.properties')
+    switch (flavor) {
+        case 'demo':
+            return file('config/flavor/demo.properties')
+        case 'coffeego':
+            return file('config/flavor/coffeego.properties')
+        default:
+            return defaultFlavorConfigFile
+    }
+}
+
+def getBuildTypeConfigFile(buildType) {
+    def defaultBuildTypeConfigFile = file('config/buildType/debug.properties')
+    switch (buildType) {
+        case 'debug':
+            return file('config/buildType/debug.properties')
+        case 'release':
+            return file('config/buildType/release.properties')
+        default:
+            return defaultBuildTypeConfigFile
+    }
+}
+
+ext.getFlavorProperties = this.&getFlavorProperties
+ext.getBuildTypeProperties = this.&getBuildTypeProperties

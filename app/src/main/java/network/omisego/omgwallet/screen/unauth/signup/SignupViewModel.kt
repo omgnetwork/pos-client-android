@@ -57,7 +57,7 @@ class SignupViewModel(
             emailValidator.recentText,
             passwordValidator.recentText,
             confirmPasswordValidator.recentText,
-            BuildConfig.CLIENT_VERIFICATION_SIGNUP_PREFIX
+            BuildConfig.CONFIG_REDIRECT_URL
         )
 
         liveLoading.value = true
