@@ -15,8 +15,9 @@ import co.omisego.omisego.model.User
 import co.omisego.omisego.model.WalletList
 import co.omisego.omisego.security.OMGKeyManager
 import co.omisego.omisego.utils.GsonProvider
-import kotlinx.coroutines.experimental.Deferred
-import kotlinx.coroutines.experimental.async
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import network.omisego.omgwallet.BuildConfig
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.extension.decryptWith
@@ -34,8 +35,8 @@ object Storage {
 
     private val keyManager: OMGKeyManager by lazy {
         OMGKeyManager.Builder {
-            keyAlias = BuildConfig.CLIENT_ENCRYPT_KEY_ALIAS
-            iv = BuildConfig.CLIENT_ENCRYPT_IV
+            keyAlias = BuildConfig.CONFIG_KEY_ALIAS
+            iv = BuildConfig.CONFIG_IV
         }.build(context)
     }
 
@@ -62,7 +63,7 @@ object Storage {
     fun loadUserEmail() = sharePref[StorageKey.KEY_USER_EMAIL]
 
     fun saveFingerprintCredential(password: String): Deferred<Unit> {
-        return async {
+        return GlobalScope.async {
             sharePref[StorageKey.KEY_FINGERPRINT_USER_PASSWORD] = password encryptWith keyManager
         }
     }
