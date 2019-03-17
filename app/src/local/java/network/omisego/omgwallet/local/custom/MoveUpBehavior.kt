@@ -23,7 +23,6 @@ class MoveUpBehavior : CoordinatorLayout.Behavior<View> {
     }
 
     override fun onDependentViewChanged(parent: CoordinatorLayout, child: View, dependency: View): Boolean {
-//        child.translationY = Math.min(0f, dependency.translationY - dependency.height)
         return true
     }
 }
