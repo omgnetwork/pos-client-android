@@ -44,7 +44,7 @@ before_script:
   # Generate buildType configuration files.
   - echo "${DEBUG_PROPERTIES}" | base64 --decode | awk '{print $1"\n"}' > app/config/buildType/debug.properties
   - echo "${RELEASE_PROPERTIES}" | base64 --decode | awk '{print $1"\n"}' > app/config/buildType/release.properties
-  - echo "app.version=${LATEST_TAG}" | tee -a app/buildType/debug.properties app/config/buildType/release.properties
+  - echo "app.version=${LATEST_TAG}" | tee -a app/config/buildType/debug.properties app/config/buildType/release.properties
 
 script:
   - ./gradlew ktlintCoffeeGoDebugCheck --quiet
