@@ -19,6 +19,20 @@ def getBuildTypeProperties(buildType) {
     ]
 }
 
+def getTestBuildTypeProperties(buildType) {
+    Properties properties = new Properties()
+    properties.load(getBuildTypeConfigFile(buildType).newDataInputStream())
+    return [
+        key_alias   : properties.getProperty("config.key_alias"),
+        iv          : properties.getProperty("config.iv"),
+        redirect_url: properties.getProperty("config.redirect_url"),
+        test_user_email: properties.getProperty("config.user_email"),
+        test_user_password: properties.getProperty("config.user_password"),
+        test_tx_consumer_email: properties.getProperty("config.tx_consumer_user_email"),
+        test_tx_consumer_password: properties.getProperty("config.tx_consumer_user_password"),
+    ]
+}
+
 def getFlavorConfigFile(flavor) {
     def defaultFlavorConfigFile = file('config/flavor/coffeego.properties')
     switch (flavor) {
@@ -38,6 +52,8 @@ def getBuildTypeConfigFile(buildType) {
     switch (buildType) {
         case 'debug':
             return file('config/buildType/debug.properties')
+        case 'staging':
+            return file('config/buildType/staging.properties')
         case 'release':
             return file('config/buildType/release.properties')
         default:
@@ -47,3 +63,4 @@ def getBuildTypeConfigFile(buildType) {
 
 ext.getFlavorProperties = this.&getFlavorProperties
 ext.getBuildTypeProperties = this.&getBuildTypeProperties
+ext.getTestBuildTypeProperties = this.&getTestBuildTypeProperties

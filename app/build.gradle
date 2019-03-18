@@ -27,8 +27,22 @@ android {
             buildConfigField 'String', "CONFIG_IV", debugConfig['iv']
             buildConfigField 'String', "CONFIG_REDIRECT_URL", debugConfig['redirect_url']
         }
+
+        // For instrumental tests
+        staging {
+            initWith(buildTypes.debug)
+            def stagingConfig = getTestBuildTypeProperties("staging")
+            buildConfigField 'String', "CONFIG_KEY_ALIAS", stagingConfig['key_alias']
+            buildConfigField 'String', "CONFIG_IV", stagingConfig['iv']
+            buildConfigField 'String', "CONFIG_REDIRECT_URL", stagingConfig['redirect_url']
+            buildConfigField 'String', "CONFIG_TEST_USER_EMAIL", stagingConfig['test_user_email']
+            buildConfigField 'String', "CONFIG_TEST_USER_PASSWORD", stagingConfig['test_user_password']
+            buildConfigField 'String', "CONFIG_TEST_CONSUMER_EMAIL", stagingConfig['test_tx_consumer_email']
+            buildConfigField 'String', "CONFIG_TEST_CONSUMER_PASSWORD", stagingConfig['test_tx_consumer_password']
+        }
+
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             def releaseConfig = getBuildTypeProperties("release")
             buildConfigField 'String', "CONFIG_KEY_ALIAS", releaseConfig['key_alias']
@@ -36,6 +50,7 @@ android {
             buildConfigField 'String', "CONFIG_REDIRECT_URL", releaseConfig['redirect_url']
         }
     }
+    testBuildType "staging"
     flavorDimensions "environment"
     productFlavors {
         local {

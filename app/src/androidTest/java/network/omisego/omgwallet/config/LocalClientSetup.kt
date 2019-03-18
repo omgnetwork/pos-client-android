@@ -1,5 +1,6 @@
 package network.omisego.omgwallet.config
 
+import network.omisego.omgwallet.local.test.BuildConfig
 import network.omisego.omgwallet.network.ClientSetup
 
 /*
@@ -11,9 +12,9 @@ import network.omisego.omgwallet.network.ClientSetup
 
 class LocalClientSetup : ClientSetup {
     override val baseURL: String
-        get() = "https://coffeego.omisego.io/api/client/" // Special ip-address for local machine in the emulator
+        get() = BuildConfig.CONFIG_BASE_URL
     override val socketBaseURL: String
-        get() = "wss://coffeego.omisego.io/api/client/socket/"
+        get() = BuildConfig.CONFIG_SOCKET_BASE_URL
     override val apiKey: String
-        get() = "fxqhJomqeemaAomNyfH_RphsVx4D2Z0ruBo_g-3jCY4"
+        get() = BuildConfig.CONFIG_API_KEY
 }
