@@ -12,7 +12,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import co.omisego.omisego.model.Balance
 import network.omisego.omgwallet.R
-import network.omisego.omgwallet.extension.displayFormattedAmount
+import network.omisego.omgwallet.extension.formatAmount
+import network.omisego.omgwallet.extension.scaleAmount
 
 class BalanceDetailItemViewModel(
     val app: Application
@@ -21,7 +22,7 @@ class BalanceDetailItemViewModel(
     val liveTokenPrimaryText: MutableLiveData<String> by lazy { MutableLiveData<String>() }
     val liveTokenPrimaryEnabled: MutableLiveData<Boolean> by lazy { MutableLiveData<Boolean>() }
 
-    fun displayAmount(balance: Balance) = balance.displayFormattedAmount().toString()
+    fun displayAmount(balance: Balance) = balance.scaleAmount().formatAmount()
     fun displayDate(balance: Balance) = app.getString(R.string.balance_detail_last_updated, balance.token.updatedAt)
     fun resolveTokenPrimaryText(balance: Balance, tokenPrimaryId: String?) {
         liveTokenPrimaryText.value = if (tokenPrimaryId == balance.token.id) {

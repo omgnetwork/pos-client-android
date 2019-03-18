@@ -16,7 +16,8 @@ import network.omisego.omgwallet.base.StateViewHolderBinding
 import network.omisego.omgwallet.data.LocalRepository
 import network.omisego.omgwallet.data.contract.BalanceDataRepository
 import network.omisego.omgwallet.databinding.ViewholderBalanceBinding
-import network.omisego.omgwallet.extension.displayFormattedAmount
+import network.omisego.omgwallet.extension.formatAmount
+import network.omisego.omgwallet.extension.scaleAmount
 import network.omisego.omgwallet.livedata.Event
 import network.omisego.omgwallet.model.APIResult
 import network.omisego.omgwallet.storage.Storage
@@ -35,7 +36,7 @@ class BalanceViewModel(
     override fun bind(binding: ViewholderBalanceBinding, data: Balance) {
         binding.balance = data
         binding.viewModel = this
-        binding.tvAmount.text = data.displayFormattedAmount(2).toString()
+        binding.tvAmount.text = data.scaleAmount(2).formatAmount()
     }
 
     val liveResult: MutableLiveData<Event<APIResult>> by lazy { MutableLiveData<Event<APIResult>>() }

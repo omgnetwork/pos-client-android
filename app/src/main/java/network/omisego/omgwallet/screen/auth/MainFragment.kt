@@ -21,10 +21,11 @@ import network.omisego.omgwallet.GlobalViewModel
 import network.omisego.omgwallet.GraphMainDirections
 import network.omisego.omgwallet.MainActivity
 import network.omisego.omgwallet.R
-import network.omisego.omgwallet.extension.displayFormattedAmount
+import network.omisego.omgwallet.extension.formatAmount
 import network.omisego.omgwallet.extension.getColor
 import network.omisego.omgwallet.extension.logi
 import network.omisego.omgwallet.extension.provideActivityViewModel
+import network.omisego.omgwallet.extension.scaleAmount
 import network.omisego.omgwallet.extension.snackbar
 import network.omisego.omgwallet.screen.auth.balance.BalanceViewModel
 
@@ -142,7 +143,7 @@ class MainFragment : Fragment() {
                     }
                     message = getString(
                         templateRes,
-                        txConsumption.displayFormattedAmount(),
+                        txConsumption.scaleAmount().formatAmount(),
                         txConsumption.transactionRequest.token.symbol,
                         txConsumption.account?.name
                     )

@@ -13,7 +13,7 @@ import co.omisego.omisego.model.TransactionSource
 import java.math.BigDecimal
 import java.math.RoundingMode
 
-fun Balance.displayFormattedAmount(maxPrecision: Int = token.subunitToUnit.precision() - 1, minPrecision: Int = 2): BigDecimal {
+fun Balance.scaleAmount(maxPrecision: Int = token.subunitToUnit.precision() - 1, minPrecision: Int = 2): BigDecimal {
     val value = amount
         .divide(token.subunitToUnit, maxPrecision, RoundingMode.HALF_UP)
         .stripTrailingZeros()
@@ -25,7 +25,7 @@ fun Balance.displayFormattedAmount(maxPrecision: Int = token.subunitToUnit.preci
     return value
 }
 
-fun TransactionSource.displayFormattedAmount(maxPrecision: Int = token.subunitToUnit.precision() - 1, minPrecision: Int = 2): BigDecimal {
+fun TransactionSource.scaleAmount(maxPrecision: Int = token.subunitToUnit.precision() - 1, minPrecision: Int = 2): BigDecimal {
     val value = amount
         .divide(token.subunitToUnit, maxPrecision, RoundingMode.HALF_UP)
         .stripTrailingZeros()
@@ -37,7 +37,7 @@ fun TransactionSource.displayFormattedAmount(maxPrecision: Int = token.subunitTo
     return value
 }
 
-fun TransactionConsumption.displayFormattedAmount(maxPrecision: Int = transactionRequest.token.subunitToUnit.precision() - 1, minPrecision: Int = 2): BigDecimal {
+fun TransactionConsumption.scaleAmount(maxPrecision: Int = transactionRequest.token.subunitToUnit.precision() - 1, minPrecision: Int = 2): BigDecimal {
     val value = estimatedRequestAmount
         .divide(transactionRequest.token.subunitToUnit, maxPrecision, RoundingMode.HALF_UP)
         .stripTrailingZeros()
