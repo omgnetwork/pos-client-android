@@ -162,6 +162,9 @@ dependencies {
 
     testImplementation deps.test
     androidTestImplementation deps.androidTest
+    androidTestImplementation (deps.omisegoAdmin){
+        exclude group: 'co.omisego', module:'omisego-core'
+    }
 }
 
 apply plugin: 'com.google.gms.google-services'
