@@ -33,6 +33,10 @@ class MainActivity : AppCompatActivity(), LoginListener {
                 globalViewModel.startListenForUserEvent(ClientProvider.socketClient!!)
             }
         })
+        val localAuthToken = RepositoryUtil.localRepository.loadCredential().authenticationToken
+        if (globalViewModel.liveAuthenticationToken.value != localAuthToken) {
+            globalViewModel.liveAuthenticationToken.value = localAuthToken
+        }
     }
 
     override fun onStart() {
