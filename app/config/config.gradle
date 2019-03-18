@@ -26,6 +26,8 @@ def getFlavorConfigFile(flavor) {
             return file('config/flavor/demo.properties')
         case 'coffeego':
             return file('config/flavor/coffeego.properties')
+        case 'local':
+            return file('config/flavor/local.properties')
         default:
             return defaultFlavorConfigFile
     }
