@@ -2,7 +2,6 @@ def getFlavorProperties(flavor) {
     Properties properties = new Properties()
     properties.load(getFlavorConfigFile(flavor).newDataInputStream())
     return [
-        version        : properties.getProperty("config.version"),
         api_key        : properties.getProperty("config.api_key"),
         base_url       : properties.getProperty("config.base_url"),
         socket_base_url: properties.getProperty("config.socket_base_url"),
@@ -13,6 +12,7 @@ def getBuildTypeProperties(buildType) {
     Properties properties = new Properties()
     properties.load(getBuildTypeConfigFile(buildType).newDataInputStream())
     return [
+        version     : properties.getProperty("config.version"),
         key_alias   : properties.getProperty("config.key_alias"),
         iv          : properties.getProperty("config.iv"),
         redirect_url: properties.getProperty("config.redirect_url")
@@ -23,13 +23,16 @@ def getTestBuildTypeProperties(buildType) {
     Properties properties = new Properties()
     properties.load(getBuildTypeConfigFile(buildType).newDataInputStream())
     return [
-        key_alias   : properties.getProperty("config.key_alias"),
-        iv          : properties.getProperty("config.iv"),
-        redirect_url: properties.getProperty("config.redirect_url"),
-        test_user_email: properties.getProperty("config.user_email"),
-        test_user_password: properties.getProperty("config.user_password"),
-        test_tx_consumer_email: properties.getProperty("config.tx_consumer_user_email"),
-        test_tx_consumer_password: properties.getProperty("config.tx_consumer_user_password"),
+        key_alias                     : properties.getProperty("config.key_alias"),
+        iv                            : properties.getProperty("config.iv"),
+        redirect_url                  : properties.getProperty("config.redirect_url"),
+        test_master_acc_wallet_address: properties.getProperty("config.master_acc_wallet_address"),
+        test_admin_email              : properties.getProperty("config.admin_email"),
+        test_admin_password           : properties.getProperty("config.admin_password"),
+        test_user_email               : properties.getProperty("config.user_email"),
+        test_user_password            : properties.getProperty("config.user_password"),
+        test_tx_consumer_email        : properties.getProperty("config.tx_consumer_user_email"),
+        test_tx_consumer_password     : properties.getProperty("config.tx_consumer_user_password"),
     ]
 }
 

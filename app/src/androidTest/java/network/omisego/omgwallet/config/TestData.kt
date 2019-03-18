@@ -11,6 +11,10 @@ import java.util.UUID
  */
 
 object TestData {
+    const val MASTER_ACCOUNT_WALLET_ADDRESS = BuildConfig.CONFIG_TEST_MASTER_ACC_WALLET_ADDRESS
+    const val ADMIN_EMAIL = BuildConfig.CONFIG_TEST_ADMIN_EMAIL
+    const val ADMIN_PASSWORD = BuildConfig.CONFIG_TEST_ADMIN_PASSWORD
+
     const val USER_EMAIL = BuildConfig.CONFIG_TEST_USER_EMAIL
     const val USER_PASSWORD = BuildConfig.CONFIG_TEST_USER_PASSWORD
 
