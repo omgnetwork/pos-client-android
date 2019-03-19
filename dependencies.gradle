@@ -11,11 +11,11 @@ version.glide = '4.5.0'
 version.okhttp3 = '3.9.1'
 version.coroutine = '1.0.1'
 version.nav = '1.0.0-alpha06'
-version.architecture = "2.0.0-alpha1"
-version.espresso = "3.1.0-alpha4"
+version.architecture = "2.0.0"
+version.espresso = "3.1.1"
 version.firebase_core = "16.0.1"
 version.crashlytics = "2.9.5"
-version.databinding = "3.2.0-rc03"
+version.databinding = "3.3.2"
 version.constraint_layout = "1.1.0"
 version.stetho = "1.5.0"
 version.shimmer = "0.2.0"
@@ -28,7 +28,7 @@ version.json = "20160810"
 version.junit = "4.12"
 version.kluent = "1.30"
 version.robolectric = "3.4.2"
-version.test_runner = "1.1.0-alpha1"
+version.test_runner = "1.1.0"
 
 // Android Test
 version.kakao = "1.4.0-androidx"
@@ -84,7 +84,7 @@ support.cardView = "androidx.cardview:cardview:${version.supportLibrary}"
 deps.support = support
 
 def kotlin = [:]
-kotlin.stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${version.kotlin}"
+kotlin.stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${version.kotlin}"
 kotlin.coroutine = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${version.coroutine}"
 kotlin.coroutineAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${version.coroutine}"
 deps.kotlin = kotlin
@@ -107,6 +107,7 @@ def test = [
     "org.amshove.kluent:kluent-android:${version.kluent}",
     "org.robolectric:robolectric:${version.robolectric}",
     "androidx.test:runner:${version.test_runner}",
+    "androidx.test:rules:${version.test_runner}",
     "androidx.arch.core:core-testing:${version.architecture}"
 ]
 deps.test = test
@@ -114,9 +115,9 @@ deps.test = test
 def androidTest = [
     "androidx.test.espresso:espresso-core:${version.espresso}",
     "com.agoda.kakao:kakao:${version.kakao}",
-    "com.android.support.test:runner:${version.support_test_runner}",
+    "androidx.test:runner:${version.test_runner}",
+    "androidx.test:rules:${version.test_runner}",
     "org.amshove.kluent:kluent-android:${version.kluent}",
-    "com.android.support.test:rules:${version.support_test_rules}",
     "com.jakewharton.espresso:okhttp3-idling-resource:${version.idling_resource}",
 ]
 deps.androidTest = androidTest
