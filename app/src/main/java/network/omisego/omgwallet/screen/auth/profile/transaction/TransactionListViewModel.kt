@@ -57,7 +57,7 @@ class TransactionListViewModel(
                     R.string.transaction_list_topup_info,
                     transaction.to.scaleAmount(),
                     transaction.to.token.symbol,
-                    transaction.from.account?.name
+                    transaction.from.account?.name ?: transaction.from.user?.email
                 )
             } else {
                 app.getString(

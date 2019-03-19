@@ -174,7 +174,12 @@ class ConsumeTransactionRequestTest : BaseInstrumentalTest() {
             )
 
             val toastText = KView {
-                withText(String.format(stringRes(R.string.notification_transaction_rejected), txConsumption?.account?.name))
+                withText(
+                    String.format(
+                        stringRes(R.string.notification_transaction_rejected),
+                        txConsumption?.account?.name ?: txConsumption?.user?.email
+                    )
+                )
             }
             toastText.isDisplayed()
         }

@@ -145,7 +145,7 @@ class MainFragment : Fragment() {
                         templateRes,
                         txConsumption.scaleAmount().formatAmount(),
                         txConsumption.transactionRequest.token.symbol,
-                        txConsumption.account?.name
+                        txConsumption.account?.name ?: txConsumption.user?.email
                     )
                     snackbar = bottomNavigation.snackbar(message)
                     snackbar.show()
@@ -153,7 +153,7 @@ class MainFragment : Fragment() {
                 TransactionConsumptionStatus.REJECTED -> {
                     message = getString(
                         R.string.notification_transaction_rejected,
-                        txConsumption.account?.name
+                        txConsumption.account?.name ?: txConsumption.user?.email
                     )
                     snackbar = bottomNavigation.snackbar(message)
                     snackbar.show()
