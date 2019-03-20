@@ -70,6 +70,21 @@
             tools:text="Some error text will appear here Some error text will appear here. Some error text will appear here. Some error text will appear here." />
 
         <TextView
+            android:id="@+id/tvTo"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="48dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/confirm_transaction_request_to"
+            android:textColor="?attr/colorPrimary"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvAmount"
+            tools:text="To"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
             android:id="@+id/tvTokenTo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -81,8 +96,8 @@
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tvAmount"
-            tools:text="To Omise" />
+            app:layout_constraintTop_toBottomOf="@+id/tvTo"
+            tools:text="euro@omise.co" />
 
         <Button
             android:id="@+id/btnApprove"

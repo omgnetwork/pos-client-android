@@ -41,10 +41,7 @@ class ConfirmTransactionRequestViewModel(
     }
 
     fun formatSendTo(txConsumption: TransactionConsumption) {
-        liveSendToText.value = app.getString(
-            R.string.confirm_transaction_request_to,
-            txConsumption.account?.name
-        )
+        liveSendToText.value = txConsumption.account?.name ?: txConsumption.user?.email
     }
 
     fun formatApproveError(error: APIError) {

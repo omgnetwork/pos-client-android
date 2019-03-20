@@ -97,7 +97,7 @@ class ConsumeTransactionRequestTest : BaseInstrumentalTest() {
                 }
                 tvTokenTo {
                     isDisplayed()
-                    hasText("To ${txConsumption?.account?.name}")
+                    hasText("${txConsumption?.account?.name ?: txConsumption?.user?.email}")
                 }
                 tvAmount {
                     isDisplayed()
