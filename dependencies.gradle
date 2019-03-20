@@ -40,7 +40,7 @@ version.idling_resource = "1.0.0"
 version.ktlint = '4.1.0'
 version.android = '3.3.2'
 version.google_services = '4.2.0'
-version.fabric = '1.25.4'
+version.fabric = '1.28.0'
 ext.version = version
 
 def plugin = [:]
