@@ -44,6 +44,7 @@ before_script:
   - echo "${COFFEEGO_PROPERTIES}" | base64 --decode > app/config/flavor/coffeego.properties
   # Generate buildType configuration files.
   - echo "${DEBUG_PROPERTIES}" | base64 --decode | sed 's/;$//' > app/config/buildType/debug.properties
+  - echo "${STAGING_PROPERTIES}" | base64 --decode | sed 's/;$//' > app/config/buildType/staging.properties
   - echo "${RELEASE_PROPERTIES}" | base64 --decode | sed 's/;$//' > app/config/buildType/release.properties
   - echo "app.version=${LATEST_TAG}" | tee -a app/config/buildType/debug.properties app/config/buildType/release.properties
 
