@@ -23,9 +23,6 @@ def getTestBuildTypeProperties(buildType) {
     Properties properties = new Properties()
     properties.load(getBuildTypeConfigFile(buildType).newDataInputStream())
     return [
-        key_alias                     : properties.getProperty("config.key_alias"),
-        iv                            : properties.getProperty("config.iv"),
-        redirect_url                  : properties.getProperty("config.redirect_url"),
         test_master_acc_wallet_address: properties.getProperty("config.master_acc_wallet_address"),
         test_admin_email              : properties.getProperty("config.admin_email"),
         test_admin_password           : properties.getProperty("config.admin_password"),
