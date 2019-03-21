@@ -11,7 +11,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import co.omisego.omisego.model.params.SignUpParams
 import network.omisego.omgwallet.BuildConfig
-import network.omisego.omgwallet.data.RemoteRepository
+import network.omisego.omgwallet.repository.RemoteRepository
 import network.omisego.omgwallet.extension.mutableLiveDataOf
 import network.omisego.omgwallet.model.APIResult
 import network.omisego.omgwallet.validator.ConfirmPasswordValidator

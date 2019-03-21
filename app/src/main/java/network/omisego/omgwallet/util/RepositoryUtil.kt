@@ -7,8 +7,8 @@ package network.omisego.omgwallet.util
  * Copyright © 2017-2018 OmiseGO. All rights reserved.
  */
 
-import network.omisego.omgwallet.data.LocalRepository
-import network.omisego.omgwallet.data.RemoteRepository
+import network.omisego.omgwallet.repository.LocalRepository
+import network.omisego.omgwallet.repository.RemoteRepository
 
 object RepositoryUtil {
     lateinit var localRepository: LocalRepository

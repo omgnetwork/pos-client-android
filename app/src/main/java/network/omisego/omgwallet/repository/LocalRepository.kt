@@ -1,15 +1,17 @@
-package network.omisego.omgwallet.data
+package network.omisego.omgwallet.repository
 
 import androidx.lifecycle.MutableLiveData
+import co.omisego.omisego.model.ClientAuthenticationToken
 import co.omisego.omisego.model.Token
 import co.omisego.omisego.model.TransactionRequestType
 import co.omisego.omisego.model.User
 import co.omisego.omisego.model.WalletList
-import network.omisego.omgwallet.data.contract.BalanceDataRepository
-import network.omisego.omgwallet.livedata.Event
 import network.omisego.omgwallet.model.APIResult
 import network.omisego.omgwallet.model.Credential
+import network.omisego.omgwallet.repository.contract.BalanceDataRepository
+import network.omisego.omgwallet.storage.SessionStorage
 import network.omisego.omgwallet.storage.Storage
+import network.omisego.omgwallet.util.Event
 
 /*
  * OmiseGO
@@ -18,14 +20,16 @@ import network.omisego.omgwallet.storage.Storage
  * Copyright © 2017-2018 OmiseGO. All rights reserved.
  */
 
-class LocalRepository : BalanceDataRepository {
+class LocalRepository(
+    private val sessionStorage: SessionStorage
+) : BalanceDataRepository {
     override fun loadWallet(liveAPIResult: MutableLiveData<Event<APIResult>>) {
         liveAPIResult.value = Event(APIResult.Success(loadWallet()))
     }
 
-    fun clearSession() = Storage.clearSession()
+    fun clearSession() = sessionStorage.clear()
 
-    fun clearOldAccountCache(email: String) = Storage.clearOldAccountCache(email)
+    fun saveSession(clientAuthToken: ClientAuthenticationToken) = sessionStorage.save(clientAuthToken)
 
     fun hasFormattedId() = Storage.hasFormattedId()
 

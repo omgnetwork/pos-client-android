@@ -13,7 +13,7 @@ import co.omisego.omisego.custom.OMGCallback
 import co.omisego.omisego.custom.retrofit2.adapter.OMGCall
 import co.omisego.omisego.model.APIError
 import co.omisego.omisego.model.OMGResponse
-import network.omisego.omgwallet.livedata.Event
+import network.omisego.omgwallet.util.Event
 import network.omisego.omgwallet.model.APIResult
 
 fun <T> OMGCall<T>.subscribe(

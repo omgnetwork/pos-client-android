@@ -1,4 +1,4 @@
-package network.omisego.omgwallet.livedata
+package network.omisego.omgwallet.util
 
 /*
  * OmiseGO

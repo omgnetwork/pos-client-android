@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.fragment_balance_detail.*
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.databinding.FragmentBalanceDetailBinding
 import network.omisego.omgwallet.extension.provideActivityAndroidViewModel
-import network.omisego.omgwallet.livedata.EventObserver
+import network.omisego.omgwallet.util.EventObserver
 
 class BalanceDetailFragment : Fragment() {
     private lateinit var binding: FragmentBalanceDetailBinding

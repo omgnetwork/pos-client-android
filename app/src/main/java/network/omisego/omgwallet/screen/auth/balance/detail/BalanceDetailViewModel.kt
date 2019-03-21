@@ -5,8 +5,8 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import co.omisego.omisego.model.Token
 import network.omisego.omgwallet.GraphMainDirections
-import network.omisego.omgwallet.data.LocalRepository
-import network.omisego.omgwallet.livedata.Event
+import network.omisego.omgwallet.repository.LocalRepository
+import network.omisego.omgwallet.util.Event
 
 /*
  * OmiseGO

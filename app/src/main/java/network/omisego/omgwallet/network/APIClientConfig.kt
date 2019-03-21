@@ -8,7 +8,7 @@ import network.omisego.omgwallet.BuildConfig
  * Created by Phuchit Sirimongkolsathien on 5/10/2018 AD.
  * Copyright © 2017-2018 OmiseGO. All rights reserved.
  */
-class APIClientSetup : ClientSetup {
+class APIClientConfig : ClientConfig {
     override val baseURL: String
         get() = BuildConfig.CONFIG_BASE_URL
     override val socketBaseURL: String

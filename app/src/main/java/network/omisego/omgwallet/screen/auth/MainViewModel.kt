@@ -9,8 +9,8 @@ package network.omisego.omgwallet.screen.auth
 
 import androidx.lifecycle.ViewModel
 import network.omisego.omgwallet.GraphMainDirections
-import network.omisego.omgwallet.data.LocalRepository
-import network.omisego.omgwallet.data.RemoteRepository
+import network.omisego.omgwallet.repository.LocalRepository
+import network.omisego.omgwallet.repository.RemoteRepository
 
 class MainViewModel(
     private val localRepository: LocalRepository,

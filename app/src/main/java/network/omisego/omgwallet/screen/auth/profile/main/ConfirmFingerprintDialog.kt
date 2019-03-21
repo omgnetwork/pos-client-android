@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.bottomsheet_enter_password.view.*
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.extension.provideViewModel
 import network.omisego.omgwallet.extension.toast
-import network.omisego.omgwallet.livedata.EventObserver
+import network.omisego.omgwallet.util.EventObserver
 import network.omisego.omgwallet.state.FingerprintDialogState
 
 class ConfirmFingerprintDialog : BottomSheetDialogFragment() {

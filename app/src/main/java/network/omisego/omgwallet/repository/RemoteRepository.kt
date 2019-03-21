@@ -1,7 +1,8 @@
-package network.omisego.omgwallet.data
+package network.omisego.omgwallet.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import co.omisego.omisego.OMGAPIClient
 import co.omisego.omisego.model.APIError
 import co.omisego.omisego.model.OMGResponse
 import co.omisego.omisego.model.TransactionConsumption
@@ -16,13 +17,12 @@ import co.omisego.omisego.websocket.SocketClientContract
 import co.omisego.omisego.websocket.event.TransactionConsumptionFinalizedEvent
 import co.omisego.omisego.websocket.event.TransactionConsumptionRequestEvent
 import co.omisego.omisego.websocket.listener.SocketCustomEventListener
-import network.omisego.omgwallet.data.contract.BalanceDataRepository
+import network.omisego.omgwallet.repository.contract.BalanceDataRepository
 import network.omisego.omgwallet.extension.logi
 import network.omisego.omgwallet.extension.subscribe
 import network.omisego.omgwallet.extension.subscribeSingleEvent
-import network.omisego.omgwallet.livedata.Event
+import network.omisego.omgwallet.util.Event
 import network.omisego.omgwallet.model.APIResult
-import network.omisego.omgwallet.network.ClientProvider
 import network.omisego.omgwallet.storage.Storage
 import retrofit2.Response
 
@@ -33,35 +33,35 @@ import retrofit2.Response
  * Copyright © 2017-2018 OmiseGO. All rights reserved.
  */
 
-class RemoteRepository : BalanceDataRepository {
+class RemoteRepository(val client: OMGAPIClient) : BalanceDataRepository {
     fun createTransactionRequest(params: TransactionRequestCreateParams): Response<OMGResponse<TransactionRequest>> {
-        return ClientProvider.client.createTransactionRequest(params).execute()
+        return client.createTransactionRequest(params).execute()
     }
 
     override fun loadWallet(liveAPIResult: MutableLiveData<Event<APIResult>>) {
-        ClientProvider.client.getWallets().subscribeSingleEvent(liveAPIResult)
+        client.getWallets().subscribeSingleEvent(liveAPIResult)
     }
 
     fun signIn(params: LoginParams, liveAPIResult: MutableLiveData<Event<APIResult>>): LiveData<Event<APIResult>> {
-        return ClientProvider.client.login(params).subscribeSingleEvent(liveAPIResult)
+        return client.login(params).subscribeSingleEvent(liveAPIResult)
     }
 
     fun signup(params: SignUpParams, liveAPIResult: MutableLiveData<APIResult>) {
-        ClientProvider.client.signup(params).subscribe(liveAPIResult)
+        client.signup(params).subscribe(liveAPIResult)
     }
 
     fun getTransactions(params: TransactionListParams, liveAPIResult: MutableLiveData<APIResult>) {
-        ClientProvider.client.getTransactions(params).subscribe(liveAPIResult)
+        client.getTransactions(params).subscribe(liveAPIResult)
     }
 
     fun approveTransaction(id: String, liveAPIResult: MutableLiveData<Event<APIResult>>) {
-        ClientProvider.client
+        client
             .approveTransactionConsumption(TransactionConsumptionActionParams(id))
             .subscribeSingleEvent(liveAPIResult)
     }
 
     fun rejectTransaction(id: String, liveAPIResult: MutableLiveData<Event<APIResult>>) {
-        ClientProvider.client
+        client
             .rejectTransactionConsumption(TransactionConsumptionActionParams(id))
             .subscribeSingleEvent(liveAPIResult)
     }

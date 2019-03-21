@@ -22,7 +22,7 @@ import network.omisego.omgwallet.databinding.FragmentSplashBinding
 import network.omisego.omgwallet.extension.bindingInflate
 import network.omisego.omgwallet.extension.provideAndroidViewModel
 import network.omisego.omgwallet.extension.toast
-import network.omisego.omgwallet.livedata.EventObserver
+import network.omisego.omgwallet.util.EventObserver
 
 class SplashFragment : Fragment() {
     private lateinit var binding: FragmentSplashBinding

@@ -13,12 +13,12 @@ import androidx.lifecycle.ViewModel
 import co.omisego.omisego.model.Balance
 import co.omisego.omisego.model.WalletList
 import network.omisego.omgwallet.base.StateViewHolderBinding
-import network.omisego.omgwallet.data.LocalRepository
-import network.omisego.omgwallet.data.contract.BalanceDataRepository
+import network.omisego.omgwallet.repository.LocalRepository
+import network.omisego.omgwallet.repository.contract.BalanceDataRepository
 import network.omisego.omgwallet.databinding.ViewholderBalanceBinding
 import network.omisego.omgwallet.extension.formatAmount
 import network.omisego.omgwallet.extension.scaleAmount
-import network.omisego.omgwallet.livedata.Event
+import network.omisego.omgwallet.util.Event
 import network.omisego.omgwallet.model.APIResult
 import network.omisego.omgwallet.storage.Storage
 

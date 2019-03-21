@@ -22,11 +22,11 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import network.omisego.omgwallet.R
-import network.omisego.omgwallet.data.LocalRepository
-import network.omisego.omgwallet.data.RemoteRepository
+import network.omisego.omgwallet.repository.LocalRepository
+import network.omisego.omgwallet.repository.RemoteRepository
 import network.omisego.omgwallet.extension.either
 import network.omisego.omgwallet.extension.logi
-import network.omisego.omgwallet.livedata.Event
+import network.omisego.omgwallet.util.Event
 import network.omisego.omgwallet.model.APIResult
 import network.omisego.omgwallet.util.IdlingResourceUtil
 import java.math.BigDecimal

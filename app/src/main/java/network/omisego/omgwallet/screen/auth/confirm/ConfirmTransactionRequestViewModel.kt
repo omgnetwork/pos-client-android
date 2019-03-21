@@ -7,11 +7,11 @@ import co.omisego.omisego.constant.enums.ErrorCode
 import co.omisego.omisego.model.APIError
 import co.omisego.omisego.model.TransactionConsumption
 import network.omisego.omgwallet.R
-import network.omisego.omgwallet.data.LocalRepository
-import network.omisego.omgwallet.data.RemoteRepository
+import network.omisego.omgwallet.repository.LocalRepository
+import network.omisego.omgwallet.repository.RemoteRepository
 import network.omisego.omgwallet.extension.formatAmount
 import network.omisego.omgwallet.extension.scaleAmount
-import network.omisego.omgwallet.livedata.Event
+import network.omisego.omgwallet.util.Event
 import network.omisego.omgwallet.model.APIResult
 
 /*

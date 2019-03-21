@@ -18,7 +18,7 @@ import co.omisego.omisego.model.TransactionConsumption
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.databinding.FragmentConfirmTransactionRequestBinding
 import network.omisego.omgwallet.extension.provideAndroidViewModel
-import network.omisego.omgwallet.livedata.EventObserver
+import network.omisego.omgwallet.util.EventObserver
 
 class ConfirmTransactionRequestFragment : Fragment() {
     private lateinit var binding: FragmentConfirmTransactionRequestBinding

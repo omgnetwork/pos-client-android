@@ -12,7 +12,7 @@ import android.graphics.Bitmap
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import co.omisego.omisego.qrcode.generator.QRGenerator
-import network.omisego.omgwallet.data.LocalRepository
+import network.omisego.omgwallet.repository.LocalRepository
 import network.omisego.omgwallet.extension.logi
 
 class ShowQRViewModel(

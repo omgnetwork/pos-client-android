@@ -4,11 +4,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import co.omisego.omisego.model.ClientAuthenticationToken
 import co.omisego.omisego.model.params.LoginParams
-import network.omisego.omgwallet.data.LocalRepository
-import network.omisego.omgwallet.data.RemoteRepository
-import network.omisego.omgwallet.livedata.Event
 import network.omisego.omgwallet.model.APIResult
 import network.omisego.omgwallet.model.Credential
+import network.omisego.omgwallet.repository.LocalRepository
+import network.omisego.omgwallet.repository.RemoteRepository
+import network.omisego.omgwallet.util.Event
 
 /*
  * OmiseGO

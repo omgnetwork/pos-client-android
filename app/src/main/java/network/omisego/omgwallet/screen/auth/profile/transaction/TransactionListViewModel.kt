@@ -16,8 +16,8 @@ import co.omisego.omisego.model.Wallet
 import co.omisego.omisego.model.params.TransactionListParams
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.base.StateViewHolderBinding
-import network.omisego.omgwallet.data.LocalRepository
-import network.omisego.omgwallet.data.RemoteRepository
+import network.omisego.omgwallet.repository.LocalRepository
+import network.omisego.omgwallet.repository.RemoteRepository
 import network.omisego.omgwallet.databinding.ViewholderTransactionBinding
 import network.omisego.omgwallet.extension.mutableLiveDataOf
 import network.omisego.omgwallet.extension.scaleAmount

@@ -6,9 +6,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
-import network.omisego.omgwallet.LoginListener
 import network.omisego.omgwallet.MainActivity
 import network.omisego.omgwallet.R
+import network.omisego.omgwallet.listener.LoginListener
 
 /*
  * OmiseGO
