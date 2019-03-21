@@ -9,23 +9,16 @@ package network.omisego.omgwallet
 
 import android.app.Application
 import com.facebook.stetho.Stetho
-import network.omisego.omgwallet.data.LocalRepository
-import network.omisego.omgwallet.data.RemoteRepository
-import network.omisego.omgwallet.network.ClientProvider
-import network.omisego.omgwallet.network.APIClientSetup
+import network.omisego.omgwallet.repository.LocalRepository
+import network.omisego.omgwallet.storage.SessionStorage
 import network.omisego.omgwallet.util.ContextUtil
 import network.omisego.omgwallet.util.RepositoryUtil
 
 class OMGWalletApp : Application() {
     override fun onCreate() {
         super.onCreate()
-        ContextUtil.context = applicationContext
-        RepositoryUtil.localRepository = LocalRepository()
-        RepositoryUtil.remoteRepository = RemoteRepository()
-        ClientProvider.initHTTPClient(APIClientSetup())
-        RepositoryUtil.localRepository.loadCredential().authenticationToken?.let {
-            ClientProvider.initSocketClient(it)
-        }
         Stetho.initializeWithDefaults(this)
+        ContextUtil.context = applicationContext
+        RepositoryUtil.localRepository = LocalRepository(SessionStorage())
     }
 }

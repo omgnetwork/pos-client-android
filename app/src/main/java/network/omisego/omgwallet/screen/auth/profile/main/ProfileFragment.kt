@@ -15,23 +15,26 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import kotlinx.android.synthetic.main.fragment_profile.*
+import network.omisego.omgwallet.AppViewModel
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.databinding.FragmentProfileBinding
 import network.omisego.omgwallet.extension.bindingInflate
-import network.omisego.omgwallet.extension.findLoginListener
 import network.omisego.omgwallet.extension.findRootNavController
+import network.omisego.omgwallet.extension.provideActivityViewModel
 import network.omisego.omgwallet.extension.provideAndroidViewModel
 import network.omisego.omgwallet.extension.toast
-import network.omisego.omgwallet.livedata.EventObserver
 import network.omisego.omgwallet.state.FingerprintDialogState
+import network.omisego.omgwallet.util.EventObserver
 
 class ProfileFragment : Fragment() {
     private lateinit var binding: FragmentProfileBinding
+    private lateinit var appViewModel: AppViewModel
     private lateinit var viewModel: ProfileViewModel
     private lateinit var dialog: ConfirmFingerprintDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        appViewModel = provideActivityViewModel()
         viewModel = provideAndroidViewModel()
     }
 
@@ -43,7 +46,7 @@ class ProfileFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
-        binding.setLifecycleOwner(this)
+        binding.lifecycleOwner = this
 
         viewModel.liveTransaction.observe(this, EventObserver {
             it.let { _ ->
@@ -53,13 +56,14 @@ class ProfileFragment : Fragment() {
 
         viewModel.liveSignout.observe(this, EventObserver {
             it.let {
+                appViewModel.onLoggedout()
+
                 /* Clear all back-stack fragments */
                 findRootNavController().popBackStack(R.id.authFragment, true)
 
                 /* Go back to sign-in */
                 findRootNavController().navigate(R.id.action_global_signInFragment)
 
-                findLoginListener()?.onLoggedout()
             }
         })
 
@@ -91,8 +95,5 @@ class ProfileFragment : Fragment() {
                 viewModel.deleteFingerprintCredential()
             }
         }
-
-        binding.viewModel = viewModel
-        binding.setLifecycleOwner(this)
     }
 }

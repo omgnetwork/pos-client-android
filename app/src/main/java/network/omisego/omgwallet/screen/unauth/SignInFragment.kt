@@ -25,29 +25,32 @@ import androidx.navigation.fragment.findNavController
 import co.omisego.omisego.model.APIError
 import co.omisego.omisego.model.ClientAuthenticationToken
 import kotlinx.android.synthetic.main.fragment_signin.*
+import network.omisego.omgwallet.AppViewModel
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.databinding.FragmentSigninBinding
 import network.omisego.omgwallet.extension.bindingInflate
-import network.omisego.omgwallet.extension.findLoginListener
+import network.omisego.omgwallet.extension.provideActivityViewModel
 import network.omisego.omgwallet.extension.provideAndroidViewModel
 import network.omisego.omgwallet.extension.runOnM
 import network.omisego.omgwallet.extension.runOnMToP
 import network.omisego.omgwallet.extension.runOnP
 import network.omisego.omgwallet.extension.scrollBottom
 import network.omisego.omgwallet.extension.toast
-import network.omisego.omgwallet.livedata.EventObserver
 import network.omisego.omgwallet.screen.unauth.signin.FingerprintBottomSheet
 import network.omisego.omgwallet.screen.unauth.signin.FingerprintBottomSheetViewModel
 import network.omisego.omgwallet.screen.unauth.signin.SignInViewModel
+import network.omisego.omgwallet.util.EventObserver
 
 class SignInFragment : Fragment() {
     private lateinit var binding: FragmentSigninBinding
+    private lateinit var appViewModel: AppViewModel
     private lateinit var viewModel: SignInViewModel
     private lateinit var fingerprintViewModel: FingerprintBottomSheetViewModel
     private var scanFingerprintDialog: FingerprintBottomSheet? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        appViewModel = provideActivityViewModel()
         viewModel = provideAndroidViewModel()
         fingerprintViewModel = provideAndroidViewModel()
     }
@@ -141,7 +144,7 @@ class SignInFragment : Fragment() {
     }
 
     private fun proceed(data: ClientAuthenticationToken) {
-        findLoginListener()?.onLoggedin(etEmail.text.toString(), data)
+        appViewModel.onLoggedin(data)
         findNavController().navigate(R.id.action_signInFragment_to_authFragment)
     }
 
@@ -158,7 +161,7 @@ class SignInFragment : Fragment() {
         binding.viewmodel = viewModel
         binding.emailValidator = viewModel.emailValidator
         binding.passwordValidator = viewModel.passwordValidator
-        binding.setLifecycleOwner(this)
+        binding.lifecycleOwner = this
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
