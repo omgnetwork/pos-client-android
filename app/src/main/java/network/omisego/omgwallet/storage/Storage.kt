@@ -20,9 +20,14 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import network.omisego.omgwallet.BuildConfig
 import network.omisego.omgwallet.R
+import network.omisego.omgwallet.extension.contains
 import network.omisego.omgwallet.extension.decryptWith
+import network.omisego.omgwallet.extension.encrypt
 import network.omisego.omgwallet.extension.encryptWith
 import network.omisego.omgwallet.extension.get
+import network.omisego.omgwallet.extension.getBoolean
+import network.omisego.omgwallet.extension.putBoolean
+import network.omisego.omgwallet.extension.remove
 import network.omisego.omgwallet.extension.set
 import network.omisego.omgwallet.model.Credential
 import network.omisego.omgwallet.util.ContextUtil.context
@@ -43,6 +48,7 @@ object Storage {
     fun hasAuthenticationToken() = sharePref.contains(StorageKey.KEY_AUTHENTICATION_TOKEN)
 
     fun saveCredential(credential: Credential) {
+        if(credential.authenticationToken == null) return deleteRecords(StorageKey.KEY_AUTHENTICATION_TOKEN)
         sharePref[StorageKey.KEY_AUTHENTICATION_TOKEN] = (credential.authenticationToken ?: "") encryptWith keyManager
     }
 
@@ -140,24 +146,21 @@ object Storage {
             .apply()
     }
 
-    fun clearSession() {
-        sharePref.edit()
-            .remove(StorageKey.KEY_AUTHENTICATION_TOKEN)
-            .remove(StorageKey.KEY_WALLET)
-            .remove(StorageKey.KEY_USER)
-            .remove(StorageKey.KEY_TRANSACTION_REQUEST_FORMATTED_ID_RECEIVE)
-            .remove(StorageKey.KEY_TRANSACTION_REQUEST_FORMATTED_ID_SEND)
-            .apply()
+    fun saveRecords(vararg pairs: Pair<StorageKey, String>) {
+        var editor = sharePref.edit()
+        pairs.forEach { (key, value) -> editor = editor.putString(key.value, value) }
+        editor.apply()
     }
 
-    fun clearOldAccountCache(email: String) {
-        if (email != sharePref[StorageKey.KEY_USER_EMAIL]) {
-            sharePref.edit()
-                .remove(StorageKey.KEY_TOKEN_PRIMARY)
-                .remove(StorageKey.KEY_WALLET)
-                .remove(StorageKey.KEY_FINGERPRINT_USER_PASSWORD)
-                .remove(StorageKey.KEY_FINGERPRINT_OPTION)
-                .apply()
-        }
+    fun deleteRecords(vararg keys: StorageKey) {
+        var editor = sharePref.edit()
+        keys.forEach { key -> editor = editor.remove(key) }
+        editor.apply()
     }
+
+    fun toJson(model: Any): String {
+        return gson.toJson(model)
+    }
+
+    fun encrypt(plain: String) = keyManager.encrypt(plain)
 }

@@ -9,6 +9,7 @@ import co.omisego.omisego.model.params.LoginParams
 import co.omisego.omisego.model.params.TransactionRequestParams
 import co.omisego.omisego.model.params.client.TransactionConsumptionParams
 import co.omisego.omisego.network.ewallet.EWalletClient
+import network.omisego.omgwallet.network.APIClientConfig
 import okhttp3.OkHttpClient
 import java.math.BigDecimal
 
@@ -28,16 +29,15 @@ class TxConsumerClient(val client: OMGAPIClient, val okHttpClient: OkHttpClient)
 
     fun consumeTxFormattedId(formattedId: String, amount: BigDecimal = 100.bd): TransactionConsumption? {
         val tx = client.retrieveTransactionRequest(TransactionRequestParams(formattedId)).execute().body()?.data
-        val consumeResponse = client.consumeTransactionRequest(TransactionConsumptionParams.create(tx!!, amount)).execute().body()?.data
-        return consumeResponse
+        return client.consumeTransactionRequest(TransactionConsumptionParams.create(tx!!, amount)).execute().body()?.data
     }
 
     companion object {
         fun create(): TxConsumerClient {
-            val clientSetup = LocalClientSetup()
+            val config = APIClientConfig()
             val configuration = ClientConfiguration(
-                clientSetup.baseURL,
-                clientSetup.apiKey
+                config.baseURL,
+                config.apiKey
             )
 
             val eWalletClient = EWalletClient.Builder {
