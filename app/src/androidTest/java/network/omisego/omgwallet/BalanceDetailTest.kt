@@ -6,11 +6,8 @@ import co.omisego.omisego.model.params.LoginParams
 import co.omisego.omisego.model.params.TransactionRequestParams
 import com.agoda.kakao.KButton
 import network.omisego.omgwallet.base.BaseInstrumentalTest
-import network.omisego.omgwallet.config.LocalClientSetup
 import network.omisego.omgwallet.config.TestData
 import network.omisego.omgwallet.extension.logi
-import network.omisego.omgwallet.model.Credential
-import network.omisego.omgwallet.network.ClientProvider
 import network.omisego.omgwallet.screen.BalanceDetailScreen
 import network.omisego.omgwallet.screen.BalanceScreen
 import network.omisego.omgwallet.screen.MainScreen
@@ -36,21 +33,21 @@ class BalanceDetailTest : BaseInstrumentalTest() {
     private val balanceScreen: BalanceScreen by lazy { BalanceScreen() }
     private val balanceDetailScreen: BalanceDetailScreen by lazy { BalanceDetailScreen() }
 
-    companion object {
+    companion object : BaseInstrumentalTest() {
         @BeforeClass
         @JvmStatic
         fun setupClass() {
-            ClientProvider.initHTTPClient(LocalClientSetup())
-            Storage.clearSession()
-            val response = ClientProvider.client.login(LoginParams(TestData.USER_EMAIL, TestData.USER_PASSWORD)).execute()
-            Storage.saveUser(response.body()!!.data.user)
-            Storage.saveCredential(Credential(response.body()!!.data.authenticationToken))
-            Storage.saveUserEmail(TestData.USER_EMAIL)
+            setupClient()
+            sessionStorage.clear()
+            val response = client.login(LoginParams(TestData.USER_EMAIL, TestData.USER_PASSWORD)).execute()
+            val clientAuthenticationToken = response.body()?.data!!
+            sessionStorage.save(clientAuthenticationToken)
         }
     }
 
     @Before
     fun setup() {
+        setupClient()
         registerIdlingResource()
         start()
     }
@@ -225,8 +222,8 @@ class BalanceDetailTest : BaseInstrumentalTest() {
                 /* Verify the transaction request ids are correct */
                 val sendTxId = newFormattedIds.split("|")[1]
                 val receiveTxId = newFormattedIds.split("|")[0]
-                val sendTx = ClientProvider.client.retrieveTransactionRequest(TransactionRequestParams(sendTxId)).execute()
-                val receiveTx = ClientProvider.client.retrieveTransactionRequest(TransactionRequestParams(receiveTxId)).execute()
+                val sendTx = client.retrieveTransactionRequest(TransactionRequestParams(sendTxId)).execute()
+                val receiveTx = client.retrieveTransactionRequest(TransactionRequestParams(receiveTxId)).execute()
 
                 /* Prevent espresso stop the test by validate view (because the operation is coming from MessageQueue)*/
                 recyclerView.isDisplayed()

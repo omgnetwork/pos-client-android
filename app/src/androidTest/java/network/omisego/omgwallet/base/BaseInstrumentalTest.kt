@@ -8,16 +8,18 @@ import androidx.test.InstrumentationRegistry
 import androidx.test.espresso.IdlingRegistry
 import androidx.test.rule.ActivityTestRule
 import co.infinum.goldfinger.Goldfinger
+import co.omisego.omisego.OMGAPIClient
 import co.omisego.omisego.model.Balance
 import co.omisego.omisego.model.Token
 import co.omisego.omisego.model.WalletList
+import co.omisego.omisego.network.ewallet.EWalletClient
 import com.jakewharton.espresso.OkHttp3IdlingResource
 import network.omisego.omgwallet.MainActivity
 import network.omisego.omgwallet.R
-import network.omisego.omgwallet.config.LocalClientSetup
 import network.omisego.omgwallet.config.TxConsumerClient
 import network.omisego.omgwallet.network.ClientProvider
 import network.omisego.omgwallet.screen.MainScreen
+import network.omisego.omgwallet.storage.SessionStorage
 import network.omisego.omgwallet.util.ContextUtil
 import network.omisego.omgwallet.util.IdlingResourceUtil
 import org.junit.Rule
@@ -30,15 +32,17 @@ import java.math.BigDecimal
  * Copyright © 2017-2018 OmiseGO. All rights reserved.
  */
 open class BaseInstrumentalTest {
-    val consumerClient by lazy {
-        TxConsumerClient.create()
+    val sessionStorage: SessionStorage by lazy { SessionStorage() }
+    val consumerClient by lazy { TxConsumerClient.create() }
+
+    private lateinit var eWalletClient: EWalletClient
+    lateinit var client: OMGAPIClient
+
+    private val idlingResource by lazy {
+        OkHttp3IdlingResource.create("OkHTTP", eWalletClient.client)
     }
 
-    val idlingResource by lazy {
-        OkHttp3IdlingResource.create("OkHTTP", ClientProvider.eWalletClient.client)
-    }
-
-    val consumerIdlingResource by lazy {
+    private val consumerIdlingResource by lazy {
         OkHttp3IdlingResource.create("OkHTTPConsumer", consumerClient.okHttpClient)
     }
 
@@ -86,8 +90,10 @@ open class BaseInstrumentalTest {
         return rule.activity.getString(id)
     }
 
-    fun setupClientProvider() {
-        ClientProvider.initHTTPClient(LocalClientSetup())
+    fun setupClient() {
+        eWalletClient = ClientProvider.createClient()
+        client = OMGAPIClient(eWalletClient)
+        ClientProvider.setTestEWalletClient(eWalletClient)
     }
 
     fun start() {

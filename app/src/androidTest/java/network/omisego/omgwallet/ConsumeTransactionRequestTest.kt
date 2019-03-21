@@ -8,10 +8,8 @@ import co.omisego.omisego.model.TransactionConsumption
 import co.omisego.omisego.model.params.LoginParams
 import com.agoda.kakao.KView
 import network.omisego.omgwallet.base.BaseInstrumentalTest
-import network.omisego.omgwallet.config.LocalClientSetup
 import network.omisego.omgwallet.config.TestData
 import network.omisego.omgwallet.model.Credential
-import network.omisego.omgwallet.network.ClientProvider
 import network.omisego.omgwallet.screen.BalanceScreen
 import network.omisego.omgwallet.screen.ConfirmTransactionRequestScreen
 import network.omisego.omgwallet.screen.MainScreen
@@ -41,19 +39,21 @@ class ConsumeTransactionRequestTest : BaseInstrumentalTest() {
     private val balanceScreen: BalanceScreen by lazy { BalanceScreen() }
     private val confirmTransactionRequestScreen: ConfirmTransactionRequestScreen by lazy { ConfirmTransactionRequestScreen() }
 
-    companion object {
+    companion object: BaseInstrumentalTest() {
+
         @BeforeClass
         @JvmStatic
         fun setupClass() {
+            setupClient()
+
             val user = LoginParams(TestData.USER_EMAIL, TestData.USER_PASSWORD)
             val consumerUser = LoginParams(TestData.CONSUME_TX_USER_EMAIL, TestData.CONSUME_TX_USER_PASSWORD)
 
-            TestUtil.ensureEnoughBalances(user)
-            TestUtil.ensureEnoughBalances(consumerUser)
+            TestUtil.ensureEnoughBalances(client, user)
+            TestUtil.ensureEnoughBalances(client, consumerUser)
 
-            ClientProvider.initHTTPClient(LocalClientSetup())
-            Storage.clearSession()
-            val response = ClientProvider.client.login(user).execute()
+            sessionStorage.clear()
+            val response = client.login(user).execute()
             Storage.saveUser(response.body()!!.data.user)
             Storage.saveCredential(Credential(response.body()!!.data.authenticationToken))
             Storage.saveUserEmail(TestData.USER_EMAIL)
@@ -62,6 +62,7 @@ class ConsumeTransactionRequestTest : BaseInstrumentalTest() {
 
     @Before
     fun setup() {
+        setupClient()
         Storage.deleteTokenPrimary()
         Storage.deleteFormattedIds()
         registerIdlingResource()

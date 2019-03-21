@@ -26,9 +26,9 @@ class RegisterTest : BaseInstrumentalTest() {
 
     @Before
     fun setup() {
-        setupClientProvider()
-        registerIdlingResource()
         clearSharePreference()
+        setupClient()
+        registerIdlingResource()
         start()
         NavHostFragment.findNavController(
             rule.activity.supportFragmentManager.fragments[0]

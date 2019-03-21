@@ -8,6 +8,7 @@ package network.omisego.omgwallet.util
  */
 
 import co.omisego.omisego.OMGAPIAdmin
+import co.omisego.omisego.OMGAPIClient
 import co.omisego.omisego.extension.bd
 import co.omisego.omisego.model.AdminConfiguration
 import co.omisego.omisego.model.Wallet
@@ -16,13 +17,12 @@ import co.omisego.omisego.model.params.admin.TransactionCreateParams
 import co.omisego.omisego.network.ewallet.EWalletAdmin
 import network.omisego.omgwallet.config.TestData
 import network.omisego.omgwallet.local.test.BuildConfig
-import network.omisego.omgwallet.network.ClientProvider
 import java.math.BigDecimal
 
 object TestUtil {
-    fun ensureEnoughBalances(loginParams: LoginParams, target: BigDecimal = 2.bd) {
-        ClientProvider.client.login(loginParams).execute()
-        val responseWallets = ClientProvider.client.getWallets().execute()
+    fun ensureEnoughBalances(client: OMGAPIClient, loginParams: LoginParams, target: BigDecimal = 2.bd) {
+        client.login(loginParams).execute()
+        val responseWallets = client.getWallets().execute()
         val wallet = responseWallets.body()?.data?.data?.get(0)!!
         val enough = wallet.balances[0].amount >= wallet.balances[0].token.subunitToUnit.multiply(target)
         if (!enough) {

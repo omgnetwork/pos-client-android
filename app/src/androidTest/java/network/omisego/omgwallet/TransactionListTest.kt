@@ -12,8 +12,6 @@ import co.omisego.omisego.model.params.LoginParams
 import network.omisego.omgwallet.base.BaseInstrumentalTest
 import network.omisego.omgwallet.config.MockData
 import network.omisego.omgwallet.config.TestData
-import network.omisego.omgwallet.model.Credential
-import network.omisego.omgwallet.network.ClientProvider
 import network.omisego.omgwallet.screen.MainScreen
 import network.omisego.omgwallet.screen.ProfileScreen
 import network.omisego.omgwallet.screen.TransactionListScreen
@@ -31,14 +29,13 @@ class TransactionListTest : BaseInstrumentalTest() {
 
     @Before
     fun setup() {
-        setupClientProvider()
+        setupClient()
         registerIdlingResource()
-        Storage.clearSession()
-        val response = ClientProvider.client.login(LoginParams(TestData.USER_EMAIL, TestData.USER_PASSWORD)).execute()
+        sessionStorage.clear()
+        val response = client.login(LoginParams(TestData.USER_EMAIL, TestData.USER_PASSWORD)).execute()
+        val clientAuthenticationToken = response.body()?.data!!
+        sessionStorage.save(clientAuthenticationToken)
         Storage.saveWallets(MockData.walletList)
-        Storage.saveUser(response.body()!!.data.user)
-        Storage.saveCredential(Credential(response.body()!!.data.authenticationToken))
-        Storage.saveUserEmail(TestData.USER_EMAIL)
         Storage.deleteFingerprintCredential()
         Storage.saveFingerprintOption(false)
         start()

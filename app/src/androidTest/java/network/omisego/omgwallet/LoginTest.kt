@@ -11,6 +11,7 @@ import androidx.test.runner.AndroidJUnit4
 import network.omisego.omgwallet.base.BaseInstrumentalTest
 import network.omisego.omgwallet.config.MockData
 import network.omisego.omgwallet.config.TestData
+import network.omisego.omgwallet.extension.contains
 import network.omisego.omgwallet.screen.LoginScreen
 import network.omisego.omgwallet.screen.MainScreen
 import network.omisego.omgwallet.storage.Storage
@@ -28,9 +29,9 @@ class LoginTest : BaseInstrumentalTest() {
 
     @Before
     fun setup() {
-        setupClientProvider()
-        registerIdlingResource()
         clearSharePreference()
+        setupClient()
+        registerIdlingResource()
         start()
     }
 
