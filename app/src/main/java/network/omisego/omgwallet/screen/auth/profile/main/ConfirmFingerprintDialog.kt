@@ -22,8 +22,8 @@ import kotlinx.android.synthetic.main.bottomsheet_enter_password.view.*
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.extension.provideViewModel
 import network.omisego.omgwallet.extension.toast
-import network.omisego.omgwallet.util.EventObserver
 import network.omisego.omgwallet.state.FingerprintDialogState
+import network.omisego.omgwallet.util.EventObserver
 
 class ConfirmFingerprintDialog : BottomSheetDialogFragment() {
     private lateinit var viewModel: ConfirmFingerprintViewModel
@@ -62,7 +62,6 @@ class ConfirmFingerprintDialog : BottomSheetDialogFragment() {
     }
 
     private fun handleSignInSuccess(data: ClientAuthenticationToken) {
-        viewModel.saveCredential(data)
         viewModel.enableFingerprint(etPassword.text.toString())
         liveFingerprintDialogState?.value = FingerprintDialogState.STATE_ENABLED
         btnConfirm.isEnabled = true

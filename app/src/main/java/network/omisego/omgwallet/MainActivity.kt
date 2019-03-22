@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initializeClient(): OMGAPIClient {
-        val authenticationToken = RepositoryUtil.localRepository.loadCredential().authenticationToken
+        val authenticationToken = RepositoryUtil.localRepository.loadAuthenticationToken()
         val eWalletClient = ClientProvider.createClient(authenticationToken)
         val client = OMGAPIClient(eWalletClient)
         RepositoryUtil.remoteRepository = RemoteRepository(client)

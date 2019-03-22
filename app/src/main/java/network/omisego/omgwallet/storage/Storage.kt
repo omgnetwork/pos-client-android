@@ -21,7 +21,6 @@ import network.omisego.omgwallet.extension.get
 import network.omisego.omgwallet.extension.getBoolean
 import network.omisego.omgwallet.extension.putBoolean
 import network.omisego.omgwallet.extension.remove
-import network.omisego.omgwallet.model.Credential
 import network.omisego.omgwallet.util.ContextUtil
 
 class Storage(
@@ -55,16 +54,6 @@ class Storage(
         }
     }
 
-    fun loadCredential(): Credential {
-        val authenticationToken = sp[StorageKey.KEY_AUTHENTICATION_TOKEN]!!
-        if (authenticationToken.isEmpty()) {
-            return Credential()
-        }
-        return Credential(
-            authenticationToken decryptWith keyManager
-        )
-    }
-
     fun has(vararg keys: StorageKey) = keys.all { sp.contains(it) }
 
     fun getStringRecord(key: StorageKey, default: String? = null): String? {
@@ -73,7 +62,6 @@ class Storage(
     }
 
     fun getBooleanRecord(key: StorageKey, default: Boolean = false): Boolean {
-        if (sp[key].isNullOrEmpty()) return default
         return sp.getBoolean(key, default)
     }
 

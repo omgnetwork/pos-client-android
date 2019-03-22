@@ -17,7 +17,6 @@ import co.omisego.omisego.websocket.SocketClientContract
 import network.omisego.omgwallet.extension.logi
 import network.omisego.omgwallet.listener.LoginListener
 import network.omisego.omgwallet.livedata.SocketStateLiveData
-import network.omisego.omgwallet.model.Credential
 import network.omisego.omgwallet.repository.LocalRepository
 import network.omisego.omgwallet.repository.RemoteRepository
 
@@ -35,13 +34,14 @@ class AppViewModel(
     val liveConsumptionFinalizedFailEvent: MutableLiveData<APIError> by lazy { MutableLiveData<APIError>() }
 
     fun setAuthenticationToken(authenticationToken: String?) {
-        localRepository.saveCredential(Credential(authenticationToken))
-        liveAuthenticationToken.value = authenticationToken
+        if (authenticationToken == null) localRepository.deleteSession()
+        else {
+            localRepository.saveAuthenticationToken(authenticationToken)
+            liveAuthenticationToken.value = authenticationToken
+        }
     }
 
-    fun loadAuthenticationToken(): String? {
-        return localRepository.loadCredential().authenticationToken
-    }
+    fun loadAuthenticationToken() = localRepository.loadAuthenticationToken()
 
     fun setClient(client: OMGAPIClient) {
         liveClient.value = client

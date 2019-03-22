@@ -16,7 +16,6 @@ import co.omisego.omisego.model.WalletList
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import network.omisego.omgwallet.model.APIResult
-import network.omisego.omgwallet.model.Credential
 import network.omisego.omgwallet.repository.contract.BalanceDataRepository
 import network.omisego.omgwallet.storage.SessionStorage
 import network.omisego.omgwallet.storage.Storage
@@ -93,8 +92,10 @@ class LocalRepository(
             storage.getStringRecord(KEY_TRANSACTION_REQUEST_FORMATTED_ID_SEND)
         ).joinToString("|")
 
-    fun loadCredential() =
-        storage.loadCredential()
+    fun loadAuthenticationToken(): String? {
+        val authenticationToken = storage.getStringRecord(KEY_AUTHENTICATION_TOKEN) ?: return null
+        return storage.decrypt(authenticationToken)
+    }
 
     fun loadUser() =
         storage.getRecord<User>(KEY_USER)
@@ -119,8 +120,8 @@ class LocalRepository(
     fun saveUser(user: User) =
         storage.putRecords(KEY_USER to storage.toJson(user))
 
-    fun saveCredential(credential: Credential) =
-        storage.putRecords(KEY_AUTHENTICATION_TOKEN to credential.authenticationToken)
+    fun saveAuthenticationToken(authenticationToken: String) =
+        storage.putRecords(KEY_AUTHENTICATION_TOKEN to storage.encrypt(authenticationToken))
 
     fun saveWallets(data: WalletList) =
         storage.putRecords(KEY_WALLET to storage.toJson(data))
