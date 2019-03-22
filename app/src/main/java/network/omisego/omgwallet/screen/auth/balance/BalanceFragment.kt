@@ -35,12 +35,10 @@ import network.omisego.omgwallet.databinding.ViewholderBalanceBinding
 import network.omisego.omgwallet.extension.bindingInflate
 import network.omisego.omgwallet.extension.provideActivityViewModel
 import network.omisego.omgwallet.extension.toast
-import network.omisego.omgwallet.storage.SessionStorage
 import network.omisego.omgwallet.util.EventObserver
 
 class BalanceFragment : Fragment(), UpdateAdapterDispatcher<Balance> {
     private var currentBalances: List<Balance> = listOf()
-    private val sessionStorage: SessionStorage by lazy { SessionStorage() }
     private lateinit var binding: FragmentBalanceBinding
     private lateinit var viewModel: BalanceViewModel
     private lateinit var adapter: LoadingRecyclerAdapter<Balance, ViewholderBalanceBinding>
@@ -91,7 +89,7 @@ class BalanceFragment : Fragment(), UpdateAdapterDispatcher<Balance> {
     private fun handleLoadWalletFail(error: APIError) {
         context?.toast(error.description)
         if (error.code == ErrorCode.USER_AUTH_TOKEN_NOT_FOUND) {
-            sessionStorage.clear()
+            viewModel.clear()
             findNavController().navigateUp()
         }
     }

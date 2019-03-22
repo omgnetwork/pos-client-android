@@ -23,12 +23,12 @@ class TransactionListTransformer(
         return if (transaction.isTopup) {
             context.getString(
                 R.string.transaction_list_info_name_id,
-                transaction.from.account?.name
+                transaction.from.account?.name ?: transaction.from.user?.email
             )
         } else {
             context.getString(
                 R.string.transaction_list_info_name_id,
-                transaction.to.account?.name
+                transaction.to.account?.name ?: transaction.from.user?.email
             )
         }
     }

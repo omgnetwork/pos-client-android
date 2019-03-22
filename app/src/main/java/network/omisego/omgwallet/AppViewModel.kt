@@ -56,6 +56,7 @@ class AppViewModel(
         liveSocket.value?.let {
             remoteRepository.listenUserSocketEvent(
                 it,
+                localRepository.loadUser(),
                 liveConsumptionRequestEvent,
                 liveConsumptionRequestFailEvent,
                 liveConsumptionFinalizedEvent,
@@ -66,7 +67,7 @@ class AppViewModel(
 
     fun stopListenForUserEvent() {
         liveSocket.value?.let {
-            remoteRepository.stopListeningToUserSocketEvent(it)
+            remoteRepository.stopListeningToUserSocketEvent(it, localRepository.loadUser())
         }
     }
 

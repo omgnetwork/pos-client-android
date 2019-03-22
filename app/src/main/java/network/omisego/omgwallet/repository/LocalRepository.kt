@@ -21,6 +21,7 @@ import network.omisego.omgwallet.util.Event
  */
 
 class LocalRepository(
+    private val storage: Storage,
     private val sessionStorage: SessionStorage
 ) : BalanceDataRepository {
     override fun loadWallet(liveAPIResult: MutableLiveData<Event<APIResult>>) {
@@ -31,49 +32,49 @@ class LocalRepository(
 
     fun saveSession(clientAuthToken: ClientAuthenticationToken) = sessionStorage.save(clientAuthToken)
 
-    fun hasFormattedId() = Storage.hasFormattedId()
+    fun hasFormattedId() = storage.hasFormattedId()
 
     fun deleteFingerprintCredential() {
-        Storage.deleteFingerprintCredential()
+        storage.deleteFingerprintCredential()
     }
 
-    fun hasAuthenticationToken() = Storage.hasAuthenticationToken()
+    fun hasAuthenticationToken() = storage.hasAuthenticationToken()
 
-    fun hasFingerprintPassword() = Storage.hasFingerprintCredential()
+    fun hasFingerprintPassword() = storage.hasFingerprintCredential()
 
-    fun loadWallet() = Storage.loadWallets()
+    fun loadWallet() = storage.loadWallets()
 
-    fun loadFingerprintOption() = Storage.loadFingerprintOption()
+    fun loadFingerprintOption() = storage.loadFingerprintOption()
 
-    fun loadUserEmail() = Storage.loadUserEmail()
+    fun loadUserEmail() = storage.loadUserEmail()
 
-    fun loadFingerprintCredential() = Storage.loadFingerprintCredential()
+    fun loadFingerprintCredential() = storage.loadFingerprintCredential()
 
-    fun loadTransactionRequestFormattedId() = Storage.loadFormattedId()
+    fun loadTransactionRequestFormattedId() = storage.loadFormattedId()
 
-    fun loadCredential() = Storage.loadCredential()
+    fun loadCredential() = storage.loadCredential()
 
-    fun loadUser() = Storage.loadUser()
+    fun loadUser() = storage.loadUser()
 
-    fun saveTransactionRequestFormattedId(formattedIds: Map<TransactionRequestType, String>) = Storage.saveFormattedId(formattedIds)
+    fun saveTransactionRequestFormattedId(formattedIds: Map<TransactionRequestType, String>) = storage.saveFormattedId(formattedIds)
 
-    fun saveUser(user: User) = Storage.saveUser(user)
+    fun saveUser(user: User) = storage.saveUser(user)
 
-    fun saveCredential(credential: Credential) = Storage.saveCredential(credential)
+    fun saveCredential(credential: Credential) = storage.saveCredential(credential)
 
-    fun saveFingerprintCredential(password: String) = Storage.saveFingerprintCredential(password)
+    fun saveFingerprintCredential(password: String) = storage.saveFingerprintCredential(password)
 
-    fun saveUserEmail(email: String) = Storage.saveUserEmail(email)
+    fun saveUserEmail(email: String) = storage.saveUserEmail(email)
 
-    fun saveWallets(data: WalletList) = Storage.saveWallets(data)
+    fun saveWallets(data: WalletList) = storage.saveWallets(data)
 
     fun saveFingerprintOption(checked: Boolean) {
-        Storage.saveFingerprintOption(checked)
+        storage.saveFingerprintOption(checked)
     }
 
     fun saveTokenPrimary(token: Token) {
-        Storage.saveTokenPrimary(token)
+        storage.saveTokenPrimary(token)
     }
 
-    fun loadTokenPrimary(): String? = Storage.loadTokenPrimary()
+    fun loadTokenPrimary(): String? = storage.loadTokenPrimary()
 }

@@ -12,7 +12,6 @@ import network.omisego.omgwallet.base.BaseInstrumentalTest
 import network.omisego.omgwallet.config.TestData
 import network.omisego.omgwallet.screen.MainScreen
 import network.omisego.omgwallet.screen.SplashScreen
-import network.omisego.omgwallet.storage.Storage
 import org.amshove.kluent.shouldBe
 import org.amshove.kluent.shouldBeGreaterThan
 import org.amshove.kluent.shouldEqual
@@ -42,8 +41,8 @@ class PrefetchTest : BaseInstrumentalTest() {
     @Before
     fun setup() {
         setupClient()
-        Storage.deleteWallets()
-        Storage.deleteFormattedIds()
+        storage.deleteWallets()
+        storage.deleteFormattedIds()
     }
 
     @After
@@ -68,7 +67,7 @@ class PrefetchTest : BaseInstrumentalTest() {
 
         /* This will ensure that the test framework will be waiting for the idle state */
         mainScreen.bottomNavigation.isDisplayed()
-        Storage.loadWallets()?.data?.size?.shouldBeGreaterThan(0)
+        storage.loadWallets()?.data?.size?.shouldBeGreaterThan(0)
     }
 
     @Test
@@ -78,21 +77,21 @@ class PrefetchTest : BaseInstrumentalTest() {
 
         /* Should create a transaction request and save the id with format `id1|id2` */
         mainScreen.bottomNavigation.isDisplayed()
-        Storage.loadFormattedId().split("|").size shouldEqualTo 2
+        storage.loadFormattedId().split("|").size shouldEqualTo 2
     }
 
     @Test
     fun testSelectPrimaryTokenAutomaticallyWhenTheTokenPrimaryIdIsNull() {
         /* Delete token primary first so that the primary token is null */
-        Storage.deleteTokenPrimary()
+        storage.deleteTokenPrimary()
 
         /* Verify that the token has already deleted */
-        Storage.loadTokenPrimary() shouldBe null
+        storage.loadTokenPrimary() shouldBe null
 
         registerIdlingResource()
         start()
 
         mainScreen.bottomNavigation.isDisplayed()
-        selectPrimaryToken(Storage.loadWallets()!!, null).id shouldEqual Storage.loadTokenPrimary()
+        selectPrimaryToken(storage.loadWallets()!!, null).id shouldEqual storage.loadTokenPrimary()
     }
 }

@@ -14,7 +14,6 @@ import network.omisego.omgwallet.config.MockData
 import network.omisego.omgwallet.config.TestData
 import network.omisego.omgwallet.screen.MainScreen
 import network.omisego.omgwallet.screen.QRScreen
-import network.omisego.omgwallet.storage.Storage
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -32,9 +31,9 @@ class QRTest : BaseInstrumentalTest() {
         val response = client.login(LoginParams(TestData.USER_EMAIL, TestData.USER_PASSWORD)).execute()
         val clientAuthenticationToken = response.body()?.data!!
         sessionStorage.save(clientAuthenticationToken)
-        Storage.saveWallets(MockData.walletList)
-        Storage.deleteFingerprintCredential()
-        Storage.saveFingerprintOption(false)
+        storage.saveWallets(MockData.walletList)
+        storage.deleteFingerprintCredential()
+        storage.saveFingerprintOption(false)
         start()
         registerIdlingResource()
     }

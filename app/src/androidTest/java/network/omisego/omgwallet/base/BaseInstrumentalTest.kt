@@ -1,11 +1,16 @@
 package network.omisego.omgwallet.base
 
-import android.content.Context
+/*
+ * OmiseGO
+ *
+ * Created by Phuchit Sirimongkolsathien on 5/10/2018 AD.
+ * Copyright © 2017-2018 OmiseGO. All rights reserved.
+ */
+
 import android.content.Intent
-import android.content.SharedPreferences
 import androidx.annotation.StringRes
-import androidx.test.InstrumentationRegistry
 import androidx.test.espresso.IdlingRegistry
+import androidx.test.platform.app.InstrumentationRegistry.getInstrumentation
 import androidx.test.rule.ActivityTestRule
 import co.infinum.goldfinger.Goldfinger
 import co.omisego.omisego.OMGAPIClient
@@ -13,56 +18,39 @@ import co.omisego.omisego.model.Balance
 import co.omisego.omisego.model.Token
 import co.omisego.omisego.model.WalletList
 import co.omisego.omisego.network.ewallet.EWalletClient
-import com.jakewharton.espresso.OkHttp3IdlingResource
+import com.jakewharton.espresso.OkHttp3IdlingResource.create
 import network.omisego.omgwallet.MainActivity
-import network.omisego.omgwallet.R
 import network.omisego.omgwallet.config.TxConsumerClient
 import network.omisego.omgwallet.network.ClientProvider
 import network.omisego.omgwallet.screen.MainScreen
 import network.omisego.omgwallet.storage.SessionStorage
+import network.omisego.omgwallet.storage.Storage
+import network.omisego.omgwallet.storage.Storage.Companion.create
 import network.omisego.omgwallet.util.ContextUtil
 import network.omisego.omgwallet.util.IdlingResourceUtil
 import org.junit.Rule
 import java.math.BigDecimal
 
-/*
- * OmiseGO
- *
- * Created by Phuchit Sirimongkolsathien on 5/10/2018 AD.
- * Copyright © 2017-2018 OmiseGO. All rights reserved.
- */
 open class BaseInstrumentalTest {
-    val sessionStorage: SessionStorage by lazy { SessionStorage() }
-    val consumerClient by lazy { TxConsumerClient.create() }
-
-    private lateinit var eWalletClient: EWalletClient
-    lateinit var client: OMGAPIClient
-
-    private val idlingResource by lazy {
-        OkHttp3IdlingResource.create("OkHTTP", eWalletClient.client)
-    }
-
-    private val consumerIdlingResource by lazy {
-        OkHttp3IdlingResource.create("OkHTTPConsumer", consumerClient.okHttpClient)
-    }
-
+    private val idlingResource by lazy { create("OkHTTP", eWalletClient.client) }
+    private val consumerIdlingResource by lazy { create("OkHTTPConsumer", consumerClient.okHttpClient) }
     private val mainScreen: MainScreen by lazy { MainScreen() }
+    private lateinit var eWalletClient: EWalletClient
+    val storage: Storage by lazy { create(getInstrumentation().targetContext) }
+    val sessionStorage: SessionStorage by lazy { SessionStorage(storage) }
+    val consumerClient by lazy { TxConsumerClient.create() }
+    lateinit var client: OMGAPIClient
 
     @Rule
     @JvmField
     val rule = ActivityTestRule(MainActivity::class.java, true, false)
-
-    val sharedPreferences: SharedPreferences by lazy {
-        val context = InstrumentationRegistry.getInstrumentation().targetContext
-        context.getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE)
-    }
 
     fun hasToolbarTitle(title: String) {
         mainScreen.toolbar.hasTitle(title)
     }
 
     fun clearSharePreference() {
-        sharedPreferences.edit().clear().apply()
+        storage.deleteAll()
     }
 
     fun hasFingerprint() = Goldfinger.Builder(ContextUtil.context).build().hasFingerprintHardware()

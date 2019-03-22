@@ -12,12 +12,10 @@ import androidx.test.runner.AndroidJUnit4
 import co.omisego.omisego.model.params.LoginParams
 import network.omisego.omgwallet.base.BaseInstrumentalTest
 import network.omisego.omgwallet.config.TestData
-import network.omisego.omgwallet.extension.contains
 import network.omisego.omgwallet.screen.ConfirmFingerprintScreen
 import network.omisego.omgwallet.screen.LoginScreen
 import network.omisego.omgwallet.screen.MainScreen
 import network.omisego.omgwallet.screen.ProfileScreen
-import network.omisego.omgwallet.storage.Storage
 import network.omisego.omgwallet.storage.StorageKey
 import org.amshove.kluent.shouldBe
 import org.junit.After
@@ -49,9 +47,9 @@ class ProfileTest : BaseInstrumentalTest() {
     @Before
     fun setup() {
         setupClient()
-        Storage.deleteFingerprintCredential()
-        Storage.saveFingerprintOption(false)
-        Storage.deleteFormattedIds()
+        storage.deleteFingerprintCredential()
+        storage.saveFingerprintOption(false)
+        storage.deleteFormattedIds()
         registerIdlingResource()
         start()
         mainScreen.bottomNavigation.setSelectedItem(R.id.profile)
@@ -78,10 +76,10 @@ class ProfileTest : BaseInstrumentalTest() {
             tvSignUp.isDisplayed()
         }
 
-        with(sharedPreferences) {
-            contains(StorageKey.KEY_USER) shouldBe false
-            contains(StorageKey.KEY_WALLET) shouldBe false
-            contains(StorageKey.KEY_AUTHENTICATION_TOKEN) shouldBe false
+        with(storage) {
+            has(StorageKey.KEY_USER) shouldBe false
+            has(StorageKey.KEY_WALLET) shouldBe false
+            has(StorageKey.KEY_AUTHENTICATION_TOKEN) shouldBe false
         }
     }
 

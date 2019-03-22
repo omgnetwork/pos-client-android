@@ -13,7 +13,6 @@ import network.omisego.omgwallet.model.Credential
 import network.omisego.omgwallet.screen.BalanceScreen
 import network.omisego.omgwallet.screen.ConfirmTransactionRequestScreen
 import network.omisego.omgwallet.screen.MainScreen
-import network.omisego.omgwallet.storage.Storage
 import network.omisego.omgwallet.util.TestUtil
 import org.junit.After
 import org.junit.Before
@@ -54,17 +53,17 @@ class ConsumeTransactionRequestTest : BaseInstrumentalTest() {
 
             sessionStorage.clear()
             val response = client.login(user).execute()
-            Storage.saveUser(response.body()!!.data.user)
-            Storage.saveCredential(Credential(response.body()!!.data.authenticationToken))
-            Storage.saveUserEmail(TestData.USER_EMAIL)
+            storage.saveUser(response.body()!!.data.user)
+            storage.saveCredential(Credential(response.body()!!.data.authenticationToken))
+            storage.saveUserEmail(TestData.USER_EMAIL)
         }
     }
 
     @Before
     fun setup() {
         setupClient()
-        Storage.deleteTokenPrimary()
-        Storage.deleteFormattedIds()
+        storage.deleteTokenPrimary()
+        storage.deleteFormattedIds()
         registerIdlingResource()
         start()
     }
@@ -80,10 +79,10 @@ class ConsumeTransactionRequestTest : BaseInstrumentalTest() {
             bottomNavigation.isDisplayed()
 
             /* Preparing test data */
-            val currentPrimaryTokenId = Storage.loadTokenPrimary()
-            val currentTxFormattedIds = Storage.loadFormattedId()
+            val currentPrimaryTokenId = storage.loadTokenPrimary()
+            val currentTxFormattedIds = storage.loadFormattedId()
             val currentTxFormattedIdSend = currentTxFormattedIds.split("|")[1]
-            val consumeToken: Token = Storage.loadWallets()?.data?.get(0)?.balances?.find { it.token.id == currentPrimaryTokenId }?.token!!
+            val consumeToken: Token = storage.loadWallets()?.data?.get(0)?.balances?.find { it.token.id == currentPrimaryTokenId }?.token!!
 
             /* Consume transaction */
             val txConsumption = consumeTx(consumeToken, currentTxFormattedIdSend)
@@ -116,10 +115,10 @@ class ConsumeTransactionRequestTest : BaseInstrumentalTest() {
             bottomNavigation.isDisplayed()
 
             /* Preparing test data */
-            val currentPrimaryTokenId = Storage.loadTokenPrimary()
-            val currentTxFormattedIds = Storage.loadFormattedId()
+            val currentPrimaryTokenId = storage.loadTokenPrimary()
+            val currentTxFormattedIds = storage.loadFormattedId()
             val currentTxFormattedIdSend = currentTxFormattedIds.split("|")[1]
-            val currentBalance = Storage.loadWallets()?.data?.get(0)?.balances?.find { it.token.id == currentPrimaryTokenId }!!
+            val currentBalance = storage.loadWallets()?.data?.get(0)?.balances?.find { it.token.id == currentPrimaryTokenId }!!
 
             /* Consume transaction */
             consumeTx(currentBalance.token, currentTxFormattedIdSend)
@@ -150,10 +149,10 @@ class ConsumeTransactionRequestTest : BaseInstrumentalTest() {
             bottomNavigation.isDisplayed()
 
             /* Preparing test data */
-            val currentPrimaryTokenId = Storage.loadTokenPrimary()
-            val currentTxFormattedIds = Storage.loadFormattedId()
+            val currentPrimaryTokenId = storage.loadTokenPrimary()
+            val currentTxFormattedIds = storage.loadFormattedId()
             val currentTxFormattedIdSend = currentTxFormattedIds.split("|")[1]
-            val currentBalance = Storage.loadWallets()?.data?.get(0)?.balances?.find { it.token.id == currentPrimaryTokenId }!!
+            val currentBalance = storage.loadWallets()?.data?.get(0)?.balances?.find { it.token.id == currentPrimaryTokenId }!!
 
             /* Consume transaction */
             val txConsumption = consumeTx(currentBalance.token, currentTxFormattedIdSend)
@@ -192,10 +191,10 @@ class ConsumeTransactionRequestTest : BaseInstrumentalTest() {
             bottomNavigation.isDisplayed()
 
             /* Preparing test data */
-            val currentPrimaryTokenId = Storage.loadTokenPrimary()
-            val currentTxFormattedIds = Storage.loadFormattedId()
+            val currentPrimaryTokenId = storage.loadTokenPrimary()
+            val currentTxFormattedIds = storage.loadFormattedId()
             val currentTxFormattedIdSend = currentTxFormattedIds.split("|")[1]
-            val currentBalance = Storage.loadWallets()?.data?.get(0)?.balances?.find { it.token.id == currentPrimaryTokenId }!!
+            val currentBalance = storage.loadWallets()?.data?.get(0)?.balances?.find { it.token.id == currentPrimaryTokenId }!!
 
             /* Consume transaction */
             consumeTx(currentBalance.token, currentTxFormattedIdSend, largeAmount = true)
@@ -229,10 +228,10 @@ class ConsumeTransactionRequestTest : BaseInstrumentalTest() {
             bottomNavigation.isDisplayed()
 
             /* Preparing test data */
-            val currentPrimaryTokenId = Storage.loadTokenPrimary()
-            val currentTxFormattedIds = Storage.loadFormattedId()
+            val currentPrimaryTokenId = storage.loadTokenPrimary()
+            val currentTxFormattedIds = storage.loadFormattedId()
             val currentTxFormattedIdReceive = currentTxFormattedIds.split("|")[0]
-            val currentBalance = Storage.loadWallets()?.data?.get(0)?.balances?.find { it.token.id == currentPrimaryTokenId }!!
+            val currentBalance = storage.loadWallets()?.data?.get(0)?.balances?.find { it.token.id == currentPrimaryTokenId }!!
 
             /* Consume transaction */
             consumeTx(currentBalance.token, currentTxFormattedIdReceive)
@@ -250,7 +249,7 @@ class ConsumeTransactionRequestTest : BaseInstrumentalTest() {
 
     private fun verifyBalanceHasChanged(currentBalance: Balance, expectedAmount: BigDecimal) {
         balanceScreen {
-            val tokenIndex = Storage.loadWallets()?.data?.get(0)?.balances?.indexOfFirst { currentBalance.token.id == it.token.id }!!
+            val tokenIndex = storage.loadWallets()?.data?.get(0)?.balances?.indexOfFirst { currentBalance.token.id == it.token.id }!!
             recyclerView {
                 isDisplayed()
                 childAt<BalanceScreen.Item>(tokenIndex) {

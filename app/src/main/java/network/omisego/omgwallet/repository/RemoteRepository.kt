@@ -7,6 +7,7 @@ import co.omisego.omisego.model.APIError
 import co.omisego.omisego.model.OMGResponse
 import co.omisego.omisego.model.TransactionConsumption
 import co.omisego.omisego.model.TransactionRequest
+import co.omisego.omisego.model.User
 import co.omisego.omisego.model.params.LoginParams
 import co.omisego.omisego.model.params.SignUpParams
 import co.omisego.omisego.model.params.TransactionConsumptionActionParams
@@ -17,13 +18,12 @@ import co.omisego.omisego.websocket.SocketClientContract
 import co.omisego.omisego.websocket.event.TransactionConsumptionFinalizedEvent
 import co.omisego.omisego.websocket.event.TransactionConsumptionRequestEvent
 import co.omisego.omisego.websocket.listener.SocketCustomEventListener
-import network.omisego.omgwallet.repository.contract.BalanceDataRepository
 import network.omisego.omgwallet.extension.logi
 import network.omisego.omgwallet.extension.subscribe
 import network.omisego.omgwallet.extension.subscribeSingleEvent
-import network.omisego.omgwallet.util.Event
 import network.omisego.omgwallet.model.APIResult
-import network.omisego.omgwallet.storage.Storage
+import network.omisego.omgwallet.repository.contract.BalanceDataRepository
+import network.omisego.omgwallet.util.Event
 import retrofit2.Response
 
 /*
@@ -68,15 +68,15 @@ class RemoteRepository(val client: OMGAPIClient) : BalanceDataRepository {
 
     fun listenUserSocketEvent(
         socketClient: SocketClientContract.Client,
+        currentUser: User?,
         liveConsumptionRequestEvent: MutableLiveData<TransactionConsumption>,
         liveConsumptionRequestFailEvent: MutableLiveData<APIError>,
         liveConsumptionFinalizedEvent: MutableLiveData<TransactionConsumption>,
         liveConsumptionFinalizedFailEvent: MutableLiveData<APIError>
     ) {
         /* Listen for request event */
-        val user = Storage.loadUser()
-        logi("load the user ${user?.email}")
-        user?.startListeningEvents(
+        logi("load the user ${currentUser?.email}")
+        currentUser?.startListeningEvents(
             socketClient,
             listener = SocketCustomEventListener.forEvent<TransactionConsumptionRequestEvent> {
                 // Show confirmation fragment here
@@ -89,10 +89,9 @@ class RemoteRepository(val client: OMGAPIClient) : BalanceDataRepository {
             })
         logi("listening for consumption request event successfully.")
 
-        user?.startListeningEvents(
+        currentUser?.startListeningEvents(
             socketClient,
             listener = SocketCustomEventListener.forEvent<TransactionConsumptionFinalizedEvent> {
-                /* TODO: Handle transaction consumption finalized event here */
                 val txConsumption = it.socketReceive
                 if (txConsumption.error == null) {
                     liveConsumptionFinalizedEvent.value = txConsumption.data
@@ -103,8 +102,7 @@ class RemoteRepository(val client: OMGAPIClient) : BalanceDataRepository {
         logi("listening for consumption finalized event successfully.")
     }
 
-    fun stopListeningToUserSocketEvent(socketClient: SocketClientContract.Client) {
-        val user = Storage.loadUser()
-        user?.stopListening(socketClient)
+    fun stopListeningToUserSocketEvent(socketClient: SocketClientContract.Client, currentUser: User?) {
+        currentUser?.stopListening(socketClient)
     }
 }

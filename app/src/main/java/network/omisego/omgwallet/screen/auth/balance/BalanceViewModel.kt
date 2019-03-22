@@ -13,14 +13,13 @@ import androidx.lifecycle.ViewModel
 import co.omisego.omisego.model.Balance
 import co.omisego.omisego.model.WalletList
 import network.omisego.omgwallet.base.StateViewHolderBinding
-import network.omisego.omgwallet.repository.LocalRepository
-import network.omisego.omgwallet.repository.contract.BalanceDataRepository
 import network.omisego.omgwallet.databinding.ViewholderBalanceBinding
 import network.omisego.omgwallet.extension.formatAmount
 import network.omisego.omgwallet.extension.scaleAmount
-import network.omisego.omgwallet.util.Event
 import network.omisego.omgwallet.model.APIResult
-import network.omisego.omgwallet.storage.Storage
+import network.omisego.omgwallet.repository.LocalRepository
+import network.omisego.omgwallet.repository.contract.BalanceDataRepository
+import network.omisego.omgwallet.util.Event
 
 class BalanceViewModel(
     private val localRepository: LocalRepository,
@@ -28,6 +27,7 @@ class BalanceViewModel(
 ) : ViewModel(), StateViewHolderBinding<Balance, ViewholderBalanceBinding> {
 
     val liveBalanceClickEvent: MutableLiveData<Event<Balance>> by lazy { MutableLiveData<Event<Balance>>() }
+    val liveResult: MutableLiveData<Event<APIResult>> by lazy { MutableLiveData<Event<APIResult>>() }
 
     override fun resolvePayloadBundle(bundle: Bundle): Balance? {
         return bundle.getParcelable("balance")
@@ -39,7 +39,7 @@ class BalanceViewModel(
         binding.tvAmount.text = data.scaleAmount(2).formatAmount()
     }
 
-    val liveResult: MutableLiveData<Event<APIResult>> by lazy { MutableLiveData<Event<APIResult>>() }
+    fun clear() = localRepository.clearSession()
 
     fun isPrimaryToken(balance: Balance): Boolean {
         return balance.token.id == localRepository.loadTokenPrimary()
@@ -55,6 +55,6 @@ class BalanceViewModel(
     }
 
     fun updateWallet(walletList: WalletList) {
-        Storage.saveWallets(walletList)
+        localRepository.saveWallets(walletList)
     }
 }

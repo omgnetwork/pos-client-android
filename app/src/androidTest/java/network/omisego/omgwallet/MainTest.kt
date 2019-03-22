@@ -15,7 +15,6 @@ import network.omisego.omgwallet.screen.BalanceScreen
 import network.omisego.omgwallet.screen.MainScreen
 import network.omisego.omgwallet.screen.ProfileScreen
 import network.omisego.omgwallet.screen.SplashScreen
-import network.omisego.omgwallet.storage.Storage
 import org.amshove.kluent.shouldBeGreaterThan
 import org.amshove.kluent.shouldNotBe
 import org.junit.After
@@ -46,8 +45,8 @@ class MainTest : BaseInstrumentalTest() {
     @Before
     fun setup() {
         setupClient()
-        Storage.deleteFormattedIds()
-        Storage.deleteTokenPrimary()
+        storage.deleteFormattedIds()
+        storage.deleteTokenPrimary()
         registerIdlingResource()
         start()
     }
@@ -100,8 +99,8 @@ class MainTest : BaseInstrumentalTest() {
         balanceScreen {
             this.recyclerView.isDisplayed()
 
-            val primaryToken = selectPrimaryToken(Storage.loadWallets()!!, null)
-            val position = Storage.loadWallets()?.data?.get(0)?.balances?.indexOfFirst { it.token.id == primaryToken.id }
+            val primaryToken = selectPrimaryToken(storage.loadWallets()!!, null)
+            val position = storage.loadWallets()?.data?.get(0)?.balances?.indexOfFirst { it.token.id == primaryToken.id }
 
             position shouldNotBe null
             position?.shouldBeGreaterThan(-1)

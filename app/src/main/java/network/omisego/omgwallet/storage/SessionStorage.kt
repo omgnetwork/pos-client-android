@@ -9,9 +9,9 @@ package network.omisego.omgwallet.storage
 
 import co.omisego.omisego.model.ClientAuthenticationToken
 
-class SessionStorage {
+class SessionStorage(val storage: Storage) {
     fun clear() {
-        Storage.deleteRecords(
+        storage.deleteRecords(
             StorageKey.KEY_AUTHENTICATION_TOKEN,
             StorageKey.KEY_WALLET,
             StorageKey.KEY_USER,
@@ -22,16 +22,16 @@ class SessionStorage {
 
     fun save(clientAuthToken: ClientAuthenticationToken) {
         clearCacheIfNeeded(clientAuthToken.user.email)
-        Storage.saveRecords(
+        storage.saveRecords(
             StorageKey.KEY_USER_EMAIL to clientAuthToken.user.email,
-            StorageKey.KEY_USER to Storage.toJson(clientAuthToken.user),
-            StorageKey.KEY_AUTHENTICATION_TOKEN to Storage.encrypt(clientAuthToken.authenticationToken)
+            StorageKey.KEY_USER to storage.toJson(clientAuthToken.user),
+            StorageKey.KEY_AUTHENTICATION_TOKEN to storage.encrypt(clientAuthToken.authenticationToken)
         )
     }
 
     private fun clearCacheIfNeeded(email: String) {
-        if (Storage.loadUserEmail() == email) return
-        Storage.deleteRecords(
+        if (storage.loadUserEmail() == email) return
+        storage.deleteRecords(
             StorageKey.KEY_TOKEN_PRIMARY,
             StorageKey.KEY_WALLET,
             StorageKey.KEY_FINGERPRINT_USER_PASSWORD,

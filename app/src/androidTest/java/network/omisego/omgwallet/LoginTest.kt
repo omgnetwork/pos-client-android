@@ -11,12 +11,9 @@ import androidx.test.runner.AndroidJUnit4
 import network.omisego.omgwallet.base.BaseInstrumentalTest
 import network.omisego.omgwallet.config.MockData
 import network.omisego.omgwallet.config.TestData
-import network.omisego.omgwallet.extension.contains
 import network.omisego.omgwallet.screen.LoginScreen
 import network.omisego.omgwallet.screen.MainScreen
-import network.omisego.omgwallet.storage.Storage
 import network.omisego.omgwallet.storage.StorageKey
-import org.amshove.kluent.shouldBe
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -69,14 +66,13 @@ class LoginTest : BaseInstrumentalTest() {
         loginScreen {
             tilEmail.edit.typeText(TestData.USER_EMAIL)
             tilPassword.edit.typeText(TestData.USER_PASSWORD)
-            Storage.saveWallets(MockData.walletList)
+            storage.saveWallets(MockData.walletList)
             btnLogin.click()
             mainScreen {
                 fabQR.isDisplayed()
             }
-            with(sharedPreferences) {
-                contains(StorageKey.KEY_USER) shouldBe true
-                contains(StorageKey.KEY_AUTHENTICATION_TOKEN) shouldBe true
+            with(storage) {
+                has(StorageKey.KEY_AUTHENTICATION_TOKEN, StorageKey.KEY_USER)
             }
         }
     }
