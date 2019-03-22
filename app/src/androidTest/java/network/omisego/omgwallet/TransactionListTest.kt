@@ -30,13 +30,12 @@ class TransactionListTest : BaseInstrumentalTest() {
     fun setup() {
         setupClient()
         registerIdlingResource()
-        sessionStorage.clear()
+        localRepository.deleteSession()
+        localRepository.deleteFingerprintSession()
+        localRepository.saveWallets(MockData.walletList)
         val response = client.login(LoginParams(TestData.USER_EMAIL, TestData.USER_PASSWORD)).execute()
         val clientAuthenticationToken = response.body()?.data!!
-        sessionStorage.save(clientAuthenticationToken)
-        storage.saveWallets(MockData.walletList)
-        storage.deleteFingerprintCredential()
-        storage.saveFingerprintOption(false)
+        localRepository.saveSession(clientAuthenticationToken)
         start()
     }
 

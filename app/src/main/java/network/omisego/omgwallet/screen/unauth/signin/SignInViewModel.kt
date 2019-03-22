@@ -133,11 +133,11 @@ class SignInViewModel(
 
     fun isFingerprintAvailable() = localRepository.loadFingerprintOption()
 
-    fun loadUserEmail(): String = localRepository.loadUserEmail()
+    fun loadUserEmail(): String = localRepository.loadUserEmail() ?: ""
 
-    fun loadUserPassword(): String = localRepository.loadFingerprintCredential()
+    fun loadUserPassword(): String = localRepository.loadFingerprintCredential() ?: ""
 
-    fun loadWallets() = localRepository.loadWallet()
+    fun loadWallets() = localRepository.loadWallets()
 
     fun signIn(): LiveData<Event<APIResult>>? {
         val (email, password) = liveState.value ?: return null

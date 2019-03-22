@@ -16,7 +16,6 @@ import network.omisego.omgwallet.screen.ConfirmFingerprintScreen
 import network.omisego.omgwallet.screen.LoginScreen
 import network.omisego.omgwallet.screen.MainScreen
 import network.omisego.omgwallet.screen.ProfileScreen
-import network.omisego.omgwallet.storage.StorageKey
 import org.amshove.kluent.shouldBe
 import org.junit.After
 import org.junit.Before
@@ -37,19 +36,18 @@ class ProfileTest : BaseInstrumentalTest() {
         @JvmStatic
         fun setupClass() {
             setupClient()
-            sessionStorage.clear()
+            localRepository.deleteSession()
             val response = client.login(LoginParams(TestData.USER_EMAIL, TestData.USER_PASSWORD)).execute()
             val clientAuthenticationToken = response.body()?.data!!
-            sessionStorage.save(clientAuthenticationToken)
+            localRepository.saveSession(clientAuthenticationToken)
         }
     }
 
     @Before
     fun setup() {
         setupClient()
-        storage.deleteFingerprintCredential()
-        storage.saveFingerprintOption(false)
-        storage.deleteFormattedIds()
+        localRepository.deleteFingerprintSession()
+        localRepository.deleteTransactionRequest()
         registerIdlingResource()
         start()
         mainScreen.bottomNavigation.setSelectedItem(R.id.profile)
@@ -76,10 +74,10 @@ class ProfileTest : BaseInstrumentalTest() {
             tvSignUp.isDisplayed()
         }
 
-        with(storage) {
-            has(StorageKey.KEY_USER) shouldBe false
-            has(StorageKey.KEY_WALLET) shouldBe false
-            has(StorageKey.KEY_AUTHENTICATION_TOKEN) shouldBe false
+        with(localRepository) {
+            hasUser() shouldBe false
+            hasWallet() shouldBe false
+            hasAuthenticationToken() shouldBe false
         }
     }
 

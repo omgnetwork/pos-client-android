@@ -28,7 +28,7 @@ class ShowQRViewModel(
     }
 
     fun createQRBitmap() {
-        val sendReceiveFormattedId = localRepository.loadTransactionRequestFormattedId()
+        val sendReceiveFormattedId = localRepository.loadTransactionRequest()
         logi("Encoded [$sendReceiveFormattedId] to the QR code")
         val size = app.resources.displayMetrics.widthPixels * RATIO_QR_WIDTH_TO_SCREEN
         liveQR.value = generator.generate(sendReceiveFormattedId, size.toInt())

@@ -35,18 +35,18 @@ class MainTest : BaseInstrumentalTest() {
         @JvmStatic
         fun setupClass() {
             setupClient()
-            sessionStorage.clear()
+            localRepository.deleteSession()
             val response = client.login(LoginParams(TestData.USER_EMAIL, TestData.USER_PASSWORD)).execute()
             val clientAuthenticationToken = response.body()?.data!!
-            sessionStorage.save(clientAuthenticationToken)
+            localRepository.saveSession(clientAuthenticationToken)
         }
     }
 
     @Before
     fun setup() {
         setupClient()
-        storage.deleteFormattedIds()
-        storage.deleteTokenPrimary()
+        localRepository.deleteTransactionRequest()
+        localRepository.deleteTokenPrimary()
         registerIdlingResource()
         start()
     }
@@ -99,8 +99,8 @@ class MainTest : BaseInstrumentalTest() {
         balanceScreen {
             this.recyclerView.isDisplayed()
 
-            val primaryToken = selectPrimaryToken(storage.loadWallets()!!, null)
-            val position = storage.loadWallets()?.data?.get(0)?.balances?.indexOfFirst { it.token.id == primaryToken.id }
+            val primaryToken = selectPrimaryToken(localRepository.loadWallets()!!, null)
+            val position = localRepository.loadWallets()?.data?.get(0)?.balances?.indexOfFirst { it.token.id == primaryToken.id }
 
             position shouldNotBe null
             position?.shouldBeGreaterThan(-1)

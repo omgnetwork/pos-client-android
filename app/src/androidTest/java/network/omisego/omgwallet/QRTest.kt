@@ -27,13 +27,12 @@ class QRTest : BaseInstrumentalTest() {
     @Before
     fun setup() {
         setupClient()
-        sessionStorage.clear()
+        localRepository.deleteSession()
         val response = client.login(LoginParams(TestData.USER_EMAIL, TestData.USER_PASSWORD)).execute()
         val clientAuthenticationToken = response.body()?.data!!
-        sessionStorage.save(clientAuthenticationToken)
-        storage.saveWallets(MockData.walletList)
-        storage.deleteFingerprintCredential()
-        storage.saveFingerprintOption(false)
+        localRepository.saveSession(clientAuthenticationToken)
+        localRepository.deleteFingerprintSession()
+        localRepository.saveWallets(MockData.walletList)
         start()
         registerIdlingResource()
     }

@@ -22,6 +22,7 @@ import com.jakewharton.espresso.OkHttp3IdlingResource.create
 import network.omisego.omgwallet.MainActivity
 import network.omisego.omgwallet.config.TxConsumerClient
 import network.omisego.omgwallet.network.ClientProvider
+import network.omisego.omgwallet.repository.LocalRepository
 import network.omisego.omgwallet.screen.MainScreen
 import network.omisego.omgwallet.storage.SessionStorage
 import network.omisego.omgwallet.storage.Storage
@@ -36,8 +37,9 @@ open class BaseInstrumentalTest {
     private val consumerIdlingResource by lazy { create("OkHTTPConsumer", consumerClient.okHttpClient) }
     private val mainScreen: MainScreen by lazy { MainScreen() }
     private lateinit var eWalletClient: EWalletClient
-    val storage: Storage by lazy { create(getInstrumentation().targetContext) }
-    val sessionStorage: SessionStorage by lazy { SessionStorage(storage) }
+    private val storage: Storage by lazy { create(getInstrumentation().targetContext) }
+    private val sessionStorage: SessionStorage by lazy { SessionStorage(storage) }
+    val localRepository: LocalRepository by lazy { LocalRepository(storage, sessionStorage) }
     val consumerClient by lazy { TxConsumerClient.create() }
     lateinit var client: OMGAPIClient
 
@@ -50,7 +52,7 @@ open class BaseInstrumentalTest {
     }
 
     fun clearSharePreference() {
-        storage.deleteAll()
+        localRepository.deleteAll()
     }
 
     fun hasFingerprint() = Goldfinger.Builder(ContextUtil.context).build().hasFingerprintHardware()

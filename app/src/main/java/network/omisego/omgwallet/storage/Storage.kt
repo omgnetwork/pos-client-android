@@ -9,34 +9,25 @@ package network.omisego.omgwallet.storage
 
 import android.content.Context
 import android.content.SharedPreferences
-import co.omisego.omisego.model.Token
-import co.omisego.omisego.model.TransactionRequestType
-import co.omisego.omisego.model.User
-import co.omisego.omisego.model.WalletList
 import co.omisego.omisego.security.OMGKeyManager
 import co.omisego.omisego.utils.GsonProvider
 import com.google.gson.Gson
-import kotlinx.coroutines.Deferred
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
 import network.omisego.omgwallet.BuildConfig
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.extension.contains
 import network.omisego.omgwallet.extension.decryptWith
-import network.omisego.omgwallet.extension.encrypt
 import network.omisego.omgwallet.extension.encryptWith
 import network.omisego.omgwallet.extension.get
 import network.omisego.omgwallet.extension.getBoolean
 import network.omisego.omgwallet.extension.putBoolean
 import network.omisego.omgwallet.extension.remove
-import network.omisego.omgwallet.extension.set
 import network.omisego.omgwallet.model.Credential
 import network.omisego.omgwallet.util.ContextUtil
 
 class Storage(
     private val context: Context = ContextUtil.context,
-    private val gson: Gson = GsonProvider.create(),
-    private val sp: SharedPreferences =
+    val gson: Gson = GsonProvider.create(),
+    val sp: SharedPreferences =
         context.getSharedPreferences(context.getString(R.string.app_name), Context.MODE_PRIVATE),
     private val keyManager: OMGKeyManager
 ) {
@@ -64,13 +55,6 @@ class Storage(
         }
     }
 
-    fun hasAuthenticationToken() = sp.contains(StorageKey.KEY_AUTHENTICATION_TOKEN)
-
-    fun saveCredential(credential: Credential) {
-        if (credential.authenticationToken == null) return deleteRecords(StorageKey.KEY_AUTHENTICATION_TOKEN)
-        sp[StorageKey.KEY_AUTHENTICATION_TOKEN] = credential.authenticationToken encryptWith keyManager
-    }
-
     fun loadCredential(): Credential {
         val authenticationToken = sp[StorageKey.KEY_AUTHENTICATION_TOKEN]!!
         if (authenticationToken.isEmpty()) {
@@ -81,95 +65,37 @@ class Storage(
         )
     }
 
-    fun saveUserEmail(email: String) {
-        sp[StorageKey.KEY_USER_EMAIL] = email
-    }
-
-    fun loadUserEmail() = sp[StorageKey.KEY_USER_EMAIL]
-
-    fun saveFingerprintCredential(password: String): Deferred<Unit> {
-        return GlobalScope.async {
-            sp[StorageKey.KEY_FINGERPRINT_USER_PASSWORD] = password encryptWith keyManager
-        }
-    }
-
-    fun loadFingerprintCredential() = sp[StorageKey.KEY_FINGERPRINT_USER_PASSWORD] decryptWith keyManager
-
-    fun hasFingerprintCredential() = sp.contains(StorageKey.KEY_FINGERPRINT_USER_PASSWORD)
-
-    fun deleteFingerprintCredential() {
-        sp.edit()
-            .remove(StorageKey.KEY_FINGERPRINT_USER_PASSWORD)
-            .apply()
-    }
-
-    fun saveFingerprintOption(checked: Boolean) {
-        sp.edit().putBoolean(StorageKey.KEY_FINGERPRINT_OPTION, checked).apply()
-    }
-
-    fun loadFingerprintOption(): Boolean {
-        return sp.getBoolean(StorageKey.KEY_FINGERPRINT_OPTION, false)
-    }
-
-    fun saveWallets(wallet: WalletList) {
-        sp[StorageKey.KEY_WALLET] = gson.toJson(wallet)
-    }
-
-    fun loadWallets(): WalletList? {
-        if (sp[StorageKey.KEY_WALLET].isNullOrEmpty()) return null
-        return gson.fromJson<WalletList>(sp[StorageKey.KEY_WALLET], WalletList::class.java)
-    }
-
-    fun deleteWallets() {
-        sp.edit()?.remove(StorageKey.KEY_WALLET)?.apply()
-    }
-
-    fun saveUser(user: User) {
-        sp[StorageKey.KEY_USER] = gson.toJson(user)
-    }
-
-    fun loadUser(): User? {
-        if (sp[StorageKey.KEY_USER].isNullOrEmpty()) return null
-        return gson.fromJson<User>(sp[StorageKey.KEY_USER], User::class.java)
-    }
-
-    fun saveTokenPrimary(token: Token) {
-        sp[StorageKey.KEY_TOKEN_PRIMARY] = token.id
-    }
-
-    fun deleteTokenPrimary() {
-        sp.edit().remove(StorageKey.KEY_TOKEN_PRIMARY).apply()
-    }
-
-    fun loadTokenPrimary(): String? {
-        if (sp[StorageKey.KEY_TOKEN_PRIMARY].isNullOrEmpty()) return null
-        return sp[StorageKey.KEY_TOKEN_PRIMARY]
-    }
-
-    fun hasFormattedId() = sp.contains(StorageKey.KEY_TRANSACTION_REQUEST_FORMATTED_ID_RECEIVE) &&
-        sp.contains(StorageKey.KEY_TRANSACTION_REQUEST_FORMATTED_ID_SEND)
-
-    fun saveFormattedId(formattedIds: Map<TransactionRequestType, String>) {
-        sp[StorageKey.KEY_TRANSACTION_REQUEST_FORMATTED_ID_SEND] = formattedIds[TransactionRequestType.SEND]!!
-        sp[StorageKey.KEY_TRANSACTION_REQUEST_FORMATTED_ID_RECEIVE] = formattedIds[TransactionRequestType.RECEIVE]!!
-    }
-
-    /* Returns send|receive */
-    fun loadFormattedId(): String =
-        "${sp[StorageKey.KEY_TRANSACTION_REQUEST_FORMATTED_ID_RECEIVE]}|${sp[StorageKey.KEY_TRANSACTION_REQUEST_FORMATTED_ID_SEND]}"
-
-    fun deleteFormattedIds() {
-        sp.edit()
-            .remove(StorageKey.KEY_TRANSACTION_REQUEST_FORMATTED_ID_SEND)
-            .remove(StorageKey.KEY_TRANSACTION_REQUEST_FORMATTED_ID_RECEIVE)
-            .apply()
-    }
-
     fun has(vararg keys: StorageKey) = keys.all { sp.contains(it) }
 
-    fun saveRecords(vararg pairs: Pair<StorageKey, String>) {
+    fun getStringRecord(key: StorageKey, default: String? = null): String? {
+        if (sp[key].isNullOrEmpty()) return default
+        return sp[key]
+    }
+
+    fun getBooleanRecord(key: StorageKey, default: Boolean = false): Boolean {
+        if (sp[key].isNullOrEmpty()) return default
+        return sp.getBoolean(key, default)
+    }
+
+    inline fun <reified T> getRecord(key: StorageKey, default: T? = null): T? {
+        if (sp[key].isNullOrEmpty()) return default
+        return gson.fromJson<T>(sp[key], T::class.java)
+    }
+
+    fun putBooleanRecord(kv: Pair<StorageKey, Boolean>) {
+        val (key, value) = kv
+        sp.edit().putBoolean(key, value).apply()
+    }
+
+    fun putRecords(vararg kvs: Pair<StorageKey, String?>) {
         var editor = sp.edit()
-        pairs.forEach { (key, value) -> editor = editor.putString(key.value, value) }
+        kvs.forEach { (key, value) ->
+            editor = if (value == null) {
+                editor.remove(key.value)
+            } else {
+                editor.putString(key.value, value)
+            }
+        }
         editor.apply()
     }
 
@@ -187,5 +113,7 @@ class Storage(
         return gson.toJson(model)
     }
 
-    fun encrypt(plain: String) = keyManager.encrypt(plain)
+    fun encrypt(plain: String) = plain encryptWith keyManager
+
+    fun decrypt(encrypted: String) = encrypted decryptWith keyManager
 }

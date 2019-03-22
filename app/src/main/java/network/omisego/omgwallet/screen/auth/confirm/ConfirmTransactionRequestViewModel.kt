@@ -7,12 +7,12 @@ import co.omisego.omisego.constant.enums.ErrorCode
 import co.omisego.omisego.model.APIError
 import co.omisego.omisego.model.TransactionConsumption
 import network.omisego.omgwallet.R
-import network.omisego.omgwallet.repository.LocalRepository
-import network.omisego.omgwallet.repository.RemoteRepository
 import network.omisego.omgwallet.extension.formatAmount
 import network.omisego.omgwallet.extension.scaleAmount
-import network.omisego.omgwallet.util.Event
 import network.omisego.omgwallet.model.APIResult
+import network.omisego.omgwallet.repository.LocalRepository
+import network.omisego.omgwallet.repository.RemoteRepository
+import network.omisego.omgwallet.util.Event
 
 /*
  * OmiseGO
@@ -47,7 +47,7 @@ class ConfirmTransactionRequestViewModel(
     fun formatApproveError(error: APIError) {
         liveErrorDescription.value = if (error.code == ErrorCode.TRANSACTION_INSUFFICIENT_FUNDS) {
             val tokenId = txConsumptionApprove?.token?.id
-            val balances = localRepository.loadWallet()?.data?.get(0)?.balances
+            val balances = localRepository.loadWallets()?.data?.get(0)?.balances
             app.getString(
                 R.string.confirm_transaction_request_error_not_has_enough_fund,
                 balances?.findLast { it.token.id == tokenId }?.displayAmount(2),

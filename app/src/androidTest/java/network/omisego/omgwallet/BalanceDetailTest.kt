@@ -37,10 +37,10 @@ class BalanceDetailTest : BaseInstrumentalTest() {
         @JvmStatic
         fun setupClass() {
             setupClient()
-            sessionStorage.clear()
+            localRepository.deleteSession()
             val response = client.login(LoginParams(TestData.USER_EMAIL, TestData.USER_PASSWORD)).execute()
             val clientAuthenticationToken = response.body()?.data!!
-            sessionStorage.save(clientAuthenticationToken)
+            localRepository.saveSession(clientAuthenticationToken)
         }
     }
 
@@ -61,7 +61,7 @@ class BalanceDetailTest : BaseInstrumentalTest() {
         mainScreen {
             bottomNavigation.isDisplayed()
 
-            val balances = storage.loadWallets()?.data?.get(0)?.balances!!
+            val balances = localRepository.loadWallets()?.data?.get(0)?.balances!!
             val totalPage = balances.size
             val firstToken = balances[0].token
             val lastToken = balances[totalPage - 1].token
@@ -163,9 +163,9 @@ class BalanceDetailTest : BaseInstrumentalTest() {
             bottomNavigation.isDisplayed()
 
             /* Prepare data for verification */
-            val oldsFormattedIds = storage.loadFormattedId()
-            val primaryTokenId = storage.loadTokenPrimary()
-            val balances = storage.loadWallets()?.data?.get(0)?.balances!!
+            val oldsFormattedIds = localRepository.loadTransactionRequest()
+            val primaryTokenId = localRepository.loadTokenPrimary()
+            val balances = localRepository.loadWallets()?.data?.get(0)?.balances!!
             val nextPrimaryBalance = balances.find { it.token.id != primaryTokenId }!!
             val nextPrimaryBalanceIndex = balances.indexOfFirst { it.token.id == nextPrimaryBalance.token.id }
 
@@ -195,7 +195,7 @@ class BalanceDetailTest : BaseInstrumentalTest() {
                 btnSetPrimary.click()
 
                 /* Verify that tokenId should be changed */
-                primaryTokenId shouldNotBe storage.loadTokenPrimary()
+                primaryTokenId shouldNotBe localRepository.loadTokenPrimary()
 
                 /* Verify that the button is disabled and change the text to "Primary" */
                 btnSetPrimary.isDisabled()
@@ -215,7 +215,7 @@ class BalanceDetailTest : BaseInstrumentalTest() {
                 }
 
                 /* Verify new transaction request ids are generated */
-                val newFormattedIds = storage.loadFormattedId()
+                val newFormattedIds = localRepository.loadTransactionRequest()
                 oldsFormattedIds shouldNotEqualTo newFormattedIds
 
                 /* Verify the transaction request ids are correct */

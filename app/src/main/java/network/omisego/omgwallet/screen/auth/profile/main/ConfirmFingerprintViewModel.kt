@@ -25,7 +25,7 @@ class ConfirmFingerprintViewModel(
 
     fun signIn(password: String) {
         remoteRepository.signIn(LoginParams(
-            localRepository.loadUserEmail(),
+            localRepository.loadUserEmail()!!,
             password
         ), liveAPIResult)
     }
@@ -37,7 +37,7 @@ class ConfirmFingerprintViewModel(
         ))
     }
 
-    fun saveUserPassword(password: String) {
-        localRepository.saveFingerprintCredential(password)
+    fun enableFingerprint(password: String) {
+        localRepository.saveFingerprintSessionAsync(password, true)
     }
 }

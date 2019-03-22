@@ -16,12 +16,12 @@ import co.omisego.omisego.model.Wallet
 import co.omisego.omisego.model.params.TransactionListParams
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.base.StateViewHolderBinding
-import network.omisego.omgwallet.repository.LocalRepository
-import network.omisego.omgwallet.repository.RemoteRepository
 import network.omisego.omgwallet.databinding.ViewholderTransactionBinding
 import network.omisego.omgwallet.extension.mutableLiveDataOf
 import network.omisego.omgwallet.extension.scaleAmount
 import network.omisego.omgwallet.model.APIResult
+import network.omisego.omgwallet.repository.LocalRepository
+import network.omisego.omgwallet.repository.RemoteRepository
 
 class TransactionListViewModel(
     private val app: Application,
@@ -33,7 +33,7 @@ class TransactionListViewModel(
     val liveResult: MutableLiveData<APIResult> by lazy { MutableLiveData<APIResult>() }
 
     val wallet: Wallet
-        get() = localRepository.loadWallet()!!.data[0]
+        get() = localRepository.loadWallets()!!.data[0]
 
     /* helper function */
     val Transaction.isTopup: Boolean

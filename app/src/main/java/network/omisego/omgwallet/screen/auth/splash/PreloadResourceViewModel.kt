@@ -22,12 +22,12 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import network.omisego.omgwallet.R
-import network.omisego.omgwallet.repository.LocalRepository
-import network.omisego.omgwallet.repository.RemoteRepository
 import network.omisego.omgwallet.extension.either
 import network.omisego.omgwallet.extension.logi
-import network.omisego.omgwallet.util.Event
 import network.omisego.omgwallet.model.APIResult
+import network.omisego.omgwallet.repository.LocalRepository
+import network.omisego.omgwallet.repository.RemoteRepository
+import network.omisego.omgwallet.util.Event
 import network.omisego.omgwallet.util.IdlingResourceUtil
 import java.math.BigDecimal
 
@@ -49,7 +49,7 @@ class PreloadResourceViewModel(
         )
     }
 
-    fun loadBalances() = localRepository.loadWallet()?.data?.get(0)?.balances!!
+    fun loadBalances() = localRepository.loadWallets()?.data?.get(0)?.balances!!
 
     fun loadWalletLocally() {
         liveCloseButtonVisibility.value = View.GONE
@@ -94,7 +94,7 @@ class PreloadResourceViewModel(
                 val message = "${formattedIds[TransactionRequestType.RECEIVE]}|${formattedIds[TransactionRequestType.SEND]}"
                 logi(message)
 
-                localRepository.saveTransactionRequestFormattedId(formattedIds)
+                localRepository.saveTransactionRequest(formattedIds)
                 localRepository.saveTokenPrimary(selectedToken)
 
                 /* Emit success event */

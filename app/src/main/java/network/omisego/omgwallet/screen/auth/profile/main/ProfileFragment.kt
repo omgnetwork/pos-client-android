@@ -77,7 +77,6 @@ class ProfileFragment : Fragment() {
                 }
                 FingerprintDialogState.STATE_ENABLED -> {
                     dialog.dismiss()
-                    viewModel.handleFingerprintOption(true)
                     context?.toast(getString(R.string.setting_help_enable_finger_print_successfully))
                     switchFingerprint.isChecked = true
                 }
@@ -92,7 +91,6 @@ class ProfileFragment : Fragment() {
                 dialog.show(childFragmentManager, null)
             } else if (!isChecked) {
                 viewModel.handleFingerprintOption(false)
-                viewModel.deleteFingerprintCredential()
             }
         }
     }

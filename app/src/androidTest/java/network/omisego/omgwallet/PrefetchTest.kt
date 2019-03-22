@@ -31,18 +31,18 @@ class PrefetchTest : BaseInstrumentalTest() {
         @JvmStatic
         fun setupClass() {
             setupClient()
-            sessionStorage.clear()
+            localRepository.deleteSession()
             val response = client.login(LoginParams(TestData.USER_EMAIL, TestData.USER_PASSWORD)).execute()
             val clientAuthenticationToken = response.body()?.data!!
-            sessionStorage.save(clientAuthenticationToken)
+            localRepository.saveSession(clientAuthenticationToken)
         }
     }
 
     @Before
     fun setup() {
         setupClient()
-        storage.deleteWallets()
-        storage.deleteFormattedIds()
+        localRepository.deleteWallets()
+        localRepository.deleteTransactionRequest()
     }
 
     @After
@@ -67,7 +67,7 @@ class PrefetchTest : BaseInstrumentalTest() {
 
         /* This will ensure that the test framework will be waiting for the idle state */
         mainScreen.bottomNavigation.isDisplayed()
-        storage.loadWallets()?.data?.size?.shouldBeGreaterThan(0)
+        localRepository.loadWallets()?.data?.size?.shouldBeGreaterThan(0)
     }
 
     @Test
@@ -77,21 +77,21 @@ class PrefetchTest : BaseInstrumentalTest() {
 
         /* Should create a transaction request and save the id with format `id1|id2` */
         mainScreen.bottomNavigation.isDisplayed()
-        storage.loadFormattedId().split("|").size shouldEqualTo 2
+        localRepository.loadTransactionRequest().split("|").size shouldEqualTo 2
     }
 
     @Test
     fun testSelectPrimaryTokenAutomaticallyWhenTheTokenPrimaryIdIsNull() {
         /* Delete token primary first so that the primary token is null */
-        storage.deleteTokenPrimary()
+        localRepository.deleteTokenPrimary()
 
         /* Verify that the token has already deleted */
-        storage.loadTokenPrimary() shouldBe null
+        localRepository.loadTokenPrimary() shouldBe null
 
         registerIdlingResource()
         start()
 
         mainScreen.bottomNavigation.isDisplayed()
-        selectPrimaryToken(storage.loadWallets()!!, null).id shouldEqual storage.loadTokenPrimary()
+        selectPrimaryToken(localRepository.loadWallets()!!, null).id shouldEqual localRepository.loadTokenPrimary()
     }
 }

@@ -63,7 +63,7 @@ class ConfirmFingerprintDialog : BottomSheetDialogFragment() {
 
     private fun handleSignInSuccess(data: ClientAuthenticationToken) {
         viewModel.saveCredential(data)
-        viewModel.saveUserPassword(etPassword.text.toString())
+        viewModel.enableFingerprint(etPassword.text.toString())
         liveFingerprintDialogState?.value = FingerprintDialogState.STATE_ENABLED
         btnConfirm.isEnabled = true
     }

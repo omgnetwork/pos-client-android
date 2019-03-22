@@ -79,7 +79,7 @@ class AppViewModel(
     }
 
     override fun onLoggedout() {
-        localRepository.clearSession()
+        localRepository.deleteSession()
         setAuthenticationToken(null)
     }
 }

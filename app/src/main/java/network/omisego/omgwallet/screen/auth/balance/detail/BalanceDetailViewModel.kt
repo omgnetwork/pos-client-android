@@ -22,7 +22,7 @@ class BalanceDetailViewModel(
     val liveTokenPrimaryId: MutableLiveData<String> by lazy { MutableLiveData<String>() }
     val liveEventTokenPrimaryId: MutableLiveData<Event<String>> by lazy { MutableLiveData<Event<String>>() }
 
-    fun loadBalances() = localRepository.loadWallet()?.data?.get(0)?.balances!!
+    fun loadBalances() = localRepository.loadWallets()?.data?.get(0)?.balances!!
 
     fun saveTokenPrimary(token: Token) {
         liveTokenPrimaryId.value = token.id

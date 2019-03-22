@@ -39,7 +39,7 @@ class BalanceViewModel(
         binding.tvAmount.text = data.scaleAmount(2).formatAmount()
     }
 
-    fun clear() = localRepository.clearSession()
+    fun clear() = localRepository.deleteSession()
 
     fun isPrimaryToken(balance: Balance): Boolean {
         return balance.token.id == localRepository.loadTokenPrimary()
