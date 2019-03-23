@@ -1,4 +1,4 @@
-package network.omisego.omgwallet.config
+package network.omisego.omgwallet.setup.config
 
 import co.omisego.omisego.OMGAPIClient
 import co.omisego.omisego.extension.bd

@@ -1,10 +1,10 @@
-package network.omisego.omgwallet.screen
+package network.omisego.omgwallet.setup.screen
 
 import com.agoda.kakao.KBottomNavigationView
 import com.agoda.kakao.KView
 import com.agoda.kakao.Screen
 import network.omisego.omgwallet.R
-import network.omisego.omgwallet.custom.KToolbar
+import network.omisego.omgwallet.setup.custom.KToolbar
 
 /*
  * OmiseGO

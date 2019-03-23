@@ -1,12 +1,10 @@
-package network.omisego.omgwallet.custom
+package network.omisego.omgwallet.setup.custom
 
 import android.view.View
 import androidx.test.espresso.DataInteraction
-import com.agoda.kakao.CheckableActions
-import com.agoda.kakao.CheckableAssertions
 import com.agoda.kakao.KBaseView
-import com.agoda.kakao.TextViewAssertions
 import com.agoda.kakao.ViewBuilder
+import network.omisego.omgwallet.setup.custom.assertions.ToolbarAssertion
 import org.hamcrest.Matcher
 
 /*
@@ -16,7 +14,7 @@ import org.hamcrest.Matcher
  * Copyright © 2017-2018 OmiseGO. All rights reserved.
  */
 
-class KSwitch : KBaseView<KSwitch>, CheckableActions, TextViewAssertions, CheckableAssertions {
+class KToolbar : KBaseView<KToolbar>, ToolbarAssertion {
     constructor(function: ViewBuilder.() -> Unit) : super(function)
     constructor(parent: Matcher<View>, function: ViewBuilder.() -> Unit) : super(parent, function)
     constructor(parent: DataInteraction, function: ViewBuilder.() -> Unit) : super(parent, function)

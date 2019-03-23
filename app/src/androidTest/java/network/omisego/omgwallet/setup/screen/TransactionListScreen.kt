@@ -1,4 +1,4 @@
-package network.omisego.omgwallet.screen
+package network.omisego.omgwallet.setup.screen
 
 import android.view.View
 import com.agoda.kakao.KRecyclerItem
@@ -11,10 +11,10 @@ import org.hamcrest.Matcher
 /*
  * OmiseGO
  *
- * Created by Phuchit Sirimongkolsathien on 5/10/2018 AD.
+ * Created by Phuchit Sirimongkolsathien on 6/10/2018 AD.
  * Copyright © 2017-2018 OmiseGO. All rights reserved.
  */
-class BalanceScreen : Screen<BalanceScreen>() {
+class TransactionListScreen : Screen<TransactionListScreen>() {
     val recyclerView: KRecyclerView = KRecyclerView({
         withId(R.id.recyclerView)
     }, {
@@ -22,10 +22,10 @@ class BalanceScreen : Screen<BalanceScreen>() {
     })
 
     class Item(parent: Matcher<View>) : KRecyclerItem<Item>(parent) {
-        val tvTokenLogo: KTextView = KTextView(parent) { withId(R.id.ivTokenLogo) }
-        val tvCurrencyName: KTextView = KTextView(parent) { withId(R.id.tvCurrencyName) }
+        val tvAccount: KTextView = KTextView(parent) { withId(R.id.tvAccount) }
+        val tvdate: KTextView = KTextView(parent) { withId(R.id.tvDate) }
         val tvAmount: KTextView = KTextView(parent) { withId(R.id.tvAmount) }
-        val tvCurrencySymbol: KTextView = KTextView(parent) { withId(R.id.tvCurrencySymbol) }
-        val tvPrimaryToken: KTextView = KTextView(parent) { withId(R.id.tvPrimary) }
+        val tvStatus: KTextView = KTextView(parent) { withId(R.id.tvStatus) }
+        val tvStatusIcon: KTextView = KTextView(parent) { withId(R.id.tvStatusIcon) }
     }
 }

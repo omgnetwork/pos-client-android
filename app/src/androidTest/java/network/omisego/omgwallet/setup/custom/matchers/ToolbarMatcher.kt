@@ -1,4 +1,4 @@
-package network.omisego.omgwallet.custom.matchers
+package network.omisego.omgwallet.setup.custom.matchers
 
 import androidx.appcompat.widget.Toolbar
 import androidx.test.espresso.matcher.BoundedMatcher

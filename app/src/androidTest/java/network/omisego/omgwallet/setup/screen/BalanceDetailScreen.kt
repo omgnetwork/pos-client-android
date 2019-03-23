@@ -1,4 +1,4 @@
-package network.omisego.omgwallet.screen
+package network.omisego.omgwallet.setup.screen
 
 import com.agoda.kakao.KTextView
 import com.agoda.kakao.KView

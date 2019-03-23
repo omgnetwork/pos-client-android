@@ -1,8 +1,8 @@
-package network.omisego.omgwallet.custom.assertions
+package network.omisego.omgwallet.setup.custom.assertions
 
 import androidx.test.espresso.assertion.ViewAssertions
 import com.agoda.kakao.BaseAssertions
-import network.omisego.omgwallet.custom.matchers.ToolbarMatcher
+import network.omisego.omgwallet.setup.custom.matchers.ToolbarMatcher
 
 /*
  * OmiseGO

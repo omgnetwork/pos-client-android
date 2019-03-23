@@ -8,10 +8,10 @@ package network.omisego.omgwallet
  */
 
 import co.omisego.omisego.model.params.LoginParams
-import network.omisego.omgwallet.base.BaseInstrumentalTest
-import network.omisego.omgwallet.config.TestData
-import network.omisego.omgwallet.screen.MainScreen
-import network.omisego.omgwallet.screen.SplashScreen
+import network.omisego.omgwallet.setup.base.BaseInstrumentalTest
+import network.omisego.omgwallet.setup.config.TestData
+import network.omisego.omgwallet.setup.screen.MainScreen
+import network.omisego.omgwallet.setup.screen.SplashScreen
 import org.amshove.kluent.shouldBe
 import org.amshove.kluent.shouldBeGreaterThan
 import org.amshove.kluent.shouldEqual

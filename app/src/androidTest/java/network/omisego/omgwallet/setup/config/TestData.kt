@@ -1,4 +1,4 @@
-package network.omisego.omgwallet.config
+package network.omisego.omgwallet.setup.config
 
 import network.omisego.omgwallet.BuildConfig
 import java.util.UUID

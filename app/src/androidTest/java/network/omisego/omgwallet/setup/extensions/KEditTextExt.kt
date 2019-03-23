@@ -1,4 +1,4 @@
-package network.omisego.omgwallet.extensions
+package network.omisego.omgwallet.setup.extensions
 
 import com.agoda.kakao.KEditText
 

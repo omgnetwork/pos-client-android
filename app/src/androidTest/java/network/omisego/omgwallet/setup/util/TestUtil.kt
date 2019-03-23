@@ -1,4 +1,4 @@
-package network.omisego.omgwallet.util
+package network.omisego.omgwallet.setup.util
 
 /*
  * OmiseGO
@@ -15,7 +15,7 @@ import co.omisego.omisego.model.Wallet
 import co.omisego.omisego.model.params.LoginParams
 import co.omisego.omisego.model.params.admin.TransactionCreateParams
 import co.omisego.omisego.network.ewallet.EWalletAdmin
-import network.omisego.omgwallet.config.TestData
+import network.omisego.omgwallet.setup.config.TestData
 import network.omisego.omgwallet.local.test.BuildConfig
 import java.math.BigDecimal
 

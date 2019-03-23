@@ -9,12 +9,13 @@ package network.omisego.omgwallet
 
 import androidx.test.runner.AndroidJUnit4
 import co.omisego.omisego.model.params.LoginParams
-import network.omisego.omgwallet.base.BaseInstrumentalTest
-import network.omisego.omgwallet.config.MockData
-import network.omisego.omgwallet.config.TestData
-import network.omisego.omgwallet.screen.MainScreen
-import network.omisego.omgwallet.screen.ProfileScreen
-import network.omisego.omgwallet.screen.TransactionListScreen
+import network.omisego.omgwallet.R
+import network.omisego.omgwallet.setup.base.BaseInstrumentalTest
+import network.omisego.omgwallet.setup.config.MockData
+import network.omisego.omgwallet.setup.config.TestData
+import network.omisego.omgwallet.setup.screen.MainScreen
+import network.omisego.omgwallet.setup.screen.ProfileScreen
+import network.omisego.omgwallet.setup.screen.TransactionListScreen
 import org.junit.After
 import org.junit.Before
 import org.junit.Test

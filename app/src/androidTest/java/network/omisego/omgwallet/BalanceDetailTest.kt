@@ -5,12 +5,12 @@ import co.omisego.omisego.model.TransactionRequestType
 import co.omisego.omisego.model.params.LoginParams
 import co.omisego.omisego.model.params.TransactionRequestParams
 import com.agoda.kakao.KButton
-import network.omisego.omgwallet.base.BaseInstrumentalTest
-import network.omisego.omgwallet.config.TestData
+import network.omisego.omgwallet.setup.base.BaseInstrumentalTest
+import network.omisego.omgwallet.setup.config.TestData
 import network.omisego.omgwallet.extension.logi
-import network.omisego.omgwallet.screen.BalanceDetailScreen
-import network.omisego.omgwallet.screen.BalanceScreen
-import network.omisego.omgwallet.screen.MainScreen
+import network.omisego.omgwallet.setup.screen.BalanceDetailScreen
+import network.omisego.omgwallet.setup.screen.BalanceScreen
+import network.omisego.omgwallet.setup.screen.MainScreen
 import org.amshove.kluent.shouldEqual
 import org.amshove.kluent.shouldNotBe
 import org.amshove.kluent.shouldNotEqualTo

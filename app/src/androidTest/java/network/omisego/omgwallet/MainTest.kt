@@ -9,12 +9,11 @@ package network.omisego.omgwallet
 
 import androidx.test.runner.AndroidJUnit4
 import co.omisego.omisego.model.params.LoginParams
-import network.omisego.omgwallet.base.BaseInstrumentalTest
-import network.omisego.omgwallet.config.TestData
-import network.omisego.omgwallet.screen.BalanceScreen
-import network.omisego.omgwallet.screen.MainScreen
-import network.omisego.omgwallet.screen.ProfileScreen
-import network.omisego.omgwallet.screen.SplashScreen
+import network.omisego.omgwallet.setup.base.BaseInstrumentalTest
+import network.omisego.omgwallet.setup.config.TestData
+import network.omisego.omgwallet.setup.screen.BalanceScreen
+import network.omisego.omgwallet.setup.screen.MainScreen
+import network.omisego.omgwallet.setup.screen.ProfileScreen
 import org.amshove.kluent.shouldBeGreaterThan
 import org.amshove.kluent.shouldNotBe
 import org.junit.After
@@ -26,7 +25,6 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class MainTest : BaseInstrumentalTest() {
     private val balanceScreen: BalanceScreen by lazy { BalanceScreen() }
-    private val splashScreen: SplashScreen by lazy { SplashScreen() }
     private val mainScreen: MainScreen by lazy { MainScreen() }
     private val profileScreen: ProfileScreen by lazy { ProfileScreen() }
 
