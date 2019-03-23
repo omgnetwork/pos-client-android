@@ -1,4 +1,4 @@
-package network.omisego.omgwallet.base
+package network.omisego.omgwallet.setup.base
 
 /*
  * OmiseGO
@@ -20,15 +20,18 @@ import co.omisego.omisego.model.WalletList
 import co.omisego.omisego.network.ewallet.EWalletClient
 import com.jakewharton.espresso.OkHttp3IdlingResource.create
 import network.omisego.omgwallet.MainActivity
-import network.omisego.omgwallet.config.TxConsumerClient
 import network.omisego.omgwallet.network.ClientProvider
 import network.omisego.omgwallet.repository.LocalRepository
-import network.omisego.omgwallet.screen.MainScreen
+import network.omisego.omgwallet.setup.config.TxConsumerClient
+import network.omisego.omgwallet.setup.screen.MainScreen
+import network.omisego.omgwallet.setup.util.NetworkMockUtil
 import network.omisego.omgwallet.storage.SessionStorage
 import network.omisego.omgwallet.storage.Storage
 import network.omisego.omgwallet.storage.Storage.Companion.create
 import network.omisego.omgwallet.util.ContextUtil
 import network.omisego.omgwallet.util.IdlingResourceUtil
+import okhttp3.HttpUrl
+import okhttp3.mockwebserver.MockWebServer
 import org.junit.Rule
 import java.math.BigDecimal
 
@@ -42,6 +45,8 @@ open class BaseInstrumentalTest {
     val localRepository: LocalRepository by lazy { LocalRepository(storage, sessionStorage) }
     val consumerClient by lazy { TxConsumerClient.create() }
     lateinit var client: OMGAPIClient
+    lateinit var mockWebServer: MockWebServer
+    lateinit var testUrl: HttpUrl
 
     @Rule
     @JvmField
@@ -78,6 +83,16 @@ open class BaseInstrumentalTest {
 
     fun stringRes(@StringRes id: Int): String {
         return rule.activity.getString(id)
+    }
+
+    fun setupMockWebServer() {
+        ClientProvider.setTestEWalletClient(null)
+        mockWebServer = NetworkMockUtil.createMockWebServer()
+    }
+
+    fun setupTestUrl() {
+        testUrl = NetworkMockUtil.createMockUrl(mockWebServer)
+        ClientProvider.setTestUrl(testUrl)
     }
 
     fun setupClient() {

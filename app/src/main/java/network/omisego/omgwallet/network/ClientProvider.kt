@@ -5,6 +5,7 @@ import co.omisego.omisego.network.ewallet.EWalletClient
 import co.omisego.omisego.websocket.OMGSocketClient
 import co.omisego.omisego.websocket.SocketClientContract
 import com.facebook.stetho.okhttp3.StethoInterceptor
+import okhttp3.HttpUrl
 import okhttp3.logging.HttpLoggingInterceptor
 
 /*
@@ -17,9 +18,14 @@ import okhttp3.logging.HttpLoggingInterceptor
 object ClientProvider {
     // Providing way for inject tested ewallet client.
     private var testEWalletClient: EWalletClient? = null
+    private var testUrl: HttpUrl? = null
 
-    fun setTestEWalletClient(client: EWalletClient) {
+    fun setTestEWalletClient(client: EWalletClient?) {
         testEWalletClient = client
+    }
+
+    fun setTestUrl(testUrl: HttpUrl?) {
+        this.testUrl = testUrl
     }
 
     fun createClient(
@@ -51,6 +57,7 @@ object ClientProvider {
         return EWalletClient.Builder {
             clientConfiguration = config
             debug = true
+            debugUrl = testUrl
             debugOkHttpInterceptors = mutableListOf(
                 StethoInterceptor(),
                 HttpLoggingInterceptor().apply {
