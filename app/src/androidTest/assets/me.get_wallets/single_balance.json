@@ -1,0 +1,37 @@
+{
+  "version": "1",
+  "success": true,
+  "data": {
+    "object": "list",
+    "data": [
+      {
+        "object": "wallet",
+        "balances": [
+          {
+            "object": "balance",
+            "token": {
+              "updated_at": "2019-03-18T09:07:44.879987Z",
+              "symbol": "OMG",
+              "subunit_to_unit": 1000000000000000000,
+              "object": "token",
+              "name": "OmiseGO",
+              "metadata": {},
+              "id": "tok_OMG_01d680x1kf9qqd5jx61rc3rpq0",
+              "encrypted_metadata": {},
+              "enabled": true,
+              "created_at": "2019-03-18T09:07:44.879987Z",
+              "avatar": {
+                "thumb": null,
+                "small": null,
+                "original": null,
+                "large": null
+              }
+            },
+            "amount": 27000
+          }
+        ],
+        "address": "000d54d4-4db6-462f-aa0b-6f138bb80bf4"
+      }
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "version": "1",
+  "success": true,
+  "data": {
+    "object": "list",
+    "data": [
+      {
+        "object": "wallet",
+        "balances": [],
+        "address": "000d54d4-4db6-462f-aa0b-6f138bb80bf4"
+      }
+    ]
+  }
+}
