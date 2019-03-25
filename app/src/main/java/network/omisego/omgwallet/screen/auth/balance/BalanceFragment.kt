@@ -66,8 +66,8 @@ class BalanceFragment : Fragment(), UpdateAdapterDispatcher<Balance> {
         })
 
         viewModel.liveBalanceClickEvent.observe(this, EventObserver { balance ->
-            val direction = BalanceFragmentDirections.actionBalanceFragmentToBalanceDetailFragment()
-            direction.setTokenIndex(currentBalances.indexOfLast { it.token.id == balance.token.id })
+            val tokenIndex = currentBalances.indexOfLast { it.token.id == balance.token.id }
+            val direction = BalanceFragmentDirections.actionBalanceFragmentToBalanceDetailFragment(tokenIndex)
             Navigation.findNavController(activity as MainActivity, R.id.content).navigate(direction)
         })
 

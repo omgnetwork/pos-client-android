@@ -50,7 +50,7 @@ class BalanceDetailFragment : Fragment() {
         viewpager.adapter = BalanceDetailPagerAdapter(balances, childFragmentManager)
         pageIndicatorView.setFadeOnIdle(true)
 
-        val currentPage = BalanceDetailFragmentArgs.fromBundle(arguments).tokenIndex
+        val currentPage = BalanceDetailFragmentArgs.fromBundle(arguments!!).tokenIndex
         viewpager.setCurrentItem(currentPage, true)
         pageIndicatorView.setSelected(currentPage)
     }

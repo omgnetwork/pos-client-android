@@ -25,7 +25,5 @@ class MainViewModel(
         return localRepository.loadTokenPrimary()
     }
 
-    fun provideSplashDirection() = GraphMainDirections
-        .actionGlobalSplash()
-        .setPrimaryTokenId(loadPrimaryTokenId())
+    fun provideSplashDirection() = GraphMainDirections.actionGlobalSplash(loadPrimaryTokenId())
 }

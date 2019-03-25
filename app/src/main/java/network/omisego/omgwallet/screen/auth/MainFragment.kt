@@ -33,7 +33,7 @@ import network.omisego.omgwallet.screen.auth.balance.BalanceViewModel
 
 class MainFragment : Fragment() {
 
-    private lateinit var navigateListener: (NavController, NavDestination) -> Unit
+    private lateinit var navigateListener: (NavController, NavDestination, Bundle?) -> Unit
     private lateinit var navController: NavController
     private lateinit var viewModel: MainViewModel
     private lateinit var balanceViewModel: BalanceViewModel
@@ -71,7 +71,7 @@ class MainFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        navController.removeOnNavigatedListener(navigateListener)
+        navController.removeOnDestinationChangedListener(navigateListener)
     }
 
     private fun listenForSocketEvent() {
@@ -92,7 +92,7 @@ class MainFragment : Fragment() {
         toolbar.setupWithNavController(navController)
         bottomNavigation.setupWithNavController(navController)
         fabQR.setOnClickListener { navController.navigate(R.id.action_global_showQR) }
-        navigateListener = { _, destination ->
+        navigateListener = { _, destination, _ ->
             setBottomNavigationVisibility(destination.id !in arrayOf(R.id.showQR, R.id.splash))
             toolbar.visibility = if (destination.id == R.id.splash) {
                 View.GONE
@@ -100,7 +100,7 @@ class MainFragment : Fragment() {
                 View.VISIBLE
             }
         }
-        navController.addOnNavigatedListener(navigateListener)
+        navController.addOnDestinationChangedListener(navigateListener)
     }
 
     private fun setBottomNavigationVisibility(visible: Boolean) {
