@@ -33,18 +33,28 @@ android:
 
 before_script:
   - export LATEST_TAG=$(git rev-list --tags --max-count=1 | git describe --abbrev=0)
+  # Generate google-services.json.
   - echo "${GOOGLE_SERVICES}" | base64 --decode > app/google-services.json
-  - echo "${LOCAL_PROPERTIES}" | base64 --decode > local.properties
-  - echo "" >> local.properties
-  - echo "app.version=${LATEST_TAG}" >> local.properties
+  - echo "${GOOGLE_SERVICES_LOCAL}" | base64 --decode > app/src/local/google-services.json
+  - echo "${GOOGLE_SERVICES_DEMO}" | base64 --decode > app/src/demo/google-services.json
+  - echo "${GOOGLE_SERVICES_COFFEEGO}" | base64 --decode > app/src/coffeego/google-services.json
+  # Generate flavor configuration files.
+  - echo "${LOCAL_PROPERTIES}" | base64 --decode > app/config/flavor/local.properties
+  - echo "${DEMO_PROPERTIES}" | base64 --decode > app/config/flavor/demo.properties
+  - echo "${COFFEEGO_PROPERTIES}" | base64 --decode > app/config/flavor/coffeego.properties
+  # Generate buildType configuration files.
+  - echo "${DEBUG_PROPERTIES}" | base64 --decode | sed 's/;$//' > app/config/buildType/debug.properties
+  - echo "${STAGING_PROPERTIES}" | base64 --decode | sed 's/;$//' > app/config/buildType/staging.properties
+  - echo "${RELEASE_PROPERTIES}" | base64 --decode | sed 's/;$//' > app/config/buildType/release.properties
+  - echo "app.version=${LATEST_TAG}" | tee -a app/config/buildType/debug.properties app/config/buildType/release.properties
 
 script:
-  - ./gradlew ktlintDebugCheck
-  - ./gradlew lintDebug
-  - ./gradlew assembleDebug
+  - ./gradlew ktlintCoffeeGoDebugCheck --quiet
+  - ./gradlew lintCoffeeGoDebug --quiet
+  - ./gradlew assembleDebug --quiet
 
 before_deploy:
-  - export BUILD_APK_FILE=$(ls app/build/outputs/apk/debug/*.apk)
+  - export BUILD_APK_FILE=$(ls app/build/outputs/apk/coffeego/*.apk)
   - echo "Deploying ${BUILD_APK_FILE}.."
 
 deploy:

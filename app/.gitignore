@@ -1,1 +1,8 @@
 /build
+**/debug.properties
+**/staging.properties
+**/release.properties
+**/local.properties
+**/demo.properties
+**/coffeego.properties
+**/google-services.json

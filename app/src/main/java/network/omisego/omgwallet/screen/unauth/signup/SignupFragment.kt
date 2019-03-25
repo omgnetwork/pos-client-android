@@ -25,7 +25,7 @@ import network.omisego.omgwallet.extension.bindingInflate
 import network.omisego.omgwallet.extension.getDrawableCompat
 import network.omisego.omgwallet.extension.provideViewModel
 import network.omisego.omgwallet.extension.toast
-import network.omisego.omgwallet.listener.MinimalTextChangeListener
+import network.omisego.omgwallet.listener.MinimalTextChangedListener
 
 class SignupFragment : Fragment() {
     private lateinit var binding: FragmentSignupBinding
@@ -65,7 +65,7 @@ class SignupFragment : Fragment() {
     private fun setupDataBinding() {
         binding.setLifecycleOwner(this)
         binding.viewModel = viewModel
-        binding.etPassword.addTextChangedListener(MinimalTextChangeListener {
+        binding.etPassword.addTextChangedListener(MinimalTextChangedListener {
             viewModel.confirmPasswordValidator.currentPassword = it.toString()
         })
     }

@@ -12,6 +12,7 @@ import android.view.View
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import co.infinum.goldfinger.Goldfinger
+import network.omisego.omgwallet.BuildConfig
 import network.omisego.omgwallet.data.LocalRepository
 import network.omisego.omgwallet.livedata.Event
 import network.omisego.omgwallet.network.ClientProvider
@@ -47,7 +48,7 @@ class ProfileViewModel(
     }
 
     init {
-        liveVersionName.value = network.omisego.omgwallet.BuildConfig.VERSION_NAME
+        liveVersionName.value = BuildConfig.VERSION_NAME
         liveEndpoint.value = ClientProvider.clientSetup.baseURL
     }
 

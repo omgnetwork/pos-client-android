@@ -11,7 +11,7 @@ import android.content.Context
 import co.omisego.omisego.model.Transaction
 import co.omisego.omisego.model.pagination.Paginable
 import network.omisego.omgwallet.R
-import network.omisego.omgwallet.extension.displayFormattedAmount
+import network.omisego.omgwallet.extension.scaleAmount
 
 class TransactionListTransformer(
     val context: Context
@@ -45,13 +45,13 @@ class TransactionListTransformer(
         val amountText = if (transaction.isTopup) {
             context.getString(
                 R.string.transaction_list_info_amount,
-                transaction.to.displayFormattedAmount(maxPrecision = 2),
+                transaction.to.scaleAmount(maxPrecision = 2),
                 transaction.to.token.symbol
             )
         } else {
             context.getString(
                 R.string.transaction_list_info_amount,
-                transaction.from.displayFormattedAmount(maxPrecision = 2),
+                transaction.from.scaleAmount(maxPrecision = 2),
                 transaction.from.token.symbol
             )
         }

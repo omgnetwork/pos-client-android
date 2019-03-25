@@ -13,38 +13,31 @@ import co.omisego.omisego.model.TransactionSource
 import java.math.BigDecimal
 import java.math.RoundingMode
 
-fun Balance.displayFormattedAmount(maxPrecision: Int = token.subunitToUnit.precision() - 1, minPrecision: Int = 2): BigDecimal {
-    val value = amount
-        .divide(token.subunitToUnit, maxPrecision, RoundingMode.HALF_UP)
-        .stripTrailingZeros()
-
-    if (value.scale() < minPrecision) {
-        // upscale
-        return value.setScale(minPrecision)
-    }
-    return value
+fun Balance.scaleAmount(maxPrecision: Int = token.subunitToUnit.precision() - 1, minPrecision: Int = 2): BigDecimal {
+    return scaleAmount(amount, token.subunitToUnit, maxPrecision, minPrecision)
 }
 
-fun TransactionSource.displayFormattedAmount(maxPrecision: Int = token.subunitToUnit.precision() - 1, minPrecision: Int = 2): BigDecimal {
-    val value = amount
-        .divide(token.subunitToUnit, maxPrecision, RoundingMode.HALF_UP)
-        .stripTrailingZeros()
-
-    if (value.scale() < minPrecision) {
-        // upscale
-        return value.setScale(minPrecision)
-    }
-    return value
+fun TransactionSource.scaleAmount(maxPrecision: Int = token.subunitToUnit.precision() - 1, minPrecision: Int = 2): BigDecimal {
+    return scaleAmount(amount, token.subunitToUnit, maxPrecision, minPrecision)
 }
 
-fun TransactionConsumption.displayFormattedAmount(maxPrecision: Int = transactionRequest.token.subunitToUnit.precision() - 1, minPrecision: Int = 2): BigDecimal {
-    val value = estimatedRequestAmount
-        .divide(transactionRequest.token.subunitToUnit, maxPrecision, RoundingMode.HALF_UP)
-        .stripTrailingZeros()
+fun TransactionConsumption.scaleAmount(maxPrecision: Int = transactionRequest.token.subunitToUnit.precision() - 1, minPrecision: Int = 2): BigDecimal {
+    return scaleAmount(estimatedRequestAmount, transactionRequest.token.subunitToUnit, maxPrecision, minPrecision)
+}
 
-    if (value.scale() < minPrecision) {
+private fun scaleAmount(amount: BigDecimal, subunitToUnit: BigDecimal, maxPrecision: Int, minPrecision: Int): BigDecimal {
+    val value = amount.divide(subunitToUnit, maxPrecision, RoundingMode.HALF_UP)
+    val zero = BigDecimal.ZERO
+    val strippedZeroValue =
+        if (value.compareTo(zero) == 0) {
+            zero
+        } else {
+            value.stripTrailingZeros()
+        }
+
+    if (strippedZeroValue.scale() < minPrecision) {
         // upscale
-        return value.setScale(minPrecision)
+        return strippedZeroValue.setScale(minPrecision)
     }
-    return value
+    return strippedZeroValue
 }

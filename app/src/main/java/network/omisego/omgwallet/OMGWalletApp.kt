@@ -12,7 +12,7 @@ import com.facebook.stetho.Stetho
 import network.omisego.omgwallet.data.LocalRepository
 import network.omisego.omgwallet.data.RemoteRepository
 import network.omisego.omgwallet.network.ClientProvider
-import network.omisego.omgwallet.network.ProductionClientSetup
+import network.omisego.omgwallet.network.APIClientSetup
 import network.omisego.omgwallet.util.ContextUtil
 import network.omisego.omgwallet.util.RepositoryUtil
 
@@ -22,7 +22,7 @@ class OMGWalletApp : Application() {
         ContextUtil.context = applicationContext
         RepositoryUtil.localRepository = LocalRepository()
         RepositoryUtil.remoteRepository = RemoteRepository()
-        ClientProvider.initHTTPClient(ProductionClientSetup())
+        ClientProvider.initHTTPClient(APIClientSetup())
         RepositoryUtil.localRepository.loadCredential().authenticationToken?.let {
             ClientProvider.initSocketClient(it)
         }

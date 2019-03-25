@@ -16,6 +16,7 @@ import network.omisego.omgwallet.screen.BalanceScreen
 import network.omisego.omgwallet.screen.ConfirmTransactionRequestScreen
 import network.omisego.omgwallet.screen.MainScreen
 import network.omisego.omgwallet.storage.Storage
+import network.omisego.omgwallet.util.TestUtil
 import org.junit.After
 import org.junit.Before
 import org.junit.BeforeClass
@@ -44,9 +45,15 @@ class ConsumeTransactionRequestTest : BaseInstrumentalTest() {
         @BeforeClass
         @JvmStatic
         fun setupClass() {
+            val user = LoginParams(TestData.USER_EMAIL, TestData.USER_PASSWORD)
+            val consumerUser = LoginParams(TestData.CONSUME_TX_USER_EMAIL, TestData.CONSUME_TX_USER_PASSWORD)
+
+            TestUtil.ensureEnoughBalances(user)
+            TestUtil.ensureEnoughBalances(consumerUser)
+
             ClientProvider.initHTTPClient(LocalClientSetup())
             Storage.clearSession()
-            val response = ClientProvider.client.login(LoginParams(TestData.USER_EMAIL, TestData.USER_PASSWORD)).execute()
+            val response = ClientProvider.client.login(user).execute()
             Storage.saveUser(response.body()!!.data.user)
             Storage.saveCredential(Credential(response.body()!!.data.authenticationToken))
             Storage.saveUserEmail(TestData.USER_EMAIL)
@@ -167,7 +174,12 @@ class ConsumeTransactionRequestTest : BaseInstrumentalTest() {
             )
 
             val toastText = KView {
-                withText(String.format(stringRes(R.string.notification_transaction_rejected), txConsumption?.account?.name))
+                withText(
+                    String.format(
+                        stringRes(R.string.notification_transaction_rejected),
+                        txConsumption?.account?.name ?: txConsumption?.user?.email
+                    )
+                )
             }
             toastText.isDisplayed()
         }

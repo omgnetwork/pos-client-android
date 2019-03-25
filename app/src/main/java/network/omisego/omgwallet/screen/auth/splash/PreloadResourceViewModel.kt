@@ -17,9 +17,10 @@ import co.omisego.omisego.model.Token
 import co.omisego.omisego.model.TransactionRequestType
 import co.omisego.omisego.model.WalletList
 import co.omisego.omisego.model.params.client.TransactionRequestCreateParams
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
-import kotlinx.coroutines.experimental.launch
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.data.LocalRepository
 import network.omisego.omgwallet.data.RemoteRepository
@@ -77,8 +78,8 @@ class PreloadResourceViewModel(
         val formattedIds: MutableMap<TransactionRequestType, String> = mutableMapOf()
 
         IdlingResourceUtil.idlingResource.increment()
-        launch(UI) {
-            val result = async {
+        GlobalScope.launch(Dispatchers.Main) {
+            val result = GlobalScope.async(Dispatchers.IO) {
                 val txReceiveResult = remoteRepository.createTransactionRequest(params)
                 val txSendResult = remoteRepository.createTransactionRequest(
                     params.copy(type = TransactionRequestType.SEND, requireConfirmation = true)

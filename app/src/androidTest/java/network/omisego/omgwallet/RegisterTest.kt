@@ -159,11 +159,6 @@ class RegisterTest : BaseInstrumentalTest() {
             closeSoftKeyboard()
             scrollView.scrollToEnd()
             btnSignUp.click()
-            tilRetypePassword.isErrorDisabled()
-            tilPassword.isErrorDisabled()
-            scrollView.scrollToStart()
-            tilEmail.isErrorDisabled()
-            tilFullname.isErrorDisabled()
             registerIdlingResource()
         }
         confirmScreen {
