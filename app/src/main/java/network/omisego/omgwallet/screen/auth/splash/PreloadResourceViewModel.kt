@@ -19,18 +19,15 @@ import co.omisego.omisego.model.TransactionRequest
 import co.omisego.omisego.model.TransactionRequestType
 import co.omisego.omisego.model.WalletList
 import co.omisego.omisego.model.params.client.TransactionRequestCreateParams
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.extension.logi
 import network.omisego.omgwallet.model.APIResult
 import network.omisego.omgwallet.repository.LocalRepository
 import network.omisego.omgwallet.repository.RemoteRepository
+import network.omisego.omgwallet.scheduler.IOTasks
+import network.omisego.omgwallet.scheduler.MainScheduler
 import network.omisego.omgwallet.state.ErrorState
 import network.omisego.omgwallet.util.Event
-import network.omisego.omgwallet.util.IdlingResourceUtil
 import java.math.BigDecimal
 
 class PreloadResourceViewModel(
@@ -96,37 +93,41 @@ class PreloadResourceViewModel(
 
         val formattedIds: MutableMap<TransactionRequestType, String> = mutableMapOf()
 
-        IdlingResourceUtil.idlingResource.increment()
-        GlobalScope.launch(Dispatchers.Main) {
-            val result = GlobalScope.async(Dispatchers.IO) {
-                val txReceiveResult = remoteRepository.createTransactionRequest(params)
-                val txSendResult = remoteRepository.createTransactionRequest(
-                    params.copy(type = TransactionRequestType.SEND, requireConfirmation = true)
-                )
-                return@async txReceiveResult to txSendResult
-            }
-            val (txReceive, txSend) = result.await()
+        val callReceiveTx = remoteRepository.createTransactionRequest(params)
+        val callSendTx = remoteRepository.createTransactionRequest(
+            params.copy(type = TransactionRequestType.SEND, requireConfirmation = true)
+        )
 
-            txReceive.handle<TransactionRequest>(
+        val tasks = IOTasks(callReceiveTx, callSendTx)
+        val scheduler = MainScheduler(tasks) { results ->
+            results[0].handle<TransactionRequest>(
                 { formattedIds[TransactionRequestType.RECEIVE] = it.formattedId },
                 this@PreloadResourceViewModel::handleAPIError
             )
-            txSend.handle<TransactionRequest>(
+            results[1].handle<TransactionRequest>(
                 { formattedIds[TransactionRequestType.SEND] = it.formattedId },
                 this@PreloadResourceViewModel::handleAPIError
             )
 
-            if (formattedIds.size == 2) {
-                val message = "${formattedIds[TransactionRequestType.RECEIVE]}|${formattedIds[TransactionRequestType.SEND]}"
-                logi(message)
+            handleCreateTransactionSuccess(selectedToken, formattedIds)
+        }
 
-                localRepository.saveTransactionRequest(formattedIds)
-                localRepository.saveTokenPrimary(selectedToken)
+        scheduler.run()
+    }
 
-                /* Emit success event */
-                liveTransactionRequestPrimaryTokenId.value = Event(selectedToken.id)
-            }
-            IdlingResourceUtil.idlingResource.decrement()
+    private fun handleCreateTransactionSuccess(
+        selectedToken: Token,
+        formattedIds: MutableMap<TransactionRequestType, String>
+    ) {
+        if (formattedIds.size == 2) {
+            val message = "${formattedIds[TransactionRequestType.RECEIVE]}|${formattedIds[TransactionRequestType.SEND]}"
+            logi(message)
+
+            localRepository.saveTransactionRequest(formattedIds)
+            localRepository.saveTokenPrimary(selectedToken)
+
+            /* Emit success event */
+            liveTransactionRequestPrimaryTokenId.value = Event(selectedToken.id)
         }
     }
 

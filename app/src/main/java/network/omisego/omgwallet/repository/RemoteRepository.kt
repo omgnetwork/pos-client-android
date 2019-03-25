@@ -3,8 +3,10 @@ package network.omisego.omgwallet.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import co.omisego.omisego.OMGAPIClient
+import co.omisego.omisego.custom.retrofit2.adapter.OMGCall
 import co.omisego.omisego.model.APIError
 import co.omisego.omisego.model.TransactionConsumption
+import co.omisego.omisego.model.TransactionRequest
 import co.omisego.omisego.model.User
 import co.omisego.omisego.model.params.LoginParams
 import co.omisego.omisego.model.params.SignUpParams
@@ -17,7 +19,6 @@ import co.omisego.omisego.websocket.event.TransactionConsumptionFinalizedEvent
 import co.omisego.omisego.websocket.event.TransactionConsumptionRequestEvent
 import co.omisego.omisego.websocket.listener.SocketCustomEventListener
 import network.omisego.omgwallet.extension.logi
-import network.omisego.omgwallet.extension.safeExecute
 import network.omisego.omgwallet.extension.subscribe
 import network.omisego.omgwallet.extension.subscribeSingleEvent
 import network.omisego.omgwallet.model.APIResult
@@ -32,8 +33,8 @@ import network.omisego.omgwallet.util.Event
  */
 
 class RemoteRepository(val client: OMGAPIClient) : BalanceDataRepository {
-    fun createTransactionRequest(params: TransactionRequestCreateParams): APIResult {
-        return client.createTransactionRequest(params).safeExecute()
+    fun createTransactionRequest(params: TransactionRequestCreateParams): OMGCall<TransactionRequest> {
+        return client.createTransactionRequest(params)
     }
 
     override fun loadWallet(liveAPIResult: MutableLiveData<Event<APIResult>>) {
