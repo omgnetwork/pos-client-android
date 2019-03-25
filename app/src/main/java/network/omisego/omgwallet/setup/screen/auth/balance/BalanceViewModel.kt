@@ -49,8 +49,11 @@ class BalanceViewModel(
         liveBalanceClickEvent.value = Event(balance)
     }
 
-    fun loadWallet() {
+    fun loadLocalWallet() {
         localRepository.loadWallet(liveResult)
+    }
+
+    fun loadWallet() {
         remoteRepository.loadWallet(liveResult)
     }
 

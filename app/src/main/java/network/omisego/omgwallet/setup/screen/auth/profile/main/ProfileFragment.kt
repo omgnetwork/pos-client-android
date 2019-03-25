@@ -63,7 +63,6 @@ class ProfileFragment : Fragment() {
 
                 /* Go back to sign-in */
                 findRootNavController().navigate(R.id.action_global_signInFragment)
-
             }
         })
 

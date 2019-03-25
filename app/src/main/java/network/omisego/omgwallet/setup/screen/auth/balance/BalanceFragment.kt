@@ -71,7 +71,7 @@ class BalanceFragment : Fragment(), UpdateAdapterDispatcher<Balance> {
             Navigation.findNavController(activity as MainActivity, R.id.content).navigate(direction)
         })
 
-        viewModel.loadWallet()
+        viewModel.loadLocalWallet()
     }
 
     override fun dispatchUpdate(oldList: List<Balance>, newList: List<Balance>, adapter: RecyclerView.Adapter<StateViewHolder>) {
