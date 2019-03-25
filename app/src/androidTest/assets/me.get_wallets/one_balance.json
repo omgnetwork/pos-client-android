@@ -12,7 +12,7 @@
             "token": {
               "updated_at": "2019-03-18T09:07:44.879987Z",
               "symbol": "OMG",
-              "subunit_to_unit": 1000000000000000000,
+              "subunit_to_unit": 1000,
               "object": "token",
               "name": "OmiseGO",
               "metadata": {},
