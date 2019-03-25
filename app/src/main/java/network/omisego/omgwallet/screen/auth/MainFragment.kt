@@ -15,6 +15,7 @@ import androidx.navigation.ui.setupWithNavController
 import co.omisego.omisego.model.APIError
 import co.omisego.omisego.model.TransactionConsumption
 import co.omisego.omisego.model.TransactionConsumptionStatus
+import co.omisego.omisego.model.TransactionRequestType
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_main.*
 import network.omisego.omgwallet.AppViewModel
@@ -136,7 +137,7 @@ class MainFragment : Fragment() {
             when (txConsumption.status) {
                 TransactionConsumptionStatus.CONFIRMED,
                 TransactionConsumptionStatus.APPROVED -> {
-                    val templateRes = if (txConsumption.transaction?.from?.userId != null) {
+                    val templateRes = if (txConsumption.transactionRequest.type == TransactionRequestType.SEND) {
                         R.string.notification_transaction_approved_sent
                     } else {
                         R.string.notification_transaction_approved_received
@@ -162,9 +163,8 @@ class MainFragment : Fragment() {
             if (txConsumption.transactionRequest.requireConfirmation) {
                 navController.popBackStack(R.id.balance, true)
                 navController.navigate(R.id.action_global_balance)
-            } else {
-                balanceViewModel.loadWallet()
             }
+            balanceViewModel.loadWallet()
         }
     }
 
