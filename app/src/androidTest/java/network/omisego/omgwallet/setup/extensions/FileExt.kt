@@ -18,19 +18,12 @@ fun File.mockEnqueueWithHttpCode(mockWebServer: MockWebServer, responseCode: Int
     })
 }
 
-fun String.mockEnqueueWithHttpCode(mockWebServer: MockWebServer, api: String? = null, responseCode: Int = 200) {
-//    mockWebServer
-//    Log.d("path", mockWebServer.takeRequest().path)
-//    if ((api != null && mockWebServer.takeRequest().path.endsWith(api)) || api == null) {
-//        Log.d("mockEnqueue", "enqueue!")
-        mockWebServer.enqueue(
-            MockResponse().apply {
-                setBody(this@mockEnqueueWithHttpCode)
-                setResponseCode(responseCode)
-            }
-        )
-//    } else {
-//        Log.d("mockEnqueue", "not enqueue!")
-//    }
+fun String.mockEnqueueWithHttpCode(mockWebServer: MockWebServer, responseCode: Int = 200) {
+    mockWebServer.enqueue(
+        MockResponse().apply {
+            setBody(this@mockEnqueueWithHttpCode)
+            setResponseCode(responseCode)
+        }
+    )
 }
 
