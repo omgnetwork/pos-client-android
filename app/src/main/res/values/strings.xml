@@ -137,4 +137,8 @@
     <string name="validator_signup_password_numeric">Password must contain at least 1 numeric character</string>
     <string name="validator_signup_password_special_char">Password must contain at least 1 special character</string>
     <string name="validator_signup_confirm_password_not_matched">Password is not matched</string>
+
+    <!-- Error Description -->
+    <string name="error_wallet_not_found">The wallet is not found for this user.</string>
+    <string name="error_empty_token">There are no tokens available.</string>
 </resources>
