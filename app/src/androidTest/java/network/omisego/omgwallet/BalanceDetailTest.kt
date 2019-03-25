@@ -1,6 +1,6 @@
 package network.omisego.omgwallet
 
-import androidx.test.runner.AndroidJUnit4
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import co.omisego.omisego.model.TransactionRequestType
 import co.omisego.omisego.model.params.LoginParams
 import co.omisego.omisego.model.params.TransactionRequestParams

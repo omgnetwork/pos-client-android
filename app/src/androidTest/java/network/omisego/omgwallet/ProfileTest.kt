@@ -8,7 +8,7 @@ package network.omisego.omgwallet
  */
 
 import androidx.test.espresso.action.GeneralLocation
-import androidx.test.runner.AndroidJUnit4
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import co.omisego.omisego.model.params.LoginParams
 import network.omisego.omgwallet.BuildConfig
 import network.omisego.omgwallet.R

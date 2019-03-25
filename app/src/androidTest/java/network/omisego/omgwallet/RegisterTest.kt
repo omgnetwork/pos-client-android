@@ -1,7 +1,7 @@
 package network.omisego.omgwallet
 
 import androidx.navigation.fragment.NavHostFragment
-import androidx.test.runner.AndroidJUnit4
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.setup.base.BaseInstrumentalTest
 import network.omisego.omgwallet.setup.config.TestData

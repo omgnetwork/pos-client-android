@@ -1,6 +1,6 @@
 package network.omisego.omgwallet
 
-import androidx.test.runner.AndroidJUnit4
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import co.omisego.omisego.extension.bd
 import co.omisego.omisego.model.Balance
 import co.omisego.omisego.model.Token

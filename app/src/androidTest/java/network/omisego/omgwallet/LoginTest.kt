@@ -7,8 +7,7 @@ package network.omisego.omgwallet
  * Copyright © 2017-2018 OmiseGO. All rights reserved.
  */
 
-import androidx.test.runner.AndroidJUnit4
-import network.omisego.omgwallet.R
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import network.omisego.omgwallet.setup.base.BaseInstrumentalTest
 import network.omisego.omgwallet.setup.config.MockData
 import network.omisego.omgwallet.setup.config.TestData
