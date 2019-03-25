@@ -25,6 +25,7 @@ class ProfileViewModel(
     val liveTransaction: MutableLiveData<Event<View>> by lazy { MutableLiveData<Event<View>>() }
     val liveSignout: MutableLiveData<Event<View>> by lazy { MutableLiveData<Event<View>>() }
     val liveVersionName: MutableLiveData<String> by lazy { MutableLiveData<String>() }
+    val liveEmail: MutableLiveData<String> by lazy { MutableLiveData<String>() }
     val liveEndpoint: MutableLiveData<String> by lazy { MutableLiveData<String>() }
 
     fun clickSignout(view: View) {
@@ -44,6 +45,10 @@ class ProfileViewModel(
     init {
         liveVersionName.value = BuildConfig.VERSION_NAME
         liveEndpoint.value = BuildConfig.CONFIG_BASE_URL
+    }
+
+    fun loadEmail() {
+        liveEmail.value = localRepository.loadUserEmail() ?: "-"
     }
 
     fun hasFingerprintSupport() = Goldfinger.Builder(app).build().hasFingerprintHardware()
