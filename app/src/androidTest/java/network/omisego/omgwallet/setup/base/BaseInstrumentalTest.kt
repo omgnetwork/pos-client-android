@@ -42,6 +42,7 @@ open class BaseInstrumentalTest {
     private lateinit var eWalletClient: EWalletClient
     private val storage: Storage by lazy { create(getInstrumentation().targetContext) }
     private val sessionStorage: SessionStorage by lazy { SessionStorage(storage) }
+    val context by lazy { getInstrumentation().targetContext }
     val localRepository: LocalRepository by lazy { LocalRepository(storage, sessionStorage) }
     val consumerClient by lazy { TxConsumerClient.create() }
     lateinit var client: OMGAPIClient
