@@ -1,7 +1,5 @@
 package network.omisego.omgwallet.state
 
-import co.omisego.omisego.websocket.SocketClientContract
-
 /*
  * OmiseGO
  *
@@ -11,6 +9,6 @@ import co.omisego.omisego.websocket.SocketClientContract
 
 sealed class SocketState {
     class Start(val authToken: String) : SocketState()
-    class Stop(val socketClient: SocketClientContract.Client) : SocketState()
-    object Idle: SocketState()
+    object Stop : SocketState()
+    object Idle : SocketState()
 }

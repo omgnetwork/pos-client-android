@@ -33,7 +33,7 @@ class SocketStateLiveData(
     private fun moveState(authenticationToken: String?, socketClient: SocketClientContract.Client?): SocketState {
         return when {
             authenticationToken == null && socketClient != null -> {
-                SocketState.Stop(socketClient)
+                SocketState.Stop
             }
             authenticationToken != null && socketClient == null -> {
                 SocketState.Start(authenticationToken)
