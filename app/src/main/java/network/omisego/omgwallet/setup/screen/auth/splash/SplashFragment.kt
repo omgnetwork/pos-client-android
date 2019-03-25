@@ -21,7 +21,6 @@ import network.omisego.omgwallet.R
 import network.omisego.omgwallet.databinding.FragmentSplashBinding
 import network.omisego.omgwallet.extension.bindingInflate
 import network.omisego.omgwallet.extension.findRootNavController
-import network.omisego.omgwallet.extension.logd
 import network.omisego.omgwallet.extension.provideActivityViewModel
 import network.omisego.omgwallet.extension.provideAndroidViewModel
 import network.omisego.omgwallet.extension.toast
@@ -67,17 +66,14 @@ class SplashFragment : Fragment() {
     }
 
     private fun closeByQuit() {
-        logd("Quit")
         activity?.finishAndRemoveTask()
     }
 
     private fun closeByBack() {
-        logd("Back")
         findNavController().navigateUp()
     }
 
     private fun closeByBackToSignIn() {
-        logd("Back to signin")
         appViewModel.onLoggedout()
 
         /* Clear all back-stack fragments */
