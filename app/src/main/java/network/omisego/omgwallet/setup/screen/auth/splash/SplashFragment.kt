@@ -66,6 +66,7 @@ class SplashFragment : Fragment() {
     }
 
     private fun closeByQuit() {
+        appViewModel.onLoggedout()
         activity?.finishAndRemoveTask()
     }
 
