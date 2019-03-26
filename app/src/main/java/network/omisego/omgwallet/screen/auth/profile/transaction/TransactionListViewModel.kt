@@ -17,6 +17,7 @@ import co.omisego.omisego.model.params.TransactionListParams
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.base.StateViewHolderBinding
 import network.omisego.omgwallet.databinding.ViewholderTransactionBinding
+import network.omisego.omgwallet.extension.calledName
 import network.omisego.omgwallet.extension.mutableLiveDataOf
 import network.omisego.omgwallet.extension.scaleAmount
 import network.omisego.omgwallet.model.APIResult
@@ -57,14 +58,14 @@ class TransactionListViewModel(
                     R.string.transaction_list_topup_info,
                     transaction.to.scaleAmount(),
                     transaction.to.token.symbol,
-                    transaction.from.account?.name ?: transaction.from.user?.email
+                    transaction.from.calledName()
                 )
             } else {
                 app.getString(
                     R.string.transaction_list_pay_info,
                     transaction.from.scaleAmount(),
                     transaction.from.token.symbol,
-                    transaction.to.account?.name
+                    transaction.to.calledName()
                 )
             }
         }

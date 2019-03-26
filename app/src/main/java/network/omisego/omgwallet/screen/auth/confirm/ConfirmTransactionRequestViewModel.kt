@@ -7,6 +7,7 @@ import co.omisego.omisego.constant.enums.ErrorCode
 import co.omisego.omisego.model.APIError
 import co.omisego.omisego.model.TransactionConsumption
 import network.omisego.omgwallet.R
+import network.omisego.omgwallet.extension.calledName
 import network.omisego.omgwallet.extension.formatAmount
 import network.omisego.omgwallet.extension.scaleAmount
 import network.omisego.omgwallet.model.APIResult
@@ -41,7 +42,7 @@ class ConfirmTransactionRequestViewModel(
     }
 
     fun formatSendTo(txConsumption: TransactionConsumption) {
-        liveSendToText.value = txConsumption.account?.name ?: txConsumption.user?.email
+        liveSendToText.value = txConsumption.calledName()
     }
 
     fun formatApproveError(error: APIError) {

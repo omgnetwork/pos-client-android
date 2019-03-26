@@ -8,6 +8,7 @@ import co.omisego.omisego.model.TransactionConsumption
 import co.omisego.omisego.model.params.LoginParams
 import com.agoda.kakao.common.views.KView
 import com.agoda.kakao.screen.Screen.Companion.idle
+import network.omisego.omgwallet.extension.calledName
 import network.omisego.omgwallet.setup.base.BaseInstrumentalTest
 import network.omisego.omgwallet.setup.config.TestData
 import network.omisego.omgwallet.setup.screen.BalanceScreen
@@ -96,7 +97,7 @@ class ConsumeTransactionRequestTest : BaseInstrumentalTest() {
                 }
                 tvTokenTo {
                     isDisplayed()
-                    hasText("${txConsumption?.account?.name ?: txConsumption?.user?.email}")
+                    hasText("${txConsumption?.calledName()}")
                 }
                 tvAmount {
                     isDisplayed()
@@ -176,7 +177,7 @@ class ConsumeTransactionRequestTest : BaseInstrumentalTest() {
                 withText(
                     String.format(
                         stringRes(R.string.notification_transaction_rejected),
-                        txConsumption?.account?.name ?: txConsumption?.user?.email
+                        txConsumption?.calledName()
                     )
                 )
             }

@@ -11,6 +11,7 @@ import android.content.Context
 import co.omisego.omisego.model.Transaction
 import co.omisego.omisego.model.pagination.Paginable
 import network.omisego.omgwallet.R
+import network.omisego.omgwallet.extension.calledName
 import network.omisego.omgwallet.extension.scaleAmount
 
 class TransactionListTransformer(
@@ -23,12 +24,12 @@ class TransactionListTransformer(
         return if (transaction.isTopup) {
             context.getString(
                 R.string.transaction_list_info_name_id,
-                transaction.from.account?.name ?: transaction.from.user?.email
+                transaction.from.calledName()
             )
         } else {
             context.getString(
                 R.string.transaction_list_info_name_id,
-                transaction.to.account?.name ?: transaction.from.user?.email
+                transaction.to.calledName()
             )
         }
     }

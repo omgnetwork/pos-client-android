@@ -22,6 +22,7 @@ import network.omisego.omgwallet.AppViewModel
 import network.omisego.omgwallet.GraphMainDirections
 import network.omisego.omgwallet.MainActivity
 import network.omisego.omgwallet.R
+import network.omisego.omgwallet.extension.calledName
 import network.omisego.omgwallet.extension.formatAmount
 import network.omisego.omgwallet.extension.getColor
 import network.omisego.omgwallet.extension.logi
@@ -146,7 +147,7 @@ class MainFragment : Fragment() {
                         templateRes,
                         txConsumption.scaleAmount().formatAmount(),
                         txConsumption.transactionRequest.token.symbol,
-                        txConsumption.account?.name ?: txConsumption.user?.email
+                        txConsumption.calledName()
                     )
                     snackbar = bottomNavigation.snackbar(message)
                     snackbar.show()
@@ -154,7 +155,7 @@ class MainFragment : Fragment() {
                 TransactionConsumptionStatus.REJECTED -> {
                     message = getString(
                         R.string.notification_transaction_rejected,
-                        txConsumption.account?.name ?: txConsumption.user?.email
+                        txConsumption.calledName()
                     )
                     snackbar = bottomNavigation.snackbar(message)
                     snackbar.show()
