@@ -17,7 +17,7 @@ import network.omisego.omgwallet.util.IdlingResourceUtil
  */
 
 class MainScheduler<T>(
-    val backgroundTask: IOTasks<T>,
+    private val backgroundTask: IOTasks<T>,
     private val mainTask: (result: List<APIResult>) -> Unit
 ) {
     fun run() {
