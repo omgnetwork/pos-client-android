@@ -1,8 +1,8 @@
 package network.omisego.omgwallet.setup.screen
 
-import com.agoda.kakao.KBottomNavigationView
-import com.agoda.kakao.KView
-import com.agoda.kakao.Screen
+import com.agoda.kakao.bottomnav.KBottomNavigationView
+import com.agoda.kakao.common.views.KView
+import com.agoda.kakao.screen.Screen
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.setup.custom.KToolbar
 

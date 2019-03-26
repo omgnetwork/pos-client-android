@@ -10,7 +10,7 @@ package network.omisego.omgwallet.testMock
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import co.omisego.omisego.model.ClientAuthenticationToken
 import co.omisego.omisego.model.params.LoginParams
-import com.agoda.kakao.KButton
+import com.agoda.kakao.text.KButton
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.setup.base.BaseInstrumentalTest
 import network.omisego.omgwallet.setup.config.TestData
@@ -187,7 +187,7 @@ class FailureTest : BaseInstrumentalTest() {
             mockErrorSameAddress,
             mockTransactionRequestSend
         )
-        
+
         start()
 
         balanceScreen {

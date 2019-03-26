@@ -2,11 +2,11 @@ package network.omisego.omgwallet.setup.custom
 
 import android.view.View
 import androidx.test.espresso.DataInteraction
-import com.agoda.kakao.CheckableActions
-import com.agoda.kakao.CheckableAssertions
-import com.agoda.kakao.KBaseView
-import com.agoda.kakao.TextViewAssertions
-import com.agoda.kakao.ViewBuilder
+import com.agoda.kakao.check.CheckableActions
+import com.agoda.kakao.check.CheckableAssertions
+import com.agoda.kakao.common.builders.ViewBuilder
+import com.agoda.kakao.common.views.KBaseView
+import com.agoda.kakao.text.TextViewAssertions
 import org.hamcrest.Matcher
 
 /*

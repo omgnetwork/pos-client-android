@@ -7,10 +7,10 @@ package network.omisego.omgwallet.setup.screen
  * Copyright © 2017-2018 OmiseGO. All rights reserved.
  */
 
-import com.agoda.kakao.KButton
-import com.agoda.kakao.KTextInputLayout
-import com.agoda.kakao.KTextView
-import com.agoda.kakao.Screen
+import com.agoda.kakao.edit.KTextInputLayout
+import com.agoda.kakao.screen.Screen
+import com.agoda.kakao.text.KButton
+import com.agoda.kakao.text.KTextView
 import network.omisego.omgwallet.R
 
 class ConfirmFingerprintScreen : Screen<ConfirmFingerprintScreen>() {

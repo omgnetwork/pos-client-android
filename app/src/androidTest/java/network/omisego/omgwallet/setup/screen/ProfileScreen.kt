@@ -1,7 +1,7 @@
 package network.omisego.omgwallet.setup.screen
 
-import com.agoda.kakao.KTextView
-import com.agoda.kakao.Screen
+import com.agoda.kakao.screen.Screen
+import com.agoda.kakao.text.KTextView
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.setup.custom.KScrollView
 import network.omisego.omgwallet.setup.custom.KSwitch

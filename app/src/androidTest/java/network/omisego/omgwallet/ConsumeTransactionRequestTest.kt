@@ -6,7 +6,8 @@ import co.omisego.omisego.model.Balance
 import co.omisego.omisego.model.Token
 import co.omisego.omisego.model.TransactionConsumption
 import co.omisego.omisego.model.params.LoginParams
-import com.agoda.kakao.KView
+import com.agoda.kakao.common.views.KView
+import com.agoda.kakao.screen.Screen.Companion.idle
 import network.omisego.omgwallet.setup.base.BaseInstrumentalTest
 import network.omisego.omgwallet.setup.config.TestData
 import network.omisego.omgwallet.setup.screen.BalanceScreen

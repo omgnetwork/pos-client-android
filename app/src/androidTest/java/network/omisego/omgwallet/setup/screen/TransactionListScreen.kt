@@ -1,10 +1,10 @@
 package network.omisego.omgwallet.setup.screen
 
 import android.view.View
-import com.agoda.kakao.KRecyclerItem
-import com.agoda.kakao.KRecyclerView
-import com.agoda.kakao.KTextView
-import com.agoda.kakao.Screen
+import com.agoda.kakao.recycler.KRecyclerItem
+import com.agoda.kakao.recycler.KRecyclerView
+import com.agoda.kakao.screen.Screen
+import com.agoda.kakao.text.KTextView
 import network.omisego.omgwallet.R
 import org.hamcrest.Matcher
 

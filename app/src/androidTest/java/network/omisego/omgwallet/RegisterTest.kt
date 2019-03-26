@@ -2,7 +2,7 @@ package network.omisego.omgwallet
 
 import androidx.navigation.fragment.NavHostFragment
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import network.omisego.omgwallet.R
+import com.agoda.kakao.screen.Screen.Companion.idle
 import network.omisego.omgwallet.setup.base.BaseInstrumentalTest
 import network.omisego.omgwallet.setup.config.TestData
 import network.omisego.omgwallet.setup.extensions.clickThenReplace

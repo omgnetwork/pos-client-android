@@ -1,9 +1,9 @@
 package network.omisego.omgwallet.setup.screen
 
-import com.agoda.kakao.KTextView
-import com.agoda.kakao.KView
-import com.agoda.kakao.KViewPager
-import com.agoda.kakao.Screen
+import com.agoda.kakao.common.views.KView
+import com.agoda.kakao.pager.KViewPager
+import com.agoda.kakao.screen.Screen
+import com.agoda.kakao.text.KTextView
 import network.omisego.omgwallet.R
 
 /*

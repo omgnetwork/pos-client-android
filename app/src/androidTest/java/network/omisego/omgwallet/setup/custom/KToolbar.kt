@@ -2,8 +2,8 @@ package network.omisego.omgwallet.setup.custom
 
 import android.view.View
 import androidx.test.espresso.DataInteraction
-import com.agoda.kakao.KBaseView
-import com.agoda.kakao.ViewBuilder
+import com.agoda.kakao.common.builders.ViewBuilder
+import com.agoda.kakao.common.views.KBaseView
 import network.omisego.omgwallet.setup.custom.assertions.ToolbarAssertion
 import org.hamcrest.Matcher
 

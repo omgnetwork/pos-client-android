@@ -4,10 +4,10 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import co.omisego.omisego.model.TransactionRequestType
 import co.omisego.omisego.model.params.LoginParams
 import co.omisego.omisego.model.params.TransactionRequestParams
-import com.agoda.kakao.KButton
+import com.agoda.kakao.text.KButton
+import network.omisego.omgwallet.extension.logi
 import network.omisego.omgwallet.setup.base.BaseInstrumentalTest
 import network.omisego.omgwallet.setup.config.TestData
-import network.omisego.omgwallet.extension.logi
 import network.omisego.omgwallet.setup.screen.BalanceDetailScreen
 import network.omisego.omgwallet.setup.screen.BalanceScreen
 import network.omisego.omgwallet.setup.screen.MainScreen
@@ -163,7 +163,7 @@ class BalanceDetailTest : BaseInstrumentalTest() {
             bottomNavigation.isDisplayed()
 
             /* Prepare data for verification */
-            val oldsFormattedIds = localRepository.loadTransactionRequest()
+            val oldFormattedIds = localRepository.loadTransactionRequest()
             val primaryTokenId = localRepository.loadTokenPrimary()
             val balances = localRepository.loadWallets()?.data?.get(0)?.balances!!
             val nextPrimaryBalance = balances.find { it.token.id != primaryTokenId }!!
@@ -216,7 +216,7 @@ class BalanceDetailTest : BaseInstrumentalTest() {
 
                 /* Verify new transaction request ids are generated */
                 val newFormattedIds = localRepository.loadTransactionRequest()
-                oldsFormattedIds shouldNotEqualTo newFormattedIds
+                oldFormattedIds shouldNotEqualTo newFormattedIds
 
                 /* Verify the transaction request ids are correct */
                 val sendTxId = newFormattedIds.split("|")[1]
