@@ -10,7 +10,7 @@ version.rxandroid = '2.0.1'
 version.glide = '4.5.0'
 version.okhttp3 = '3.9.1'
 version.coroutine = '1.0.1'
-version.nav = '1.0.0-alpha06'
+version.nav = '2.0.0'
 version.architecture = "2.0.0"
 version.espresso = "3.1.1"
 version.firebase_core = "16.0.1"
@@ -45,7 +45,7 @@ version.fabric = '1.28.0'
 ext.version = version
 
 def plugin = [:]
-plugin.safe_args = "android.arch.navigation:navigation-safe-args-gradle-plugin:${version.nav}"
+plugin.safe_args = "androidx.navigation:navigation-safe-args-gradle-plugin:${version.nav}"
 plugin.ktlint = "gradle.plugin.org.jlleitschuh.gradle:ktlint-gradle:${version.ktlint}"
 plugin.android = "com.android.tools.build:gradle:${version.android}"
 plugin.kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${version.kotlin}"
@@ -74,8 +74,8 @@ databinding.compiler = "androidx.databinding:databinding-compiler:${version.data
 deps.databinding = databinding
 
 def navigation = [:]
-navigation.fragment = "android.arch.navigation:navigation-fragment-ktx:${version.nav}"
-navigation.ui = "android.arch.navigation:navigation-ui-ktx:${version.nav}"
+navigation.fragment = "androidx.navigation:navigation-fragment-ktx:${version.nav}"
+navigation.ui = "androidx.navigation:navigation-ui-ktx:${version.nav}"
 deps.navigation = navigation
 
 def support = [:]

@@ -37,7 +37,7 @@ class SplashFragment : Fragment() {
         super.onCreate(savedInstanceState)
         viewModel = provideAndroidViewModel()
         appViewModel = provideActivityViewModel()
-        args = SplashFragmentArgs.fromBundle(arguments)
+        args = SplashFragmentArgs.fromBundle(arguments!!)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

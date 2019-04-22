@@ -36,7 +36,7 @@ class ConfirmTransactionRequestFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val txConsumption = ConfirmTransactionRequestFragmentArgs.fromBundle(arguments).transactionConsumption
+        val txConsumption = ConfirmTransactionRequestFragmentArgs.fromBundle(arguments!!).transactionConsumption
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
         binding.txConsumption = txConsumption

@@ -29,10 +29,8 @@ class BalanceDetailViewModel(
         liveEventTokenPrimaryId.value = Event(token.id)
     }
 
-    fun provideSplashDirection(primaryTokenId: String) = GraphMainDirections
-        .actionGlobalSplash()
-        .setPrimaryTokenId(primaryTokenId)
-        .setShouldLoadWallet(false)
+    fun provideSplashDirection(primaryTokenId: String) =
+        GraphMainDirections.actionGlobalSplash(primaryTokenId, false)
 
     fun loadTokenPrimary(): String? {
         return localRepository.loadTokenPrimary()
