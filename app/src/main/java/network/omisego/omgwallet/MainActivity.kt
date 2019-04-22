@@ -4,52 +4,61 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
-import co.omisego.omisego.model.ClientAuthenticationToken
+import co.omisego.omisego.OMGAPIClient
 import network.omisego.omgwallet.extension.provideViewModel
-import network.omisego.omgwallet.model.Credential
 import network.omisego.omgwallet.network.ClientProvider
+import network.omisego.omgwallet.repository.RemoteRepository
+import network.omisego.omgwallet.state.SocketState
 import network.omisego.omgwallet.util.RepositoryUtil
 
-class MainActivity : AppCompatActivity(), LoginListener {
+class MainActivity : AppCompatActivity() {
 
-    private lateinit var globalViewModel: GlobalViewModel
+    private lateinit var appViewModel: AppViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setTheme(R.style.OMGTheme)
         setContentView(R.layout.activity_main)
-        globalViewModel = provideViewModel()
-        observeEvent()
+        val client = initializeClient()
+        appViewModel = provideViewModel()
+        appViewModel.setClient(client)
+        appViewModel.setAuthenticationToken(appViewModel.loadAuthenticationToken())
+        observeSocketState()
     }
 
-    private fun observeEvent() {
-        globalViewModel.liveAuthenticationToken.observe(this, Observer { authenticationToken ->
-            if (authenticationToken == null) {
-                globalViewModel.stopListenForUserEvent(ClientProvider.socketClient!!)
-                RepositoryUtil.localRepository.clearSession()
-                ClientProvider.socketClient = null
-            } else {
-                ClientProvider.initSocketClient(authenticationToken)
-                globalViewModel.startListenForUserEvent(ClientProvider.socketClient!!)
+    private fun initializeClient(): OMGAPIClient {
+        val authenticationToken = RepositoryUtil.localRepository.loadAuthenticationToken()
+        val eWalletClient = ClientProvider.createClient(authenticationToken)
+        val client = OMGAPIClient(eWalletClient)
+        RepositoryUtil.remoteRepository = RemoteRepository(client)
+        return client
+    }
+
+    private fun observeSocketState() {
+        appViewModel.liveSocketState.observe(this, Observer { state ->
+            when (state) {
+                is SocketState.Start -> {
+                    val socketClient = ClientProvider.createSocketClient(state.authToken)
+                    appViewModel.setSocketClient(socketClient)
+                    appViewModel.startListenForUserEvent()
+                }
+                is SocketState.Stop -> {
+                    appViewModel.stopListenForUserEvent()
+                    appViewModel.setSocketClient(null)
+                }
+                is SocketState.Idle -> {
+                }
             }
         })
-        val localAuthToken = RepositoryUtil.localRepository.loadCredential().authenticationToken
-        if (globalViewModel.liveAuthenticationToken.value != localAuthToken) {
-            globalViewModel.liveAuthenticationToken.value = localAuthToken
-        }
     }
 
     override fun onStart() {
         super.onStart()
-        ClientProvider.socketClient?.let {
-            globalViewModel.startListenForUserEvent(it)
-        }
+        appViewModel.startListenForUserEvent()
     }
 
     override fun onStop() {
-        ClientProvider.socketClient?.let {
-            globalViewModel.stopListenForUserEvent(it)
-        }
+        appViewModel.stopListenForUserEvent()
         super.onStop()
     }
 
@@ -60,22 +69,4 @@ class MainActivity : AppCompatActivity(), LoginListener {
             super.onBackPressed()
         }
     }
-
-    override fun onLoggedin(email: String, token: ClientAuthenticationToken) {
-        val credential = Credential(token.authenticationToken)
-        RepositoryUtil.localRepository.clearOldAccountCache(email)
-        RepositoryUtil.localRepository.saveUserEmail(email)
-        RepositoryUtil.localRepository.saveUser(token.user)
-        RepositoryUtil.localRepository.saveCredential(credential)
-        globalViewModel.liveAuthenticationToken.value = credential.authenticationToken
-    }
-
-    override fun onLoggedout() {
-        globalViewModel.liveAuthenticationToken.value = null
-    }
-}
-
-interface LoginListener {
-    fun onLoggedin(email: String, token: ClientAuthenticationToken)
-    fun onLoggedout()
 }

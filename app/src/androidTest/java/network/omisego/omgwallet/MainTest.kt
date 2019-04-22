@@ -7,18 +7,13 @@ package network.omisego.omgwallet
  * Copyright © 2017-2018 OmiseGO. All rights reserved.
  */
 
-import androidx.test.runner.AndroidJUnit4
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import co.omisego.omisego.model.params.LoginParams
-import network.omisego.omgwallet.base.BaseInstrumentalTest
-import network.omisego.omgwallet.config.LocalClientSetup
-import network.omisego.omgwallet.config.TestData
-import network.omisego.omgwallet.model.Credential
-import network.omisego.omgwallet.network.ClientProvider
-import network.omisego.omgwallet.screen.BalanceScreen
-import network.omisego.omgwallet.screen.MainScreen
-import network.omisego.omgwallet.screen.ProfileScreen
-import network.omisego.omgwallet.screen.SplashScreen
-import network.omisego.omgwallet.storage.Storage
+import network.omisego.omgwallet.setup.base.BaseInstrumentalTest
+import network.omisego.omgwallet.setup.config.TestData
+import network.omisego.omgwallet.setup.screen.BalanceScreen
+import network.omisego.omgwallet.setup.screen.MainScreen
+import network.omisego.omgwallet.setup.screen.ProfileScreen
 import org.amshove.kluent.shouldBeGreaterThan
 import org.amshove.kluent.shouldNotBe
 import org.junit.After
@@ -30,27 +25,26 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class MainTest : BaseInstrumentalTest() {
     private val balanceScreen: BalanceScreen by lazy { BalanceScreen() }
-    private val splashScreen: SplashScreen by lazy { SplashScreen() }
     private val mainScreen: MainScreen by lazy { MainScreen() }
     private val profileScreen: ProfileScreen by lazy { ProfileScreen() }
 
-    companion object {
+    companion object : BaseInstrumentalTest() {
         @BeforeClass
         @JvmStatic
         fun setupClass() {
-            ClientProvider.initHTTPClient(LocalClientSetup())
-            Storage.clearSession()
-            val response = ClientProvider.client.login(LoginParams(TestData.USER_EMAIL, TestData.USER_PASSWORD)).execute()
-            Storage.saveUser(response.body()!!.data.user)
-            Storage.saveCredential(Credential(response.body()!!.data.authenticationToken))
-            Storage.saveUserEmail(TestData.USER_EMAIL)
+            setupClient()
+            localRepository.deleteSession()
+            val response = client.login(LoginParams(TestData.USER_EMAIL, TestData.USER_PASSWORD)).execute()
+            val clientAuthenticationToken = response.body()?.data!!
+            localRepository.saveSession(clientAuthenticationToken)
         }
     }
 
     @Before
     fun setup() {
-        Storage.deleteFormattedIds()
-        Storage.deleteTokenPrimary()
+        setupClient()
+        localRepository.deleteTransactionRequest()
+        localRepository.deleteTokenPrimary()
         registerIdlingResource()
         start()
     }
@@ -103,8 +97,8 @@ class MainTest : BaseInstrumentalTest() {
         balanceScreen {
             this.recyclerView.isDisplayed()
 
-            val primaryToken = selectPrimaryToken(Storage.loadWallets()!!, null)
-            val position = Storage.loadWallets()?.data?.get(0)?.balances?.indexOfFirst { it.token.id == primaryToken.id }
+            val primaryToken = selectPrimaryToken(localRepository.loadWallets()!!, null)
+            val position = localRepository.loadWallets()?.data?.get(0)?.balances?.indexOfFirst { it.token.id == primaryToken.id }
 
             position shouldNotBe null
             position?.shouldBeGreaterThan(-1)

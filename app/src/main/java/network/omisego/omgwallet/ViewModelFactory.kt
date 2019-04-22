@@ -31,8 +31,8 @@ class ViewModelFactory : ViewModelProvider.NewInstanceFactory() {
             modelClass.isAssignableFrom(MainViewModel::class.java) -> {
                 return MainViewModel(RepositoryUtil.localRepository, RepositoryUtil.remoteRepository) as T
             }
-            modelClass.isAssignableFrom(GlobalViewModel::class.java) -> {
-                return GlobalViewModel(RepositoryUtil.remoteRepository) as T
+            modelClass.isAssignableFrom(AppViewModel::class.java) -> {
+                return AppViewModel(RepositoryUtil.localRepository, RepositoryUtil.remoteRepository) as T
             }
             else -> {
                 throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")

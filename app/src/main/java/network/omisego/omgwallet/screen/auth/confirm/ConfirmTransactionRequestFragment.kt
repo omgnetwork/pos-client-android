@@ -18,7 +18,7 @@ import co.omisego.omisego.model.TransactionConsumption
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.databinding.FragmentConfirmTransactionRequestBinding
 import network.omisego.omgwallet.extension.provideAndroidViewModel
-import network.omisego.omgwallet.livedata.EventObserver
+import network.omisego.omgwallet.util.EventObserver
 
 class ConfirmTransactionRequestFragment : Fragment() {
     private lateinit var binding: FragmentConfirmTransactionRequestBinding
@@ -37,7 +37,7 @@ class ConfirmTransactionRequestFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val txConsumption = ConfirmTransactionRequestFragmentArgs.fromBundle(arguments).transactionConsumption
-        binding.setLifecycleOwner(this)
+        binding.lifecycleOwner = this
         binding.viewModel = viewModel
         binding.txConsumption = txConsumption
 

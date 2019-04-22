@@ -1,12 +1,13 @@
 package network.omisego.omgwallet
 
 import androidx.navigation.fragment.NavHostFragment
-import androidx.test.runner.AndroidJUnit4
-import network.omisego.omgwallet.base.BaseInstrumentalTest
-import network.omisego.omgwallet.config.TestData
-import network.omisego.omgwallet.extensions.clickThenReplace
-import network.omisego.omgwallet.screen.ConfirmScreen
-import network.omisego.omgwallet.screen.RegisterScreen
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import com.agoda.kakao.screen.Screen.Companion.idle
+import network.omisego.omgwallet.setup.base.BaseInstrumentalTest
+import network.omisego.omgwallet.setup.config.TestData
+import network.omisego.omgwallet.setup.extensions.clickThenReplace
+import network.omisego.omgwallet.setup.screen.ConfirmScreen
+import network.omisego.omgwallet.setup.screen.RegisterScreen
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -26,9 +27,9 @@ class RegisterTest : BaseInstrumentalTest() {
 
     @Before
     fun setup() {
-        setupClientProvider()
-        registerIdlingResource()
         clearSharePreference()
+        setupClient()
+        registerIdlingResource()
         start()
         NavHostFragment.findNavController(
             rule.activity.supportFragmentManager.fragments[0]

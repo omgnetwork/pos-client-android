@@ -11,24 +11,23 @@ import android.app.Application
 import android.view.View
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import co.omisego.omisego.constant.enums.ErrorCode
 import co.omisego.omisego.model.APIError
 import co.omisego.omisego.model.Balance
 import co.omisego.omisego.model.Token
+import co.omisego.omisego.model.TransactionRequest
 import co.omisego.omisego.model.TransactionRequestType
 import co.omisego.omisego.model.WalletList
 import co.omisego.omisego.model.params.client.TransactionRequestCreateParams
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 import network.omisego.omgwallet.R
-import network.omisego.omgwallet.data.LocalRepository
-import network.omisego.omgwallet.data.RemoteRepository
-import network.omisego.omgwallet.extension.either
 import network.omisego.omgwallet.extension.logi
-import network.omisego.omgwallet.livedata.Event
 import network.omisego.omgwallet.model.APIResult
-import network.omisego.omgwallet.util.IdlingResourceUtil
+import network.omisego.omgwallet.repository.LocalRepository
+import network.omisego.omgwallet.repository.RemoteRepository
+import network.omisego.omgwallet.scheduler.IOTasks
+import network.omisego.omgwallet.scheduler.MainScheduler
+import network.omisego.omgwallet.state.ErrorState
+import network.omisego.omgwallet.util.Event
 import java.math.BigDecimal
 
 class PreloadResourceViewModel(
@@ -38,9 +37,10 @@ class PreloadResourceViewModel(
 ) : AndroidViewModel(app) {
     val liveResult by lazy { MutableLiveData<Event<APIResult>>() }
     val liveTransactionRequestPrimaryTokenId by lazy { MutableLiveData<Event<String>>() }
-    val liveCreateTransactionRequestFailed by lazy { MutableLiveData<Event<APIError>>() }
+    val liveAPIError by lazy { MutableLiveData<Event<APIError>>() }
     val liveStatus by lazy { MutableLiveData<String>() }
     val liveCloseButtonVisibility by lazy { MutableLiveData<Int>() }
+    lateinit var errorState: ErrorState
 
     fun displayTokenPrimaryNotify(balance: Balance?): String {
         return app.getString(
@@ -49,7 +49,11 @@ class PreloadResourceViewModel(
         )
     }
 
-    fun loadBalances() = localRepository.loadWallet()?.data?.get(0)?.balances!!
+    fun loadBalances() = localRepository.loadWallets()?.data?.get(0)?.balances!!
+
+    fun setErrorState(error: APIError) {
+        errorState = ErrorState.getErrorState(error)
+    }
 
     fun loadWalletLocally() {
         liveCloseButtonVisibility.value = View.GONE
@@ -60,6 +64,18 @@ class PreloadResourceViewModel(
         liveCloseButtonVisibility.value = View.GONE
         remoteRepository.loadWallet(liveResult)
         liveStatus.value = app.getString(R.string.splash_status_loading_wallet)
+    }
+
+    fun runIfValidWalletList(data: WalletList, handler: (data: WalletList) -> Unit) {
+        when {
+            data.data.isEmpty() -> {
+                handleAPIError(APIError(ErrorCode.SDK_UNEXPECTED_ERROR, app.getString(R.string.error_wallet_not_found)))
+            }
+            data.data[0].balances.isEmpty() -> {
+                handleAPIError(APIError(ErrorCode.SDK_UNEXPECTED_ERROR, app.getString(R.string.error_empty_token)))
+            }
+            else -> handler(data)
+        }
     }
 
     fun saveWallet(data: WalletList) {
@@ -77,30 +93,41 @@ class PreloadResourceViewModel(
 
         val formattedIds: MutableMap<TransactionRequestType, String> = mutableMapOf()
 
-        IdlingResourceUtil.idlingResource.increment()
-        GlobalScope.launch(Dispatchers.Main) {
-            val result = GlobalScope.async(Dispatchers.IO) {
-                val txReceiveResult = remoteRepository.createTransactionRequest(params)
-                val txSendResult = remoteRepository.createTransactionRequest(
-                    params.copy(type = TransactionRequestType.SEND, requireConfirmation = true)
-                )
-                return@async txReceiveResult to txSendResult
-            }
-            val (txReceive, txSend) = result.await()
-            txReceive.either({ formattedIds[TransactionRequestType.RECEIVE] = it.data.formattedId }, this@PreloadResourceViewModel::handleAPIError)
-            txSend.either({ formattedIds[TransactionRequestType.SEND] = it.data.formattedId }, this@PreloadResourceViewModel::handleAPIError)
+        val callReceiveTx = remoteRepository.createTransactionRequest(params)
+        val callSendTx = remoteRepository.createTransactionRequest(
+            params.copy(type = TransactionRequestType.SEND, requireConfirmation = true)
+        )
 
-            if (formattedIds.size == 2) {
-                val message = "${formattedIds[TransactionRequestType.RECEIVE]}|${formattedIds[TransactionRequestType.SEND]}"
-                logi(message)
+        val tasks = IOTasks(callReceiveTx, callSendTx)
+        val scheduler = MainScheduler(tasks) { results ->
+            results[0].handle<TransactionRequest>(
+                { formattedIds[TransactionRequestType.RECEIVE] = it.formattedId },
+                this@PreloadResourceViewModel::handleAPIError
+            )
+            results[1].handle<TransactionRequest>(
+                { formattedIds[TransactionRequestType.SEND] = it.formattedId },
+                this@PreloadResourceViewModel::handleAPIError
+            )
 
-                localRepository.saveTransactionRequestFormattedId(formattedIds)
-                localRepository.saveTokenPrimary(selectedToken)
+            handleCreateTransactionSuccess(selectedToken, formattedIds)
+        }
 
-                /* Emit success event */
-                liveTransactionRequestPrimaryTokenId.value = Event(selectedToken.id)
-                IdlingResourceUtil.idlingResource.decrement()
-            }
+        scheduler.run()
+    }
+
+    private fun handleCreateTransactionSuccess(
+        selectedToken: Token,
+        formattedIds: MutableMap<TransactionRequestType, String>
+    ) {
+        if (formattedIds.size == 2) {
+            val message = "${formattedIds[TransactionRequestType.RECEIVE]}|${formattedIds[TransactionRequestType.SEND]}"
+            logi(message)
+
+            localRepository.saveTransactionRequest(formattedIds)
+            localRepository.saveTokenPrimary(selectedToken)
+
+            /* Emit success event */
+            liveTransactionRequestPrimaryTokenId.value = Event(selectedToken.id)
         }
     }
 
@@ -124,7 +151,7 @@ class PreloadResourceViewModel(
     }
 
     fun handleAPIError(apiError: APIError) {
-        liveCreateTransactionRequestFailed.value = Event(apiError)
+        liveAPIError.value = Event(apiError)
         liveCloseButtonVisibility.value = View.VISIBLE
     }
 }

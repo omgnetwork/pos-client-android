@@ -21,18 +21,18 @@ import co.omisego.omisego.model.params.LoginParams
 import network.omisego.omgwallet.BuildConfig
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.base.LiveState
-import network.omisego.omgwallet.data.LocalRepository
-import network.omisego.omgwallet.data.RemoteRepository
 import network.omisego.omgwallet.extension.mapPropChanged
 import network.omisego.omgwallet.extension.mutableLiveDataOf
 import network.omisego.omgwallet.extension.runBelowM
 import network.omisego.omgwallet.extension.runOnMToP
 import network.omisego.omgwallet.extension.runOnP
-import network.omisego.omgwallet.livedata.Event
 import network.omisego.omgwallet.livedata.SingleLiveEvent
 import network.omisego.omgwallet.model.APIResult
+import network.omisego.omgwallet.repository.LocalRepository
+import network.omisego.omgwallet.repository.RemoteRepository
 import network.omisego.omgwallet.util.BiometricUtil
 import network.omisego.omgwallet.util.ContextUtil.context
+import network.omisego.omgwallet.util.Event
 import network.omisego.omgwallet.util.click
 import network.omisego.omgwallet.util.spannable
 import network.omisego.omgwallet.validator.EmailValidator
@@ -133,11 +133,11 @@ class SignInViewModel(
 
     fun isFingerprintAvailable() = localRepository.loadFingerprintOption()
 
-    fun loadUserEmail(): String = localRepository.loadUserEmail()
+    fun loadUserEmail(): String = localRepository.loadUserEmail() ?: ""
 
-    fun loadUserPassword(): String = localRepository.loadFingerprintCredential()
+    fun loadUserPassword(): String = localRepository.loadFingerprintCredential() ?: ""
 
-    fun loadWallets() = localRepository.loadWallet()
+    fun loadWallets() = localRepository.loadWallets()
 
     fun signIn(): LiveData<Event<APIResult>>? {
         val (email, password) = liveState.value ?: return null

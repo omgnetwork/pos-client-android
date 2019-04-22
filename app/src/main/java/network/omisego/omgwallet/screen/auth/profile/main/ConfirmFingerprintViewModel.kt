@@ -2,13 +2,11 @@ package network.omisego.omgwallet.screen.auth.profile.main
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import co.omisego.omisego.model.ClientAuthenticationToken
 import co.omisego.omisego.model.params.LoginParams
-import network.omisego.omgwallet.data.LocalRepository
-import network.omisego.omgwallet.data.RemoteRepository
-import network.omisego.omgwallet.livedata.Event
 import network.omisego.omgwallet.model.APIResult
-import network.omisego.omgwallet.model.Credential
+import network.omisego.omgwallet.repository.LocalRepository
+import network.omisego.omgwallet.repository.RemoteRepository
+import network.omisego.omgwallet.util.Event
 
 /*
  * OmiseGO
@@ -25,19 +23,12 @@ class ConfirmFingerprintViewModel(
 
     fun signIn(password: String) {
         remoteRepository.signIn(LoginParams(
-            localRepository.loadUserEmail(),
+            localRepository.loadUserEmail()!!,
             password
         ), liveAPIResult)
     }
 
-    fun saveCredential(data: ClientAuthenticationToken) {
-        localRepository.saveUser(data.user)
-        localRepository.saveCredential(Credential(
-            data.authenticationToken
-        ))
-    }
-
-    fun saveUserPassword(password: String) {
-        localRepository.saveFingerprintCredential(password)
+    fun enableFingerprint(password: String) {
+        localRepository.saveFingerprintSessionAsync(password, true)
     }
 }

@@ -13,10 +13,9 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import co.infinum.goldfinger.Goldfinger
 import network.omisego.omgwallet.BuildConfig
-import network.omisego.omgwallet.data.LocalRepository
-import network.omisego.omgwallet.livedata.Event
-import network.omisego.omgwallet.network.ClientProvider
+import network.omisego.omgwallet.repository.LocalRepository
 import network.omisego.omgwallet.state.FingerprintDialogState
+import network.omisego.omgwallet.util.Event
 
 class ProfileViewModel(
     private val app: Application,
@@ -36,20 +35,15 @@ class ProfileViewModel(
         liveTransaction.value = Event(view)
     }
 
-    fun deleteFingerprintCredential() {
-        localRepository.deleteFingerprintCredential()
-    }
-
     fun handleFingerprintOption(checked: Boolean) {
-        localRepository.saveFingerprintOption(checked)
         if (!checked) {
-            deleteFingerprintCredential()
+            localRepository.deleteFingerprintSession()
         }
     }
 
     init {
         liveVersionName.value = BuildConfig.VERSION_NAME
-        liveEndpoint.value = ClientProvider.clientSetup.baseURL
+        liveEndpoint.value = BuildConfig.CONFIG_BASE_URL
     }
 
     fun hasFingerprintSupport() = Goldfinger.Builder(app).build().hasFingerprintHardware()

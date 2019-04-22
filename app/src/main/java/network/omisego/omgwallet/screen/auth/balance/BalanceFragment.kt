@@ -35,8 +35,7 @@ import network.omisego.omgwallet.databinding.ViewholderBalanceBinding
 import network.omisego.omgwallet.extension.bindingInflate
 import network.omisego.omgwallet.extension.provideActivityViewModel
 import network.omisego.omgwallet.extension.toast
-import network.omisego.omgwallet.livedata.EventObserver
-import network.omisego.omgwallet.storage.Storage
+import network.omisego.omgwallet.util.EventObserver
 
 class BalanceFragment : Fragment(), UpdateAdapterDispatcher<Balance> {
     private var currentBalances: List<Balance> = listOf()
@@ -72,7 +71,7 @@ class BalanceFragment : Fragment(), UpdateAdapterDispatcher<Balance> {
             Navigation.findNavController(activity as MainActivity, R.id.content).navigate(direction)
         })
 
-        viewModel.loadWallet()
+        viewModel.loadLocalWallet()
     }
 
     override fun dispatchUpdate(oldList: List<Balance>, newList: List<Balance>, adapter: RecyclerView.Adapter<StateViewHolder>) {
@@ -90,7 +89,7 @@ class BalanceFragment : Fragment(), UpdateAdapterDispatcher<Balance> {
     private fun handleLoadWalletFail(error: APIError) {
         context?.toast(error.description)
         if (error.code == ErrorCode.USER_AUTH_TOKEN_NOT_FOUND) {
-            Storage.clearSession()
+            viewModel.clear()
             findNavController().navigateUp()
         }
     }

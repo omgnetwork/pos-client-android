@@ -8,19 +8,15 @@ package network.omisego.omgwallet
  */
 
 import androidx.test.espresso.action.GeneralLocation
-import androidx.test.runner.AndroidJUnit4
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import co.omisego.omisego.model.params.LoginParams
-import network.omisego.omgwallet.base.BaseInstrumentalTest
-import network.omisego.omgwallet.config.LocalClientSetup
-import network.omisego.omgwallet.config.TestData
-import network.omisego.omgwallet.model.Credential
-import network.omisego.omgwallet.network.ClientProvider
-import network.omisego.omgwallet.screen.ConfirmFingerprintScreen
-import network.omisego.omgwallet.screen.LoginScreen
-import network.omisego.omgwallet.screen.MainScreen
-import network.omisego.omgwallet.screen.ProfileScreen
-import network.omisego.omgwallet.storage.Storage
-import network.omisego.omgwallet.storage.StorageKey
+import com.agoda.kakao.screen.Screen.Companion.idle
+import network.omisego.omgwallet.setup.base.BaseInstrumentalTest
+import network.omisego.omgwallet.setup.config.TestData
+import network.omisego.omgwallet.setup.screen.ConfirmFingerprintScreen
+import network.omisego.omgwallet.setup.screen.LoginScreen
+import network.omisego.omgwallet.setup.screen.MainScreen
+import network.omisego.omgwallet.setup.screen.ProfileScreen
 import org.amshove.kluent.shouldBe
 import org.junit.After
 import org.junit.Before
@@ -35,24 +31,24 @@ class ProfileTest : BaseInstrumentalTest() {
     private val loginScreen: LoginScreen by lazy { LoginScreen() }
     private val confirmFingerprintScreen: ConfirmFingerprintScreen by lazy { ConfirmFingerprintScreen() }
 
-    companion object {
+    companion object : BaseInstrumentalTest() {
+
         @BeforeClass
         @JvmStatic
         fun setupClass() {
-            ClientProvider.initHTTPClient(LocalClientSetup())
-            Storage.clearSession()
-            val response = ClientProvider.client.login(LoginParams(TestData.USER_EMAIL, TestData.USER_PASSWORD)).execute()
-            Storage.saveUser(response.body()!!.data.user)
-            Storage.saveCredential(Credential(response.body()!!.data.authenticationToken))
-            Storage.saveUserEmail(TestData.USER_EMAIL)
+            setupClient()
+            localRepository.deleteSession()
+            val response = client.login(LoginParams(TestData.USER_EMAIL, TestData.USER_PASSWORD)).execute()
+            val clientAuthenticationToken = response.body()?.data!!
+            localRepository.saveSession(clientAuthenticationToken)
         }
     }
 
     @Before
     fun setup() {
-        Storage.deleteFingerprintCredential()
-        Storage.saveFingerprintOption(false)
-        Storage.deleteFormattedIds()
+        setupClient()
+        localRepository.deleteFingerprintSession()
+        localRepository.deleteTransactionRequest()
         registerIdlingResource()
         start()
         mainScreen.bottomNavigation.setSelectedItem(R.id.profile)
@@ -79,10 +75,10 @@ class ProfileTest : BaseInstrumentalTest() {
             tvSignUp.isDisplayed()
         }
 
-        with(sharedPreferences) {
-            contains(StorageKey.KEY_USER) shouldBe false
-            contains(StorageKey.KEY_WALLET) shouldBe false
-            contains(StorageKey.KEY_AUTHENTICATION_TOKEN) shouldBe false
+        with(localRepository) {
+            hasUser() shouldBe false
+            hasWallet() shouldBe false
+            hasAuthenticationToken() shouldBe false
         }
     }
 

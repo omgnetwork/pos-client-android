@@ -15,12 +15,14 @@ import androidx.navigation.ui.setupWithNavController
 import co.omisego.omisego.model.APIError
 import co.omisego.omisego.model.TransactionConsumption
 import co.omisego.omisego.model.TransactionConsumptionStatus
+import co.omisego.omisego.model.TransactionRequestType
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_main.*
-import network.omisego.omgwallet.GlobalViewModel
+import network.omisego.omgwallet.AppViewModel
 import network.omisego.omgwallet.GraphMainDirections
 import network.omisego.omgwallet.MainActivity
 import network.omisego.omgwallet.R
+import network.omisego.omgwallet.extension.calledName
 import network.omisego.omgwallet.extension.formatAmount
 import network.omisego.omgwallet.extension.getColor
 import network.omisego.omgwallet.extension.logi
@@ -35,7 +37,7 @@ class MainFragment : Fragment() {
     private lateinit var navController: NavController
     private lateinit var viewModel: MainViewModel
     private lateinit var balanceViewModel: BalanceViewModel
-    private lateinit var globalViewModel: GlobalViewModel
+    private lateinit var appViewModel: AppViewModel
     private lateinit var snackbar: Snackbar
     private val hostActivity: MainActivity
         get() = (activity as MainActivity)
@@ -49,7 +51,7 @@ class MainFragment : Fragment() {
         super.onCreate(savedInstanceState)
         viewModel = provideActivityViewModel()
         balanceViewModel = provideActivityViewModel()
-        globalViewModel = provideActivityViewModel()
+        appViewModel = provideActivityViewModel()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -73,10 +75,10 @@ class MainFragment : Fragment() {
     }
 
     private fun listenForSocketEvent() {
-        globalViewModel.liveConsumptionRequestEvent.observe(this, ConsumptionRequestObserver())
-        globalViewModel.liveConsumptionRequestFailEvent.observe(this, ConsumptionRequestFailObserver())
-        globalViewModel.liveConsumptionFinalizedEvent.observe(this, ConsumptionFinalizedObserver())
-        globalViewModel.liveConsumptionFinalizedFailEvent.observe(this, ConsumptionFinalizedFailObserver())
+        appViewModel.liveConsumptionRequestEvent.observe(this, ConsumptionRequestObserver())
+        appViewModel.liveConsumptionRequestFailEvent.observe(this, ConsumptionRequestFailObserver())
+        appViewModel.liveConsumptionFinalizedEvent.observe(this, ConsumptionFinalizedObserver())
+        appViewModel.liveConsumptionFinalizedFailEvent.observe(this, ConsumptionFinalizedFailObserver())
     }
 
     private fun showSplashIfNeeded() {
@@ -136,7 +138,7 @@ class MainFragment : Fragment() {
             when (txConsumption.status) {
                 TransactionConsumptionStatus.CONFIRMED,
                 TransactionConsumptionStatus.APPROVED -> {
-                    val templateRes = if (txConsumption.transaction?.from?.userId != null) {
+                    val templateRes = if (txConsumption.transactionRequest.type == TransactionRequestType.SEND) {
                         R.string.notification_transaction_approved_sent
                     } else {
                         R.string.notification_transaction_approved_received
@@ -145,7 +147,7 @@ class MainFragment : Fragment() {
                         templateRes,
                         txConsumption.scaleAmount().formatAmount(),
                         txConsumption.transactionRequest.token.symbol,
-                        txConsumption.account?.name ?: txConsumption.user?.email
+                        txConsumption.calledName()
                     )
                     snackbar = bottomNavigation.snackbar(message)
                     snackbar.show()
@@ -153,7 +155,7 @@ class MainFragment : Fragment() {
                 TransactionConsumptionStatus.REJECTED -> {
                     message = getString(
                         R.string.notification_transaction_rejected,
-                        txConsumption.account?.name ?: txConsumption.user?.email
+                        txConsumption.calledName()
                     )
                     snackbar = bottomNavigation.snackbar(message)
                     snackbar.show()
@@ -162,9 +164,8 @@ class MainFragment : Fragment() {
             if (txConsumption.transactionRequest.requireConfirmation) {
                 navController.popBackStack(R.id.balance, true)
                 navController.navigate(R.id.action_global_balance)
-            } else {
-                balanceViewModel.loadWallet()
             }
+            balanceViewModel.loadWallet()
         }
     }
 

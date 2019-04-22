@@ -7,14 +7,12 @@ package network.omisego.omgwallet
  * Copyright © 2017-2018 OmiseGO. All rights reserved.
  */
 
-import androidx.test.runner.AndroidJUnit4
-import network.omisego.omgwallet.base.BaseInstrumentalTest
-import network.omisego.omgwallet.config.MockData
-import network.omisego.omgwallet.config.TestData
-import network.omisego.omgwallet.screen.LoginScreen
-import network.omisego.omgwallet.screen.MainScreen
-import network.omisego.omgwallet.storage.Storage
-import network.omisego.omgwallet.storage.StorageKey
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import network.omisego.omgwallet.setup.base.BaseInstrumentalTest
+import network.omisego.omgwallet.setup.config.MockData
+import network.omisego.omgwallet.setup.config.TestData
+import network.omisego.omgwallet.setup.screen.LoginScreen
+import network.omisego.omgwallet.setup.screen.MainScreen
 import org.amshove.kluent.shouldBe
 import org.junit.After
 import org.junit.Before
@@ -28,9 +26,9 @@ class LoginTest : BaseInstrumentalTest() {
 
     @Before
     fun setup() {
-        setupClientProvider()
-        registerIdlingResource()
         clearSharePreference()
+        setupClient()
+        registerIdlingResource()
         start()
     }
 
@@ -68,14 +66,14 @@ class LoginTest : BaseInstrumentalTest() {
         loginScreen {
             tilEmail.edit.typeText(TestData.USER_EMAIL)
             tilPassword.edit.typeText(TestData.USER_PASSWORD)
-            Storage.saveWallets(MockData.walletList)
+            localRepository.saveWallets(MockData.walletList)
             btnLogin.click()
             mainScreen {
                 fabQR.isDisplayed()
             }
-            with(sharedPreferences) {
-                contains(StorageKey.KEY_USER) shouldBe true
-                contains(StorageKey.KEY_AUTHENTICATION_TOKEN) shouldBe true
+            with(localRepository) {
+                hasAuthenticationToken() shouldBe true
+                hasUser() shouldBe true
             }
         }
     }

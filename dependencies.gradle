@@ -31,7 +31,8 @@ version.robolectric = "3.4.2"
 version.test_runner = "1.1.0"
 
 // Android Test
-version.kakao = "1.4.0-androidx"
+version.android_junit = "1.1.0"
+version.kakao = "2.0.0"
 version.support_test_runner = "1.0.1"
 version.support_test_rules = "1.0.1"
 version.idling_resource = "1.0.0"
@@ -117,6 +118,7 @@ def androidTest = [
     "com.agoda.kakao:kakao:${version.kakao}",
     "androidx.test:runner:${version.test_runner}",
     "androidx.test:rules:${version.test_runner}",
+    "androidx.test.ext:junit:${version.android_junit}",
     "org.amshove.kluent:kluent-android:${version.kluent}",
     "com.jakewharton.espresso:okhttp3-idling-resource:${version.idling_resource}",
 ]

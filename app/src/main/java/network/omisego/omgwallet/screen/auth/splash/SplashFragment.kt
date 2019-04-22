@@ -11,27 +11,32 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import co.omisego.omisego.model.APIError
 import co.omisego.omisego.model.WalletList
 import kotlinx.android.synthetic.main.fragment_splash.*
+import network.omisego.omgwallet.AppViewModel
 import network.omisego.omgwallet.R
 import network.omisego.omgwallet.databinding.FragmentSplashBinding
 import network.omisego.omgwallet.extension.bindingInflate
+import network.omisego.omgwallet.extension.findRootNavController
+import network.omisego.omgwallet.extension.provideActivityViewModel
 import network.omisego.omgwallet.extension.provideAndroidViewModel
 import network.omisego.omgwallet.extension.toast
-import network.omisego.omgwallet.livedata.EventObserver
+import network.omisego.omgwallet.state.ErrorState
+import network.omisego.omgwallet.util.EventObserver
 
 class SplashFragment : Fragment() {
     private lateinit var binding: FragmentSplashBinding
     private lateinit var viewModel: PreloadResourceViewModel
+    private lateinit var appViewModel: AppViewModel
     private lateinit var args: SplashFragmentArgs
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel = provideAndroidViewModel()
+        appViewModel = provideActivityViewModel()
         args = SplashFragmentArgs.fromBundle(arguments)
     }
 
@@ -44,8 +49,13 @@ class SplashFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupDataBinding()
         observeLiveData()
+
         btnClose.setOnClickListener {
-            findNavController().navigateUp()
+            when (viewModel.errorState) {
+                ErrorState.QUIT -> closeByQuit()
+                ErrorState.SIGN_IN -> closeByBackToSignIn()
+                ErrorState.BACK -> closeByBack()
+            }
         }
 
         if (args.shouldLoadWallet) {
@@ -55,9 +65,28 @@ class SplashFragment : Fragment() {
         }
     }
 
+    private fun closeByQuit() {
+        appViewModel.onLoggedout()
+        activity?.finishAndRemoveTask()
+    }
+
+    private fun closeByBack() {
+        findNavController().navigateUp()
+    }
+
+    private fun closeByBackToSignIn() {
+        appViewModel.onLoggedout()
+
+        /* Clear all back-stack fragments */
+        findRootNavController().popBackStack(R.id.authFragment, true)
+
+        /* Go back to sign-in */
+        findRootNavController().navigate(R.id.action_global_signInFragment)
+    }
+
     private fun setupDataBinding() {
         binding.viewModel = viewModel
-        binding.setLifecycleOwner(this)
+        binding.lifecycleOwner = this
     }
 
     private fun observeLiveData() {
@@ -69,15 +98,17 @@ class SplashFragment : Fragment() {
             context?.toast(viewModel.displayTokenPrimaryNotify(balance))
             findNavController().navigateUp()
         })
-        viewModel.liveCreateTransactionRequestFailed.observe(this, EventObserver {
-            context?.toast(it.description, Toast.LENGTH_LONG)
+        viewModel.liveAPIError.observe(this, EventObserver {
+            viewModel.setErrorState(it)
             tvCurrentStatus.text = it.description
         })
     }
 
     private fun handleLoadWalletSuccess(data: WalletList) {
-        viewModel.saveWallet(data)
-        viewModel.createTransactionRequest(data, args.primaryTokenId)
+        viewModel.runIfValidWalletList(data) {
+            viewModel.saveWallet(data)
+            viewModel.createTransactionRequest(data, args.primaryTokenId)
+        }
     }
 
     private fun handleLoadWalletFail(error: APIError) {

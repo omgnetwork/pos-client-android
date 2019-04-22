@@ -97,7 +97,7 @@
     <string name="confirm_transaction_request_title">Confirm Transaction Request</string>
     <string name="confirm_transaction_request_send">Send</string>
     <string name="confirm_transaction_request_amount">%s %s</string>
-    <string name="confirm_transaction_request_to">To %s</string>
+    <string name="confirm_transaction_request_to">To</string>
     <string name="confirm_transaction_request_approve">Approve</string>
     <string name="confirm_transaction_request_reject">Reject</string>
     <string name="confirm_transaction_request_error_not_has_enough_fund">Your current account does not have enough fund (%s %s)</string>
@@ -137,4 +137,8 @@
     <string name="validator_signup_password_numeric">Password must contain at least 1 numeric character</string>
     <string name="validator_signup_password_special_char">Password must contain at least 1 special character</string>
     <string name="validator_signup_confirm_password_not_matched">Password is not matched</string>
+
+    <!-- Error Description -->
+    <string name="error_wallet_not_found">The wallet is not found for this user.</string>
+    <string name="error_empty_token">There are no tokens available.</string>
 </resources>

@@ -1,20 +1,16 @@
 package network.omisego.omgwallet
 
-import androidx.test.runner.AndroidJUnit4
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import co.omisego.omisego.model.TransactionRequestType
 import co.omisego.omisego.model.params.LoginParams
 import co.omisego.omisego.model.params.TransactionRequestParams
-import com.agoda.kakao.KButton
-import network.omisego.omgwallet.base.BaseInstrumentalTest
-import network.omisego.omgwallet.config.LocalClientSetup
-import network.omisego.omgwallet.config.TestData
+import com.agoda.kakao.text.KButton
 import network.omisego.omgwallet.extension.logi
-import network.omisego.omgwallet.model.Credential
-import network.omisego.omgwallet.network.ClientProvider
-import network.omisego.omgwallet.screen.BalanceDetailScreen
-import network.omisego.omgwallet.screen.BalanceScreen
-import network.omisego.omgwallet.screen.MainScreen
-import network.omisego.omgwallet.storage.Storage
+import network.omisego.omgwallet.setup.base.BaseInstrumentalTest
+import network.omisego.omgwallet.setup.config.TestData
+import network.omisego.omgwallet.setup.screen.BalanceDetailScreen
+import network.omisego.omgwallet.setup.screen.BalanceScreen
+import network.omisego.omgwallet.setup.screen.MainScreen
 import org.amshove.kluent.shouldEqual
 import org.amshove.kluent.shouldNotBe
 import org.amshove.kluent.shouldNotEqualTo
@@ -36,21 +32,21 @@ class BalanceDetailTest : BaseInstrumentalTest() {
     private val balanceScreen: BalanceScreen by lazy { BalanceScreen() }
     private val balanceDetailScreen: BalanceDetailScreen by lazy { BalanceDetailScreen() }
 
-    companion object {
+    companion object : BaseInstrumentalTest() {
         @BeforeClass
         @JvmStatic
         fun setupClass() {
-            ClientProvider.initHTTPClient(LocalClientSetup())
-            Storage.clearSession()
-            val response = ClientProvider.client.login(LoginParams(TestData.USER_EMAIL, TestData.USER_PASSWORD)).execute()
-            Storage.saveUser(response.body()!!.data.user)
-            Storage.saveCredential(Credential(response.body()!!.data.authenticationToken))
-            Storage.saveUserEmail(TestData.USER_EMAIL)
+            setupClient()
+            localRepository.deleteSession()
+            val response = client.login(LoginParams(TestData.USER_EMAIL, TestData.USER_PASSWORD)).execute()
+            val clientAuthenticationToken = response.body()?.data!!
+            localRepository.saveSession(clientAuthenticationToken)
         }
     }
 
     @Before
     fun setup() {
+        setupClient()
         registerIdlingResource()
         start()
     }
@@ -65,7 +61,7 @@ class BalanceDetailTest : BaseInstrumentalTest() {
         mainScreen {
             bottomNavigation.isDisplayed()
 
-            val balances = Storage.loadWallets()?.data?.get(0)?.balances!!
+            val balances = localRepository.loadWallets()?.data?.get(0)?.balances!!
             val totalPage = balances.size
             val firstToken = balances[0].token
             val lastToken = balances[totalPage - 1].token
@@ -167,9 +163,9 @@ class BalanceDetailTest : BaseInstrumentalTest() {
             bottomNavigation.isDisplayed()
 
             /* Prepare data for verification */
-            val oldsFormattedIds = Storage.loadFormattedId()
-            val primaryTokenId = Storage.loadTokenPrimary()
-            val balances = Storage.loadWallets()?.data?.get(0)?.balances!!
+            val oldFormattedIds = localRepository.loadTransactionRequest()
+            val primaryTokenId = localRepository.loadTokenPrimary()
+            val balances = localRepository.loadWallets()?.data?.get(0)?.balances!!
             val nextPrimaryBalance = balances.find { it.token.id != primaryTokenId }!!
             val nextPrimaryBalanceIndex = balances.indexOfFirst { it.token.id == nextPrimaryBalance.token.id }
 
@@ -199,7 +195,7 @@ class BalanceDetailTest : BaseInstrumentalTest() {
                 btnSetPrimary.click()
 
                 /* Verify that tokenId should be changed */
-                primaryTokenId shouldNotBe Storage.loadTokenPrimary()
+                primaryTokenId shouldNotBe localRepository.loadTokenPrimary()
 
                 /* Verify that the button is disabled and change the text to "Primary" */
                 btnSetPrimary.isDisabled()
@@ -219,14 +215,14 @@ class BalanceDetailTest : BaseInstrumentalTest() {
                 }
 
                 /* Verify new transaction request ids are generated */
-                val newFormattedIds = Storage.loadFormattedId()
-                oldsFormattedIds shouldNotEqualTo newFormattedIds
+                val newFormattedIds = localRepository.loadTransactionRequest()
+                oldFormattedIds shouldNotEqualTo newFormattedIds
 
                 /* Verify the transaction request ids are correct */
                 val sendTxId = newFormattedIds.split("|")[1]
                 val receiveTxId = newFormattedIds.split("|")[0]
-                val sendTx = ClientProvider.client.retrieveTransactionRequest(TransactionRequestParams(sendTxId)).execute()
-                val receiveTx = ClientProvider.client.retrieveTransactionRequest(TransactionRequestParams(receiveTxId)).execute()
+                val sendTx = client.retrieveTransactionRequest(TransactionRequestParams(sendTxId)).execute()
+                val receiveTx = client.retrieveTransactionRequest(TransactionRequestParams(receiveTxId)).execute()
 
                 /* Prevent espresso stop the test by validate view (because the operation is coming from MessageQueue)*/
                 recyclerView.isDisplayed()

@@ -8,14 +8,10 @@ package network.omisego.omgwallet
  */
 
 import co.omisego.omisego.model.params.LoginParams
-import network.omisego.omgwallet.base.BaseInstrumentalTest
-import network.omisego.omgwallet.config.LocalClientSetup
-import network.omisego.omgwallet.config.TestData
-import network.omisego.omgwallet.model.Credential
-import network.omisego.omgwallet.network.ClientProvider
-import network.omisego.omgwallet.screen.MainScreen
-import network.omisego.omgwallet.screen.SplashScreen
-import network.omisego.omgwallet.storage.Storage
+import network.omisego.omgwallet.setup.base.BaseInstrumentalTest
+import network.omisego.omgwallet.setup.config.TestData
+import network.omisego.omgwallet.setup.screen.MainScreen
+import network.omisego.omgwallet.setup.screen.SplashScreen
 import org.amshove.kluent.shouldBe
 import org.amshove.kluent.shouldBeGreaterThan
 import org.amshove.kluent.shouldEqual
@@ -29,23 +25,24 @@ class PrefetchTest : BaseInstrumentalTest() {
     private val splashScreen: SplashScreen by lazy { SplashScreen() }
     private val mainScreen: MainScreen by lazy { MainScreen() }
 
-    companion object {
+    companion object: BaseInstrumentalTest() {
+
         @BeforeClass
         @JvmStatic
         fun setupClass() {
-            Storage.clearSession()
-            ClientProvider.initHTTPClient(LocalClientSetup())
-            val response = ClientProvider.client.login(LoginParams(TestData.USER_EMAIL, TestData.USER_PASSWORD)).execute()
-            Storage.saveUser(response.body()!!.data.user)
-            Storage.saveCredential(Credential(response.body()!!.data.authenticationToken))
-            Storage.saveUserEmail(TestData.USER_EMAIL)
+            setupClient()
+            localRepository.deleteSession()
+            val response = client.login(LoginParams(TestData.USER_EMAIL, TestData.USER_PASSWORD)).execute()
+            val clientAuthenticationToken = response.body()?.data!!
+            localRepository.saveSession(clientAuthenticationToken)
         }
     }
 
     @Before
     fun setup() {
-        Storage.deleteWallets()
-        Storage.deleteFormattedIds()
+        setupClient()
+        localRepository.deleteWallets()
+        localRepository.deleteTransactionRequest()
     }
 
     @After
@@ -70,7 +67,7 @@ class PrefetchTest : BaseInstrumentalTest() {
 
         /* This will ensure that the test framework will be waiting for the idle state */
         mainScreen.bottomNavigation.isDisplayed()
-        Storage.loadWallets()?.data?.size?.shouldBeGreaterThan(0)
+        localRepository.loadWallets()?.data?.size?.shouldBeGreaterThan(0)
     }
 
     @Test
@@ -80,21 +77,21 @@ class PrefetchTest : BaseInstrumentalTest() {
 
         /* Should create a transaction request and save the id with format `id1|id2` */
         mainScreen.bottomNavigation.isDisplayed()
-        Storage.loadFormattedId().split("|").size shouldEqualTo 2
+        localRepository.loadTransactionRequest().split("|").size shouldEqualTo 2
     }
 
     @Test
     fun testSelectPrimaryTokenAutomaticallyWhenTheTokenPrimaryIdIsNull() {
         /* Delete token primary first so that the primary token is null */
-        Storage.deleteTokenPrimary()
+        localRepository.deleteTokenPrimary()
 
         /* Verify that the token has already deleted */
-        Storage.loadTokenPrimary() shouldBe null
+        localRepository.loadTokenPrimary() shouldBe null
 
         registerIdlingResource()
         start()
 
         mainScreen.bottomNavigation.isDisplayed()
-        selectPrimaryToken(Storage.loadWallets()!!, null).id shouldEqual Storage.loadTokenPrimary()
+        selectPrimaryToken(localRepository.loadWallets()!!, null).id shouldEqual localRepository.loadTokenPrimary()
     }
 }

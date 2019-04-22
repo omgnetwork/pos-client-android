@@ -85,6 +85,7 @@ android {
     sourceSets {
         test.java.srcDirs += 'src/test/kotlin'
         androidTest.java.srcDirs += 'src/androidTest/java'
+        androidTest.resources.srcDirs += 'src/androidTest/resources'
     }
     buildToolsVersion '28.0.3'
     compileOptions {
@@ -162,6 +163,7 @@ dependencies {
     androidTestImplementation (deps.omisegoAdmin){
         exclude group: 'co.omisego', module:'omisego-core'
     }
+    androidTestImplementation deps.okHttp3.mockWebserver
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -1,12 +1,11 @@
 package network.omisego.omgwallet.network
 
-import co.omisego.omisego.OMGAPIClient
 import co.omisego.omisego.model.ClientConfiguration
 import co.omisego.omisego.network.ewallet.EWalletClient
 import co.omisego.omisego.websocket.OMGSocketClient
 import co.omisego.omisego.websocket.SocketClientContract
 import com.facebook.stetho.okhttp3.StethoInterceptor
-import network.omisego.omgwallet.storage.Storage
+import okhttp3.HttpUrl
 import okhttp3.logging.HttpLoggingInterceptor
 
 /*
@@ -17,35 +16,48 @@ import okhttp3.logging.HttpLoggingInterceptor
  */
 
 object ClientProvider {
-    private lateinit var clientConfiguration: ClientConfiguration
-    private lateinit var socketClientConfiguration: ClientConfiguration
-    lateinit var client: OMGAPIClient
-    var socketClient: SocketClientContract.Client? = null
-    lateinit var eWalletClient: EWalletClient
-    lateinit var clientSetup: ClientSetup
+    // Providing way for inject tested ewallet client.
+    private var testEWalletClient: EWalletClient? = null
+    private var testUrl: HttpUrl? = null
 
-    fun initHTTPClient(clientSetup: ClientSetup) {
-        this.clientSetup = clientSetup
-        clientConfiguration = ClientConfiguration(
-            clientSetup.baseURL,
-            clientSetup.apiKey,
-            Storage.loadCredential().authenticationToken
-        )
-        client = create()
+    fun setTestEWalletClient(client: EWalletClient?) {
+        testEWalletClient = client
     }
 
-    fun initSocketClient(authenticationToken: String) {
-        socketClientConfiguration = clientConfiguration.copy(
-            baseURL = clientSetup.socketBaseURL,
+    fun setTestUrl(testUrl: HttpUrl?) {
+        this.testUrl = testUrl
+    }
+
+    fun createClient(
+        authenticationToken: String? = null,
+        config: ClientConfig = APIClientConfig()
+    ): EWalletClient {
+        testEWalletClient?.let { return it }
+        val clientConfig = ClientConfiguration(
+            config.baseURL,
+            config.apiKey,
+            authenticationToken
+        )
+        return initializeEWalletClient(clientConfig)
+    }
+
+    fun createSocketClient(
+        authenticationToken: String,
+        config: ClientConfig = APIClientConfig()
+    ): SocketClientContract.Client {
+        val socketClientConfiguration = ClientConfiguration(
+            baseURL = config.socketBaseURL,
+            apiKey = config.apiKey,
             authenticationToken = authenticationToken
         )
-        socketClient = createSocketClient()
+        return initializeSocketClient(socketClientConfiguration)
     }
 
-    private fun create(): OMGAPIClient {
-        eWalletClient = EWalletClient.Builder {
-            clientConfiguration = this@ClientProvider.clientConfiguration
+    private fun initializeEWalletClient(config: ClientConfiguration): EWalletClient {
+        return EWalletClient.Builder {
+            clientConfiguration = config
             debug = true
+            debugUrl = testUrl
             debugOkHttpInterceptors = mutableListOf(
                 StethoInterceptor(),
                 HttpLoggingInterceptor().apply {
@@ -53,14 +65,11 @@ object ClientProvider {
                 }
             )
         }.build()
-        return OMGAPIClient(
-            eWalletClient
-        )
     }
 
-    private fun createSocketClient(): SocketClientContract.Client {
+    private fun initializeSocketClient(config: ClientConfiguration): SocketClientContract.Client {
         return OMGSocketClient.Builder {
-            clientConfiguration = this@ClientProvider.socketClientConfiguration
+            clientConfiguration = config
             debug = true
         }.build()
     }

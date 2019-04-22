@@ -7,17 +7,16 @@ package network.omisego.omgwallet
  * Copyright © 2017-2018 OmiseGO. All rights reserved.
  */
 
-import androidx.test.runner.AndroidJUnit4
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import co.omisego.omisego.model.params.LoginParams
-import network.omisego.omgwallet.base.BaseInstrumentalTest
-import network.omisego.omgwallet.config.MockData
-import network.omisego.omgwallet.config.TestData
-import network.omisego.omgwallet.model.Credential
-import network.omisego.omgwallet.network.ClientProvider
-import network.omisego.omgwallet.screen.MainScreen
-import network.omisego.omgwallet.screen.ProfileScreen
-import network.omisego.omgwallet.screen.TransactionListScreen
-import network.omisego.omgwallet.storage.Storage
+import network.omisego.omgwallet.setup.base.BaseInstrumentalTest
+import network.omisego.omgwallet.setup.config.MockData
+import network.omisego.omgwallet.setup.config.TestData
+import network.omisego.omgwallet.setup.custom.assertions.onToast
+import network.omisego.omgwallet.setup.custom.matchers.ToastMatcher
+import network.omisego.omgwallet.setup.screen.MainScreen
+import network.omisego.omgwallet.setup.screen.ProfileScreen
+import network.omisego.omgwallet.setup.screen.TransactionListScreen
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -31,16 +30,14 @@ class TransactionListTest : BaseInstrumentalTest() {
 
     @Before
     fun setup() {
-        setupClientProvider()
+        setupClient()
         registerIdlingResource()
-        Storage.clearSession()
-        val response = ClientProvider.client.login(LoginParams(TestData.USER_EMAIL, TestData.USER_PASSWORD)).execute()
-        Storage.saveWallets(MockData.walletList)
-        Storage.saveUser(response.body()!!.data.user)
-        Storage.saveCredential(Credential(response.body()!!.data.authenticationToken))
-        Storage.saveUserEmail(TestData.USER_EMAIL)
-        Storage.deleteFingerprintCredential()
-        Storage.saveFingerprintOption(false)
+        localRepository.deleteSession()
+        localRepository.deleteFingerprintSession()
+        localRepository.saveWallets(MockData.walletList)
+        val response = client.login(LoginParams(TestData.USER_EMAIL, TestData.USER_PASSWORD)).execute()
+        val clientAuthenticationToken = response.body()?.data!!
+        localRepository.saveSession(clientAuthenticationToken)
         start()
     }
 
@@ -60,6 +57,25 @@ class TransactionListTest : BaseInstrumentalTest() {
         transactionListScreen {
             recyclerView {
                 isDisplayed()
+            }
+        }
+    }
+
+    @Test
+    fun testShowTransactionToastWhenClickingOnTheRecord() {
+        mainScreen {
+            bottomNavigation.setSelectedItem(R.id.profile)
+        }
+        profileScreen {
+            tvTransaction.click()
+        }
+        transactionListScreen {
+            recyclerView {
+                isDisplayed()
+                firstChild<TransactionListScreen.Item> {
+                    click()
+                    onToast(ToastMatcher.notContainsNull())
+                }
             }
         }
     }

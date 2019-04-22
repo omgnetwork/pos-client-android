@@ -42,7 +42,7 @@ class TransactionListFragment : Fragment() {
     }
 
     companion object {
-        val TOTAL_MOCK_LOADING_ITEM = 1
+        const val TOTAL_MOCK_LOADING_ITEM = 1
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
