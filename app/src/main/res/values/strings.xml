@@ -73,7 +73,7 @@
     <string name="profile_sign_out">Sign out</string>
 
     <!-- Info -->
-    <string name="profile_info">Info</string>
+    <string name="profile_info">Build info</string>
     <string name="profile_info_endpoint">Endpoint</string>
     <string name="profile_info_version">Version</string>
 

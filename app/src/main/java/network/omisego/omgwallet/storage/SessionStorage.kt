@@ -9,7 +9,7 @@ package network.omisego.omgwallet.storage
 
 import co.omisego.omisego.model.ClientAuthenticationToken
 
-class SessionStorage(val storage: Storage) {
+class SessionStorage(private val storage: Storage) {
     fun delete() {
         storage.deleteRecords(
             StorageKey.KEY_AUTHENTICATION_TOKEN,

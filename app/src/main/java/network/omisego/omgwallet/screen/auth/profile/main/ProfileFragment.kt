@@ -47,9 +47,10 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
+        viewModel.loadEmail()
 
         viewModel.liveTransaction.observe(this, EventObserver {
-            it.let { _ ->
+            it.let {
                 findNavController().navigate(R.id.action_profileFragment_to_transactionListFragment)
             }
         })

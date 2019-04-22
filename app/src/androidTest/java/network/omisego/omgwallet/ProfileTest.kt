@@ -91,6 +91,13 @@ class ProfileTest : BaseInstrumentalTest() {
     }
 
     @Test
+    fun testEmailIsDisplayed() {
+        profileScreen {
+            tvEmail.hasText(BuildConfig.CONFIG_TEST_USER_EMAIL)
+        }
+    }
+
+    @Test
     fun testFingerprintConfirmDialogIsDisplay() {
         if (hasFingerprint()) {
             profileScreen {
